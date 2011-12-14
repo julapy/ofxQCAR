@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxiPhone.h"
 #include "ofxiPhoneExtras.h"
+#include "ofxQCAR.h"
 
 class testApp : public ofxiPhoneApp {
 	
@@ -23,6 +24,7 @@ public:
 	void gotMemoryWarning();
 	void deviceOrientationChanged(int newOrientation);
 
+    ofxQCAR qcar;
 };
 
 

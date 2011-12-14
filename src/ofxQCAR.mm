@@ -15,6 +15,7 @@
 #import <QCAR/Renderer.h>
 #import <QCAR/Tool.h>
 #import <QCAR/Trackable.h>
+#import <QCAR/UIGLViewProtocol.h>
 
 
 ofxQCAR :: ofxQCAR ()
@@ -40,4 +41,9 @@ void ofxQCAR :: update ()
 void ofxQCAR :: draw ()
 {
     //
+}
+
+void ofxQCAR :: exit ()
+{
+    QCAR :: deinit();
 }
