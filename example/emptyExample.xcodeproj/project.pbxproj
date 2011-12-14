@@ -18,6 +18,8 @@
 		15E073AF1498611F002AABF1 /* ofxQCAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15E073AD1498611F002AABF1 /* ofxQCAR.mm */; };
 		15E073BE14987296002AABF1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15E073BC14987283002AABF1 /* Security.framework */; };
 		15E073BF14987296002AABF1 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15E073BA14987277002AABF1 /* SystemConfiguration.framework */; };
+		15E073C31498876C002AABF1 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 15E073C11498876C002AABF1 /* config.xml */; };
+		15E073C41498876C002AABF1 /* qcar-resources.dat in Resources */ = {isa = PBXBuildFile; fileRef = 15E073C21498876C002AABF1 /* qcar-resources.dat */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
@@ -101,6 +103,8 @@
 		15E073B5149862BF002AABF1 /* Teapot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Teapot.h; path = "../../../../../../OF_007/apps/qcar-ios-1-0-0/samples/ImageTargets/ImageTargets/Teapot.h"; sourceTree = "<group>"; };
 		15E073BA14987277002AABF1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		15E073BC14987283002AABF1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		15E073C11498876C002AABF1 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
+		15E073C21498876C002AABF1 /* qcar-resources.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = "qcar-resources.dat"; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* emptyExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = emptyExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -164,12 +168,12 @@
 		150A66CA14985B4C00C7B91D /* src */ = {
 			isa = PBXGroup;
 			children = (
+				150A66CF14985B4C00C7B91D /* ofxiOSWindow.h */,
+				150A66D014985B4C00C7B91D /* ofxiOSWindow.mm */,
 				150A66CB14985B4C00C7B91D /* ofxiOSAppDelegate.h */,
 				150A66CC14985B4C00C7B91D /* ofxiOSAppDelegate.mm */,
 				150A66CD14985B4C00C7B91D /* ofxiOSViewController.h */,
 				150A66CE14985B4C00C7B91D /* ofxiOSViewController.mm */,
-				150A66CF14985B4C00C7B91D /* ofxiOSWindow.h */,
-				150A66D014985B4C00C7B91D /* ofxiOSWindow.mm */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -298,6 +302,15 @@
 			path = 3d;
 			sourceTree = "<group>";
 		};
+		15E073C01498876C002AABF1 /* qcar_assets */ = {
+			isa = PBXGroup;
+			children = (
+				15E073C11498876C002AABF1 /* config.xml */,
+				15E073C21498876C002AABF1 /* qcar-resources.dat */,
+			);
+			path = qcar_assets;
+			sourceTree = "<group>";
+		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -363,6 +376,7 @@
 			children = (
 				BB24DD8C10DA77E000E9C588 /* Default.png */,
 				BB24DD8D10DA77E000E9C588 /* Icon.png */,
+				15E073C01498876C002AABF1 /* qcar_assets */,
 			);
 			name = data;
 			path = bin/data;
@@ -468,6 +482,8 @@
 				BB24DDCA10DA781C00E9C588 /* ofxiphone-Info.plist in Resources */,
 				E41D3ED713B38FB500A75A5D /* Project.xcconfig in Resources */,
 				E41D3EE613B3906D00A75A5D /* CoreOF.xcconfig in Resources */,
+				15E073C31498876C002AABF1 /* config.xml in Resources */,
+				15E073C41498876C002AABF1 /* qcar-resources.dat in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

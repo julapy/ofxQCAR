@@ -26,6 +26,9 @@ void testApp :: draw()
 //--------------------------------------------------------------
 void testApp :: exit()
 {
+    ofUnregisterTouchEvents( this );
+	ofxiPhoneAlerts.removeListener( this );
+    
     qcar.exit();
 }
 
