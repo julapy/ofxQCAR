@@ -8,12 +8,36 @@
 
 #import "ofxQCAR.h"
 
+#import <QCAR/QCAR.h>
+#import <QCAR/CameraDevice.h>
+#import <QCAR/Tracker.h>
+#import <QCAR/VideoBackgroundConfig.h>
+#import <QCAR/Renderer.h>
+#import <QCAR/Tool.h>
+#import <QCAR/Trackable.h>
+
+
 ofxQCAR :: ofxQCAR ()
 {
     //
 }
 
 ofxQCAR :: ~ofxQCAR ()
+{
+    //
+}
+
+void ofxQCAR :: setup ()
+{
+    //
+}
+
+void ofxQCAR :: update ()
+{
+    //
+}
+
+void ofxQCAR :: draw ()
 {
     //
 }

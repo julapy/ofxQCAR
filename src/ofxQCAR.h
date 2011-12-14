@@ -8,11 +8,17 @@
 
 #pragma once
 
-class ofxQCAR
+#import "ofMain.h"
+
+class ofxQCAR : public ofBaseApp
 {
 public:
     
      ofxQCAR ();
     ~ofxQCAR ();
+    
+    void setup  ();
+    void update ();
+    void draw   ();
     
 };
