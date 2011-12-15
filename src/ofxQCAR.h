@@ -31,7 +31,7 @@ public:
     
     const ofMatrix4x4& getProjectionMatrix  () { return projectionMatrix; }
     const ofMatrix4x4& getModelViewMatrix   () { return modelViewMatrix; }
-    const bool& hasFoundMarker () { return bFoundMarker; }
+    const bool& hasFoundMarker              () { return bFoundMarker; }
     
 protected:
     
