@@ -7,10 +7,25 @@
 //
 
 #import "ofxQCAR.h"
+#import "ofxiPhoneExtras.h"
+
+#import <QCAR/QCAR.h>
+#import <QCAR/CameraDevice.h>
+#import <QCAR/Tracker.h>
+#import <QCAR/VideoBackgroundConfig.h>
+#import <QCAR/Renderer.h>
+#import <QCAR/Tool.h>
+#import <QCAR/Trackable.h>
+
+
+QCAR::Matrix44F qcarProjectionMatrix;
+QCAR::Matrix44F qcarModelViewMatrix;
+
 
 ofxQCAR :: ofxQCAR ()
 {
     bInitialised = false;
+    bFoundMarker = false;
 }
 
 ofxQCAR :: ~ofxQCAR ()
@@ -20,8 +35,11 @@ ofxQCAR :: ~ofxQCAR ()
 
 void ofxQCAR :: setup ()
 {
+    if( bInitialised )
+        return;
+    
     QCAR::onSurfaceCreated();
-    QCAR::onSurfaceChanged( ofGetHeight(), ofGetWidth() );
+    QCAR::onSurfaceChanged( ofGetWidth(), ofGetHeight() );
     
     bool bSuccess = true;
 
@@ -49,6 +67,7 @@ bool ofxQCAR :: initQCAR ()
     //-- TODO : have to determine if its QCAR::GL_11 or QCAR::GL_20
     int qcarGLVersion = QCAR::GL_11;
     QCAR::setInitParameters( qcarGLVersion );
+    QCAR::setInitParameters( QCAR::ROTATE_IOS_90 );
     
     int nPercentComplete = 0;
     do
@@ -90,7 +109,7 @@ bool ofxQCAR :: startQCAR ()
     // Register a callback function that gets called every time a
     // tracking cycle has finished and we have a new AR state
     // available
-    QCAR::registerCallback( this );
+//    QCAR::registerCallback( this );
     
     // Initialisation is complete, start QCAR
     QCAR::onResume();
@@ -100,21 +119,44 @@ bool ofxQCAR :: startQCAR ()
 
 bool ofxQCAR :: startCamera ()
 {
-    // Initialise the camera
-    if (QCAR::CameraDevice::getInstance().init()) {
-        // Configure video background
-        configureVideoBackground();
+    if( QCAR::CameraDevice::getInstance().init() )  //-- Initialise the camera
+    {
+        /**
+         *  Configure video background.
+         **/
         
-        // Select the default mode
-        if (QCAR::CameraDevice::getInstance().selectVideoMode(QCAR::CameraDevice::MODE_DEFAULT)) {
-            // Start camera capturing
-            if (QCAR::CameraDevice::getInstance().start()) {
-                // Start the tracker
-                QCAR::Tracker::getInstance().start();
+        QCAR::CameraDevice& cameraDevice = QCAR::CameraDevice::getInstance();
+        QCAR::VideoMode videoMode = cameraDevice.getVideoMode(QCAR::CameraDevice::MODE_DEFAULT);        //-- get the default video mode
+
+        ofRectangle screenRect( 0, 0, ofGetWidth(), ofGetHeight() );
+        ofRectangle videoRect( 0, 0, videoMode.mHeight, videoMode.mWidth );
+        ofRectangle imageRect = ofxQCARUtils :: cropToSize( videoRect, screenRect );
+        imageRect.x = 0;    // qcar positions the camera image in the middle of the screen, so no need to move the image.
+        imageRect.y = 0;
+        
+        QCAR::VideoBackgroundConfig config;                                                             //-- configure the video background
+        config.mEnabled = true;
+        config.mSynchronous = true;
+        config.mPosition.data[0] = imageRect.x;
+        config.mPosition.data[1] = imageRect.y;
+        config.mSize.data[0] = imageRect.width;
+        config.mSize.data[1] = imageRect.height;
+        
+        QCAR::Renderer::getInstance().setVideoBackgroundConfig( config );                               //-- set the config
+        
+        /**
+         *  Start the camera.
+         **/
+        
+        if( QCAR::CameraDevice::getInstance().selectVideoMode( QCAR::CameraDevice::MODE_DEFAULT ) )     //-- select the default mode
+        {
+            if( QCAR::CameraDevice::getInstance().start() )                                             //-- start camera capturing
+            {
+                QCAR::Tracker::getInstance().start();                                                   //-- start the tracker
                 
-                // Cache the projection matrix
                 const QCAR::CameraCalibration& cameraCalibration = QCAR::Tracker::getInstance().getCameraCalibration();
-                projectionMatrix = QCAR::Tool::getProjectionGL(cameraCalibration, 2.0f, 2000.0f);
+                qcarProjectionMatrix = QCAR::Tool::getProjectionGL( cameraCalibration, 2.0f, 2000.0f ); //-- cache the projection matrix
+                projectionMatrix.set( qcarProjectionMatrix.data );
             }
         }
     }
@@ -135,57 +177,10 @@ bool ofxQCAR :: stopCamera ()
     return true;
 }
 
-void ofxQCAR :: configureVideoBackground ()
-{
-    // Get the default video mode
-    QCAR::CameraDevice& cameraDevice = QCAR::CameraDevice::getInstance();
-    QCAR::VideoMode videoMode = cameraDevice.getVideoMode(QCAR::CameraDevice::MODE_DEFAULT);
-    
-    // Configure the video background
-    QCAR::VideoBackgroundConfig config;
-    config.mEnabled = true;
-    config.mSynchronous = true;
-    config.mPosition.data[0] = 0.0f;
-    config.mPosition.data[1] = 0.0f;
-    
-    // Compare aspect ratios of video and screen.  If they are different
-    // we use the full screen size while maintaining the video's aspect
-    // ratio, which naturally entails some cropping of the video.
-    // Note - screenRect is portrait but videoMode is always landscape,
-    // which is why "width" and "height" appear to be reversed.
-    float arVideo = (float)videoMode.mWidth / (float)videoMode.mHeight;
-    float arScreen = ofGetHeight() / ofGetWidth();
-    
-    if (arVideo > arScreen)
-    {
-        // Video mode is wider than the screen.  We'll crop the left and right edges of the video
-        config.mSize.data[0] = (int)ofGetWidth() * arVideo;
-        config.mSize.data[1] = (int)ofGetWidth();
-    }
-    else
-    {
-        // Video mode is taller than the screen.  We'll crop the top and bottom edges of the video.
-        // Also used when aspect ratios match (no cropping).
-        config.mSize.data[0] = (int)ofGetHeight();
-        config.mSize.data[1] = (int)ofGetHeight() / arVideo;
-    }
-    
-    // Set the config
-    QCAR::Renderer::getInstance().setVideoBackgroundConfig(config);
-}
-
-
-void ofxQCAR :: QCAR_onUpdate ( QCAR::State& state )
-{
-    //
-}
-
 void ofxQCAR :: update ()
 {
     if( !bInitialised )
         return;
-    
-    //
 }
 
 void ofxQCAR :: draw ()
@@ -193,21 +188,18 @@ void ofxQCAR :: draw ()
     if( !bInitialised )
         return;
     
-    // Render the video background
-    QCAR::State state = QCAR::Renderer::getInstance().begin();
+    QCAR::State state = QCAR::Renderer::getInstance().begin();                          //-- render the video background
     
-    // Did we find any trackables this frame?
-    if (state.getNumActiveTrackables() > 0) {
+    bFoundMarker = state.getNumActiveTrackables() > 0;
+    if( bFoundMarker )                                                                  //-- check if any trackables found
+    {
+        const QCAR::Trackable* trackable = state.getActiveTrackable( 0 );               //-- get the first trackable
         
-        // Get the first trackable
-        const QCAR::Trackable* trackable = state.getActiveTrackable(0);
-        
-        // Get the model view matrix
-        modelViewMatrix = QCAR::Tool::convertPose2GLMatrix(trackable->getPose());
+        qcarModelViewMatrix = QCAR::Tool::convertPose2GLMatrix( trackable->getPose() ); //-- get the model view matrix
+        modelViewMatrix.set( qcarModelViewMatrix.data );
     }
     
     QCAR::Renderer::getInstance().end();
-
 }
 
 void ofxQCAR :: exit ()

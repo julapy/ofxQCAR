@@ -14,6 +14,8 @@
 		150A66FD14985BE300C7B91D /* testApp.mm in Sources */ = {isa = PBXBuildFile; fileRef = 150A66F614985BE300C7B91D /* testApp.mm */; };
 		150A66FE14985BE300C7B91D /* MyAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 150A66F914985BE300C7B91D /* MyAppDelegate.mm */; };
 		150A66FF14985BE300C7B91D /* MyAppViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 150A66FB14985BE300C7B91D /* MyAppViewController.mm */; };
+		1567EC861499B2740000AE43 /* TextureTeapotBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 1567EC841499B2740000AE43 /* TextureTeapotBlue.png */; };
+		1567EC871499B2740000AE43 /* TextureTeapotBrass.png in Resources */ = {isa = PBXBuildFile; fileRef = 1567EC851499B2740000AE43 /* TextureTeapotBrass.png */; };
 		15E073AE1498611F002AABF1 /* libQCAR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15E073AA1498611F002AABF1 /* libQCAR.a */; };
 		15E073AF1498611F002AABF1 /* ofxQCAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15E073AD1498611F002AABF1 /* ofxQCAR.mm */; };
 		15E073BE14987296002AABF1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15E073BC14987283002AABF1 /* Security.framework */; };
@@ -72,6 +74,10 @@
 		150A66F914985BE300C7B91D /* MyAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyAppDelegate.mm; sourceTree = "<group>"; };
 		150A66FA14985BE300C7B91D /* MyAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAppViewController.h; sourceTree = "<group>"; };
 		150A66FB14985BE300C7B91D /* MyAppViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyAppViewController.mm; sourceTree = "<group>"; };
+		152B386414998A6D0000F176 /* ofxQCARUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCARUtils.h; sourceTree = "<group>"; };
+		1567EC841499B2740000AE43 /* TextureTeapotBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TextureTeapotBlue.png; sourceTree = "<group>"; };
+		1567EC851499B2740000AE43 /* TextureTeapotBrass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TextureTeapotBrass.png; sourceTree = "<group>"; };
+		1567EC891499BB2E0000AE43 /* Teapot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Teapot.h; sourceTree = "<group>"; };
 		15E0738F1498611F002AABF1 /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
 		15E073901498611F002AABF1 /* CameraCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraCalibration.h; sourceTree = "<group>"; };
 		15E073911498611F002AABF1 /* CameraDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraDevice.h; sourceTree = "<group>"; };
@@ -100,7 +106,6 @@
 		15E073AA1498611F002AABF1 /* libQCAR.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libQCAR.a; sourceTree = "<group>"; };
 		15E073AC1498611F002AABF1 /* ofxQCAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR.h; sourceTree = "<group>"; };
 		15E073AD1498611F002AABF1 /* ofxQCAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR.mm; sourceTree = "<group>"; };
-		15E073B5149862BF002AABF1 /* Teapot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Teapot.h; path = "../../../../../../OF_007/apps/qcar-ios-1-0-0/samples/ImageTargets/ImageTargets/Teapot.h"; sourceTree = "<group>"; };
 		15E073BA14987277002AABF1 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		15E073BC14987283002AABF1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		15E073C11498876C002AABF1 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
@@ -185,7 +190,7 @@
 				150A66F514985BE300C7B91D /* testApp.h */,
 				150A66F614985BE300C7B91D /* testApp.mm */,
 				150A66F714985BE300C7B91D /* UI */,
-				15E073B4149862B3002AABF1 /* 3d */,
+				1567EC881499BB2E0000AE43 /* 3d */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -199,6 +204,14 @@
 				150A66FB14985BE300C7B91D /* MyAppViewController.mm */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		1567EC881499BB2E0000AE43 /* 3d */ = {
+			isa = PBXGroup;
+			children = (
+				1567EC891499BB2E0000AE43 /* Teapot.h */,
+			);
+			path = 3d;
 			sourceTree = "<group>";
 		};
 		15E0738A1498610C002AABF1 /* ofxQCAR */ = {
@@ -289,17 +302,10 @@
 			children = (
 				15E073AC1498611F002AABF1 /* ofxQCAR.h */,
 				15E073AD1498611F002AABF1 /* ofxQCAR.mm */,
+				152B386414998A6D0000F176 /* ofxQCARUtils.h */,
 			);
 			name = src;
 			path = ../src;
-			sourceTree = "<group>";
-		};
-		15E073B4149862B3002AABF1 /* 3d */ = {
-			isa = PBXGroup;
-			children = (
-				15E073B5149862BF002AABF1 /* Teapot.h */,
-			);
-			path = 3d;
 			sourceTree = "<group>";
 		};
 		15E073C01498876C002AABF1 /* qcar_assets */ = {
@@ -307,6 +313,8 @@
 			children = (
 				15E073C11498876C002AABF1 /* config.xml */,
 				15E073C21498876C002AABF1 /* qcar-resources.dat */,
+				1567EC841499B2740000AE43 /* TextureTeapotBlue.png */,
+				1567EC851499B2740000AE43 /* TextureTeapotBrass.png */,
 			);
 			path = qcar_assets;
 			sourceTree = "<group>";
@@ -484,6 +492,8 @@
 				E41D3EE613B3906D00A75A5D /* CoreOF.xcconfig in Resources */,
 				15E073C31498876C002AABF1 /* config.xml in Resources */,
 				15E073C41498876C002AABF1 /* qcar-resources.dat in Resources */,
+				1567EC861499B2740000AE43 /* TextureTeapotBlue.png in Resources */,
+				1567EC871499B2740000AE43 /* TextureTeapotBrass.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

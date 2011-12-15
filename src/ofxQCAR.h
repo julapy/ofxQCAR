@@ -9,19 +9,9 @@
 #pragma once
 
 #import "ofMain.h"
+#import "ofxQCARUtils.h"
 
-#import <QCAR/QCAR.h>
-#import <QCAR/CameraDevice.h>
-#import <QCAR/Tracker.h>
-#import <QCAR/VideoBackgroundConfig.h>
-#import <QCAR/Renderer.h>
-#import <QCAR/Tool.h>
-#import <QCAR/Trackable.h>
-#import <QCAR/UIGLViewProtocol.h>
-#import <QCAR/UpdateCallback.h>
-#import <QCAR/ImageTarget.h>
-
-class ofxQCAR : public ofBaseApp, public QCAR::UpdateCallback
+class ofxQCAR : public ofBaseApp
 {
 public:
     
@@ -38,15 +28,17 @@ public:
     virtual bool startQCAR      ();
     virtual bool startCamera    ();
     virtual bool stopCamera     ();
-    virtual void configureVideoBackground   ();
     
-    virtual void QCAR_onUpdate ( QCAR::State& state );
+    const ofMatrix4x4& getProjectionMatrix  () { return projectionMatrix; }
+    const ofMatrix4x4& getModelViewMatrix   () { return modelViewMatrix; }
+    const bool& hasFoundMarker () { return bFoundMarker; }
     
 protected:
     
     bool bInitialised;
+    bool bFoundMarker;
     
-    QCAR::Matrix44F projectionMatrix;
-    QCAR::Matrix44F modelViewMatrix;
+    ofMatrix4x4 projectionMatrix;
+    ofMatrix4x4 modelViewMatrix;
     
 };
