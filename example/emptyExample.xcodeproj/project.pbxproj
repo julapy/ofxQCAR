@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		150E9457149A298300A50C7B /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 150E9453149A298300A50C7B /* config.xml */; };
 		150E9458149A298300A50C7B /* qcar-resources.dat in Resources */ = {isa = PBXBuildFile; fileRef = 150E9454149A298300A50C7B /* qcar-resources.dat */; };
-		150E9459149A298300A50C7B /* TextureTeapotBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 150E9455149A298300A50C7B /* TextureTeapotBlue.png */; };
 		150E945A149A298300A50C7B /* TextureTeapotBrass.png in Resources */ = {isa = PBXBuildFile; fileRef = 150E9456149A298300A50C7B /* TextureTeapotBrass.png */; };
 		150E9482149A29CF00A50C7B /* libQCAR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 150E947D149A29CF00A50C7B /* libQCAR.a */; };
 		150E9483149A29CF00A50C7B /* ofxQCAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 150E9480149A29CF00A50C7B /* ofxQCAR.mm */; };
@@ -58,7 +57,6 @@
 /* Begin PBXFileReference section */
 		150E9453149A298300A50C7B /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		150E9454149A298300A50C7B /* qcar-resources.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = "qcar-resources.dat"; sourceTree = "<group>"; };
-		150E9455149A298300A50C7B /* TextureTeapotBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TextureTeapotBlue.png; sourceTree = "<group>"; };
 		150E9456149A298300A50C7B /* TextureTeapotBrass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TextureTeapotBrass.png; sourceTree = "<group>"; };
 		150E945C149A299900A50C7B /* Teapot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Teapot.h; sourceTree = "<group>"; };
 		150E9462149A29CF00A50C7B /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
@@ -151,7 +149,6 @@
 			children = (
 				150E9453149A298300A50C7B /* config.xml */,
 				150E9454149A298300A50C7B /* qcar-resources.dat */,
-				150E9455149A298300A50C7B /* TextureTeapotBlue.png */,
 				150E9456149A298300A50C7B /* TextureTeapotBrass.png */,
 			);
 			path = qcar_assets;
@@ -442,7 +439,6 @@
 				E41D3EE613B3906D00A75A5D /* CoreOF.xcconfig in Resources */,
 				150E9457149A298300A50C7B /* config.xml in Resources */,
 				150E9458149A298300A50C7B /* qcar-resources.dat in Resources */,
-				150E9459149A298300A50C7B /* TextureTeapotBlue.png in Resources */,
 				150E945A149A298300A50C7B /* TextureTeapotBrass.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
