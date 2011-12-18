@@ -14,8 +14,6 @@ public:
 	void draw   ();
 	void exit   ();
     
-    void drawTeapot ();
-	
 	void touchDown      ( ofTouchEventArgs &touch );
 	void touchMoved     ( ofTouchEventArgs &touch );
 	void touchUp        ( ofTouchEventArgs &touch );
