@@ -169,15 +169,15 @@
 				150E947E149A29CF00A50C7B /* src */,
 			);
 			name = ofxQCAR;
-			sourceTree = "<group>";
+			path = ../../../addons/ofxQCAR;
+			sourceTree = SOURCE_ROOT;
 		};
 		150E945E149A29CF00A50C7B /* libs */ = {
 			isa = PBXGroup;
 			children = (
 				150E945F149A29CF00A50C7B /* qcar */,
 			);
-			name = libs;
-			path = ../libs;
+			path = libs;
 			sourceTree = "<group>";
 		};
 		150E945F149A29CF00A50C7B /* qcar */ = {
@@ -252,8 +252,7 @@
 				150E9480149A29CF00A50C7B /* ofxQCAR.mm */,
 				150E9481149A29CF00A50C7B /* ofxQCARUtils.h */,
 			);
-			name = src;
-			path = ../src;
+			path = src;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -491,12 +490,12 @@
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
-					../../ofxQCAR/libs/qcar/include,
+					../../../addons/ofxQCAR/libs/qcar/include,
 				);
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../libs/qcar/lib/arm\"",
+					../../../addons/ofxQCAR/libs/qcar/lib/arm,
 				);
 				PRODUCT_NAME = "${TARGET_NAME}";
 			};
@@ -509,12 +508,12 @@
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
 					"$(OF_CORE_HEADERS)",
-					../../ofxQCAR/libs/qcar/include,
+					../../../addons/ofxQCAR/libs/qcar/include,
 				);
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/../libs/qcar/lib/arm\"",
+					../../../addons/ofxQCAR/libs/qcar/lib/arm,
 				);
 				PRODUCT_NAME = "${TARGET_NAME}";
 			};
