@@ -9,7 +9,6 @@
 #pragma once
 
 #import "ofMain.h"
-#import "ofxQCARUtils.h"
 
 class ofxQCAR : public ofBaseApp
 {
@@ -23,19 +22,12 @@ public:
     virtual void draw   ();
     virtual void exit   ();
     
-    virtual bool initQCAR       ();
-    virtual bool loadTracker    ();
-    virtual bool startQCAR      ();
-    virtual bool startCamera    ();
-    virtual bool stopCamera     ();
-    
     const ofMatrix4x4& getProjectionMatrix  () { return projectionMatrix; }
     const ofMatrix4x4& getModelViewMatrix   () { return modelViewMatrix; }
     const bool& hasFoundMarker              () { return bFoundMarker; }
     
 protected:
     
-    bool bInitialised;
     bool bFoundMarker;
     
     ofMatrix4x4 projectionMatrix;

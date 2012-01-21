@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1502AC5514CAD94900748334 /* ofxiOSAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5014CAD94900748334 /* ofxiOSAppDelegate.mm */; };
+		1502AC5614CAD94900748334 /* ofxiOSViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5214CAD94900748334 /* ofxiOSViewController.mm */; };
+		1502AC5714CAD94900748334 /* ofxiOSWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5414CAD94900748334 /* ofxiOSWindow.mm */; };
+		1502AC5B14CAD9C700748334 /* MyAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5A14CAD9C700748334 /* MyAppDelegate.mm */; };
+		1502AC6014CADF5A00748334 /* ofxQCAR_EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5E14CADF5A00748334 /* ofxQCAR_EAGLView.mm */; };
+		1502AC6114CADF5A00748334 /* ofxQCAR_ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5F14CADF5A00748334 /* ofxQCAR_ViewController.mm */; };
+		1502AC6414CADFF800748334 /* ofxQCAR_Utils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC6314CADFF700748334 /* ofxQCAR_Utils.mm */; };
 		150E9457149A298300A50C7B /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 150E9453149A298300A50C7B /* config.xml */; };
 		150E9458149A298300A50C7B /* qcar-resources.dat in Resources */ = {isa = PBXBuildFile; fileRef = 150E9454149A298300A50C7B /* qcar-resources.dat */; };
 		150E945A149A298300A50C7B /* TextureTeapotBrass.png in Resources */ = {isa = PBXBuildFile; fileRef = 150E9456149A298300A50C7B /* TextureTeapotBrass.png */; };
@@ -55,6 +62,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1502AC4F14CAD94900748334 /* ofxiOSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSAppDelegate.h; sourceTree = "<group>"; };
+		1502AC5014CAD94900748334 /* ofxiOSAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSAppDelegate.mm; sourceTree = "<group>"; };
+		1502AC5114CAD94900748334 /* ofxiOSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSViewController.h; sourceTree = "<group>"; };
+		1502AC5214CAD94900748334 /* ofxiOSViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSViewController.mm; sourceTree = "<group>"; };
+		1502AC5314CAD94900748334 /* ofxiOSWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSWindow.h; sourceTree = "<group>"; };
+		1502AC5414CAD94900748334 /* ofxiOSWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSWindow.mm; sourceTree = "<group>"; };
+		1502AC5914CAD9C700748334 /* MyAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAppDelegate.h; sourceTree = "<group>"; };
+		1502AC5A14CAD9C700748334 /* MyAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyAppDelegate.mm; sourceTree = "<group>"; };
+		1502AC5C14CADF5A00748334 /* ofxQCAR_EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_EAGLView.h; sourceTree = "<group>"; };
+		1502AC5D14CADF5A00748334 /* ofxQCAR_ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_ViewController.h; sourceTree = "<group>"; };
+		1502AC5E14CADF5A00748334 /* ofxQCAR_EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_EAGLView.mm; sourceTree = "<group>"; };
+		1502AC5F14CADF5A00748334 /* ofxQCAR_ViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_ViewController.mm; sourceTree = "<group>"; };
+		1502AC6214CADFF700748334 /* ofxQCAR_Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Utils.h; sourceTree = "<group>"; };
+		1502AC6314CADFF700748334 /* ofxQCAR_Utils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_Utils.mm; sourceTree = "<group>"; };
 		150E9453149A298300A50C7B /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		150E9454149A298300A50C7B /* qcar-resources.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = "qcar-resources.dat"; sourceTree = "<group>"; };
 		150E9456149A298300A50C7B /* TextureTeapotBrass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TextureTeapotBrass.png; sourceTree = "<group>"; };
@@ -87,7 +108,6 @@
 		150E947D149A29CF00A50C7B /* libQCAR.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libQCAR.a; sourceTree = "<group>"; };
 		150E947F149A29CF00A50C7B /* ofxQCAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR.h; sourceTree = "<group>"; };
 		150E9480149A29CF00A50C7B /* ofxQCAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR.mm; sourceTree = "<group>"; };
-		150E9481149A29CF00A50C7B /* ofxQCARUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCARUtils.h; sourceTree = "<group>"; };
 		150E9484149A2A5200A50C7B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		150E9486149A2A7A00A50C7B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -144,6 +164,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1502AC4D14CAD92D00748334 /* ofxiOS */ = {
+			isa = PBXGroup;
+			children = (
+				1502AC4E14CAD94900748334 /* src */,
+			);
+			name = ofxiOS;
+			sourceTree = "<group>";
+		};
+		1502AC4E14CAD94900748334 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				1502AC4F14CAD94900748334 /* ofxiOSAppDelegate.h */,
+				1502AC5014CAD94900748334 /* ofxiOSAppDelegate.mm */,
+				1502AC5114CAD94900748334 /* ofxiOSViewController.h */,
+				1502AC5214CAD94900748334 /* ofxiOSViewController.mm */,
+				1502AC5314CAD94900748334 /* ofxiOSWindow.h */,
+				1502AC5414CAD94900748334 /* ofxiOSWindow.mm */,
+			);
+			name = src;
+			path = ../../ofxiOS/src;
+			sourceTree = "<group>";
+		};
+		1502AC5814CAD9C700748334 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				1502AC5914CAD9C700748334 /* MyAppDelegate.h */,
+				1502AC5A14CAD9C700748334 /* MyAppDelegate.mm */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
 		150E9452149A298300A50C7B /* qcar_assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -250,7 +301,12 @@
 			children = (
 				150E947F149A29CF00A50C7B /* ofxQCAR.h */,
 				150E9480149A29CF00A50C7B /* ofxQCAR.mm */,
-				150E9481149A29CF00A50C7B /* ofxQCARUtils.h */,
+				1502AC6214CADFF700748334 /* ofxQCAR_Utils.h */,
+				1502AC6314CADFF700748334 /* ofxQCAR_Utils.mm */,
+				1502AC5C14CADF5A00748334 /* ofxQCAR_EAGLView.h */,
+				1502AC5E14CADF5A00748334 /* ofxQCAR_EAGLView.mm */,
+				1502AC5D14CADF5A00748334 /* ofxQCAR_ViewController.h */,
+				1502AC5F14CADF5A00748334 /* ofxQCAR_ViewController.mm */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -309,6 +365,7 @@
 		BB16F26B0F2B646B00518274 /* addons */ = {
 			isa = PBXGroup;
 			children = (
+				1502AC4D14CAD92D00748334 /* ofxiOS */,
 				150E945D149A29BD00A50C7B /* ofxQCAR */,
 			);
 			name = addons;
@@ -359,6 +416,7 @@
 				E4D8936B11527B74007E1F53 /* main.mm */,
 				E4D8936D11527B74007E1F53 /* testApp.mm */,
 				E4D8936C11527B74007E1F53 /* testApp.h */,
+				1502AC5814CAD9C700748334 /* UI */,
 				150E945B149A299900A50C7B /* 3d */,
 			);
 			path = src;
@@ -468,6 +526,13 @@
 				E4D8936E11527B74007E1F53 /* main.mm in Sources */,
 				E4D8936F11527B74007E1F53 /* testApp.mm in Sources */,
 				150E9483149A29CF00A50C7B /* ofxQCAR.mm in Sources */,
+				1502AC5514CAD94900748334 /* ofxiOSAppDelegate.mm in Sources */,
+				1502AC5614CAD94900748334 /* ofxiOSViewController.mm in Sources */,
+				1502AC5714CAD94900748334 /* ofxiOSWindow.mm in Sources */,
+				1502AC5B14CAD9C700748334 /* MyAppDelegate.mm in Sources */,
+				1502AC6014CADF5A00748334 /* ofxQCAR_EAGLView.mm in Sources */,
+				1502AC6114CADF5A00748334 /* ofxQCAR_ViewController.mm in Sources */,
+				1502AC6414CADFF800748334 /* ofxQCAR_Utils.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

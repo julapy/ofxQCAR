@@ -23,6 +23,9 @@ void testApp :: update()
 //--------------------------------------------------------------
 void testApp :: draw()
 {
+    ofSetColor( ofColor :: white );
+    ofRect( 0, 0, 100, 100 );
+    
 	qcar.draw();
     
     if( qcar.hasFoundMarker() )
