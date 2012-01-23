@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "ofxQCAR_Utils.h"
 #import "ofMain.h"
+#import "ofxQCAR_Utils.h"
 
 #import <QCAR/QCAR.h>
 #import <QCAR/CameraDevice.h>

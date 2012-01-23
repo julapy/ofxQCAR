@@ -95,6 +95,19 @@ void ofxQCAR :: draw ()
     }
     
     QCAR::Renderer::getInstance().end();
+    
+    //--- restore openFrameworks render configuration.
+    
+    glViewport( 0, 0, ofGetWidth(), ofGetHeight() );
+    ofSetupScreen();
+    
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    
+    glDisable(GL_TEXTURE_2D);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void ofxQCAR :: exit ()

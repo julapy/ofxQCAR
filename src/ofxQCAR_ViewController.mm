@@ -17,23 +17,7 @@
 {
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     
-    // We are going to rotate our EAGLView by 90 degrees, so its width must be
-    // equal to the screen's height, and height to width
-//    CGRect viewBounds;
-//    viewBounds.origin.x = 0;
-//    viewBounds.origin.y = 0;
-//    viewBounds.size.width = screenBounds.size.height;
-//    viewBounds.size.height = screenBounds.size.width;
-    
     self.glView = [ [ [ ofxQCAR_EAGLView alloc ] initWithFrame : screenBounds ] autorelease ];
-    
-//    CGPoint pos;
-//    pos.x = screenBounds.size.width / 2;
-//    pos.y = screenBounds.size.height / 2;
-//    [ [ self.glView layer ] setPosition:pos ];
-//    
-//    CGAffineTransform rotate = CGAffineTransformMakeRotation( 90 * M_PI  / 180 );
-//    self.glView.transform = rotate;
     
     [ self.view insertSubview: self.glView atIndex: 0 ];
 }

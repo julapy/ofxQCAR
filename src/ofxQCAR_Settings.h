@@ -8,4 +8,4 @@
 
 #pragma once
 
-#define USE_OPENGL1
+#define USE_OPENGL1     // openGL ES 2.2 is currently not fully supported in OpenFrameworks 007.

@@ -88,6 +88,8 @@ static void ofDrawTeapot ( const ofMatrix4x4 &projectionMatrix, const ofMatrix4x
     
     glDisable( GL_DEPTH_TEST );
     glDisable( GL_CULL_FACE );
+    
+    ofSetupScreen();
 }
 
 #endif // _QCAR_TEAPOT_OBJECT_H_
