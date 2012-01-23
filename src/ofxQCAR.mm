@@ -12,6 +12,7 @@
 #import <QCAR/Renderer.h>
 #import <QCAR/Tool.h>
 #import <QCAR/Trackable.h>
+#import <QCAR/CameraDevice.h>
 
 /////////////////////////////////////////////////////////
 //
@@ -71,15 +72,51 @@ ofxQCAR :: ~ofxQCAR ()
     [ utils release ];
 }
 
+/////////////////////////////////////////////////////////
+//  SETUP.
+/////////////////////////////////////////////////////////
+
 void ofxQCAR :: setup ()
 {
     [ utils onCreate ];
 }
 
+/////////////////////////////////////////////////////////
+//  SETTERS.
+/////////////////////////////////////////////////////////
+
+void ofxQCAR ::torchOn ()
+{
+    QCAR::CameraDevice::getInstance().setFlashTorchMode(true);
+}
+
+void ofxQCAR :: torchOff ()
+{
+    QCAR::CameraDevice::getInstance().setFlashTorchMode(false);
+}
+
+void ofxQCAR :: autoFocusOn ()
+{
+    QCAR::CameraDevice::getInstance().startAutoFocus();
+}
+
+void ofxQCAR :: autoFocusOff ()
+{
+    QCAR::CameraDevice::getInstance().stopAutoFocus();
+}
+
+/////////////////////////////////////////////////////////
+//  UPDATE.
+/////////////////////////////////////////////////////////
+
 void ofxQCAR :: update ()
 {
     //
 }
+
+/////////////////////////////////////////////////////////
+//  DRAW.
+/////////////////////////////////////////////////////////
 
 void ofxQCAR :: draw ()
 {
@@ -109,6 +146,10 @@ void ofxQCAR :: draw ()
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 }
+
+/////////////////////////////////////////////////////////
+//  EXIT.
+/////////////////////////////////////////////////////////
 
 void ofxQCAR :: exit ()
 {

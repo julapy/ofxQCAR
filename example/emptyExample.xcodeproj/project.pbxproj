@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1502AC5514CAD94900748334 /* ofxiOSAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5014CAD94900748334 /* ofxiOSAppDelegate.mm */; };
-		1502AC5614CAD94900748334 /* ofxiOSViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5214CAD94900748334 /* ofxiOSViewController.mm */; };
-		1502AC5714CAD94900748334 /* ofxiOSWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5414CAD94900748334 /* ofxiOSWindow.mm */; };
 		1502AC5B14CAD9C700748334 /* MyAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5A14CAD9C700748334 /* MyAppDelegate.mm */; };
 		1502AC6014CADF5A00748334 /* ofxQCAR_EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5E14CADF5A00748334 /* ofxQCAR_EAGLView.mm */; };
 		1502AC6114CADF5A00748334 /* ofxQCAR_ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5F14CADF5A00748334 /* ofxQCAR_ViewController.mm */; };
@@ -21,6 +18,9 @@
 		150E9483149A29CF00A50C7B /* ofxQCAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 150E9480149A29CF00A50C7B /* ofxQCAR.mm */; };
 		150E9488149A2AA500A50C7B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150E9486149A2A7A00A50C7B /* SystemConfiguration.framework */; };
 		150E9489149A2AA500A50C7B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150E9484149A2A5200A50C7B /* Security.framework */; };
+		1517066214CD458600B303A1 /* ofxiOSAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1517065D14CD458600B303A1 /* ofxiOSAppDelegate.mm */; };
+		1517066314CD458600B303A1 /* ofxiOSViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1517065F14CD458600B303A1 /* ofxiOSViewController.mm */; };
+		1517066414CD458600B303A1 /* ofxiOSWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1517066114CD458600B303A1 /* ofxiOSWindow.mm */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
@@ -62,12 +62,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1502AC4F14CAD94900748334 /* ofxiOSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSAppDelegate.h; sourceTree = "<group>"; };
-		1502AC5014CAD94900748334 /* ofxiOSAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSAppDelegate.mm; sourceTree = "<group>"; };
-		1502AC5114CAD94900748334 /* ofxiOSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSViewController.h; sourceTree = "<group>"; };
-		1502AC5214CAD94900748334 /* ofxiOSViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSViewController.mm; sourceTree = "<group>"; };
-		1502AC5314CAD94900748334 /* ofxiOSWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSWindow.h; sourceTree = "<group>"; };
-		1502AC5414CAD94900748334 /* ofxiOSWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSWindow.mm; sourceTree = "<group>"; };
 		1502AC5914CAD9C700748334 /* MyAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAppDelegate.h; sourceTree = "<group>"; };
 		1502AC5A14CAD9C700748334 /* MyAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyAppDelegate.mm; sourceTree = "<group>"; };
 		1502AC5C14CADF5A00748334 /* ofxQCAR_EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_EAGLView.h; sourceTree = "<group>"; };
@@ -111,6 +105,13 @@
 		150E9484149A2A5200A50C7B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		150E9486149A2A7A00A50C7B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1517063214CCDD3E00B303A1 /* ofxQCAR_Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Settings.h; sourceTree = "<group>"; };
+		1517065C14CD458600B303A1 /* ofxiOSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSAppDelegate.h; sourceTree = "<group>"; };
+		1517065D14CD458600B303A1 /* ofxiOSAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSAppDelegate.mm; sourceTree = "<group>"; };
+		1517065E14CD458600B303A1 /* ofxiOSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSViewController.h; sourceTree = "<group>"; };
+		1517065F14CD458600B303A1 /* ofxiOSViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSViewController.mm; sourceTree = "<group>"; };
+		1517066014CD458600B303A1 /* ofxiOSWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSWindow.h; sourceTree = "<group>"; };
+		1517066114CD458600B303A1 /* ofxiOSWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSWindow.mm; sourceTree = "<group>"; };
+		15406DB114CD63190071E3EB /* ofxiOSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSUtils.h; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* emptyExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = emptyExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -168,23 +169,9 @@
 		1502AC4D14CAD92D00748334 /* ofxiOS */ = {
 			isa = PBXGroup;
 			children = (
-				1502AC4E14CAD94900748334 /* src */,
+				1517065B14CD458600B303A1 /* src */,
 			);
 			name = ofxiOS;
-			sourceTree = "<group>";
-		};
-		1502AC4E14CAD94900748334 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				1502AC4F14CAD94900748334 /* ofxiOSAppDelegate.h */,
-				1502AC5014CAD94900748334 /* ofxiOSAppDelegate.mm */,
-				1502AC5114CAD94900748334 /* ofxiOSViewController.h */,
-				1502AC5214CAD94900748334 /* ofxiOSViewController.mm */,
-				1502AC5314CAD94900748334 /* ofxiOSWindow.h */,
-				1502AC5414CAD94900748334 /* ofxiOSWindow.mm */,
-			);
-			name = src;
-			path = ../../ofxiOS/src;
 			sourceTree = "<group>";
 		};
 		1502AC5814CAD9C700748334 /* UI */ = {
@@ -311,6 +298,21 @@
 				1517063214CCDD3E00B303A1 /* ofxQCAR_Settings.h */,
 			);
 			path = src;
+			sourceTree = "<group>";
+		};
+		1517065B14CD458600B303A1 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				1517065C14CD458600B303A1 /* ofxiOSAppDelegate.h */,
+				1517065D14CD458600B303A1 /* ofxiOSAppDelegate.mm */,
+				1517065E14CD458600B303A1 /* ofxiOSViewController.h */,
+				1517065F14CD458600B303A1 /* ofxiOSViewController.mm */,
+				1517066014CD458600B303A1 /* ofxiOSWindow.h */,
+				1517066114CD458600B303A1 /* ofxiOSWindow.mm */,
+				15406DB114CD63190071E3EB /* ofxiOSUtils.h */,
+			);
+			name = src;
+			path = ../../ofxiOS/src;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -528,13 +530,13 @@
 				E4D8936E11527B74007E1F53 /* main.mm in Sources */,
 				E4D8936F11527B74007E1F53 /* testApp.mm in Sources */,
 				150E9483149A29CF00A50C7B /* ofxQCAR.mm in Sources */,
-				1502AC5514CAD94900748334 /* ofxiOSAppDelegate.mm in Sources */,
-				1502AC5614CAD94900748334 /* ofxiOSViewController.mm in Sources */,
-				1502AC5714CAD94900748334 /* ofxiOSWindow.mm in Sources */,
 				1502AC5B14CAD9C700748334 /* MyAppDelegate.mm in Sources */,
 				1502AC6014CADF5A00748334 /* ofxQCAR_EAGLView.mm in Sources */,
 				1502AC6114CADF5A00748334 /* ofxQCAR_ViewController.mm in Sources */,
 				1502AC6414CADFF800748334 /* ofxQCAR_Utils.mm in Sources */,
+				1517066214CD458600B303A1 /* ofxiOSAppDelegate.mm in Sources */,
+				1517066314CD458600B303A1 /* ofxiOSViewController.mm in Sources */,
+				1517066414CD458600B303A1 /* ofxiOSWindow.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,6 +562,7 @@
 					../../../addons/ofxQCAR/libs/qcar/include,
 				);
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../../addons/ofxQCAR/libs/qcar/lib/arm,
@@ -571,6 +574,7 @@
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
@@ -578,6 +582,7 @@
 					../../../addons/ofxQCAR/libs/qcar/include,
 				);
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../../addons/ofxQCAR/libs/qcar/lib/arm,
@@ -598,6 +603,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
 				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
@@ -630,6 +636,7 @@
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;

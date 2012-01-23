@@ -37,6 +37,11 @@ public:
     virtual void draw   ();
     virtual void exit   ();
     
+    void torchOn        ();
+    void torchOff       ();
+    void autoFocusOn    ();
+    void autoFocusOff   ();
+    
     const ofMatrix4x4& getProjectionMatrix  () { return projectionMatrix; }
     const ofMatrix4x4& getModelViewMatrix   () { return modelViewMatrix; }
     const bool& hasFoundMarker              () { return bFoundMarker; }
