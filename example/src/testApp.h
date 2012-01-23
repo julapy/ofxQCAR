@@ -25,8 +25,6 @@ public:
 	void gotMemoryWarning           ();
 	void deviceOrientationChanged   (int newOrientation);
 
-    ofxQCAR qcar;
-    
     ofImage teapotImage;
 };
 

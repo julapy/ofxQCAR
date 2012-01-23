@@ -12,6 +12,8 @@
 
 @implementation MyAppDelegate
 
+@synthesize viewController;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [ super applicationDidFinishLaunching: application ];
@@ -19,14 +21,21 @@
     testApp *app;
     app = new testApp();
     
-    ofxQCAR_ViewController *viewController;
-    viewController = [[[ ofxQCAR_ViewController alloc ] initWithFrame : [[ UIScreen mainScreen ] bounds ] 
-                                                                  app : app ] autorelease ];
+    self.viewController = [[[ ofxQCAR_ViewController alloc ] initWithFrame : [[ UIScreen mainScreen ] bounds ] 
+                                                                       app : app ] autorelease ];
 
     [ self.window addSubview: viewController.view ];
     [ self.window makeKeyAndVisible ];
     
     return YES;
+}
+
+- (void) dealloc
+{
+    [ self.viewController.view removeFromSuperview ];
+    self.viewController = nil;
+    
+    [ super dealloc ];
 }
 
 @end

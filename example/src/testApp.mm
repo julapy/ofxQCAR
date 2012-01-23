@@ -11,36 +11,38 @@ void testApp :: setup()
     teapotImage.loadImage( "qcar_assets/TextureTeapotBrass.png" );
     teapotImage.mirror( true, false );  //-- flip texture vertically since the texture coords are set that way on the teapot.
     
-    qcar.setup();
+    ofxQCAR :: getInstance()->setup();
 }
 
 //--------------------------------------------------------------
 void testApp :: update()
 {
-    qcar.update();
+    ofxQCAR :: getInstance()->update();
 }
 
 //--------------------------------------------------------------
 void testApp :: draw()
 {
-    ofSetColor( ofColor :: white );
-    ofRect( 0, 0, 100, 100 );
+    ofxQCAR *qcar;
+    qcar = ofxQCAR :: getInstance();
+    qcar->draw();
     
-	qcar.draw();
-    
-    if( qcar.hasFoundMarker() )
+    if( qcar->hasFoundMarker() )
     {
         ofSetColor( ofColor::white );
         ofEnableNormalizedTexCoords();
 
         teapotImage.getTextureReference().bind();
         {
-            ofDrawTeapot( qcar.getProjectionMatrix(), qcar.getModelViewMatrix(), 3 );
+            ofDrawTeapot( qcar->getProjectionMatrix(), qcar->getModelViewMatrix(), 3 );
         }
         teapotImage.getTextureReference().unbind();
         
         ofDisableNormalizedTexCoords();
     }
+    
+    ofSetColor( ofColor :: white );
+    ofRect( 0, 0, 100, 100 );
 }
 
 //--------------------------------------------------------------
@@ -49,7 +51,7 @@ void testApp :: exit()
     ofUnregisterTouchEvents( this );
 	ofxiPhoneAlerts.removeListener( this );
     
-    qcar.exit();
+    ofxQCAR :: getInstance()->exit();
 }
 
 //--------------------------------------------------------------

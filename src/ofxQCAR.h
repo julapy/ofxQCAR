@@ -17,6 +17,13 @@ public:
      ofxQCAR ();
     ~ofxQCAR ();
     
+	static ofxQCAR* getInstance()
+	{
+		if( !_instance )
+			_instance = new ofxQCAR();
+        return _instance;
+	};
+    
     virtual void setup  ();
     virtual void update ();
     virtual void draw   ();
@@ -32,5 +39,9 @@ protected:
     
     ofMatrix4x4 projectionMatrix;
     ofMatrix4x4 modelViewMatrix;
+    
+private:
+    
+    static ofxQCAR* _instance;
     
 };

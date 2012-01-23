@@ -7,6 +7,7 @@
 //
 
 #import "ofxQCAR_Utils.h"
+#import "ofMain.h"
 
 #import <QCAR/QCAR.h>
 #import <QCAR/CameraDevice.h>
@@ -16,6 +17,47 @@
 #import <QCAR/Tool.h>
 #import <QCAR/Trackable.h>
 
+///////////////////////////////////////////////////////
+//  RESIZE UTILS.
+///////////////////////////////////////////////////////
+
+static ofRectangle cropToSize ( const ofRectangle& srcRect, const ofRectangle& dstRect )
+{
+    float wRatio, hRatio, scale;
+    
+    wRatio = dstRect.width  / (float)srcRect.width;
+    hRatio = dstRect.height / (float)srcRect.height;
+    
+    scale = MAX( wRatio, hRatio );
+    
+    ofRectangle			rect;
+    rect.x		= ( dstRect.width  - ( srcRect.width  * scale ) ) * 0.5;
+    rect.y		= ( dstRect.height - ( srcRect.height * scale ) ) * 0.5;
+    rect.width	= srcRect.width  * scale;
+    rect.height	= srcRect.height * scale;
+    
+    return rect;
+}
+
+static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& dstRect )
+{
+    float wRatio, hRatio, scale;
+    
+    wRatio = dstRect.width  / (float)srcRect.width;
+    hRatio = dstRect.height / (float)srcRect.height;
+    
+    scale = MIN( wRatio, hRatio );
+    
+    ofRectangle			rect;
+    rect.x		= ( dstRect.width  - ( srcRect.width  * scale ) ) * 0.5;
+    rect.y		= ( dstRect.height - ( srcRect.height * scale ) ) * 0.5;
+    rect.width	= srcRect.width  * scale;
+    rect.height	= srcRect.height * scale;
+    
+    return rect;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 @interface ofxQCAR_Utils (PrivateMethods)
 - (void)updateApplicationStatus:(status)newStatus;
 - (void)bumpAppStatus;
@@ -354,6 +396,5 @@
     // Set the config
     QCAR::Renderer::getInstance().setVideoBackgroundConfig(config);
 }
-
 
 @end

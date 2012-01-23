@@ -10,63 +10,15 @@
 #import "ofxiPhoneExtras.h"
 #import "ofxQCAR_Utils.h"
 
-#import <QCAR/QCAR.h>
-#import <QCAR/CameraDevice.h>
-#import <QCAR/Tracker.h>
-#import <QCAR/VideoBackgroundConfig.h>
 #import <QCAR/Renderer.h>
 #import <QCAR/Tool.h>
 #import <QCAR/Trackable.h>
 
-///////////////////////////////////////////////////////
-//  RESIZE UTILS.
-///////////////////////////////////////////////////////
-
-static ofRectangle cropToSize ( const ofRectangle& srcRect, const ofRectangle& dstRect )
-{
-    float wRatio, hRatio, scale;
-    
-    wRatio = dstRect.width  / (float)srcRect.width;
-    hRatio = dstRect.height / (float)srcRect.height;
-    
-    scale = MAX( wRatio, hRatio );
-    
-    ofRectangle			rect;
-    rect.x		= ( dstRect.width  - ( srcRect.width  * scale ) ) * 0.5;
-    rect.y		= ( dstRect.height - ( srcRect.height * scale ) ) * 0.5;
-    rect.width	= srcRect.width  * scale;
-    rect.height	= srcRect.height * scale;
-    
-    return rect;
-}
-
-static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& dstRect )
-{
-    float wRatio, hRatio, scale;
-    
-    wRatio = dstRect.width  / (float)srcRect.width;
-    hRatio = dstRect.height / (float)srcRect.height;
-    
-    scale = MIN( wRatio, hRatio );
-    
-    ofRectangle			rect;
-    rect.x		= ( dstRect.width  - ( srcRect.width  * scale ) ) * 0.5;
-    rect.y		= ( dstRect.height - ( srcRect.height * scale ) ) * 0.5;
-    rect.width	= srcRect.width  * scale;
-    rect.height	= srcRect.height * scale;
-    
-    return rect;
-}
-
-///////////////////////////////////////////////////////
-//  
-///////////////////////////////////////////////////////
+ofxQCAR* ofxQCAR :: _instance = NULL;
+ofxQCAR_Utils *utils;
 
 QCAR::Matrix44F qcarProjectionMatrix;
 QCAR::Matrix44F qcarModelViewMatrix;
-
-ofxQCAR_Utils *utils;
-
 
 ofxQCAR :: ofxQCAR ()
 {
@@ -77,7 +29,7 @@ ofxQCAR :: ofxQCAR ()
 
 ofxQCAR :: ~ofxQCAR ()
 {
-    //
+    [ utils release ];
 }
 
 void ofxQCAR :: setup ()
