@@ -37,12 +37,12 @@ public:
     virtual void draw   ();
     virtual void exit   ();
     
-    void updateProjectionMatrix ( const ofMatrix4x4& mat ) { projectionMatrix = mat; }
-    void updateModelViewMatrix  ( const ofMatrix4x4& mat ) { modelViewMatrix = mat; }
-    
     const ofMatrix4x4& getProjectionMatrix  () { return projectionMatrix; }
     const ofMatrix4x4& getModelViewMatrix   () { return modelViewMatrix; }
     const bool& hasFoundMarker              () { return bFoundMarker; }
+    
+    void updateProjectionMatrix ( const ofMatrix4x4& mat ) { projectionMatrix = mat; }  /* do not set this yourself */
+    void updateModelViewMatrix  ( const ofMatrix4x4& mat ) { modelViewMatrix = mat; }   /* do not set this yourself */
     
 protected:
     

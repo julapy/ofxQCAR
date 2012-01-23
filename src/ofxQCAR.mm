@@ -7,7 +7,6 @@
 //
 
 #import "ofxQCAR.h"
-#import "ofxiPhoneExtras.h"
 #import "ofxQCAR_Utils.h"
 
 #import <QCAR/Renderer.h>
