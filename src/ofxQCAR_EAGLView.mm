@@ -14,7 +14,7 @@
 #import <QCAR/Tool.h>
 #import <QCAR/Trackable.h>
 
-@interface EAGLView (PrivateMethods)
+@interface ofxQCAR_EAGLView (PrivateMethods)
 - (void)setFramebuffer;
 - (BOOL)presentFramebuffer;
 - (void)createFramebuffer;
