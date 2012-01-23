@@ -26,6 +26,20 @@ void testApp :: draw()
     ofxQCAR *qcar;
     qcar = ofxQCAR :: getInstance();
     qcar->draw();
+
+    glViewport( 0, 0, ofGetWidth(), ofGetHeight() );
+    ofSetupScreen();
+    
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    
+    glDisable(GL_TEXTURE_2D);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    
+    ofSetColor( ofColor :: white );
+    ofRect( 10, 10, 100, 100 );
     
     if( qcar->hasFoundMarker() )
     {
@@ -41,8 +55,22 @@ void testApp :: draw()
         ofDisableNormalizedTexCoords();
     }
     
-    ofSetColor( ofColor :: white );
-    ofRect( 0, 0, 100, 100 );
+//    glPushMatrix();
+//    {
+//        float objectScale = 3.0;
+//        glTranslatef( ofGetWidth() * 0.5, ofGetHeight() * 0.5, -objectScale );
+//        glScalef( objectScale, objectScale, objectScale );
+//        
+//        ofSetColor( ofColor::white );
+//        ofEnableNormalizedTexCoords();
+//        teapotImage.getTextureReference().bind();
+//        {
+//            ofDrawTeapot();
+//        }
+//        teapotImage.getTextureReference().unbind();
+//        ofDisableNormalizedTexCoords();
+//    }
+//    glPopMatrix();
 }
 
 //--------------------------------------------------------------

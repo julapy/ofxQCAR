@@ -255,7 +255,7 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
     QCAR::onSurfaceCreated();
     
     // Inform QCAR that the drawing surface size has changed
-    QCAR::onSurfaceChanged(ARData.screenRect.size.height, ARData.screenRect.size.width);
+    QCAR::onSurfaceChanged(ARData.screenRect.size.width, ARData.screenRect.size.height);
 }
 
 
@@ -266,6 +266,7 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
     // Background thread must have its own autorelease pool
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     QCAR::setInitParameters(ARData.QCARFlags);
+    QCAR::setInitParameters( QCAR::ROTATE_IOS_90 );
     
     int nPercentComplete = 0;
     
@@ -364,34 +365,19 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
     QCAR::CameraDevice& cameraDevice = QCAR::CameraDevice::getInstance();
     QCAR::VideoMode videoMode = cameraDevice.getVideoMode(QCAR::CameraDevice::MODE_DEFAULT);
     
-    // Configure the video background
-    QCAR::VideoBackgroundConfig config;
+    ofRectangle screenRect( 0, 0, ARData.screenRect.size.width, ARData.screenRect.size.height );
+    ofRectangle videoRect( 0, 0, videoMode.mHeight, videoMode.mWidth );
+    ofRectangle imageRect = cropToSize( videoRect, screenRect );
+    imageRect.x = 0;    // qcar positions the camera image in the middle of the screen, so no need to move the image.
+    imageRect.y = 0;
+    
+    QCAR::VideoBackgroundConfig config;                                                             //-- configure the video background
     config.mEnabled = true;
     config.mSynchronous = true;
-    config.mPosition.data[0] = 0.0f;
-    config.mPosition.data[1] = 0.0f;
-    
-    // Compare aspect ratios of video and screen.  If they are different
-    // we use the full screen size while maintaining the video's aspect
-    // ratio, which naturally entails some cropping of the video.
-    // Note - screenRect is portrait but videoMode is always landscape,
-    // which is why "width" and "height" appear to be reversed.
-    float arVideo = (float)videoMode.mWidth / (float)videoMode.mHeight;
-    float arScreen = ARData.screenRect.size.height / ARData.screenRect.size.width;
-    
-    if (arVideo > arScreen)
-    {
-        // Video mode is wider than the screen.  We'll crop the left and right edges of the video
-        config.mSize.data[0] = (int)ARData.screenRect.size.width * arVideo;
-        config.mSize.data[1] = (int)ARData.screenRect.size.width;
-    }
-    else
-    {
-        // Video mode is taller than the screen.  We'll crop the top and bottom edges of the video.
-        // Also used when aspect ratios match (no cropping).
-        config.mSize.data[0] = (int)ARData.screenRect.size.height;
-        config.mSize.data[1] = (int)ARData.screenRect.size.height / arVideo;
-    }
+    config.mPosition.data[0] = imageRect.x;
+    config.mPosition.data[1] = imageRect.y;
+    config.mSize.data[0] = imageRect.width;
+    config.mSize.data[1] = imageRect.height;
     
     // Set the config
     QCAR::Renderer::getInstance().setVideoBackgroundConfig(config);

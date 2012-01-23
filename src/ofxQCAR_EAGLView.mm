@@ -52,6 +52,8 @@
         if (!context) {
             NSLog(@"Failed to create ES context");
         }
+        
+        [ self createFramebuffer ];
     }
     
     return self;
@@ -90,7 +92,7 @@
         glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_HEIGHT_OES, &framebufferHeight);
         
         // Create the depth render buffer and allocate storage
-        glGenRenderbuffersOES(1, &depthRenderbuffer);
+        glGenRenderbuffersOES(1, &depthRenderbuffer);  
         glBindRenderbufferOES(GL_RENDERBUFFER_OES, depthRenderbuffer);
         glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES, framebufferWidth, framebufferHeight);
         
