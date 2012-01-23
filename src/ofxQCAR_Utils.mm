@@ -73,10 +73,15 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
 ////////////////////////////////////////////////////////////////////////////////
 @implementation ofxQCAR_Utils
 
-- (id) init
+@synthesize delegate;
+@synthesize projectionMatrix;
+
+- (id) initWithDelegate : (id) del
 {
     if( ( self = [ super init ] ) )
     {
+        self.delegate = del;
+        
 #ifdef USE_OPENGL1
         ARData.QCARFlags = QCAR::GL_11;
 #else
@@ -191,11 +196,18 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
                 // Initialisation is complete, start QCAR
                 QCAR::onResume();
                 
+                if ((delegate != nil) && [delegate respondsToSelector:@selector(qcar_initialised)])
+                    [delegate performSelectorOnMainThread:@selector(qcar_initialised) withObject:nil waitUntilDone:YES];
+                
                 [self updateApplicationStatus:APPSTATUS_CAMERA_RUNNING];
                 break;
                 
             case APPSTATUS_CAMERA_RUNNING:
                 [self startCamera];
+                
+                if ((delegate != nil) && [delegate respondsToSelector:@selector(qcar_projectionMatrixReady)])
+                    [delegate performSelectorOnMainThread:@selector(qcar_projectionMatrixReady) withObject:nil waitUntilDone:YES];
+                
                 break;
                 
             case APPSTATUS_CAMERA_STOPPED:
@@ -340,10 +352,13 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
                 
                 // Cache the projection matrix
                 const QCAR::CameraCalibration& cameraCalibration = QCAR::Tracker::getInstance().getCameraCalibration();
-                projectionMatrix = QCAR::Tool::getProjectionGL(cameraCalibration, 2.0f, 2000.0f);
+                self.projectionMatrix = QCAR::Tool::getProjectionGL(cameraCalibration, 2.0f, 2000.0f);
             }
         }
     }
+    
+    if ((delegate != nil) && [delegate respondsToSelector:@selector(qcar_cameraStarted)])
+        [delegate performSelectorOnMainThread:@selector(qcar_cameraStarted) withObject:nil waitUntilDone:YES];
 }
 
 
@@ -354,6 +369,9 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
     QCAR::Tracker::getInstance().stop();
     QCAR::CameraDevice::getInstance().stop();
     QCAR::CameraDevice::getInstance().deinit();
+    
+    if ((delegate != nil) && [delegate respondsToSelector:@selector(qcar_cameraStopped)])
+        [delegate performSelectorOnMainThread:@selector(qcar_cameraStopped) withObject:nil waitUntilDone:YES];
 }
 
 

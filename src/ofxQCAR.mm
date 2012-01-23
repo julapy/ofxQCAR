@@ -14,15 +14,55 @@
 #import <QCAR/Tool.h>
 #import <QCAR/Trackable.h>
 
+/////////////////////////////////////////////////////////
+//
+/////////////////////////////////////////////////////////
+
 ofxQCAR* ofxQCAR :: _instance = NULL;
 ofxQCAR_Utils *utils;
+ofxQCAR_Delegate *delegate;
 
 QCAR::Matrix44F qcarProjectionMatrix;
 QCAR::Matrix44F qcarModelViewMatrix;
 
+/////////////////////////////////////////////////////////
+//  DELEGATE.
+/////////////////////////////////////////////////////////
+
+@implementation ofxQCAR_Delegate
+
+-(void) qcar_initialised
+{
+    //
+}
+
+-(void) qcar_cameraStarted
+{
+    //
+}
+
+-(void) qcar_cameraStopped
+{
+    //
+}
+
+-(void) qcar_projectionMatrixReady
+{
+    qcarProjectionMatrix = utils.projectionMatrix;
+    ofxQCAR::getInstance()->updateProjectionMatrix( qcarProjectionMatrix.data );
+}
+
+@end
+
+/////////////////////////////////////////////////////////
+//  QCAR.
+/////////////////////////////////////////////////////////
+
 ofxQCAR :: ofxQCAR ()
 {
-    utils = [[ ofxQCAR_Utils alloc ] init ];
+    delegate = [[ ofxQCAR_Delegate alloc ] init ];
+    
+    utils = [[ ofxQCAR_Utils alloc ] initWithDelegate: delegate ];
     
     bFoundMarker = false;
 }

@@ -10,6 +10,14 @@
 
 #import "ofMain.h"
 
+@interface ofxQCAR_Delegate : NSObject
+-(void) qcar_initialised;
+-(void) qcar_cameraStarted;
+-(void) qcar_cameraStopped;
+-(void) qcar_projectionMatrixReady;
+@end
+
+
 class ofxQCAR : public ofBaseApp
 {
 public:
@@ -28,6 +36,9 @@ public:
     virtual void update ();
     virtual void draw   ();
     virtual void exit   ();
+    
+    void updateProjectionMatrix ( const ofMatrix4x4& mat ) { projectionMatrix = mat; }
+    void updateModelViewMatrix  ( const ofMatrix4x4& mat ) { modelViewMatrix = mat; }
     
     const ofMatrix4x4& getProjectionMatrix  () { return projectionMatrix; }
     const ofMatrix4x4& getModelViewMatrix   () { return modelViewMatrix; }

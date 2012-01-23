@@ -27,9 +27,6 @@ typedef enum _status {
 {
 @private
     
-    // OpenGL projection matrix
-    QCAR::Matrix44F projectionMatrix;
-    
     struct tagARData {
         CGRect screenRect;
         NSMutableArray* textures;   // Teapot textures
@@ -38,6 +35,11 @@ typedef enum _status {
         int errorCode;              // if appStatus == APPSTATUS_ERROR
     } ARData;
 }
+
+@property(nonatomic,retain) id delegate;
+@property(nonatomic,assign) QCAR::Matrix44F projectionMatrix;
+
+- (id)initWithDelegate : (id)delegate;
 
 - (void)onCreate;
 - (void)onDestroy;
