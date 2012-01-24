@@ -76,6 +76,8 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
 
 @synthesize delegate;
 @synthesize projectionMatrix;
+@synthesize scaleX;
+@synthesize scaleY;
 
 - (id) initWithDelegate : (id) del
 {
@@ -403,6 +405,9 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
     ofRectangle imageRect = cropToSize( videoRect, screenRect );
     imageRect.x = 0;    // qcar positions the camera image in the middle of the screen, so no need to move the image.
     imageRect.y = 0;
+    
+    scaleX = imageRect.width / (float)screenRect.width;
+    scaleY = imageRect.height / (float)screenRect.height;
     
     QCAR::VideoBackgroundConfig config;                                                             //-- configure the video background
     config.mEnabled = true;

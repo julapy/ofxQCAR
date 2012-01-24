@@ -134,6 +134,7 @@ void ofxQCAR :: draw ()
         
         qcarModelViewMatrix = QCAR::Tool::convertPose2GLMatrix( trackable->getPose() ); //-- get the model view matrix
         modelViewMatrix.set( qcarModelViewMatrix.data );
+        modelViewMatrix.scale( [ utils scaleY ], [ utils scaleX ], 1 );                 //-- have to scale matrix otherwise it looks scewed.
     }
     
     QCAR::Renderer::getInstance().end();

@@ -37,6 +37,8 @@ typedef enum _status {
 
 @property(nonatomic,retain) id delegate;
 @property(nonatomic,assign) QCAR::Matrix44F projectionMatrix;
+@property(nonatomic,assign) float scaleX;
+@property(nonatomic,assign) float scaleY;
 
 - (id)initWithDelegate : (id)delegate;
 
