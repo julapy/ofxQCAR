@@ -79,6 +79,7 @@ ofxQCAR :: ~ofxQCAR ()
 void ofxQCAR :: setup ()
 {
     [ utils onCreate ];
+    [ utils onResume ];
 }
 
 /////////////////////////////////////////////////////////
@@ -153,5 +154,6 @@ void ofxQCAR :: draw ()
 
 void ofxQCAR :: exit ()
 {
+    [ utils onPause ];
     [ utils onDestroy ];
 }

@@ -7,10 +7,9 @@
 //
 
 #import "ofxiOSAppDelegate.h"
-#import "ofxQCAR_ViewController.h"
 
 @interface MyAppDelegate : ofxiOSAppDelegate
 
-@property(nonatomic,retain) ofxQCAR_ViewController *viewController;
+@property (nonatomic, retain) UINavigationController* navigationController;
 
 @end

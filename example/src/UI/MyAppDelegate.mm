@@ -7,36 +7,46 @@
 //
 
 #import "MyAppDelegate.h"
-#import "ofxQCAR_ViewController.h"
-#import "testApp.h"
+#import "MyAppViewController.h"
 
 @implementation MyAppDelegate
 
-@synthesize viewController;
+@synthesize navigationController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [ super applicationDidFinishLaunching: application ];
     
-    testApp *app;
-    app = new testApp();
+    /**
+     *
+     *  Below is where you insert your own UIViewController and take control of the App.
+     *  In this example im creating a UINavigationController and adding it as my RootViewController to the window. (this is essential)
+     *  UINavigationController is handy for managing the navigation between multiple view controllers, more info here,
+     *  http://developer.apple.com/library/ios/#documentation/uikit/reference/UINavigationController_Class/Reference/Reference.html
+     *
+     *  I then push MyAppViewController onto the UINavigationController stack.
+     *  MyAppViewController is a custom view controller with a 3 button menu.
+     *
+     **/
     
-    self.viewController = [[[ ofxQCAR_ViewController alloc ] initWithFrame : [[ UIScreen mainScreen ] bounds ] 
-                                                                       app : app ] autorelease ];
-
-    [ self.window addSubview: viewController.view ];
-    [ self.window makeKeyAndVisible ];
+    self.navigationController = [ [ UINavigationController alloc ] init ];
+    [ self.window setRootViewController: self.navigationController ];
+    
+    [ self.navigationController pushViewController : [ [ [ MyAppViewController alloc ] init ] autorelease ]
+                                          animated : YES ];
+    
+    //--- style the UINavigationController
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
+    self.navigationController.navigationBar.topItem.title = @"ofxQCAR";
     
     return YES;
 }
 
 - (void) dealloc
 {
-    [ self.viewController.view removeFromSuperview ];
-    self.viewController = nil;
+    self.navigationController = nil;
     
     [ super dealloc ];
 }
 
 @end
-

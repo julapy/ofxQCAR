@@ -94,6 +94,13 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
     return self;
 }
 
+- (void) dealloc
+{
+    self.delegate = nil;
+    
+    [ super dealloc ];
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 - (void)onCreate
 {
@@ -150,7 +157,7 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
 ////////////////////////////////////////////////////////////////////////////////
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    exit(0);
+//    exit(0);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -312,25 +319,32 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
 // Load the tracker data [performed on a background thread]
 - (void)loadTracker
 {
-    int nPercentComplete = 0;
+    static bool trackerLoaded = NO;
     
-    // Background thread must have its own autorelease pool
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    
-    // Load the tracker data
-    do {
-        nPercentComplete = QCAR::Tracker::getInstance().load();
-    } while (0 <= nPercentComplete && 100 > nPercentComplete);
-    
-    if (0 > nPercentComplete) {
-        ARData.appStatus = APPSTATUS_ERROR;
-        ARData.errorCode = nPercentComplete;
+    if (trackerLoaded == NO)
+    {
+        int nPercentComplete = 0;
+        
+        // Background thread must have its own autorelease pool
+        NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+        
+        // Load the tracker data
+        do {
+            nPercentComplete = QCAR::Tracker::getInstance().load();
+        } while (0 <= nPercentComplete && 100 > nPercentComplete);
+        
+        if (0 > nPercentComplete) {
+            ARData.appStatus = APPSTATUS_ERROR;
+            ARData.errorCode = nPercentComplete;
+        }
+        
+        [pool release];
+        
+        trackerLoaded = YES;
     }
     
     // Continue execution on the main thread
     [self performSelectorOnMainThread:@selector(bumpAppStatus) withObject:nil waitUntilDone:NO];
-    
-    [pool release];
 }
 
 

@@ -21,6 +21,7 @@
 		1525B19314CE240200B808F9 /* ofxiOSAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1525B18D14CE240200B808F9 /* ofxiOSAppDelegate.mm */; };
 		1525B19414CE240200B808F9 /* ofxiOSViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1525B19014CE240200B808F9 /* ofxiOSViewController.mm */; };
 		1525B19514CE240200B808F9 /* ofxiOSWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1525B19214CE240200B808F9 /* ofxiOSWindow.mm */; };
+		1525B1C814CE395700B808F9 /* MyAppViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1525B1C714CE395700B808F9 /* MyAppViewController.mm */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
@@ -112,6 +113,8 @@
 		1525B19014CE240200B808F9 /* ofxiOSViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSViewController.mm; sourceTree = "<group>"; };
 		1525B19114CE240200B808F9 /* ofxiOSWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSWindow.h; sourceTree = "<group>"; };
 		1525B19214CE240200B808F9 /* ofxiOSWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSWindow.mm; sourceTree = "<group>"; };
+		1525B1C614CE395700B808F9 /* MyAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAppViewController.h; sourceTree = "<group>"; };
+		1525B1C714CE395700B808F9 /* MyAppViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyAppViewController.mm; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* emptyExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = emptyExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -171,6 +174,8 @@
 			children = (
 				1502AC5914CAD9C700748334 /* MyAppDelegate.h */,
 				1502AC5A14CAD9C700748334 /* MyAppDelegate.mm */,
+				1525B1C614CE395700B808F9 /* MyAppViewController.h */,
+				1525B1C714CE395700B808F9 /* MyAppViewController.mm */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -537,6 +542,7 @@
 				1525B19314CE240200B808F9 /* ofxiOSAppDelegate.mm in Sources */,
 				1525B19414CE240200B808F9 /* ofxiOSViewController.mm in Sources */,
 				1525B19514CE240200B808F9 /* ofxiOSWindow.mm in Sources */,
+				1525B1C814CE395700B808F9 /* MyAppViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
