@@ -19,8 +19,8 @@
 /////////////////////////////////////////////////////////
 
 ofxQCAR* ofxQCAR :: _instance = NULL;
-ofxQCAR_Utils *utils;
-ofxQCAR_Delegate *delegate;
+ofxQCAR_Utils *utils = nil;
+ofxQCAR_Delegate *delegate = nil;
 
 QCAR::Matrix44F qcarProjectionMatrix;
 QCAR::Matrix44F qcarModelViewMatrix;
@@ -60,16 +60,12 @@ QCAR::Matrix44F qcarModelViewMatrix;
 
 ofxQCAR :: ofxQCAR ()
 {
-    delegate = [[ ofxQCAR_Delegate alloc ] init ];
-    
-    utils = [[ ofxQCAR_Utils alloc ] initWithDelegate: delegate ];
-    
-    bFoundMarker = false;
+    //
 }
 
 ofxQCAR :: ~ofxQCAR ()
 {
-    [ utils release ];
+    //
 }
 
 /////////////////////////////////////////////////////////
@@ -78,6 +74,14 @@ ofxQCAR :: ~ofxQCAR ()
 
 void ofxQCAR :: setup ()
 {
+    if( !delegate )
+        delegate = [[ ofxQCAR_Delegate alloc ] init ];
+    
+    if( !utils )
+        utils = [[ ofxQCAR_Utils alloc ] initWithDelegate: delegate ];
+        
+    bFoundMarker = false;
+    
     [ utils onCreate ];
     [ utils onResume ];
 }
@@ -156,4 +160,10 @@ void ofxQCAR :: exit ()
 {
     [ utils onPause ];
     [ utils onDestroy ];
+    
+    [ utils release ];
+    utils = nil;
+    
+    [ delegate release ];
+    delegate = nil;
 }
