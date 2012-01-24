@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxiPhone.h"
 #include "ofxiPhoneExtras.h"
+
 #include "ofxQCAR.h"
 #include "Teapot.h"
 
@@ -26,6 +27,7 @@ public:
 	void deviceOrientationChanged   (int newOrientation);
 
     ofImage teapotImage;
+    ofPoint touchPoint;
 };
 
 

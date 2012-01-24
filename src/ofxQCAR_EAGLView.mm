@@ -54,6 +54,9 @@
         }
         
         [ self createFramebuffer ];
+        
+        touchScale = 1.0;
+        touchesDict = [[NSMutableDictionary alloc] init];
     }
     
     return self;
@@ -67,8 +70,10 @@
     if ([EAGLContext currentContext] == context) {
         [EAGLContext setCurrentContext:nil];
     }
-    
     [context release];
+    
+    [touchesDict release];
+    
     [super dealloc];
 }
 
@@ -248,6 +253,122 @@
 - (void)finishRender 
 {
     [self presentFramebuffer];
+}
+
+////////////////////////////////////////////////
+//  TOUCH OVERWRITE.
+////////////////////////////////////////////////
+
+//------------------------------------------------------
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+	
+	for(UITouch *touch in touches) {
+		int touchIndex = 0;
+		while([[touchesDict allValues] containsObject:[NSNumber numberWithInt:touchIndex]]) {
+			touchIndex++;
+		}
+		
+		[touchesDict setObject:[NSNumber numberWithInt:touchIndex] forKey:[NSValue valueWithPointer:touch]];
+		
+		CGPoint touchPoint = [touch locationInView:self];
+		
+		touchPoint.x*=touchScale; // this has to be done because retina still returns points in 320x240 but with high percision
+		touchPoint.y*=touchScale;
+		
+		iPhoneGetOFWindow()->rotateXY(touchPoint.x, touchPoint.y);
+		
+		if( touchIndex==0 ){
+			ofNotifyMousePressed(touchPoint.x, touchPoint.y, 0);
+		}
+		
+		ofTouchEventArgs touchArgs;
+		touchArgs.x = touchPoint.x;
+		touchArgs.y = touchPoint.y;
+		touchArgs.id = touchIndex;
+		if([touch tapCount] == 2) ofNotifyEvent(ofEvents.touchDoubleTap,touchArgs);	// send doubletap
+		ofNotifyEvent(ofEvents.touchDown,touchArgs);	// but also send tap (upto app programmer to ignore this if doubletap came that frame)
+	}
+}
+
+//------------------------------------------------------
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+	//	NSLog(@"touchesMoved: %i %i %i", [touches count],  [[event touchesForView:self] count], multitouchData.numTouches);
+	
+	for(UITouch *touch in touches) {
+		int touchIndex = [[touchesDict objectForKey:[NSValue valueWithPointer:touch]] intValue];
+		//		[activeTouches setObject:[NSNumber numberWithInt:touchIndex] forKey:[NSValue valueWithPointer:touch]];
+		
+		CGPoint touchPoint = [touch locationInView:self];
+		
+		touchPoint.x*=touchScale; // this has to be done because retina still returns points in 320x240 but with high percision
+		touchPoint.y*=touchScale;
+		
+		iPhoneGetOFWindow()->rotateXY(touchPoint.x, touchPoint.y);
+		
+		if( touchIndex==0 ){
+			ofNotifyMouseDragged(touchPoint.x, touchPoint.y, 0);			
+		}		
+		ofTouchEventArgs touchArgs;
+		touchArgs.numTouches = [[event touchesForView:self] count];
+		touchArgs.x = touchPoint.x;
+		touchArgs.y = touchPoint.y;
+		touchArgs.id = touchIndex;
+		ofNotifyEvent(ofEvents.touchMoved, touchArgs);
+	}
+	
+}
+
+//------------------------------------------------------
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	//	NSLog(@"touchesEnded: %i %i %i", [touches count],  [[event touchesForView:self] count], multitouchData.numTouches);
+	for(UITouch *touch in touches) {
+		int touchIndex = [[touchesDict objectForKey:[NSValue valueWithPointer:touch]] intValue];
+		
+		[touchesDict removeObjectForKey:[NSValue valueWithPointer:touch]];
+		
+		CGPoint touchPoint = [touch locationInView:self];
+		
+		touchPoint.x*=touchScale; // this has to be done because retina still returns points in 320x240 but with high percision
+		touchPoint.y*=touchScale;
+		
+		iPhoneGetOFWindow()->rotateXY(touchPoint.x, touchPoint.y);
+		
+		if( touchIndex==0 ){
+			ofNotifyMouseReleased(touchPoint.x, touchPoint.y, 0);						
+		}
+		
+		ofTouchEventArgs touchArgs;
+		touchArgs.numTouches = [[event touchesForView:self] count] - [touches count];
+		touchArgs.x = touchPoint.x;
+		touchArgs.y = touchPoint.y;
+		touchArgs.id = touchIndex;
+		ofNotifyEvent(ofEvents.touchUp, touchArgs);
+	}
+}
+
+//------------------------------------------------------
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
+	
+	
+	for(UITouch *touch in touches) {
+		int touchIndex = [[touchesDict objectForKey:[NSValue valueWithPointer:touch]] intValue];
+		
+		CGPoint touchPoint = [touch locationInView:self];
+		
+		touchPoint.x*=touchScale; // this has to be done because retina still returns points in 320x240 but with high percision
+		touchPoint.y*=touchScale;
+		
+		iPhoneGetOFWindow()->rotateXY(touchPoint.x, touchPoint.y);
+		
+		ofTouchEventArgs touchArgs;
+		touchArgs.numTouches = [[event touchesForView:self] count];
+		touchArgs.x = touchPoint.x;
+		touchArgs.y = touchPoint.y;
+		touchArgs.id = touchIndex;
+		ofNotifyEvent(ofEvents.touchCancelled, touchArgs);
+	}
+	
+	[self touchesEnded:touches withEvent:event];
 }
 
 @end

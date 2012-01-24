@@ -33,5 +33,8 @@
     GLint textureCoordHandle;
     GLint mvpMatrixHandle;
 #endif
+    
+	NSMutableDictionary	*touchesDict;
+	int touchScale;
 }
 @end

@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import <QCAR/Tool.h>
-#import "ofxQCAR_Settings.h"
 
 // Application status
 typedef enum _status {

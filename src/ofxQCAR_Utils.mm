@@ -8,6 +8,7 @@
 
 #import "ofMain.h"
 #import "ofxQCAR_Utils.h"
+#import "ofxQCAR_Settings.h"
 
 #import <QCAR/QCAR.h>
 #import <QCAR/CameraDevice.h>

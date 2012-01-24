@@ -11,6 +11,8 @@ void testApp :: setup()
     teapotImage.loadImage( "qcar_assets/TextureTeapotBrass.png" );
     teapotImage.mirror( true, false );  //-- flip texture vertically since the texture coords are set that way on the teapot.
     
+    touchPoint.x = touchPoint.y = -1;
+    
     ofxQCAR::getInstance()->setup();
 }
 
@@ -39,10 +41,12 @@ void testApp :: draw()
         ofDisableNormalizedTexCoords();
     }
 
-    //-- draw something flat with OF.
-    
-    ofSetColor( ofColor :: white );
-    ofRect( 10, 10, 50, 50 );
+    if( touchPoint.x >= 0 && touchPoint.y >= 0 )
+    {
+        ofSetColor( ofColor :: red );
+        ofDrawBitmapString( "touch x = " + ofToString( (int)touchPoint.x ), 20, 40 );
+        ofDrawBitmapString( "touch y = " + ofToString( (int)touchPoint.y ), 20, 60 );
+    }
 }
 
 //--------------------------------------------------------------
@@ -57,19 +61,19 @@ void testApp :: exit()
 //--------------------------------------------------------------
 void testApp :: touchDown(ofTouchEventArgs &touch)
 {
-    //
+    touchPoint.set( touch.x, touch.y );
 }
 
 //--------------------------------------------------------------
 void testApp :: touchMoved(ofTouchEventArgs &touch)
 {
-    //
+    touchPoint.set( touch.x, touch.y );
 }
 
 //--------------------------------------------------------------
 void testApp :: touchUp(ofTouchEventArgs &touch)
 {
-    //
+    touchPoint.set( -1, -1 );
 }
 
 //--------------------------------------------------------------
