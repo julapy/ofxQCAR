@@ -7,11 +7,16 @@
 //
 
 #import "ofxQCAR_ViewController.h"
+
+#if !(TARGET_IPHONE_SIMULATOR)
+
 #import "ofxQCAR_EAGLView.h"
-#import "ofxiPhoneExtras.h"
-#import "ofxQCAR.h"
+
+#endif
 
 @implementation ofxQCAR_ViewController
+
+#if !(TARGET_IPHONE_SIMULATOR)
 
 - (void) initGLViewWithFrame : (CGRect)frame
 {
@@ -28,5 +33,7 @@
 -(void) startAnimation {}                                   // NOT NEEDED - QCAR runs of its own timer loop.
 -(void) setAnimationFrameInterval:(float)frameInterval {}   // NOT NEEDED - QCAR runs of its own timer loop.
 -(void) setFrameRate:(float)rate {}                         // NOT NEEDED - QCAR runs of its own timer loop.
+
+#endif
 
 @end

@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#if !(TARGET_IPHONE_SIMULATOR)
+
 #import <Foundation/Foundation.h>
 #import <QCAR/Tool.h>
 
@@ -48,3 +50,5 @@ typedef enum _status {
 - (void)onPause;
 
 @end
+
+#endif

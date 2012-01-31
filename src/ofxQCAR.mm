@@ -7,23 +7,32 @@
 //
 
 #import "ofxQCAR.h"
-#import "ofxQCAR_Utils.h"
 
+#if !(TARGET_IPHONE_SIMULATOR)
+
+#import "ofxQCAR_Utils.h"
 #import <QCAR/Renderer.h>
 #import <QCAR/Tool.h>
 #import <QCAR/Trackable.h>
 #import <QCAR/CameraDevice.h>
+
+#endif
 
 /////////////////////////////////////////////////////////
 //
 /////////////////////////////////////////////////////////
 
 ofxQCAR* ofxQCAR :: _instance = NULL;
+
+#if !(TARGET_IPHONE_SIMULATOR)
+
 ofxQCAR_Utils *utils = nil;
 ofxQCAR_Delegate *delegate = nil;
 
 QCAR::Matrix44F qcarProjectionMatrix;
 QCAR::Matrix44F qcarModelViewMatrix;
+
+#endif
 
 /////////////////////////////////////////////////////////
 //  DELEGATE.
@@ -48,8 +57,12 @@ QCAR::Matrix44F qcarModelViewMatrix;
 
 -(void) qcar_projectionMatrixReady
 {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     qcarProjectionMatrix = utils.projectionMatrix;
     ofxQCAR::getInstance()->updateProjectionMatrix( qcarProjectionMatrix.data );
+    
+#endif
 }
 
 @end
@@ -60,7 +73,7 @@ QCAR::Matrix44F qcarModelViewMatrix;
 
 ofxQCAR :: ofxQCAR ()
 {
-    //
+    bFoundMarker = false;
 }
 
 ofxQCAR :: ~ofxQCAR ()
@@ -74,6 +87,8 @@ ofxQCAR :: ~ofxQCAR ()
 
 void ofxQCAR :: setup ()
 {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     if( !delegate )
         delegate = [[ ofxQCAR_Delegate alloc ] init ];
     
@@ -84,6 +99,8 @@ void ofxQCAR :: setup ()
     
     [ utils onCreate ];
     [ utils onResume ];
+    
+#endif
 }
 
 /////////////////////////////////////////////////////////
@@ -92,22 +109,38 @@ void ofxQCAR :: setup ()
 
 void ofxQCAR ::torchOn ()
 {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     QCAR::CameraDevice::getInstance().setFlashTorchMode(true);
+    
+#endif
 }
 
 void ofxQCAR :: torchOff ()
 {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     QCAR::CameraDevice::getInstance().setFlashTorchMode(false);
+    
+#endif
 }
 
 void ofxQCAR :: autoFocusOn ()
 {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     QCAR::CameraDevice::getInstance().startAutoFocus();
+    
+#endif
 }
 
 void ofxQCAR :: autoFocusOff ()
 {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     QCAR::CameraDevice::getInstance().stopAutoFocus();
+    
+#endif
 }
 
 /////////////////////////////////////////////////////////
@@ -125,6 +158,8 @@ void ofxQCAR :: update ()
 
 void ofxQCAR :: draw ()
 {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     QCAR::State state = QCAR::Renderer::getInstance().begin();                          //-- render the video background
     
     bFoundMarker = state.getNumActiveTrackables() > 0;
@@ -151,6 +186,8 @@ void ofxQCAR :: draw ()
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    
+#endif
 }
 
 /////////////////////////////////////////////////////////
@@ -159,6 +196,8 @@ void ofxQCAR :: draw ()
 
 void ofxQCAR :: exit ()
 {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     [ utils onPause ];
     [ utils onDestroy ];
     
@@ -167,4 +206,6 @@ void ofxQCAR :: exit ()
     
     [ delegate release ];
     delegate = nil;
+
+#endif
 }

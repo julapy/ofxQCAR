@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+#if !(TARGET_IPHONE_SIMULATOR)
+
 #import "ofxQCAR_EAGLView.h"
 #import "ofxiPhoneExtras.h"
 #import "ofxiOSWindow.h"
@@ -372,3 +374,5 @@
 }
 
 @end
+
+#endif
