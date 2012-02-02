@@ -214,11 +214,11 @@
         
 #ifdef USE_OPENGL1
         glBindRenderbufferOES(GL_RENDERBUFFER_OES, colorRenderbuffer);
+        success = [context presentRenderbuffer: GL_RENDERBUFFER_OES];
 #else
         glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
-#endif
-        
         success = [context presentRenderbuffer:GL_RENDERBUFFER];
+#endif
     }
     
     return success;
