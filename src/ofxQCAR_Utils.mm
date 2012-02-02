@@ -423,35 +423,6 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
     QCAR::Renderer::getInstance().setVideoBackgroundConfig(config);
 }
 
-///////////////////////////////////////////////////////
-//  3D => 2D SCREEN POINT
-///////////////////////////////////////////////////////
-
-QCAR::Vec2F cameraPointToScreenPoint(QCAR::Vec2F cameraPoint)
-{
-    QCAR::VideoMode videoMode = QCAR::CameraDevice::getInstance().getVideoMode(QCAR::CameraDevice::MODE_DEFAULT);
-    QCAR::VideoBackgroundConfig config = QCAR::Renderer::getInstance().getVideoBackgroundConfig();
-    
-    int xOffset = ((int) ofGetWidth() - config.mSize.data[0]) / 2.0f + config.mPosition.data[0];
-    int yOffset = ((int) ofGetHeight() - config.mSize.data[1]) / 2.0f - config.mPosition.data[1];
-    
-    bool isActivityInPortraitMode = true;
-    if (isActivityInPortraitMode)
-    {
-        // camera image is rotated 90 degrees
-        int rotatedX = videoMode.mHeight - cameraPoint.data[1];
-        int rotatedY = cameraPoint.data[0];
-        
-        return QCAR::Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
-                           rotatedY * config.mSize.data[1] / (float) videoMode.mWidth + yOffset);
-    }
-    else
-    {
-        return QCAR::Vec2F(cameraPoint.data[0] * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
-                           cameraPoint.data[1] * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
-    }
-}
-
 @end
 
 #endif
