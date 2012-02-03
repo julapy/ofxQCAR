@@ -8,7 +8,6 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 
-#import "ofMain.h"
 #import "ofxQCAR_Utils.h"
 #import "ofxQCAR_Settings.h"
 
@@ -19,6 +18,8 @@
 #import <QCAR/Renderer.h>
 #import <QCAR/Tool.h>
 #import <QCAR/Trackable.h>
+#import <QCAR/ImageTarget.h>
+#import <QCAR/UpdateCallback.h>
 
 ///////////////////////////////////////////////////////
 //  RESIZE UTILS.
@@ -61,6 +62,13 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+namespace {
+    class QCAR_UpdateCallback : public QCAR::UpdateCallback {
+        virtual void QCAR_onUpdate(QCAR::State& state);
+    } qcarUpdate;
+}
+
+////////////////////////////////////////////////////////////////////////////////
 @interface ofxQCAR_Utils (PrivateMethods)
 - (void)updateApplicationStatus:(status)newStatus;
 - (void)bumpAppStatus;
@@ -73,19 +81,26 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
 - (void)configureVideoBackground;
 @end
 
+static ofxQCAR_Utils *qcarUtils = nil; // singleton class
+
 ////////////////////////////////////////////////////////////////////////////////
 @implementation ofxQCAR_Utils
 
 @synthesize delegate;
-@synthesize projectionMatrix;
-@synthesize scaleX;
-@synthesize scaleY;
+
++ (ofxQCAR_Utils *) getInstance
+{
+    return qcarUtils;
+}
 
 - (id) initWithDelegate : (id) del
 {
     if( ( self = [ super init ] ) )
     {
         self.delegate = del;
+        bFoundMarker = false;
+        scaleX = 1.0;
+        scaleY = 1.0;
         
 #ifdef USE_OPENGL1
         ARData.QCARFlags = QCAR::GL_11;
@@ -94,6 +109,8 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
 #endif
         
         NSLog(@"QCAR OpenGL flag: %d", ARData.QCARFlags);
+        
+        qcarUtils = self;
     }
     
     return self;
@@ -102,6 +119,7 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
 - (void) dealloc
 {
     self.delegate = nil;
+    qcarUtils = nil;
     
     [ super dealloc ];
 }
@@ -160,6 +178,50 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+- (void)onUpdate:(QCAR::Trackable*)trackable
+{
+    bool b1, b2;
+    b1 = trackable->getStatus() == QCAR::Trackable::DETECTED;
+    b2 = trackable->getStatus() == QCAR::Trackable::TRACKED;
+    
+    bFoundMarker = b1 || b2;
+    
+    if( !bFoundMarker )
+    {
+        modelViewMatrix = ofMatrix4x4();
+        
+        if ((delegate != nil) && [delegate respondsToSelector:@selector(qcar_update)])
+            [delegate performSelectorOnMainThread:@selector(qcar_update) withObject:nil waitUntilDone:YES];
+        
+        return;
+    }
+    
+    modelViewMatrix = ofMatrix4x4( QCAR::Tool::convertPose2GLMatrix( trackable->getPose() ).data );
+    modelViewMatrix.scale( scaleY, scaleX, 1 );
+    
+//    b1 = trackable->getType() == QCAR::Trackable::IMAGE_TARGET;
+//    
+//    if( b1 )
+//    {
+//        QCAR::ImageTarget* imageTarget = static_cast<QCAR::ImageTarget*>(trackable);
+//    }
+    
+//    const QCAR::Trackable* trackable = state.getActiveTrackable( 0 );               //-- get the first trackable
+//    if( trackable->getType() == QCAR::Trackable::IMAGE_TARGET )
+//    {
+//        const QCAR::ImageTarget* imageTarget = (QCAR::ImageTarget*)trackable;
+//        QCAR::Vec2F imageSize = imageTarget->getSize();
+//        cout << imageSize.data[ 0 ] << endl;
+//        cout << imageSize.data[ 1 ] << endl;
+//    }
+    
+    
+    if ((delegate != nil) && [delegate respondsToSelector:@selector(qcar_update)])
+        [delegate performSelectorOnMainThread:@selector(qcar_update) withObject:nil waitUntilDone:YES];
+
+}
+
+////////////////////////////////////////////////////////////////////////////////
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 //    exit(0);
@@ -204,6 +266,11 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
                 // Here we could also make a QCAR::setHint call to set the
                 // maximum number of simultaneous targets                
                 // QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, 2);
+                
+                // Register a callback function that gets called every time a
+                // tracking cycle has finished and we have a new AR state
+                // available
+                QCAR::registerCallback(&qcarUpdate);
                 
                 // Initialisation is complete, start QCAR
                 QCAR::onResume();
@@ -371,7 +438,7 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
                 
                 // Cache the projection matrix
                 const QCAR::CameraCalibration& cameraCalibration = QCAR::Tracker::getInstance().getCameraCalibration();
-                self.projectionMatrix = QCAR::Tool::getProjectionGL(cameraCalibration, 2.0f, 2000.0f);
+                projectionMatrix = ofMatrix4x4( QCAR::Tool::getProjectionGL(cameraCalibration, 2.0f, 2000.0f).data );
             }
         }
     }
@@ -421,6 +488,21 @@ static ofRectangle fitToSize  ( const ofRectangle& srcRect, const ofRectangle& d
     
     // Set the config
     QCAR::Renderer::getInstance().setVideoBackgroundConfig(config);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Callback function called by the tracker when each tracking cycle has finished
+void QCAR_UpdateCallback::QCAR_onUpdate(QCAR::State& state)
+{
+    if( QCAR::Tracker::getInstance().getNumTrackables() == 0 )
+        return;
+    
+    QCAR::Trackable* trackable = QCAR::Tracker::getInstance().getTrackable( 0 );
+    
+    if( !trackable )
+        return;
+    
+    [[ ofxQCAR_Utils getInstance ] onUpdate: trackable ];
 }
 
 @end

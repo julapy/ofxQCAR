@@ -15,6 +15,7 @@
 -(void) qcar_cameraStarted;
 -(void) qcar_cameraStopped;
 -(void) qcar_projectionMatrixReady;
+-(void) qcar_update;
 @end
 
 
@@ -42,19 +43,9 @@ public:
     void autoFocusOn    ();
     void autoFocusOff   ();
     
-    const ofMatrix4x4& getProjectionMatrix  () { return projectionMatrix; }
-    const ofMatrix4x4& getModelViewMatrix   () { return modelViewMatrix; }
-    const bool& hasFoundMarker              () { return bFoundMarker; }
-    
-    void updateProjectionMatrix ( const ofMatrix4x4& mat ) { projectionMatrix = mat; }  /* do not set this yourself */
-    void updateModelViewMatrix  ( const ofMatrix4x4& mat ) { modelViewMatrix = mat; }   /* do not set this yourself */
-    
-protected:
-    
-    bool bFoundMarker;
-    
-    ofMatrix4x4 projectionMatrix;
-    ofMatrix4x4 modelViewMatrix;
+    const ofMatrix4x4& getProjectionMatrix  ();
+    const ofMatrix4x4& getModelViewMatrix   ();
+    const bool& hasFoundMarker              ();
     
 private:
     

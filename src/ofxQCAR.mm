@@ -14,6 +14,7 @@
 #import <QCAR/Renderer.h>
 #import <QCAR/Tool.h>
 #import <QCAR/Trackable.h>
+#import <QCAR/ImageTarget.h>
 #import <QCAR/CameraDevice.h>
 
 #endif
@@ -29,7 +30,6 @@ ofxQCAR* ofxQCAR :: _instance = NULL;
 ofxQCAR_Utils *utils = nil;
 ofxQCAR_Delegate *delegate = nil;
 
-QCAR::Matrix44F qcarProjectionMatrix;
 QCAR::Matrix44F qcarModelViewMatrix;
 
 #endif
@@ -57,12 +57,12 @@ QCAR::Matrix44F qcarModelViewMatrix;
 
 -(void) qcar_projectionMatrixReady
 {
-#if !(TARGET_IPHONE_SIMULATOR)
-    
-    qcarProjectionMatrix = utils.projectionMatrix;
-    ofxQCAR::getInstance()->updateProjectionMatrix( qcarProjectionMatrix.data );
-    
-#endif
+    //
+}
+
+-(void) qcar_update
+{
+    //
 }
 
 @end
@@ -73,7 +73,7 @@ QCAR::Matrix44F qcarModelViewMatrix;
 
 ofxQCAR :: ofxQCAR ()
 {
-    bFoundMarker = false;
+    //
 }
 
 ofxQCAR :: ~ofxQCAR ()
@@ -95,8 +95,6 @@ void ofxQCAR :: setup ()
     if( !utils )
         utils = [[ ofxQCAR_Utils alloc ] initWithDelegate: delegate ];
         
-    bFoundMarker = false;
-    
     [ utils onCreate ];
     [ utils onResume ];
     
@@ -144,6 +142,25 @@ void ofxQCAR :: autoFocusOff ()
 }
 
 /////////////////////////////////////////////////////////
+//  GETTERS.
+/////////////////////////////////////////////////////////
+
+const ofMatrix4x4& ofxQCAR :: getProjectionMatrix () 
+{ 
+    return utils->projectionMatrix;
+}
+
+const ofMatrix4x4& ofxQCAR :: getModelViewMatrix () 
+{ 
+    return utils->modelViewMatrix;
+}
+
+const bool& ofxQCAR :: hasFoundMarker () 
+{ 
+    return utils->bFoundMarker;
+}
+
+/////////////////////////////////////////////////////////
 //  UPDATE.
 /////////////////////////////////////////////////////////
 
@@ -160,18 +177,9 @@ void ofxQCAR :: draw ()
 {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    QCAR::State state = QCAR::Renderer::getInstance().begin();                          //-- render the video background
+    //--- render the video background.
     
-    bFoundMarker = state.getNumActiveTrackables() > 0;
-    if( bFoundMarker )                                                                  //-- check if any trackables found
-    {
-        const QCAR::Trackable* trackable = state.getActiveTrackable( 0 );               //-- get the first trackable
-        
-        qcarModelViewMatrix = QCAR::Tool::convertPose2GLMatrix( trackable->getPose() ); //-- get the model view matrix
-        modelViewMatrix.set( qcarModelViewMatrix.data );
-        modelViewMatrix.scale( [ utils scaleY ], [ utils scaleX ], 1 );                 //-- have to scale matrix otherwise it looks scewed.
-    }
-    
+    QCAR::State state = QCAR::Renderer::getInstance().begin();
     QCAR::Renderer::getInstance().end();
     
     //--- restore openFrameworks render configuration.

@@ -8,8 +8,10 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 
+#import "ofMain.h"
 #import <Foundation/Foundation.h>
 #import <QCAR/Tool.h>
+#import <QCAR/Trackable.h>
 
 // Application status
 typedef enum _status {
@@ -26,6 +28,14 @@ typedef enum _status {
 
 @interface ofxQCAR_Utils : NSObject
 {
+@public
+    
+    ofMatrix4x4 projectionMatrix;
+    ofMatrix4x4 modelViewMatrix;
+    float scaleX;
+    float scaleY;
+    bool bFoundMarker;
+    
 @private
     
     struct tagARData {
@@ -38,9 +48,8 @@ typedef enum _status {
 }
 
 @property(nonatomic,retain) id delegate;
-@property(nonatomic,assign) QCAR::Matrix44F projectionMatrix;
-@property(nonatomic,assign) float scaleX;
-@property(nonatomic,assign) float scaleY;
+
++ (ofxQCAR_Utils *) getInstance;
 
 - (id)initWithDelegate : (id)delegate;
 
@@ -48,6 +57,7 @@ typedef enum _status {
 - (void)onDestroy;
 - (void)onResume;
 - (void)onPause;
+- (void)onUpdate:(QCAR::Trackable*)trackable;
 
 @end
 
