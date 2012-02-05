@@ -537,15 +537,32 @@ static ofxQCAR_Utils *qcarUtils = nil; // singleton class
 // Callback function called by the tracker when each tracking cycle has finished
 void QCAR_UpdateCallback::QCAR_onUpdate(QCAR::State& state)
 {
-    if( QCAR::Tracker::getInstance().getNumTrackables() == 0 )
-        return;
+    int numTrackables;
+    numTrackables = QCAR::Tracker::getInstance().getNumTrackables();
     
-    QCAR::Trackable* trackable = QCAR::Tracker::getInstance().getTrackable( 0 );
+    QCAR::Trackable* trackable;
     
-    if( !trackable )
-        return;
+    for( int i=0; i<numTrackables; i++ )
+    {
+        trackable = QCAR::Tracker::getInstance().getTrackable( i );
+        if( !trackable )
+            continue;
+
+        bool b1, b2;
+        b1 = trackable->getStatus() == QCAR::Trackable::DETECTED;
+        b2 = trackable->getStatus() == QCAR::Trackable::TRACKED;
+        
+        if( b1 || b2 )
+        {
+            [[ ofxQCAR_Utils getInstance ] onUpdate: trackable ];
+            return;
+        }
+    }
     
-    [[ ofxQCAR_Utils getInstance ] onUpdate: trackable ];
+    // if we get here then no active trackables were found.
+    
+    if( trackable )
+        [[ ofxQCAR_Utils getInstance ] onUpdate: trackable ];
 }
 
 @end
