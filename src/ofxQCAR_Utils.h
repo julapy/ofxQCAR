@@ -36,6 +36,10 @@ typedef enum _status {
     float scaleY;
     bool bFoundMarker;
     
+    ofRectangle markerRect;
+    ofVec2f markerCenter;
+    ofVec2f markerCorners[ 4 ];
+    
 @private
     
     struct tagARData {

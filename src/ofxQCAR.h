@@ -18,6 +18,12 @@
 -(void) qcar_update;
 @end
 
+enum ofxQCAR_MarkerCorner {
+    OFX_QCAR_MARKER_CORNER_TOP_LEFT     = 0,
+    OFX_QCAR_MARKER_CORNER_TOP_RIGHT    = 1,
+    OFX_QCAR_MARKER_CORNER_BOTTOM_RIGHT = 2,
+    OFX_QCAR_MARKER_CORNER_BOTTOM_LEFT  = 3,
+};
 
 class ofxQCAR : public ofBaseApp
 {
@@ -38,6 +44,11 @@ public:
     virtual void draw   ();
     virtual void exit   ();
     
+    void drawMarkerRect     ();
+    void drawMarkerCenter   ();
+    void drawMarkerCorners  ();
+    void drawMarkerBounds   ();
+    
     void torchOn        ();
     void torchOff       ();
     void autoFocusOn    ();
@@ -45,6 +56,9 @@ public:
     
     const ofMatrix4x4& getProjectionMatrix  ();
     const ofMatrix4x4& getModelViewMatrix   ();
+    const ofRectangle& getMarkerRect        ();
+    const ofVec2f&     getMarkerCenter      ();
+    const ofVec2f&     getMarkerCorner      ( ofxQCAR_MarkerCorner cornerIndex );
     const bool& hasFoundMarker              ();
     
 private:

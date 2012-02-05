@@ -79,6 +79,7 @@ namespace {
 - (void)startCamera;
 - (void)stopCamera;
 - (void)configureVideoBackground;
+- (QCAR::Vec2F)cameraPointToScreenPoint:(QCAR::Vec2F)cameraPoint;
 @end
 
 static ofxQCAR_Utils *qcarUtils = nil; // singleton class
@@ -199,22 +200,39 @@ static ofxQCAR_Utils *qcarUtils = nil; // singleton class
     modelViewMatrix = ofMatrix4x4( QCAR::Tool::convertPose2GLMatrix( trackable->getPose() ).data );
     modelViewMatrix.scale( scaleY, scaleX, 1 );
     
-//    b1 = trackable->getType() == QCAR::Trackable::IMAGE_TARGET;
-//    
-//    if( b1 )
-//    {
-//        QCAR::ImageTarget* imageTarget = static_cast<QCAR::ImageTarget*>(trackable);
-//    }
+    QCAR::Vec2F markerSize;
+    if( trackable->getType() == QCAR::Trackable::IMAGE_TARGET )
+    {
+        QCAR::ImageTarget* imageTarget = static_cast<QCAR::ImageTarget*>(trackable);
+        markerSize = imageTarget->getSize();
+    }
     
-//    const QCAR::Trackable* trackable = state.getActiveTrackable( 0 );               //-- get the first trackable
-//    if( trackable->getType() == QCAR::Trackable::IMAGE_TARGET )
-//    {
-//        const QCAR::ImageTarget* imageTarget = (QCAR::ImageTarget*)trackable;
-//        QCAR::Vec2F imageSize = imageTarget->getSize();
-//        cout << imageSize.data[ 0 ] << endl;
-//        cout << imageSize.data[ 1 ] << endl;
-//    }
+    markerRect.width  = markerSize.data[ 0 ];
+    markerRect.height = markerSize.data[ 1 ];
     
+    float markerWH = markerRect.width  * 0.5;
+    float markerHH = markerRect.height * 0.5;
+    
+    QCAR::Vec3F corners[ 4 ];
+    corners[ 0 ] = QCAR::Vec3F( -markerWH,  markerHH, 0 );     // top left.
+    corners[ 1 ] = QCAR::Vec3F(  markerWH,  markerHH, 0 );     // top right.
+    corners[ 2 ] = QCAR::Vec3F(  markerWH, -markerHH, 0 );     // bottom right.
+    corners[ 3 ] = QCAR::Vec3F( -markerWH, -markerHH, 0 );     // bottom left.
+    
+    const QCAR::CameraCalibration& cameraCalibration = QCAR::Tracker::getInstance().getCameraCalibration();
+    
+    QCAR::Vec2F cameraPoint = QCAR::Tool::projectPoint(cameraCalibration,trackable->getPose(), QCAR::Vec3F( 0, 0, 0 ) );
+    QCAR::Vec2F xyPoint = [ self cameraPointToScreenPoint: cameraPoint ];
+    markerCenter.x = xyPoint.data[ 0 ];
+    markerCenter.y = xyPoint.data[ 1 ];
+
+    for( int i=0; i<4; i++ )
+    {
+        QCAR::Vec2F cameraPoint = QCAR::Tool::projectPoint(cameraCalibration,trackable->getPose(), corners[ i ] );
+        QCAR::Vec2F xyPoint = [ self cameraPointToScreenPoint: cameraPoint ];
+        markerCorners[ i ].x = xyPoint.data[ 0 ];
+        markerCorners[ i ].y = xyPoint.data[ 1 ];
+    }
     
     if ((delegate != nil) && [delegate respondsToSelector:@selector(qcar_update)])
         [delegate performSelectorOnMainThread:@selector(qcar_update) withObject:nil waitUntilDone:YES];
@@ -488,6 +506,31 @@ static ofxQCAR_Utils *qcarUtils = nil; // singleton class
     
     // Set the config
     QCAR::Renderer::getInstance().setVideoBackgroundConfig(config);
+}
+
+- (QCAR::Vec2F)cameraPointToScreenPoint:(QCAR::Vec2F)cameraPoint;
+{
+    QCAR::VideoMode videoMode = QCAR::CameraDevice::getInstance().getVideoMode(QCAR::CameraDevice::MODE_DEFAULT);
+    QCAR::VideoBackgroundConfig config = QCAR::Renderer::getInstance().getVideoBackgroundConfig();
+    
+    int xOffset = ((int) ofGetWidth()  - config.mSize.data[0]) / 2.0f + config.mPosition.data[0];
+    int yOffset = ((int) ofGetHeight() - config.mSize.data[1]) / 2.0f - config.mPosition.data[1];
+    
+    bool isActivityInPortraitMode = true;
+    if( isActivityInPortraitMode )
+    {
+        // camera image is rotated 90 degrees
+        int rotatedX = videoMode.mHeight - cameraPoint.data[1];
+        int rotatedY = cameraPoint.data[0];
+        
+        return QCAR::Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
+                           rotatedY * config.mSize.data[1] / (float) videoMode.mWidth + yOffset);
+    }
+    else
+    {
+        return QCAR::Vec2F(cameraPoint.data[0] * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
+                           cameraPoint.data[1] * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

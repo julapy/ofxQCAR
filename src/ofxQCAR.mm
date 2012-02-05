@@ -30,8 +30,6 @@ ofxQCAR* ofxQCAR :: _instance = NULL;
 ofxQCAR_Utils *utils = nil;
 ofxQCAR_Delegate *delegate = nil;
 
-QCAR::Matrix44F qcarModelViewMatrix;
-
 #endif
 
 /////////////////////////////////////////////////////////
@@ -147,17 +145,80 @@ void ofxQCAR :: autoFocusOff ()
 
 const ofMatrix4x4& ofxQCAR :: getProjectionMatrix () 
 { 
+#if !(TARGET_IPHONE_SIMULATOR)    
+    
     return utils->projectionMatrix;
+    
+#else
+    
+    return ofMatrix4x4();
+    
+#endif
 }
 
 const ofMatrix4x4& ofxQCAR :: getModelViewMatrix () 
 { 
+#if !(TARGET_IPHONE_SIMULATOR)    
+    
     return utils->modelViewMatrix;
+    
+#else
+    
+    return ofMatrix4x4();
+    
+#endif
+}
+
+const ofRectangle& ofxQCAR :: getMarkerRect ()
+{
+#if !(TARGET_IPHONE_SIMULATOR)    
+    
+    return utils->markerRect;
+    
+#else
+    
+    return ofRectangle();
+    
+#endif
+}
+
+const ofVec2f& ofxQCAR :: getMarkerCenter ()
+{
+#if !(TARGET_IPHONE_SIMULATOR)    
+    
+    return utils->markerCenter;
+    
+#else
+    
+    return ofVec2f();
+    
+#endif
+}
+
+const ofVec2f& ofxQCAR :: getMarkerCorner ( ofxQCAR_MarkerCorner cornerIndex )
+{
+#if !(TARGET_IPHONE_SIMULATOR)    
+    
+    return utils->markerCorners[ cornerIndex ];
+    
+#else
+    
+    return ofVec2f();
+    
+#endif
 }
 
 const bool& ofxQCAR :: hasFoundMarker () 
 { 
+#if !(TARGET_IPHONE_SIMULATOR)     
+    
     return utils->bFoundMarker;
+    
+#else
+    
+    return false;
+    
+#endif
 }
 
 /////////////////////////////////////////////////////////
@@ -196,6 +257,54 @@ void ofxQCAR :: draw ()
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     
 #endif
+}
+
+void ofxQCAR :: drawMarkerRect ()
+{
+    glPushMatrix();
+    glTranslatef( ofGetWidth() * 0.5, ofGetHeight() * 0.5, 0 );
+    {
+        glMatrixMode(GL_PROJECTION);
+        glLoadMatrixf( getProjectionMatrix().getPtr() );
+        
+        glMatrixMode( GL_MODELVIEW );
+        glLoadMatrixf( getModelViewMatrix().getPtr() );
+        
+        float markerW = getMarkerRect().width;
+        float markerH = getMarkerRect().height;
+        
+        ofRect( -markerW * 0.5, -markerH * 0.5, markerW, markerH );
+        
+        ofSetupScreen();
+    }
+    glPopMatrix();
+}
+
+void ofxQCAR :: drawMarkerCenter ()
+{
+    const ofVec2f& markerCenter = getMarkerCenter();
+    ofCircle( markerCenter.x, markerCenter.y, 4 );
+}
+
+void ofxQCAR :: drawMarkerCorners ()
+{
+    for( int i=0; i<4; i++ )
+    {
+        const ofVec2f& markerCorner = getMarkerCorner( (ofxQCAR_MarkerCorner)i );
+        ofCircle( markerCorner.x, markerCorner.y, 4 );
+    }
+}
+
+void ofxQCAR :: drawMarkerBounds ()
+{
+    for( int i=0; i<4; i++ )
+    {
+        int j = ( i + 1 ) % 4;
+        const ofVec2f& mc1 = getMarkerCorner( (ofxQCAR_MarkerCorner)i );
+        const ofVec2f& mc2 = getMarkerCorner( (ofxQCAR_MarkerCorner)j );
+        
+        ofLine( mc1.x, mc1.y, mc2.x, mc2.y );
+    }
 }
 
 /////////////////////////////////////////////////////////
