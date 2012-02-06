@@ -22,6 +22,13 @@
     [ self.view insertSubview: self.glView atIndex: 0 ];
 }
 
+- (void) destroy
+{
+    ((ofxQCAR_EAGLView*)self.glView).delegate = nil;
+    
+    [ super destroy ];
+}
+
 - (void) dealloc
 {
     ((ofxQCAR_EAGLView*)self.glView).delegate = nil;
