@@ -235,7 +235,7 @@
 
 - (void)renderFrameQCAR
 {
-    [ self.delegate timerLoop ];
+    [ self.delegate performSelectorOnMainThread:@selector(timerLoop) withObject:nil waitUntilDone:NO ];
 }
 
 ////////////////////////////////////////////////
