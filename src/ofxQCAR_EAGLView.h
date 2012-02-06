@@ -6,6 +6,11 @@
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
+@protocol ofxQCAR_EAGLViewDelegate <NSObject>
+@required
+- (void) timerLoop;
+@end
+
 #if !(TARGET_IPHONE_SIMULATOR)
 
 #import "EAGLView.h"
@@ -14,6 +19,8 @@
 
 @interface ofxQCAR_EAGLView : EAGLView <UIGLViewProtocol>
 {
+    id <ofxQCAR_EAGLViewDelegate> delegate;
+    
 @private
     EAGLContext *context;
     
@@ -39,6 +46,9 @@
 	NSMutableDictionary	*touchesDict;
 	int touchScale;
 }
+
+@property(nonatomic, assign) id delegate;
+
 @end
 
 #endif

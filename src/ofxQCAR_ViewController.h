@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "ofxiOSViewController.h"
+#import "ofxQCAR_EAGLView.h"
 
-@interface ofxQCAR_ViewController : ofxiOSViewController
+@interface ofxQCAR_ViewController : ofxiOSViewController <ofxQCAR_EAGLViewDelegate>
 
 @end

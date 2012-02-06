@@ -8,12 +8,6 @@
 
 #import "ofxQCAR_ViewController.h"
 
-#if !(TARGET_IPHONE_SIMULATOR)
-
-#import "ofxQCAR_EAGLView.h"
-
-#endif
-
 @implementation ofxQCAR_ViewController
 
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -23,8 +17,16 @@
     CGRect screenBounds = [[UIScreen mainScreen] bounds];
     
     self.glView = [ [ [ ofxQCAR_EAGLView alloc ] initWithFrame : screenBounds ] autorelease ];
+    ((ofxQCAR_EAGLView*)self.glView).delegate = self;
     
     [ self.view insertSubview: self.glView atIndex: 0 ];
+}
+
+- (void) dealloc
+{
+    ((ofxQCAR_EAGLView*)self.glView).delegate = nil;
+    
+    [ super dealloc ];
 }
 
 -(void) lockGL {}                                           // NOT NEEDED - QCAR runs of its own timer loop.

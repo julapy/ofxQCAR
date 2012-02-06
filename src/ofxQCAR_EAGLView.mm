@@ -25,6 +25,8 @@
 
 @implementation ofxQCAR_EAGLView
 
+@synthesize delegate;
+
 // You must implement this method
 + (Class)layerClass
 {
@@ -233,9 +235,7 @@
 
 - (void)renderFrameQCAR
 {
-    ofxiOSWindow* iosWindow;
-    iosWindow = (ofxiOSWindow*)iPhoneGetOFWindow();
-    iosWindow->timerLoop();
+    [ self.delegate timerLoop ];
 }
 
 ////////////////////////////////////////////////
