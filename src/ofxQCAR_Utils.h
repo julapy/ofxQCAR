@@ -10,7 +10,6 @@
 
 #import "ofMain.h"
 #import <Foundation/Foundation.h>
-#import <QCAR/Tool.h>
 #import <QCAR/Trackable.h>
 
 // Application status

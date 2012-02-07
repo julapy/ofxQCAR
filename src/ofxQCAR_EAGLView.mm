@@ -47,6 +47,21 @@
                                         kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat,
                                         nil];
         
+        touchScale = 1.0;
+        touchesDict = [ [ NSMutableDictionary alloc ] init ];
+
+		if( ofxiPhoneGetOFWindow()->isRetinaSupported() )
+		{
+			if( [[UIScreen mainScreen] respondsToSelector:@selector(scale)] )
+            {
+				if( [[UIScreen mainScreen] scale] > 1 )
+				{
+					[self setContentScaleFactor:[[UIScreen mainScreen] scale]];
+					touchScale = [[UIScreen mainScreen] scale];
+				}
+			}
+		}
+        
 #ifdef USE_OPENGL1
         context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
 #else
@@ -58,9 +73,6 @@
         }
         
         [ self createFramebuffer ];
-        
-        touchScale = 1.0;
-        touchesDict = [[NSMutableDictionary alloc] init];
     }
     
     return self;

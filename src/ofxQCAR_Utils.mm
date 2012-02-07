@@ -358,7 +358,9 @@ static ofxQCAR_Utils *qcarUtils = nil; // singleton class
 - (void)initApplication
 {
     // Get the device screen dimensions
-    ARData.screenRect = [[UIScreen mainScreen] bounds];
+    int w = ofGetWidth();
+    int h = ofGetHeight();
+    ARData.screenRect = CGRectMake( 0, 0, w, h );
     
     // Inform QCAR that the drawing surface has been created
     QCAR::onSurfaceCreated();
