@@ -7,3 +7,10 @@ for this addon to work in OpenFrameworks 007 you must comment out the initWithFr
 
 i tried many thing to avoid making any changes to ofxiPhone but unfortunately this change was unavoidable.
 having that method inside EAGLView makes it impossible to extend on EAGLView which is necessary in the case of ofxQCAR.
+
+
+two extra core frameworks need to be added the OF project,
+
+1) Security.framework 
+
+2) SystemConfiguration.framework
