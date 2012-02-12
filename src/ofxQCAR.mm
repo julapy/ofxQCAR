@@ -140,6 +140,30 @@ void ofxQCAR :: autoFocusOff ()
 }
 
 /////////////////////////////////////////////////////////
+//  PAUSE / RESUME QCAR.
+/////////////////////////////////////////////////////////
+
+void ofxQCAR :: pause ()
+{
+#if !(TARGET_IPHONE_SIMULATOR)    
+    
+    if( utils )
+        [ utils onPause ];
+    
+#endif
+}
+
+void ofxQCAR :: resume ()
+{
+#if !(TARGET_IPHONE_SIMULATOR)    
+    
+    if( utils )
+        [ utils onResume ];
+    
+#endif
+}
+
+/////////////////////////////////////////////////////////
 //  GETTERS.
 /////////////////////////////////////////////////////////
 
@@ -147,7 +171,10 @@ const ofMatrix4x4& ofxQCAR :: getProjectionMatrix ()
 { 
 #if !(TARGET_IPHONE_SIMULATOR)    
     
-    return utils->projectionMatrix;
+    if( utils )
+        return utils->projectionMatrix;
+    else
+        return ofMatrix4x4();
     
 #else
     
@@ -160,7 +187,10 @@ const ofMatrix4x4& ofxQCAR :: getModelViewMatrix ()
 { 
 #if !(TARGET_IPHONE_SIMULATOR)    
     
-    return utils->modelViewMatrix;
+    if( utils )
+        return utils->modelViewMatrix;
+    else
+        return ofMatrix4x4();
     
 #else
     
@@ -173,7 +203,10 @@ const ofRectangle& ofxQCAR :: getMarkerRect ()
 {
 #if !(TARGET_IPHONE_SIMULATOR)    
     
-    return utils->markerRect;
+    if( utils )
+        return utils->markerRect;
+    else
+        return ofRectangle();
     
 #else
     
@@ -186,7 +219,10 @@ const ofVec2f& ofxQCAR :: getMarkerCenter ()
 {
 #if !(TARGET_IPHONE_SIMULATOR)    
     
-    return utils->markerCenter;
+    if( utils )
+        return utils->markerCenter;
+    else
+        return ofVec2f();
     
 #else
     
@@ -199,7 +235,10 @@ const ofVec2f& ofxQCAR :: getMarkerCorner ( ofxQCAR_MarkerCorner cornerIndex )
 {
 #if !(TARGET_IPHONE_SIMULATOR)    
     
-    return utils->markerCorners[ cornerIndex ];
+    if( utils )
+        return utils->markerCorners[ cornerIndex ];
+    else
+        return ofVec2f();
     
 #else
     
@@ -212,7 +251,10 @@ const bool& ofxQCAR :: hasFoundMarker ()
 { 
 #if !(TARGET_IPHONE_SIMULATOR)     
     
-    return utils->bFoundMarker;
+    if( utils )
+        return utils->bFoundMarker;
+    else
+        return false;
     
 #else
     
@@ -315,14 +357,20 @@ void ofxQCAR :: exit ()
 {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    [ utils onPause ];
-    [ utils onDestroy ];
+    if( utils )
+    {
+        [ utils onPause ];
+        [ utils onDestroy ];
+        
+        [ utils release ];
+        utils = nil;
+    }
     
-    [ utils release ];
-    utils = nil;
-    
-    [ delegate release ];
-    delegate = nil;
+    if( delegate )
+    {
+        [ delegate release ];
+        delegate = nil;
+    }
 
 #endif
 }
