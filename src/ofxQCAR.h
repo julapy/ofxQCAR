@@ -47,6 +47,9 @@ public:
     virtual void pause  ();
     virtual void resume ();
     
+    virtual void begin  ();
+    virtual void end    ();
+    
     void drawMarkerRect     ();
     void drawMarkerCenter   ();
     void drawMarkerCorners  ();

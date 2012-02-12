@@ -25,6 +25,8 @@
 
 ofxQCAR* ofxQCAR :: _instance = NULL;
 
+bool bBeginDraw = false;
+
 #if !(TARGET_IPHONE_SIMULATOR)
 
 ofxQCAR_Utils *utils = nil;
@@ -97,6 +99,8 @@ void ofxQCAR :: setup ()
     [ utils onResume ];
     
 #endif
+    
+    bBeginDraw = false;
 }
 
 /////////////////////////////////////////////////////////
@@ -269,7 +273,40 @@ const bool& ofxQCAR :: hasFoundMarker ()
 
 void ofxQCAR :: update ()
 {
-    //
+    bBeginDraw = false;
+}
+
+/////////////////////////////////////////////////////////
+//  BEGIN / END.
+/////////////////////////////////////////////////////////
+
+void ofxQCAR :: begin ()
+{
+    if( bBeginDraw )        // begin() can not be called again before end() being called first.
+        return;
+    
+    bBeginDraw = true;
+    
+    glPushMatrix();
+    glTranslatef( ofGetWidth() * 0.5, ofGetHeight() * 0.5, 0 );
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadMatrixf( getProjectionMatrix().getPtr() );
+    
+    glMatrixMode( GL_MODELVIEW );
+    glLoadMatrixf( getModelViewMatrix().getPtr() );
+}
+
+void ofxQCAR :: end ()
+{
+    if( !bBeginDraw )
+        return;
+    
+    ofSetupScreen();
+
+    glPopMatrix();
+    
+    bBeginDraw = false;
 }
 
 /////////////////////////////////////////////////////////
@@ -303,23 +340,13 @@ void ofxQCAR :: draw ()
 
 void ofxQCAR :: drawMarkerRect ()
 {
-    glPushMatrix();
-    glTranslatef( ofGetWidth() * 0.5, ofGetHeight() * 0.5, 0 );
-    {
-        glMatrixMode(GL_PROJECTION);
-        glLoadMatrixf( getProjectionMatrix().getPtr() );
-        
-        glMatrixMode( GL_MODELVIEW );
-        glLoadMatrixf( getModelViewMatrix().getPtr() );
-        
-        float markerW = getMarkerRect().width;
-        float markerH = getMarkerRect().height;
-        
-        ofRect( -markerW * 0.5, -markerH * 0.5, markerW, markerH );
-        
-        ofSetupScreen();
-    }
-    glPopMatrix();
+    begin();
+
+    float markerW = getMarkerRect().width;
+    float markerH = getMarkerRect().height;
+    ofRect( -markerW * 0.5, -markerH * 0.5, markerW, markerH );
+    
+    end();
 }
 
 void ofxQCAR :: drawMarkerCenter ()
