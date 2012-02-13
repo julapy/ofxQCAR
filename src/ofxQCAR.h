@@ -60,12 +60,12 @@ public:
     void autoFocusOn    ();
     void autoFocusOff   ();
     
-    const ofMatrix4x4& getProjectionMatrix  ();
-    const ofMatrix4x4& getModelViewMatrix   ();
-    const ofRectangle& getMarkerRect        ();
-    const ofVec2f&     getMarkerCenter      ();
-    const ofVec2f&     getMarkerCorner      ( ofxQCAR_MarkerCorner cornerIndex );
-    const bool& hasFoundMarker              ();
+    ofMatrix4x4 getProjectionMatrix  ();
+    ofMatrix4x4 getModelViewMatrix   ();
+    ofRectangle getMarkerRect        ();
+    ofVec2f     getMarkerCenter      ();
+    ofVec2f     getMarkerCorner      ( ofxQCAR_MarkerCorner cornerIndex );
+    bool hasFoundMarker              ();
     
 private:
     

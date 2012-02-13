@@ -171,7 +171,7 @@ void ofxQCAR :: resume ()
 //  GETTERS.
 /////////////////////////////////////////////////////////
 
-const ofMatrix4x4& ofxQCAR :: getProjectionMatrix () 
+ofMatrix4x4 ofxQCAR :: getProjectionMatrix () 
 { 
 #if !(TARGET_IPHONE_SIMULATOR)    
     
@@ -187,7 +187,7 @@ const ofMatrix4x4& ofxQCAR :: getProjectionMatrix ()
 #endif
 }
 
-const ofMatrix4x4& ofxQCAR :: getModelViewMatrix () 
+ofMatrix4x4 ofxQCAR :: getModelViewMatrix () 
 { 
 #if !(TARGET_IPHONE_SIMULATOR)    
     
@@ -203,7 +203,7 @@ const ofMatrix4x4& ofxQCAR :: getModelViewMatrix ()
 #endif
 }
 
-const ofRectangle& ofxQCAR :: getMarkerRect ()
+ofRectangle ofxQCAR :: getMarkerRect ()
 {
 #if !(TARGET_IPHONE_SIMULATOR)    
     
@@ -219,7 +219,7 @@ const ofRectangle& ofxQCAR :: getMarkerRect ()
 #endif
 }
 
-const ofVec2f& ofxQCAR :: getMarkerCenter ()
+ofVec2f ofxQCAR :: getMarkerCenter ()
 {
 #if !(TARGET_IPHONE_SIMULATOR)    
     
@@ -235,7 +235,7 @@ const ofVec2f& ofxQCAR :: getMarkerCenter ()
 #endif
 }
 
-const ofVec2f& ofxQCAR :: getMarkerCorner ( ofxQCAR_MarkerCorner cornerIndex )
+ofVec2f ofxQCAR :: getMarkerCorner ( ofxQCAR_MarkerCorner cornerIndex )
 {
 #if !(TARGET_IPHONE_SIMULATOR)    
     
@@ -251,7 +251,7 @@ const ofVec2f& ofxQCAR :: getMarkerCorner ( ofxQCAR_MarkerCorner cornerIndex )
 #endif
 }
 
-const bool& ofxQCAR :: hasFoundMarker () 
+bool ofxQCAR :: hasFoundMarker () 
 { 
 #if !(TARGET_IPHONE_SIMULATOR)     
     
