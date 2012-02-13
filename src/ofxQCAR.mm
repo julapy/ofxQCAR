@@ -267,6 +267,54 @@ bool ofxQCAR :: hasFoundMarker ()
 #endif
 }
 
+ofVec3f ofxQCAR :: getMarkerRotation ()
+{
+#if !(TARGET_IPHONE_SIMULATOR)     
+    
+    if( utils )
+        return utils->markerRotation;
+    else
+        return ofVec3f();
+    
+#else
+    
+    return ofVec3f();
+    
+#endif
+}
+
+float ofxQCAR :: getMarkerRotationLeftRight ()
+{
+#if !(TARGET_IPHONE_SIMULATOR)     
+    
+    if( utils )
+        return utils->markerRotationLeftRight;
+    else
+        return 0;
+    
+#else
+    
+    return 0;
+    
+#endif
+}
+
+float ofxQCAR :: getMarkerRotationUpDown ()
+{
+#if !(TARGET_IPHONE_SIMULATOR)     
+    
+    if( utils )
+        return utils->markerRotationUpDown;
+    else
+        return 0;
+    
+#else
+    
+    return 0;
+    
+#endif
+}
+
 /////////////////////////////////////////////////////////
 //  UPDATE.
 /////////////////////////////////////////////////////////

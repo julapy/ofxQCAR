@@ -234,6 +234,15 @@ static ofxQCAR_Utils *qcarUtils = nil; // singleton class
         markerCorners[ i ].y = xyPoint.data[ 1 ];
     }
     
+    ofMatrix4x4 inverseModelView = modelViewMatrix.getInverse();
+    inverseModelView = inverseModelView.getTransposedOf( inverseModelView );
+    markerRotation.set( inverseModelView.getPtr()[ 8 ], inverseModelView.getPtr()[ 9 ], inverseModelView.getPtr()[ 10 ] );
+    markerRotation.normalize();
+    markerRotation.rotate( 90, ofVec3f( 0, 0, 1 ) );
+    
+    markerRotationLeftRight = markerRotation.angle( ofVec3f( 0, 1, 0 ) );
+    markerRotationUpDown    = markerRotation.angle( ofVec3f( 1, 0, 0 ) );
+    
     if ((delegate != nil) && [delegate respondsToSelector:@selector(qcar_update)])
         [delegate performSelectorOnMainThread:@selector(qcar_update) withObject:nil waitUntilDone:YES];
 

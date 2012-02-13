@@ -38,6 +38,9 @@ typedef enum _status {
     ofRectangle markerRect;
     ofVec2f markerCenter;
     ofVec2f markerCorners[ 4 ];
+    ofVec3f markerRotation;
+    float markerRotationLeftRight;
+    float markerRotationUpDown;
     
 @private
     

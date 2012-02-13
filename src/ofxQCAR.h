@@ -50,22 +50,25 @@ public:
     virtual void begin  ();
     virtual void end    ();
     
-    void drawMarkerRect     ();
-    void drawMarkerCenter   ();
-    void drawMarkerCorners  ();
-    void drawMarkerBounds   ();
+    void drawMarkerRect         ();
+    void drawMarkerCenter       ();
+    void drawMarkerCorners      ();
+    void drawMarkerBounds       ();
     
     void torchOn        ();
     void torchOff       ();
     void autoFocusOn    ();
     void autoFocusOff   ();
     
-    ofMatrix4x4 getProjectionMatrix  ();
-    ofMatrix4x4 getModelViewMatrix   ();
-    ofRectangle getMarkerRect        ();
-    ofVec2f     getMarkerCenter      ();
-    ofVec2f     getMarkerCorner      ( ofxQCAR_MarkerCorner cornerIndex );
-    bool hasFoundMarker              ();
+    ofMatrix4x4 getProjectionMatrix         ();
+    ofMatrix4x4 getModelViewMatrix          ();
+    ofRectangle getMarkerRect               ();
+    ofVec2f     getMarkerCenter             ();
+    ofVec2f     getMarkerCorner             ( ofxQCAR_MarkerCorner cornerIndex );
+    ofVec3f     getMarkerRotation           ();
+    float       getMarkerRotationLeftRight  ();
+    float       getMarkerRotationUpDown     ();
+    bool hasFoundMarker                     ();
     
 private:
     
