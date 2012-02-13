@@ -102,6 +102,8 @@ static ofxQCAR_Utils *qcarUtils = nil; // singleton class
         bFoundMarker = false;
         scaleX = 1.0;
         scaleY = 1.0;
+        markerRotationLeftRight = 0;
+        markerRotationUpDown = 0;
         
 #ifdef USE_OPENGL1
         ARData.QCARFlags = QCAR::GL_11;
@@ -240,8 +242,8 @@ static ofxQCAR_Utils *qcarUtils = nil; // singleton class
     markerRotation.normalize();
     markerRotation.rotate( 90, ofVec3f( 0, 0, 1 ) );
     
-    markerRotationLeftRight = markerRotation.angle( ofVec3f( 0, 1, 0 ) );
-    markerRotationUpDown    = markerRotation.angle( ofVec3f( 1, 0, 0 ) );
+    markerRotationLeftRight = markerRotation.angle( ofVec3f( 1, 0, 0 ) );
+    markerRotationUpDown    = markerRotation.angle( ofVec3f( 0, 1, 0 ) );
     
     if ((delegate != nil) && [delegate respondsToSelector:@selector(qcar_update)])
         [delegate performSelectorOnMainThread:@selector(qcar_update) withObject:nil waitUntilDone:YES];
