@@ -295,6 +295,8 @@ void ofxQCAR :: begin ()
     
     glMatrixMode( GL_MODELVIEW );
     glLoadMatrixf( getModelViewMatrix().getPtr() );
+    
+    glScalef( 1, -1, 1 );
 }
 
 void ofxQCAR :: end ()
