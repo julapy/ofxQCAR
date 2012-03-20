@@ -315,6 +315,22 @@ float ofxQCAR :: getMarkerRotationUpDown ()
 #endif
 }
 
+string ofxQCAR :: getMarkerName ()
+{
+#if !(TARGET_IPHONE_SIMULATOR)     
+    
+    if( utils )
+        return utils->markerName;
+    else
+        return "";
+    
+#else
+    
+    return "";
+    
+#endif
+}
+
 /////////////////////////////////////////////////////////
 //  UPDATE.
 /////////////////////////////////////////////////////////

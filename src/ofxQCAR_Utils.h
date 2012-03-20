@@ -41,6 +41,7 @@ typedef enum _status {
     ofVec3f markerRotation;
     float markerRotationLeftRight;
     float markerRotationUpDown;
+    string markerName;
     
 @private
     

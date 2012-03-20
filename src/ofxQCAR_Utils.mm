@@ -104,6 +104,7 @@ static ofxQCAR_Utils *qcarUtils = nil; // singleton class
         scaleY = 1.0;
         markerRotationLeftRight = 0;
         markerRotationUpDown = 0;
+        markerName = "";
         
 #ifdef USE_OPENGL1
         ARData.QCARFlags = QCAR::GL_11;
@@ -208,6 +209,8 @@ static ofxQCAR_Utils *qcarUtils = nil; // singleton class
         QCAR::ImageTarget* imageTarget = static_cast<QCAR::ImageTarget*>(trackable);
         markerSize = imageTarget->getSize();
     }
+    
+    markerName = trackable->getName();
     
     markerRect.width  = markerSize.data[ 0 ];
     markerRect.height = markerSize.data[ 1 ];

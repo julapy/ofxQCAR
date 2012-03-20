@@ -68,6 +68,7 @@ public:
     ofVec3f     getMarkerRotation           ();
     float       getMarkerRotationLeftRight  ();
     float       getMarkerRotationUpDown     ();
+    string      getMarkerName               ();
     bool hasFoundMarker                     ();
     
 private:
