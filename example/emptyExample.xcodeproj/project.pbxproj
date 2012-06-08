@@ -18,9 +18,6 @@
 		150E9483149A29CF00A50C7B /* ofxQCAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 150E9480149A29CF00A50C7B /* ofxQCAR.mm */; };
 		150E9488149A2AA500A50C7B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150E9486149A2A7A00A50C7B /* SystemConfiguration.framework */; };
 		150E9489149A2AA500A50C7B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150E9484149A2A5200A50C7B /* Security.framework */; };
-		1525B19314CE240200B808F9 /* ofxiOSAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1525B18D14CE240200B808F9 /* ofxiOSAppDelegate.mm */; };
-		1525B19414CE240200B808F9 /* ofxiOSViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1525B19014CE240200B808F9 /* ofxiOSViewController.mm */; };
-		1525B19514CE240200B808F9 /* ofxiOSWindow.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1525B19214CE240200B808F9 /* ofxiOSWindow.mm */; };
 		1525B1C814CE395700B808F9 /* MyAppViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1525B1C714CE395700B808F9 /* MyAppViewController.mm */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -106,13 +103,6 @@
 		150E9484149A2A5200A50C7B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		150E9486149A2A7A00A50C7B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		1517063214CCDD3E00B303A1 /* ofxQCAR_Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Settings.h; sourceTree = "<group>"; };
-		1525B18C14CE240200B808F9 /* ofxiOSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSAppDelegate.h; sourceTree = "<group>"; };
-		1525B18D14CE240200B808F9 /* ofxiOSAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSAppDelegate.mm; sourceTree = "<group>"; };
-		1525B18E14CE240200B808F9 /* ofxiOSUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSUtils.h; sourceTree = "<group>"; };
-		1525B18F14CE240200B808F9 /* ofxiOSViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSViewController.h; sourceTree = "<group>"; };
-		1525B19014CE240200B808F9 /* ofxiOSViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSViewController.mm; sourceTree = "<group>"; };
-		1525B19114CE240200B808F9 /* ofxiOSWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxiOSWindow.h; sourceTree = "<group>"; };
-		1525B19214CE240200B808F9 /* ofxiOSWindow.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxiOSWindow.mm; sourceTree = "<group>"; };
 		1525B1C614CE395700B808F9 /* MyAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAppViewController.h; sourceTree = "<group>"; };
 		1525B1C714CE395700B808F9 /* MyAppViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyAppViewController.mm; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -297,29 +287,6 @@
 			path = src;
 			sourceTree = "<group>";
 		};
-		1525B18A14CE23ED00B808F9 /* ofxiOS */ = {
-			isa = PBXGroup;
-			children = (
-				1525B18B14CE240200B808F9 /* src */,
-			);
-			name = ofxiOS;
-			path = ../../../addons/ofxiOS;
-			sourceTree = SOURCE_ROOT;
-		};
-		1525B18B14CE240200B808F9 /* src */ = {
-			isa = PBXGroup;
-			children = (
-				1525B18C14CE240200B808F9 /* ofxiOSAppDelegate.h */,
-				1525B18D14CE240200B808F9 /* ofxiOSAppDelegate.mm */,
-				1525B18F14CE240200B808F9 /* ofxiOSViewController.h */,
-				1525B19014CE240200B808F9 /* ofxiOSViewController.mm */,
-				1525B19114CE240200B808F9 /* ofxiOSWindow.h */,
-				1525B19214CE240200B808F9 /* ofxiOSWindow.mm */,
-				1525B18E14CE240200B808F9 /* ofxiOSUtils.h */,
-			);
-			path = src;
-			sourceTree = "<group>";
-		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -374,7 +341,6 @@
 		BB16F26B0F2B646B00518274 /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				1525B18A14CE23ED00B808F9 /* ofxiOS */,
 				150E945D149A29BD00A50C7B /* ofxQCAR */,
 			);
 			name = addons;
@@ -539,9 +505,6 @@
 				1502AC6014CADF5A00748334 /* ofxQCAR_EAGLView.mm in Sources */,
 				1502AC6114CADF5A00748334 /* ofxQCAR_ViewController.mm in Sources */,
 				1502AC6414CADFF800748334 /* ofxQCAR_Utils.mm in Sources */,
-				1525B19314CE240200B808F9 /* ofxiOSAppDelegate.mm in Sources */,
-				1525B19414CE240200B808F9 /* ofxiOSViewController.mm in Sources */,
-				1525B19514CE240200B808F9 /* ofxiOSWindow.mm in Sources */,
 				1525B1C814CE395700B808F9 /* MyAppViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
