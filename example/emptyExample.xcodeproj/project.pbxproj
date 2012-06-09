@@ -10,13 +10,9 @@
 		156DD6A61583295200F5E857 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 156DD6A31583295200F5E857 /* config.xml */; };
 		156DD6A71583295200F5E857 /* qcar-resources.dat in Resources */ = {isa = PBXBuildFile; fileRef = 156DD6A41583295200F5E857 /* qcar-resources.dat */; };
 		156DD6A81583295200F5E857 /* TextureTeapotBrass.png in Resources */ = {isa = PBXBuildFile; fileRef = 156DD6A51583295200F5E857 /* TextureTeapotBrass.png */; };
-		15B505431581D464004CF539 /* ofxQCAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B5053A1581D464004CF539 /* ofxQCAR.mm */; };
-		15B505441581D464004CF539 /* ofxQCAR_EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B5053C1581D464004CF539 /* ofxQCAR_EAGLView.mm */; };
-		15B505451581D464004CF539 /* ofxQCAR_Utils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B5053F1581D464004CF539 /* ofxQCAR_Utils.mm */; };
-		15B505461581D464004CF539 /* ofxQCAR_ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B505411581D464004CF539 /* ofxQCAR_ViewController.mm */; };
+		15766B551583329D0015F67F /* libQCAR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15766B541583329D0015F67F /* libQCAR.a */; };
 		15B505571581D60B004CF539 /* MyAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B505541581D60B004CF539 /* MyAppDelegate.mm */; };
 		15B505581581D60B004CF539 /* MyAppViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B505561581D60B004CF539 /* MyAppViewController.mm */; };
-		15EC4D141583201000A77FC0 /* libQCAR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EC4D131583201000A77FC0 /* libQCAR.a */; };
 		15EC4D661583280300A77FC0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EC4D64158327EE00A77FC0 /* SystemConfiguration.framework */; };
 		15EC4D671583280300A77FC0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EC4D62158327E200A77FC0 /* Security.framework */; };
 		15EC4D691583285E00A77FC0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 15EC4D681583285E00A77FC0 /* README.md */; };
@@ -64,46 +60,51 @@
 		156DD6A31583295200F5E857 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
 		156DD6A41583295200F5E857 /* qcar-resources.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = "qcar-resources.dat"; sourceTree = "<group>"; };
 		156DD6A51583295200F5E857 /* TextureTeapotBrass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TextureTeapotBrass.png; sourceTree = "<group>"; };
-		15B505391581D464004CF539 /* ofxQCAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR.h; sourceTree = "<group>"; };
-		15B5053A1581D464004CF539 /* ofxQCAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR.mm; sourceTree = "<group>"; };
-		15B5053B1581D464004CF539 /* ofxQCAR_EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_EAGLView.h; sourceTree = "<group>"; };
-		15B5053C1581D464004CF539 /* ofxQCAR_EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_EAGLView.mm; sourceTree = "<group>"; };
-		15B5053D1581D464004CF539 /* ofxQCAR_Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Settings.h; sourceTree = "<group>"; };
-		15B5053E1581D464004CF539 /* ofxQCAR_Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Utils.h; sourceTree = "<group>"; };
-		15B5053F1581D464004CF539 /* ofxQCAR_Utils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_Utils.mm; sourceTree = "<group>"; };
-		15B505401581D464004CF539 /* ofxQCAR_ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_ViewController.h; sourceTree = "<group>"; };
-		15B505411581D464004CF539 /* ofxQCAR_ViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_ViewController.mm; sourceTree = "<group>"; };
+		15766B341583329D0015F67F /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
+		15766B351583329D0015F67F /* CameraCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraCalibration.h; sourceTree = "<group>"; };
+		15766B361583329D0015F67F /* CameraDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraDevice.h; sourceTree = "<group>"; };
+		15766B371583329D0015F67F /* DataSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSet.h; sourceTree = "<group>"; };
+		15766B381583329D0015F67F /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
+		15766B391583329D0015F67F /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		15766B3A1583329D0015F67F /* ImageTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTarget.h; sourceTree = "<group>"; };
+		15766B3B1583329D0015F67F /* ImageTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTracker.h; sourceTree = "<group>"; };
+		15766B3C1583329D0015F67F /* Marker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Marker.h; sourceTree = "<group>"; };
+		15766B3D1583329D0015F67F /* MarkerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MarkerTracker.h; sourceTree = "<group>"; };
+		15766B3E1583329D0015F67F /* Matrices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrices.h; sourceTree = "<group>"; };
+		15766B3F1583329D0015F67F /* MultiTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiTarget.h; sourceTree = "<group>"; };
+		15766B401583329D0015F67F /* NonCopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NonCopyable.h; sourceTree = "<group>"; };
+		15766B411583329D0015F67F /* QCAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCAR.h; sourceTree = "<group>"; };
+		15766B421583329D0015F67F /* QCAR_iOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCAR_iOS.h; sourceTree = "<group>"; };
+		15766B431583329D0015F67F /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
+		15766B441583329D0015F67F /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
+		15766B451583329D0015F67F /* State.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = State.h; sourceTree = "<group>"; };
+		15766B461583329D0015F67F /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
+		15766B471583329D0015F67F /* Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tool.h; sourceTree = "<group>"; };
+		15766B481583329D0015F67F /* Trackable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trackable.h; sourceTree = "<group>"; };
+		15766B491583329D0015F67F /* Tracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
+		15766B4A1583329D0015F67F /* TrackerManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TrackerManager.h; sourceTree = "<group>"; };
+		15766B4B1583329D0015F67F /* UIGLViewProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGLViewProtocol.h; sourceTree = "<group>"; };
+		15766B4C1583329D0015F67F /* UpdateCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCallback.h; sourceTree = "<group>"; };
+		15766B4D1583329D0015F67F /* Vectors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vectors.h; sourceTree = "<group>"; };
+		15766B4E1583329D0015F67F /* VideoBackgroundConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoBackgroundConfig.h; sourceTree = "<group>"; };
+		15766B4F1583329D0015F67F /* VideoBackgroundTextureInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoBackgroundTextureInfo.h; sourceTree = "<group>"; };
+		15766B501583329D0015F67F /* VideoMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoMode.h; sourceTree = "<group>"; };
+		15766B511583329D0015F67F /* VirtualButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualButton.h; sourceTree = "<group>"; };
+		15766B541583329D0015F67F /* libQCAR.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libQCAR.a; sourceTree = "<group>"; };
+		15766B57158332E40015F67F /* ofxQCAR.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxQCAR.h; sourceTree = "<group>"; };
+		15766B58158332E40015F67F /* ofxQCAR.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR.mm; sourceTree = "<group>"; };
+		15766B59158332E40015F67F /* ofxQCAR_EAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_EAGLView.h; sourceTree = "<group>"; };
+		15766B5A158332E40015F67F /* ofxQCAR_EAGLView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_EAGLView.mm; sourceTree = "<group>"; };
+		15766B5B158332E40015F67F /* ofxQCAR_Settings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Settings.h; sourceTree = "<group>"; };
+		15766B5C158332E40015F67F /* ofxQCAR_Utils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Utils.h; sourceTree = "<group>"; };
+		15766B5D158332E40015F67F /* ofxQCAR_Utils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_Utils.mm; sourceTree = "<group>"; };
+		15766B5E158332E40015F67F /* ofxQCAR_ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_ViewController.h; sourceTree = "<group>"; };
+		15766B5F158332E40015F67F /* ofxQCAR_ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_ViewController.mm; sourceTree = "<group>"; };
 		15B505511581D60B004CF539 /* Teapot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Teapot.h; sourceTree = "<group>"; };
 		15B505531581D60B004CF539 /* MyAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAppDelegate.h; sourceTree = "<group>"; };
 		15B505541581D60B004CF539 /* MyAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyAppDelegate.mm; sourceTree = "<group>"; };
 		15B505551581D60B004CF539 /* MyAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAppViewController.h; sourceTree = "<group>"; };
 		15B505561581D60B004CF539 /* MyAppViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyAppViewController.mm; sourceTree = "<group>"; };
-		15EC4CF81583201000A77FC0 /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
-		15EC4CF91583201000A77FC0 /* CameraCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraCalibration.h; sourceTree = "<group>"; };
-		15EC4CFA1583201000A77FC0 /* CameraDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraDevice.h; sourceTree = "<group>"; };
-		15EC4CFB1583201000A77FC0 /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
-		15EC4CFC1583201000A77FC0 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
-		15EC4CFD1583201000A77FC0 /* ImageTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTarget.h; sourceTree = "<group>"; };
-		15EC4CFE1583201000A77FC0 /* Marker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Marker.h; sourceTree = "<group>"; };
-		15EC4CFF1583201000A77FC0 /* Matrices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrices.h; sourceTree = "<group>"; };
-		15EC4D001583201000A77FC0 /* MultiTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiTarget.h; sourceTree = "<group>"; };
-		15EC4D011583201000A77FC0 /* NonCopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NonCopyable.h; sourceTree = "<group>"; };
-		15EC4D021583201000A77FC0 /* QCAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCAR.h; sourceTree = "<group>"; };
-		15EC4D031583201000A77FC0 /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
-		15EC4D041583201000A77FC0 /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
-		15EC4D051583201000A77FC0 /* State.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = State.h; sourceTree = "<group>"; };
-		15EC4D061583201000A77FC0 /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
-		15EC4D071583201000A77FC0 /* Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tool.h; sourceTree = "<group>"; };
-		15EC4D081583201000A77FC0 /* Trackable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trackable.h; sourceTree = "<group>"; };
-		15EC4D091583201000A77FC0 /* Tracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
-		15EC4D0A1583201000A77FC0 /* TubeTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TubeTarget.h; sourceTree = "<group>"; };
-		15EC4D0B1583201000A77FC0 /* UIGLViewProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGLViewProtocol.h; sourceTree = "<group>"; };
-		15EC4D0C1583201000A77FC0 /* UpdateCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCallback.h; sourceTree = "<group>"; };
-		15EC4D0D1583201000A77FC0 /* Vectors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vectors.h; sourceTree = "<group>"; };
-		15EC4D0E1583201000A77FC0 /* VideoBackgroundConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoBackgroundConfig.h; sourceTree = "<group>"; };
-		15EC4D0F1583201000A77FC0 /* VideoMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoMode.h; sourceTree = "<group>"; };
-		15EC4D101583201000A77FC0 /* VirtualButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualButton.h; sourceTree = "<group>"; };
-		15EC4D131583201000A77FC0 /* libQCAR.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libQCAR.a; sourceTree = "<group>"; };
 		15EC4D62158327E200A77FC0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		15EC4D64158327EE00A77FC0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		15EC4D681583285E00A77FC0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../../../addons/ofxQCAR/README.md; sourceTree = "<group>"; };
@@ -154,7 +155,7 @@
 				E41D400E13B39D2100A75A5D /* MapKit.framework in Frameworks */,
 				15EC4D661583280300A77FC0 /* SystemConfiguration.framework in Frameworks */,
 				15EC4D671583280300A77FC0 /* Security.framework in Frameworks */,
-				15EC4D141583201000A77FC0 /* libQCAR.a in Frameworks */,
+				15766B551583329D0015F67F /* libQCAR.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,10 +172,88 @@
 			path = qcar_assets;
 			sourceTree = "<group>";
 		};
+		15766B321583329D0015F67F /* include */ = {
+			isa = PBXGroup;
+			children = (
+				15766B331583329D0015F67F /* QCAR */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		15766B331583329D0015F67F /* QCAR */ = {
+			isa = PBXGroup;
+			children = (
+				15766B341583329D0015F67F /* Area.h */,
+				15766B351583329D0015F67F /* CameraCalibration.h */,
+				15766B361583329D0015F67F /* CameraDevice.h */,
+				15766B371583329D0015F67F /* DataSet.h */,
+				15766B381583329D0015F67F /* Frame.h */,
+				15766B391583329D0015F67F /* Image.h */,
+				15766B3A1583329D0015F67F /* ImageTarget.h */,
+				15766B3B1583329D0015F67F /* ImageTracker.h */,
+				15766B3C1583329D0015F67F /* Marker.h */,
+				15766B3D1583329D0015F67F /* MarkerTracker.h */,
+				15766B3E1583329D0015F67F /* Matrices.h */,
+				15766B3F1583329D0015F67F /* MultiTarget.h */,
+				15766B401583329D0015F67F /* NonCopyable.h */,
+				15766B411583329D0015F67F /* QCAR.h */,
+				15766B421583329D0015F67F /* QCAR_iOS.h */,
+				15766B431583329D0015F67F /* Rectangle.h */,
+				15766B441583329D0015F67F /* Renderer.h */,
+				15766B451583329D0015F67F /* State.h */,
+				15766B461583329D0015F67F /* System.h */,
+				15766B471583329D0015F67F /* Tool.h */,
+				15766B481583329D0015F67F /* Trackable.h */,
+				15766B491583329D0015F67F /* Tracker.h */,
+				15766B4A1583329D0015F67F /* TrackerManager.h */,
+				15766B4B1583329D0015F67F /* UIGLViewProtocol.h */,
+				15766B4C1583329D0015F67F /* UpdateCallback.h */,
+				15766B4D1583329D0015F67F /* Vectors.h */,
+				15766B4E1583329D0015F67F /* VideoBackgroundConfig.h */,
+				15766B4F1583329D0015F67F /* VideoBackgroundTextureInfo.h */,
+				15766B501583329D0015F67F /* VideoMode.h */,
+				15766B511583329D0015F67F /* VirtualButton.h */,
+			);
+			path = QCAR;
+			sourceTree = "<group>";
+		};
+		15766B521583329D0015F67F /* lib */ = {
+			isa = PBXGroup;
+			children = (
+				15766B531583329D0015F67F /* arm */,
+			);
+			path = lib;
+			sourceTree = "<group>";
+		};
+		15766B531583329D0015F67F /* arm */ = {
+			isa = PBXGroup;
+			children = (
+				15766B541583329D0015F67F /* libQCAR.a */,
+			);
+			path = arm;
+			sourceTree = "<group>";
+		};
+		15766B56158332E40015F67F /* _src */ = {
+			isa = PBXGroup;
+			children = (
+				15766B57158332E40015F67F /* ofxQCAR.h */,
+				15766B58158332E40015F67F /* ofxQCAR.mm */,
+				15766B59158332E40015F67F /* ofxQCAR_EAGLView.h */,
+				15766B5A158332E40015F67F /* ofxQCAR_EAGLView.mm */,
+				15766B5B158332E40015F67F /* ofxQCAR_Settings.h */,
+				15766B5C158332E40015F67F /* ofxQCAR_Utils.h */,
+				15766B5D158332E40015F67F /* ofxQCAR_Utils.mm */,
+				15766B5E158332E40015F67F /* ofxQCAR_ViewController.h */,
+				15766B5F158332E40015F67F /* ofxQCAR_ViewController.mm */,
+			);
+			path = _src;
+			sourceTree = "<group>";
+		};
 		15B505171581D451004CF539 /* ofxQCAR */ = {
 			isa = PBXGroup;
 			children = (
 				15EC4CF41583201000A77FC0 /* libs */,
+				15766B56158332E40015F67F /* _src */,
 				15B505381581D464004CF539 /* src */,
 			);
 			name = ofxQCAR;
@@ -184,15 +263,6 @@
 		15B505381581D464004CF539 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				15B505391581D464004CF539 /* ofxQCAR.h */,
-				15B5053A1581D464004CF539 /* ofxQCAR.mm */,
-				15B5053B1581D464004CF539 /* ofxQCAR_EAGLView.h */,
-				15B5053C1581D464004CF539 /* ofxQCAR_EAGLView.mm */,
-				15B5053D1581D464004CF539 /* ofxQCAR_Settings.h */,
-				15B5053E1581D464004CF539 /* ofxQCAR_Utils.h */,
-				15B5053F1581D464004CF539 /* ofxQCAR_Utils.mm */,
-				15B505401581D464004CF539 /* ofxQCAR_ViewController.h */,
-				15B505411581D464004CF539 /* ofxQCAR_ViewController.mm */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -227,66 +297,10 @@
 		15EC4CF51583201000A77FC0 /* qcar */ = {
 			isa = PBXGroup;
 			children = (
-				15EC4CF61583201000A77FC0 /* include */,
-				15EC4D111583201000A77FC0 /* lib */,
+				15766B321583329D0015F67F /* include */,
+				15766B521583329D0015F67F /* lib */,
 			);
 			path = qcar;
-			sourceTree = "<group>";
-		};
-		15EC4CF61583201000A77FC0 /* include */ = {
-			isa = PBXGroup;
-			children = (
-				15EC4CF71583201000A77FC0 /* QCAR */,
-			);
-			path = include;
-			sourceTree = "<group>";
-		};
-		15EC4CF71583201000A77FC0 /* QCAR */ = {
-			isa = PBXGroup;
-			children = (
-				15EC4CF81583201000A77FC0 /* Area.h */,
-				15EC4CF91583201000A77FC0 /* CameraCalibration.h */,
-				15EC4CFA1583201000A77FC0 /* CameraDevice.h */,
-				15EC4CFB1583201000A77FC0 /* Frame.h */,
-				15EC4CFC1583201000A77FC0 /* Image.h */,
-				15EC4CFD1583201000A77FC0 /* ImageTarget.h */,
-				15EC4CFE1583201000A77FC0 /* Marker.h */,
-				15EC4CFF1583201000A77FC0 /* Matrices.h */,
-				15EC4D001583201000A77FC0 /* MultiTarget.h */,
-				15EC4D011583201000A77FC0 /* NonCopyable.h */,
-				15EC4D021583201000A77FC0 /* QCAR.h */,
-				15EC4D031583201000A77FC0 /* Rectangle.h */,
-				15EC4D041583201000A77FC0 /* Renderer.h */,
-				15EC4D051583201000A77FC0 /* State.h */,
-				15EC4D061583201000A77FC0 /* System.h */,
-				15EC4D071583201000A77FC0 /* Tool.h */,
-				15EC4D081583201000A77FC0 /* Trackable.h */,
-				15EC4D091583201000A77FC0 /* Tracker.h */,
-				15EC4D0A1583201000A77FC0 /* TubeTarget.h */,
-				15EC4D0B1583201000A77FC0 /* UIGLViewProtocol.h */,
-				15EC4D0C1583201000A77FC0 /* UpdateCallback.h */,
-				15EC4D0D1583201000A77FC0 /* Vectors.h */,
-				15EC4D0E1583201000A77FC0 /* VideoBackgroundConfig.h */,
-				15EC4D0F1583201000A77FC0 /* VideoMode.h */,
-				15EC4D101583201000A77FC0 /* VirtualButton.h */,
-			);
-			path = QCAR;
-			sourceTree = "<group>";
-		};
-		15EC4D111583201000A77FC0 /* lib */ = {
-			isa = PBXGroup;
-			children = (
-				15EC4D121583201000A77FC0 /* arm */,
-			);
-			path = lib;
-			sourceTree = "<group>";
-		};
-		15EC4D121583201000A77FC0 /* arm */ = {
-			isa = PBXGroup;
-			children = (
-				15EC4D131583201000A77FC0 /* libQCAR.a */,
-			);
-			path = arm;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -504,10 +518,6 @@
 			files = (
 				E4D8936E11527B74007E1F53 /* main.mm in Sources */,
 				E4D8936F11527B74007E1F53 /* testApp.mm in Sources */,
-				15B505431581D464004CF539 /* ofxQCAR.mm in Sources */,
-				15B505441581D464004CF539 /* ofxQCAR_EAGLView.mm in Sources */,
-				15B505451581D464004CF539 /* ofxQCAR_Utils.mm in Sources */,
-				15B505461581D464004CF539 /* ofxQCAR_ViewController.mm in Sources */,
 				15B505571581D60B004CF539 /* MyAppDelegate.mm in Sources */,
 				15B505581581D60B004CF539 /* MyAppViewController.mm in Sources */,
 			);
@@ -538,6 +548,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../../addons/ofxQCAR/libs/qcar/lib/arm,
+					"\"$(SRCROOT)/../libs/qcar/lib/arm\"",
 				);
 				PRODUCT_NAME = "${TARGET_NAME}";
 				USER_HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS) ../../../addons/ofxQCAR/libs/qcar/include";
@@ -557,6 +568,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../../addons/ofxQCAR/libs/qcar/lib/arm,
+					"\"$(SRCROOT)/../libs/qcar/lib/arm\"",
 				);
 				PRODUCT_NAME = "${TARGET_NAME}";
 				USER_HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS) ../../../addons/ofxQCAR/libs/qcar/include";

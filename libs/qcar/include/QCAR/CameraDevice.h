@@ -1,7 +1,7 @@
 /*==============================================================================
-Copyright (c) 2010-2011 QUALCOMM Austria Research Center GmbH .
-All Rights Reserved.
-Qualcomm Confidential and Proprietary
+            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            All Rights Reserved.
+            Qualcomm Confidential and Proprietary
 			
 @file 
     CameraDevice.h
@@ -16,6 +16,7 @@ Qualcomm Confidential and Proprietary
 // Include files
 #include <QCAR/NonCopyable.h>
 #include <QCAR/VideoMode.h>
+#include <QCAR/CameraCalibration.h>
 
 namespace QCAR
 {
@@ -26,17 +27,18 @@ class QCAR_API CameraDevice : private NonCopyable
 public:
     enum MODE
     {
-        MODE_DEFAULT = -1,              ///< Default camera mode
-        MODE_OPTIMIZE_SPEED = -2,       ///< Fast camera mode
-        MODE_OPTIMIZE_QUALITY = -3      ///< High-quality camera mode
+        MODE_DEFAULT = -1,           ///< Default camera mode
+        MODE_OPTIMIZE_SPEED = -2,    ///< Fast camera mode
+        MODE_OPTIMIZE_QUALITY = -3   ///< High-quality camera mode
     };
 
     enum FOCUS_MODE 
     {
-        FOCUS_MODE_AUTO,        ///< Default focus mode
-        FOCUS_MODE_FIXED,       ///< Fixed focus mode
-        FOCUS_MODE_INFINITY,    ///< Focus set to infinity
-        FOCUS_MODE_MACRO        ///< Macro mode for close up focus
+        FOCUS_MODE_NORMAL,           ///< Default focus mode
+        FOCUS_MODE_TRIGGERAUTO,      ///< Triggers a single autofocus operation
+        FOCUS_MODE_CONTINUOUSAUTO,   ///< Continuous autofocus mode
+        FOCUS_MODE_INFINITY,         ///< Focus set to infinity
+        FOCUS_MODE_MACRO             ///< Macro mode for close-up focus
     };
 
     /// Returns the CameraDevice singleton instance.
@@ -47,7 +49,9 @@ public:
 
     /// Deinitializes the camera.
     /**
-     *  Any resources created or used so far are released.
+     *  Any resources created or used so far are released. Note that this
+     *  function should not be called during the execution of the
+     *  UpdateCallback and if so will return false.
      */
     virtual bool deinit() = 0;
 
@@ -78,6 +82,10 @@ public:
     /// Chooses a video mode out of the list of modes
     virtual bool selectVideoMode(int index) = 0;
 
+
+    /// Provides read-only access to camera calibration data.
+    virtual const CameraCalibration& getCameraCalibration() const = 0;
+
     /**
      * Enable the torch mode on the device if the device supports 
      * this API. 
@@ -89,25 +97,6 @@ public:
      *                otherwise
      */
     virtual bool setFlashTorchMode(bool on) = 0;
-
-    /**
-     * Start the autofocus process.  This method will return false 
-     * if autofocus is not supported on the current device or if 
-     * autofocus is currently running on the device.  True will be 
-     * returned if an autofocus was successfully requested. 
-     * 
-     * @return bool 
-     */
-    virtual bool startAutoFocus() = 0;
-
-    /**
-     * Stops the autofocus process if it is currently working, 
-     * otherwise this is a no-op.  This method returns false if 
-     * autofocus is not supported on the current device. 
-     * 
-     * @return bool 
-     */
-    virtual bool stopAutoFocus() = 0;
 
     /**
      * Set the active focus mode.  This method returns false if the 

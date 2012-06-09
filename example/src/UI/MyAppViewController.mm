@@ -7,7 +7,7 @@
 //
 
 #import "MyAppViewController.h"
-#import "ofxQCAR_ViewController.h"
+//#import "ofxQCAR_ViewController.h"
 #import "testApp.h"
 
 @implementation MyAppViewController
@@ -87,12 +87,12 @@
 
 - (void) creatApp : (ofBaseApp*)app withFrame : (CGRect)rect
 {
-    ofxQCAR_ViewController *glViewController;
-    glViewController = [[[ ofxQCAR_ViewController alloc ] initWithFrame : rect
-                                                                    app : app ] autorelease ];
-    
-    [ self.navigationController pushViewController : glViewController
-                                          animated : YES ];
+//    ofxQCAR_ViewController * viewController;
+//    viewController = [[[ ofxQCAR_ViewController alloc ] initWithFrame : rect
+//                                                                  app : app ] autorelease ];
+//    
+//    [ self.navigationController pushViewController : viewController
+//                                          animated : YES ];
 }
 
 @end

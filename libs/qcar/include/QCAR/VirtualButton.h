@@ -1,7 +1,7 @@
 /*==============================================================================
-Copyright (c) 2010-2011 QUALCOMM Austria Research Center GmbH .
-All Rights Reserved.
-Qualcomm Confidential and Proprietary
+            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            All Rights Reserved.
+            Qualcomm Confidential and Proprietary
 			
 @file 
     VirtualButton.h
@@ -25,14 +25,9 @@ class Area;
 
 /// A virtual button on a trackable
 /**
- *  Methods to create/destroy or modify a VirtualButton must not be
- *  called while the Tracker is working at the same time. Doing so will make
- *  these methods return false. This means that none of these methods
- *  should be called from the rendering thread.
- *  The suggested way of doing this is during the execution of UpdateCallback,
- *  which guarantees that the Tracker is not working concurrently.
- *  Alternatively the Tracker can be stopped explicitly. However, this is a
- *  very expensive operation.
+ *  Methods to modify a VirtualButton must not be called while the
+ *  corresponding DataSet is active. The dataset must be deactivated first
+ *  before reconfiguring a VirtualButton.
  */
 class QCAR_API VirtualButton : private NonCopyable
 {
@@ -44,10 +39,11 @@ public:
         LOW             ///< Robust detection
     };
 
-    /// Defines a new area for the button area in 3D scene units (the coordinate system is local to the ImageTarget).
+    /// Defines a new area for the button area in 3D scene units (the
+    /// coordinate system is local to the ImageTarget).
     /**
-     *  This method must not be called while the tracker is working or it will
-     *  return false.
+     *  This method must not be called while the corresponding DataSet is
+     *  active or it will return false.
      */
     virtual bool setArea(const Area& area) = 0;
 
@@ -57,15 +53,15 @@ public:
     /// Sets the sensitivity of the virtual button
     /**
      *  Sensitivity allows deciding between fast and robust button press
-     *  measurements. This method must not be called while the tracker is
-     *  working or it will return false.
+     *  measurements. This method must not be called while the corresponding
+     *  DataSet is active or it will return false.
      */
     virtual bool setSensitivity(SENSITIVITY sensitivity) = 0;
 
     /// Enables or disables a virtual button
     /**
-     *  This method must not be called while the tracker is working or it will
-     *  return false.
+     *  This method must not be called while the corresponding DataSet is
+     *  active or it will return false.
      */
     virtual bool setEnabled(bool enabled) = 0;
 
@@ -78,6 +74,7 @@ public:
     /// Returns true if the virtual button is pressed.
     virtual bool isPressed() const = 0;
 
+    /// Returns a unique id for this virtual button.
     virtual int getID() const = 0;
 };
 

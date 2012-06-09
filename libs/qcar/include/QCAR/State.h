@@ -1,7 +1,7 @@
 /*==============================================================================
-Copyright (c) 2010-2011 QUALCOMM Austria Research Center GmbH .
-All Rights Reserved.
-Qualcomm Confidential and Proprietary
+            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            All Rights Reserved.
+            Qualcomm Confidential and Proprietary
 			
 @file 
     State.h
@@ -17,16 +17,13 @@ Qualcomm Confidential and Proprietary
 #include <QCAR/System.h>
 #include <QCAR/Frame.h>
 
-namespace QCARDataFlow {
-    struct StateData;
-}
 
 
 namespace QCAR
 {
 
-// Forward declarations
 class Trackable;
+class StateData;
 
 
 /// AR State
@@ -83,7 +80,8 @@ public:
     const Trackable* getActiveTrackable(int idx) const;
 
 protected:
-    QCARDataFlow::StateData* mData;
+    StateData* mData;
+
 };
 
 } // namespace QCAR

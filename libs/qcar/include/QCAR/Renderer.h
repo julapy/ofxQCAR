@@ -1,7 +1,7 @@
 /*==============================================================================
-Copyright (c) 2010-2011 QUALCOMM Austria Research Center GmbH .
-All Rights Reserved.
-Qualcomm Confidential and Proprietary
+            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            All Rights Reserved.
+            Qualcomm Confidential and Proprietary
 			
 @file 
     Renderer.h
@@ -18,6 +18,7 @@ Qualcomm Confidential and Proprietary
 #include <QCAR/Vectors.h>
 #include <QCAR/State.h>
 #include <QCAR/NonCopyable.h>
+#include <QCAR/QCAR.h>
 
 namespace QCAR 
 {
@@ -25,6 +26,7 @@ namespace QCAR
 // Forward declarations
 class State;
 struct VideoBackgroundConfig;
+struct VideoBackgroundTextureInfo;
 
 /// Renderer class
 /**
@@ -41,17 +43,18 @@ public:
 
     /// Marks the beginning of rendering for the current frame and returns the
     /// State object.
-    /**
-     *  The State object and all its data (trackables, frame) is valid until
-     *  Renderer::end() is called.
-     */
     virtual State begin() = 0;
 
+    /// Draws the video background
+    /// This should only be called between a begin() and end() calls
+    virtual bool drawVideoBackground() = 0;
+
     /// Marks the end of rendering for the current frame.
-    /**
-     *	Calling end() also invalidates the State object returned by begin().
-     */
     virtual void end() = 0;
+
+    /// Binds the video background texture to a given texture unit
+    /// This should only be called between a begin() and end() calls
+    virtual bool bindVideoBackground(int unit) = 0;
 
     /// Configures the layout of the video background (location on the screen
     /// and size).
@@ -59,6 +62,14 @@ public:
     
     /// Retrieves the current layout configuration of the video background.
     virtual const VideoBackgroundConfig& getVideoBackgroundConfig() const = 0;
+
+    /// Returns the texture info associated with the current video background
+    virtual const VideoBackgroundTextureInfo& 
+                                      getVideoBackgroundTextureInfo() = 0;
+
+    /// Tells QCAR where the texture id to use for updating video
+    /// background data
+    virtual bool setVideoBackgroundTextureID(int textureID) = 0;
 
     /// Tool method to calculate a perspective projection matrix for AR
     /// rendering and apply it to OpenGL

@@ -1,7 +1,7 @@
 /*==============================================================================
-Copyright (c) 2010-2011 QUALCOMM Austria Research Center GmbH .
-All Rights Reserved.
-Qualcomm Confidential and Proprietary
+            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            All Rights Reserved.
+            Qualcomm Confidential and Proprietary
 			
 @file 
     QCAR.h
@@ -29,17 +29,13 @@ class VideoSource;
  */
 enum INIT_FLAGS {
     GL_11 = 1,          ///< Enables OpenGL ES 1.1 rendering
-    GL_20 = 2,          ///< Enables OpenGL ES 2.0 rendering
-    ROTATE_IOS_90 = 4,  ///< <b>iOS:</b> Rotates rendering 90 degrees
-    ROTATE_IOS_180 = 8, ///< <b>iOS:</b> Rotates rendering 180 degrees
-    ROTATE_IOS_270 = 16 ///< <b>iOS:</b> Rotates rendering 270 degrees
+    GL_20 = 2           ///< Enables OpenGL ES 2.0 rendering
 };
 
 /// Return codes for init() function
 enum {
     INIT_ERROR = -1,                            ///< Error during initialization
     INIT_DEVICE_NOT_SUPPORTED = -2,             ///< The device is not supported
-    INIT_CANNOT_DOWNLOAD_DEVICE_SETTINGS = -3   ///< The device could not download start-up settings through a network connection.
 };
 
 
@@ -93,33 +89,8 @@ enum HINT {
 };
 
 
-/// Sets QCAR initialization parameters
-/**
- Called to set the QCAR initialization parameters prior to calling QCAR::init().
- Refer to the enumeration QCAR::INIT_FLAGS for applicable flags.
- Returns an integer (0 on success).
- <BR>
- <b>ANDROID:</b> Not implemented.<BR>
- <b>iOS:</b> Available for use.<BR>
- */
-int QCAR_API setInitParameters(int flags);
-
-
-/// Initializes QCAR
-/**
- Called to initialize QCAR.  Initialization is progressive, so this function
- should be called repeatedly until it returns 100 or a negative value.
- Returns an integer representing the percentage complete (negative on error).
- */
-int QCAR_API init();
-
-
 /// Deinitializes QCAR
 void QCAR_API deinit();
-
-
-/// Loads files required to initialize the tracker
-int QCAR_API load();
 
 
 /// Sets a hint for the QCAR SDK
@@ -181,6 +152,7 @@ void QCAR_API onSurfaceCreated();
 
 /// Executes AR-specific tasks upon the onSurfaceChanged render surface event
 void QCAR_API onSurfaceChanged(int width, int height);
+
 } // namespace QCAR
 
 #endif //_QCAR_QCAR_H_

@@ -1,7 +1,7 @@
 /*==============================================================================
-Copyright (c) 2010-2011 QUALCOMM Austria Research Center GmbH .
-All Rights Reserved.
-Qualcomm Confidential and Proprietary
+            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            All Rights Reserved.
+            Qualcomm Confidential and Proprietary
 			
 @file 
     Frame.h
@@ -17,18 +17,13 @@ Qualcomm Confidential and Proprietary
 #include <QCAR/QCAR.h>
 
 
-namespace QCARDataFlow {
-    struct FrameData;
-}
-
-
 namespace QCAR
 {
 
 
 // Forward declarations
 class Image;
-class FrameEx;
+class FrameData;
 
 
 /// Frame is a collection of different representations of a single
@@ -49,14 +44,12 @@ public:
 
     /// Creates a reference to an existing frame
     Frame(const Frame& other);
-    Frame(const FrameEx& other);
 
     /// Destructor
     ~Frame();
 
     /// Thread save assignment operator
     Frame& operator=(const Frame& other);
-    Frame& operator=(const FrameEx& other);
 
     /// A time stamp that defines when the original camera image was shot
     /**
@@ -76,7 +69,7 @@ public:
     const Image* getImage(int idx) const;
 
 protected:
-    QCARDataFlow::FrameData* mData;
+    FrameData* mData;
 };
 
 } // namespace QCAR

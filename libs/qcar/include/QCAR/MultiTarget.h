@@ -1,7 +1,7 @@
 /*==============================================================================
-Copyright (c) 2010-2011 QUALCOMM Austria Research Center GmbH .
-All Rights Reserved.
-Qualcomm Confidential and Proprietary
+            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            All Rights Reserved.
+            Qualcomm Confidential and Proprietary
 			
 @file 
     MultiTarget.h
@@ -26,33 +26,13 @@ struct Matrix34F;
 
 /// A set of multiple targets with a fixed spatial relation
 /**
- *  Methods to create/destroy or modify a MultiTarget must not be
- *  called while the Tracker is working at the same time. Doing so will make
- *  these methods return false. This means that none of these methods
- *  should be called from the rendering thread.
- *  The suggested way of doing this is during the execution of UpdateCallback,
- *  which guarantees that the Tracker is not working concurrently.
- *  Alternatively the Tracker can be stopped explicitly. However, this is a
- *  very expensive operation.
+ *  Methods to modify a MultiTarget must not be called while the
+ *  corresponding DataSet is active. The dataset must be deactivated first
+ *  before reconfiguring a MultiTarget.
  */
 class QCAR_API MultiTarget : public Trackable
 {
 public:
-    /// Creates a new MultiTarget and registers it at the tracker
-    /**
-     *  Use MultiTarget::destroy() to destroy the returned MultiTarget
-     *  if it is no longer required.
-     *  This method must not be called while the tracker is working or it will
-     *  return NULL.
-     */
-    static MultiTarget* create(const char* name);
-
-    /// Destroys a MultiTarget
-    /**
-     *  This method must not be called while the tracker is working or it will
-     *  return false.
-     */
-    static bool destroy(MultiTarget* MultiTarget);
 
     /// Returns the number of Trackables that form the MultiTarget.
     virtual int getNumParts() const = 0;
@@ -87,16 +67,16 @@ public:
     /**
      *  Returns the index of the new part on success.
      *  Returns -1 in case of error, e.g. when adding a Part that is already
-     *  added or when the Tracker is currently running. Use the returned index
-     *  to set the Part's pose via setPartPose().
+     *  added or if the corresponding DataSet is currently active. Use the
+     *  returned index to set the Part's pose via setPartPose().
      */
     virtual int addPart(Trackable* trackable) = 0;
 
     /// Removes a Trackable from the MultiTarget.
     /**
      *  Returns true on success.
-     *  Returns false if the index is invalid or if the Tracker is currently
-     *  running.
+     *  Returns false if the index is invalid or if the corresponding DataSet
+     *  is currently active.
      */
     virtual bool removePart(int idx) = 0;
 
@@ -106,8 +86,8 @@ public:
      *  In this case the pose of the Part is identical with the pose of the
      *  MultiTarget. If there is more than one Part in a MultiTarget
      *  then at least one must have an offset, or the Parts are co-located.
-     *  Returns false if the index is invalid or the Tracker is currently
-     *  running.
+     *  Returns false if the index is invalid or if the corresponding DataSet
+     *  is currently active.
      */
     virtual bool setPartOffset(int idx, const Matrix34F& offset) = 0;
 
