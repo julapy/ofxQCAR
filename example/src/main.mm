@@ -1,8 +1,7 @@
 #include "ofMain.h"
 #include "testApp.h"
 
-int main()
-{
+int main(){
     ofAppiPhoneWindow *window = new ofAppiPhoneWindow();
     window->enableDepthBuffer();
     window->enableRetinaSupport();

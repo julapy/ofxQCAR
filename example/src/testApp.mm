@@ -1,11 +1,7 @@
 #include "testApp.h"
 
 //--------------------------------------------------------------
-void testApp :: setup()
-{	
-	ofRegisterTouchEvents( this );
-	ofxAccelerometer.setup();
-	ofxiPhoneAlerts.addListener( this );
+void testApp::setup(){	
 	ofBackground( 127 );
     
     teapotImage.loadImage( "qcar_assets/TextureTeapotBrass.png" );
@@ -17,14 +13,12 @@ void testApp :: setup()
 }
 
 //--------------------------------------------------------------
-void testApp :: update()
-{
+void testApp::update(){
     ofxQCAR::getInstance()->update();
 }
 
 //--------------------------------------------------------------
-void testApp :: draw()
-{
+void testApp::draw(){
     ofxQCAR *qcar;
     qcar = ofxQCAR::getInstance();
     qcar->draw();
@@ -82,65 +76,52 @@ void testApp :: draw()
 }
 
 //--------------------------------------------------------------
-void testApp :: exit()
-{
-    ofUnregisterTouchEvents( this );
-	ofxiPhoneAlerts.removeListener( this );
-    
+void testApp::exit(){
     ofxQCAR::getInstance()->exit();
 }
 
 //--------------------------------------------------------------
-void testApp :: touchDown(ofTouchEventArgs &touch)
-{
+void testApp::touchDown(ofTouchEventArgs & touch){
     touchPoint.set( touch.x, touch.y );
 }
 
 //--------------------------------------------------------------
-void testApp :: touchMoved(ofTouchEventArgs &touch)
-{
+void testApp::touchMoved(ofTouchEventArgs & touch){
     touchPoint.set( touch.x, touch.y );
 }
 
 //--------------------------------------------------------------
-void testApp :: touchUp(ofTouchEventArgs &touch)
-{
+void testApp::touchUp(ofTouchEventArgs & touch){
     touchPoint.set( -1, -1 );
 }
 
 //--------------------------------------------------------------
-void testApp :: touchDoubleTap(ofTouchEventArgs &touch)
-{
-    //
+void testApp::touchDoubleTap(ofTouchEventArgs & touch){
+
 }
 
 //--------------------------------------------------------------
-void testApp :: lostFocus()
-{
-    //
+void testApp::touchCancelled(ofTouchEventArgs & touch){
+    
 }
 
 //--------------------------------------------------------------
-void testApp :: gotFocus()
-{
-    //
+void testApp::lostFocus(){
+
 }
 
 //--------------------------------------------------------------
-void testApp :: gotMemoryWarning()
-{
-    //
+void testApp::gotFocus(){
+
 }
 
 //--------------------------------------------------------------
-void testApp :: deviceOrientationChanged(int newOrientation)
-{
-    //
+void testApp::gotMemoryWarning(){
+
 }
 
 //--------------------------------------------------------------
-void testApp :: touchCancelled(ofTouchEventArgs& args)
-{
-    //
+void testApp::deviceOrientationChanged(int newOrientation){
+
 }
 

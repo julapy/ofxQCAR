@@ -7,18 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1502AC5B14CAD9C700748334 /* MyAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5A14CAD9C700748334 /* MyAppDelegate.mm */; };
-		1502AC6014CADF5A00748334 /* ofxQCAR_EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5E14CADF5A00748334 /* ofxQCAR_EAGLView.mm */; };
-		1502AC6114CADF5A00748334 /* ofxQCAR_ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC5F14CADF5A00748334 /* ofxQCAR_ViewController.mm */; };
-		1502AC6414CADFF800748334 /* ofxQCAR_Utils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1502AC6314CADFF700748334 /* ofxQCAR_Utils.mm */; };
-		150E9457149A298300A50C7B /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 150E9453149A298300A50C7B /* config.xml */; };
-		150E9458149A298300A50C7B /* qcar-resources.dat in Resources */ = {isa = PBXBuildFile; fileRef = 150E9454149A298300A50C7B /* qcar-resources.dat */; };
-		150E945A149A298300A50C7B /* TextureTeapotBrass.png in Resources */ = {isa = PBXBuildFile; fileRef = 150E9456149A298300A50C7B /* TextureTeapotBrass.png */; };
-		150E9482149A29CF00A50C7B /* libQCAR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 150E947D149A29CF00A50C7B /* libQCAR.a */; };
-		150E9483149A29CF00A50C7B /* ofxQCAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 150E9480149A29CF00A50C7B /* ofxQCAR.mm */; };
-		150E9488149A2AA500A50C7B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150E9486149A2A7A00A50C7B /* SystemConfiguration.framework */; };
-		150E9489149A2AA500A50C7B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 150E9484149A2A5200A50C7B /* Security.framework */; };
-		1525B1C814CE395700B808F9 /* MyAppViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1525B1C714CE395700B808F9 /* MyAppViewController.mm */; };
+		156DD6A61583295200F5E857 /* config.xml in Resources */ = {isa = PBXBuildFile; fileRef = 156DD6A31583295200F5E857 /* config.xml */; };
+		156DD6A71583295200F5E857 /* qcar-resources.dat in Resources */ = {isa = PBXBuildFile; fileRef = 156DD6A41583295200F5E857 /* qcar-resources.dat */; };
+		156DD6A81583295200F5E857 /* TextureTeapotBrass.png in Resources */ = {isa = PBXBuildFile; fileRef = 156DD6A51583295200F5E857 /* TextureTeapotBrass.png */; };
+		15B505431581D464004CF539 /* ofxQCAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B5053A1581D464004CF539 /* ofxQCAR.mm */; };
+		15B505441581D464004CF539 /* ofxQCAR_EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B5053C1581D464004CF539 /* ofxQCAR_EAGLView.mm */; };
+		15B505451581D464004CF539 /* ofxQCAR_Utils.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B5053F1581D464004CF539 /* ofxQCAR_Utils.mm */; };
+		15B505461581D464004CF539 /* ofxQCAR_ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B505411581D464004CF539 /* ofxQCAR_ViewController.mm */; };
+		15B505571581D60B004CF539 /* MyAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B505541581D60B004CF539 /* MyAppDelegate.mm */; };
+		15B505581581D60B004CF539 /* MyAppViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B505561581D60B004CF539 /* MyAppViewController.mm */; };
+		15EC4D141583201000A77FC0 /* libQCAR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EC4D131583201000A77FC0 /* libQCAR.a */; };
+		15EC4D661583280300A77FC0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EC4D64158327EE00A77FC0 /* SystemConfiguration.framework */; };
+		15EC4D671583280300A77FC0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EC4D62158327E200A77FC0 /* Security.framework */; };
+		15EC4D691583285E00A77FC0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 15EC4D681583285E00A77FC0 /* README.md */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
@@ -45,14 +46,14 @@
 /* Begin PBXContainerItemProxy section */
 		E41D410113B3A0D800A75A5D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E41D40FD13B3A0D800A75A5D /* iPhone+OF Lib.xcodeproj */;
+			containerPortal = E41D40FD13B3A0D800A75A5D /* iOS+OFLib.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = BB24DED610DA7A3F00E9C588;
 			remoteInfo = "iPhone+OF Static Library";
 		};
 		E41D410313B3A11300A75A5D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = E41D40FD13B3A0D800A75A5D /* iPhone+OF Lib.xcodeproj */;
+			containerPortal = E41D40FD13B3A0D800A75A5D /* iOS+OFLib.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = BB24DE5C10DA7A3F00E9C588;
 			remoteInfo = "iPhone+OF Static Library";
@@ -60,51 +61,52 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		1502AC5914CAD9C700748334 /* MyAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAppDelegate.h; sourceTree = "<group>"; };
-		1502AC5A14CAD9C700748334 /* MyAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyAppDelegate.mm; sourceTree = "<group>"; };
-		1502AC5C14CADF5A00748334 /* ofxQCAR_EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_EAGLView.h; sourceTree = "<group>"; };
-		1502AC5D14CADF5A00748334 /* ofxQCAR_ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_ViewController.h; sourceTree = "<group>"; };
-		1502AC5E14CADF5A00748334 /* ofxQCAR_EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_EAGLView.mm; sourceTree = "<group>"; };
-		1502AC5F14CADF5A00748334 /* ofxQCAR_ViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_ViewController.mm; sourceTree = "<group>"; };
-		1502AC6214CADFF700748334 /* ofxQCAR_Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Utils.h; sourceTree = "<group>"; };
-		1502AC6314CADFF700748334 /* ofxQCAR_Utils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_Utils.mm; sourceTree = "<group>"; };
-		150E9453149A298300A50C7B /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
-		150E9454149A298300A50C7B /* qcar-resources.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = "qcar-resources.dat"; sourceTree = "<group>"; };
-		150E9456149A298300A50C7B /* TextureTeapotBrass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TextureTeapotBrass.png; sourceTree = "<group>"; };
-		150E945C149A299900A50C7B /* Teapot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Teapot.h; sourceTree = "<group>"; };
-		150E9462149A29CF00A50C7B /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
-		150E9463149A29CF00A50C7B /* CameraCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraCalibration.h; sourceTree = "<group>"; };
-		150E9464149A29CF00A50C7B /* CameraDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraDevice.h; sourceTree = "<group>"; };
-		150E9465149A29CF00A50C7B /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
-		150E9466149A29CF00A50C7B /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
-		150E9467149A29CF00A50C7B /* ImageTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTarget.h; sourceTree = "<group>"; };
-		150E9468149A29CF00A50C7B /* Marker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Marker.h; sourceTree = "<group>"; };
-		150E9469149A29CF00A50C7B /* Matrices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrices.h; sourceTree = "<group>"; };
-		150E946A149A29CF00A50C7B /* MultiTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiTarget.h; sourceTree = "<group>"; };
-		150E946B149A29CF00A50C7B /* NonCopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NonCopyable.h; sourceTree = "<group>"; };
-		150E946C149A29CF00A50C7B /* QCAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCAR.h; sourceTree = "<group>"; };
-		150E946D149A29CF00A50C7B /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
-		150E946E149A29CF00A50C7B /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
-		150E946F149A29CF00A50C7B /* State.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = State.h; sourceTree = "<group>"; };
-		150E9470149A29CF00A50C7B /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
-		150E9471149A29CF00A50C7B /* Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tool.h; sourceTree = "<group>"; };
-		150E9472149A29CF00A50C7B /* Trackable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trackable.h; sourceTree = "<group>"; };
-		150E9473149A29CF00A50C7B /* Tracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
-		150E9474149A29CF00A50C7B /* TubeTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TubeTarget.h; sourceTree = "<group>"; };
-		150E9475149A29CF00A50C7B /* UIGLViewProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGLViewProtocol.h; sourceTree = "<group>"; };
-		150E9476149A29CF00A50C7B /* UpdateCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCallback.h; sourceTree = "<group>"; };
-		150E9477149A29CF00A50C7B /* Vectors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vectors.h; sourceTree = "<group>"; };
-		150E9478149A29CF00A50C7B /* VideoBackgroundConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoBackgroundConfig.h; sourceTree = "<group>"; };
-		150E9479149A29CF00A50C7B /* VideoMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoMode.h; sourceTree = "<group>"; };
-		150E947A149A29CF00A50C7B /* VirtualButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualButton.h; sourceTree = "<group>"; };
-		150E947D149A29CF00A50C7B /* libQCAR.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libQCAR.a; sourceTree = "<group>"; };
-		150E947F149A29CF00A50C7B /* ofxQCAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR.h; sourceTree = "<group>"; };
-		150E9480149A29CF00A50C7B /* ofxQCAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR.mm; sourceTree = "<group>"; };
-		150E9484149A2A5200A50C7B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
-		150E9486149A2A7A00A50C7B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		1517063214CCDD3E00B303A1 /* ofxQCAR_Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Settings.h; sourceTree = "<group>"; };
-		1525B1C614CE395700B808F9 /* MyAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAppViewController.h; sourceTree = "<group>"; };
-		1525B1C714CE395700B808F9 /* MyAppViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyAppViewController.mm; sourceTree = "<group>"; };
+		156DD6A31583295200F5E857 /* config.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = config.xml; sourceTree = "<group>"; };
+		156DD6A41583295200F5E857 /* qcar-resources.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = "qcar-resources.dat"; sourceTree = "<group>"; };
+		156DD6A51583295200F5E857 /* TextureTeapotBrass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TextureTeapotBrass.png; sourceTree = "<group>"; };
+		15B505391581D464004CF539 /* ofxQCAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR.h; sourceTree = "<group>"; };
+		15B5053A1581D464004CF539 /* ofxQCAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR.mm; sourceTree = "<group>"; };
+		15B5053B1581D464004CF539 /* ofxQCAR_EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_EAGLView.h; sourceTree = "<group>"; };
+		15B5053C1581D464004CF539 /* ofxQCAR_EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_EAGLView.mm; sourceTree = "<group>"; };
+		15B5053D1581D464004CF539 /* ofxQCAR_Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Settings.h; sourceTree = "<group>"; };
+		15B5053E1581D464004CF539 /* ofxQCAR_Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Utils.h; sourceTree = "<group>"; };
+		15B5053F1581D464004CF539 /* ofxQCAR_Utils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_Utils.mm; sourceTree = "<group>"; };
+		15B505401581D464004CF539 /* ofxQCAR_ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_ViewController.h; sourceTree = "<group>"; };
+		15B505411581D464004CF539 /* ofxQCAR_ViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_ViewController.mm; sourceTree = "<group>"; };
+		15B505511581D60B004CF539 /* Teapot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Teapot.h; sourceTree = "<group>"; };
+		15B505531581D60B004CF539 /* MyAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAppDelegate.h; sourceTree = "<group>"; };
+		15B505541581D60B004CF539 /* MyAppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyAppDelegate.mm; sourceTree = "<group>"; };
+		15B505551581D60B004CF539 /* MyAppViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAppViewController.h; sourceTree = "<group>"; };
+		15B505561581D60B004CF539 /* MyAppViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MyAppViewController.mm; sourceTree = "<group>"; };
+		15EC4CF81583201000A77FC0 /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
+		15EC4CF91583201000A77FC0 /* CameraCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraCalibration.h; sourceTree = "<group>"; };
+		15EC4CFA1583201000A77FC0 /* CameraDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraDevice.h; sourceTree = "<group>"; };
+		15EC4CFB1583201000A77FC0 /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
+		15EC4CFC1583201000A77FC0 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
+		15EC4CFD1583201000A77FC0 /* ImageTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageTarget.h; sourceTree = "<group>"; };
+		15EC4CFE1583201000A77FC0 /* Marker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Marker.h; sourceTree = "<group>"; };
+		15EC4CFF1583201000A77FC0 /* Matrices.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Matrices.h; sourceTree = "<group>"; };
+		15EC4D001583201000A77FC0 /* MultiTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiTarget.h; sourceTree = "<group>"; };
+		15EC4D011583201000A77FC0 /* NonCopyable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NonCopyable.h; sourceTree = "<group>"; };
+		15EC4D021583201000A77FC0 /* QCAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QCAR.h; sourceTree = "<group>"; };
+		15EC4D031583201000A77FC0 /* Rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Rectangle.h; sourceTree = "<group>"; };
+		15EC4D041583201000A77FC0 /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
+		15EC4D051583201000A77FC0 /* State.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = State.h; sourceTree = "<group>"; };
+		15EC4D061583201000A77FC0 /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
+		15EC4D071583201000A77FC0 /* Tool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tool.h; sourceTree = "<group>"; };
+		15EC4D081583201000A77FC0 /* Trackable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Trackable.h; sourceTree = "<group>"; };
+		15EC4D091583201000A77FC0 /* Tracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
+		15EC4D0A1583201000A77FC0 /* TubeTarget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TubeTarget.h; sourceTree = "<group>"; };
+		15EC4D0B1583201000A77FC0 /* UIGLViewProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIGLViewProtocol.h; sourceTree = "<group>"; };
+		15EC4D0C1583201000A77FC0 /* UpdateCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UpdateCallback.h; sourceTree = "<group>"; };
+		15EC4D0D1583201000A77FC0 /* Vectors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vectors.h; sourceTree = "<group>"; };
+		15EC4D0E1583201000A77FC0 /* VideoBackgroundConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoBackgroundConfig.h; sourceTree = "<group>"; };
+		15EC4D0F1583201000A77FC0 /* VideoMode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VideoMode.h; sourceTree = "<group>"; };
+		15EC4D101583201000A77FC0 /* VirtualButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualButton.h; sourceTree = "<group>"; };
+		15EC4D131583201000A77FC0 /* libQCAR.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libQCAR.a; sourceTree = "<group>"; };
+		15EC4D62158327E200A77FC0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		15EC4D64158327EE00A77FC0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		15EC4D681583285E00A77FC0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* emptyExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = emptyExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -119,12 +121,12 @@
 		BB24DDC910DA781C00E9C588 /* ofxiphone-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "ofxiphone-Info.plist"; sourceTree = "<group>"; };
 		BBE5EAB70F49AD8400F28951 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		E41D3ED613B38FB500A75A5D /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
-		E41D3EE513B3906D00A75A5D /* CoreOF.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CoreOF.xcconfig; path = ../../../libs/openFrameworksCompiled/project/iphone/CoreOF.xcconfig; sourceTree = SOURCE_ROOT; };
+		E41D3EE513B3906D00A75A5D /* CoreOF.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CoreOF.xcconfig; path = ../../../libs/openFrameworksCompiled/project/ios/CoreOF.xcconfig; sourceTree = SOURCE_ROOT; };
 		E41D400613B39D2100A75A5D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		E41D400713B39D2100A75A5D /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		E41D400813B39D2100A75A5D /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
 		E41D400913B39D2100A75A5D /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
-		E41D40FD13B3A0D800A75A5D /* iPhone+OF Lib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "iPhone+OF Lib.xcodeproj"; path = "../../../libs/openFrameworksCompiled/project/iphone/iPhone+OF Lib.xcodeproj"; sourceTree = SOURCE_ROOT; };
+		E41D40FD13B3A0D800A75A5D /* iOS+OFLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "iOS+OFLib.xcodeproj"; path = "../../../libs/openFrameworksCompiled/project/ios/iOS+OFLib.xcodeproj"; sourceTree = SOURCE_ROOT; };
 		E4A823A312561BE3002F86A2 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		E4D8936B11527B74007E1F53 /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = main.mm; path = src/main.mm; sourceTree = SOURCE_ROOT; };
 		E4D8936C11527B74007E1F53 /* testApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testApp.h; path = src/testApp.h; sourceTree = SOURCE_ROOT; };
@@ -150,141 +152,141 @@
 				E41D400C13B39D2100A75A5D /* CoreMedia.framework in Frameworks */,
 				E41D400D13B39D2100A75A5D /* CoreVideo.framework in Frameworks */,
 				E41D400E13B39D2100A75A5D /* MapKit.framework in Frameworks */,
-				150E9482149A29CF00A50C7B /* libQCAR.a in Frameworks */,
-				150E9488149A2AA500A50C7B /* SystemConfiguration.framework in Frameworks */,
-				150E9489149A2AA500A50C7B /* Security.framework in Frameworks */,
+				15EC4D661583280300A77FC0 /* SystemConfiguration.framework in Frameworks */,
+				15EC4D671583280300A77FC0 /* Security.framework in Frameworks */,
+				15EC4D141583201000A77FC0 /* libQCAR.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1502AC5814CAD9C700748334 /* UI */ = {
+		156DD6A21583295200F5E857 /* qcar_assets */ = {
 			isa = PBXGroup;
 			children = (
-				1502AC5914CAD9C700748334 /* MyAppDelegate.h */,
-				1502AC5A14CAD9C700748334 /* MyAppDelegate.mm */,
-				1525B1C614CE395700B808F9 /* MyAppViewController.h */,
-				1525B1C714CE395700B808F9 /* MyAppViewController.mm */,
-			);
-			path = UI;
-			sourceTree = "<group>";
-		};
-		150E9452149A298300A50C7B /* qcar_assets */ = {
-			isa = PBXGroup;
-			children = (
-				150E9453149A298300A50C7B /* config.xml */,
-				150E9454149A298300A50C7B /* qcar-resources.dat */,
-				150E9456149A298300A50C7B /* TextureTeapotBrass.png */,
+				156DD6A31583295200F5E857 /* config.xml */,
+				156DD6A41583295200F5E857 /* qcar-resources.dat */,
+				156DD6A51583295200F5E857 /* TextureTeapotBrass.png */,
 			);
 			path = qcar_assets;
 			sourceTree = "<group>";
 		};
-		150E945B149A299900A50C7B /* 3d */ = {
+		15B505171581D451004CF539 /* ofxQCAR */ = {
 			isa = PBXGroup;
 			children = (
-				150E945C149A299900A50C7B /* Teapot.h */,
-			);
-			path = 3d;
-			sourceTree = "<group>";
-		};
-		150E945D149A29BD00A50C7B /* ofxQCAR */ = {
-			isa = PBXGroup;
-			children = (
-				150E945E149A29CF00A50C7B /* libs */,
-				150E947E149A29CF00A50C7B /* src */,
+				15EC4CF41583201000A77FC0 /* libs */,
+				15B505381581D464004CF539 /* src */,
 			);
 			name = ofxQCAR;
 			path = ../../../addons/ofxQCAR;
 			sourceTree = SOURCE_ROOT;
 		};
-		150E945E149A29CF00A50C7B /* libs */ = {
+		15B505381581D464004CF539 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				150E945F149A29CF00A50C7B /* qcar */,
+				15B505391581D464004CF539 /* ofxQCAR.h */,
+				15B5053A1581D464004CF539 /* ofxQCAR.mm */,
+				15B5053B1581D464004CF539 /* ofxQCAR_EAGLView.h */,
+				15B5053C1581D464004CF539 /* ofxQCAR_EAGLView.mm */,
+				15B5053D1581D464004CF539 /* ofxQCAR_Settings.h */,
+				15B5053E1581D464004CF539 /* ofxQCAR_Utils.h */,
+				15B5053F1581D464004CF539 /* ofxQCAR_Utils.mm */,
+				15B505401581D464004CF539 /* ofxQCAR_ViewController.h */,
+				15B505411581D464004CF539 /* ofxQCAR_ViewController.mm */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		15B505501581D60B004CF539 /* 3d */ = {
+			isa = PBXGroup;
+			children = (
+				15B505511581D60B004CF539 /* Teapot.h */,
+			);
+			path = 3d;
+			sourceTree = "<group>";
+		};
+		15B505521581D60B004CF539 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				15B505531581D60B004CF539 /* MyAppDelegate.h */,
+				15B505541581D60B004CF539 /* MyAppDelegate.mm */,
+				15B505551581D60B004CF539 /* MyAppViewController.h */,
+				15B505561581D60B004CF539 /* MyAppViewController.mm */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		15EC4CF41583201000A77FC0 /* libs */ = {
+			isa = PBXGroup;
+			children = (
+				15EC4CF51583201000A77FC0 /* qcar */,
 			);
 			path = libs;
 			sourceTree = "<group>";
 		};
-		150E945F149A29CF00A50C7B /* qcar */ = {
+		15EC4CF51583201000A77FC0 /* qcar */ = {
 			isa = PBXGroup;
 			children = (
-				150E9460149A29CF00A50C7B /* include */,
-				150E947B149A29CF00A50C7B /* lib */,
+				15EC4CF61583201000A77FC0 /* include */,
+				15EC4D111583201000A77FC0 /* lib */,
 			);
 			path = qcar;
 			sourceTree = "<group>";
 		};
-		150E9460149A29CF00A50C7B /* include */ = {
+		15EC4CF61583201000A77FC0 /* include */ = {
 			isa = PBXGroup;
 			children = (
-				150E9461149A29CF00A50C7B /* QCAR */,
+				15EC4CF71583201000A77FC0 /* QCAR */,
 			);
 			path = include;
 			sourceTree = "<group>";
 		};
-		150E9461149A29CF00A50C7B /* QCAR */ = {
+		15EC4CF71583201000A77FC0 /* QCAR */ = {
 			isa = PBXGroup;
 			children = (
-				150E9462149A29CF00A50C7B /* Area.h */,
-				150E9463149A29CF00A50C7B /* CameraCalibration.h */,
-				150E9464149A29CF00A50C7B /* CameraDevice.h */,
-				150E9465149A29CF00A50C7B /* Frame.h */,
-				150E9466149A29CF00A50C7B /* Image.h */,
-				150E9467149A29CF00A50C7B /* ImageTarget.h */,
-				150E9468149A29CF00A50C7B /* Marker.h */,
-				150E9469149A29CF00A50C7B /* Matrices.h */,
-				150E946A149A29CF00A50C7B /* MultiTarget.h */,
-				150E946B149A29CF00A50C7B /* NonCopyable.h */,
-				150E946C149A29CF00A50C7B /* QCAR.h */,
-				150E946D149A29CF00A50C7B /* Rectangle.h */,
-				150E946E149A29CF00A50C7B /* Renderer.h */,
-				150E946F149A29CF00A50C7B /* State.h */,
-				150E9470149A29CF00A50C7B /* System.h */,
-				150E9471149A29CF00A50C7B /* Tool.h */,
-				150E9472149A29CF00A50C7B /* Trackable.h */,
-				150E9473149A29CF00A50C7B /* Tracker.h */,
-				150E9474149A29CF00A50C7B /* TubeTarget.h */,
-				150E9475149A29CF00A50C7B /* UIGLViewProtocol.h */,
-				150E9476149A29CF00A50C7B /* UpdateCallback.h */,
-				150E9477149A29CF00A50C7B /* Vectors.h */,
-				150E9478149A29CF00A50C7B /* VideoBackgroundConfig.h */,
-				150E9479149A29CF00A50C7B /* VideoMode.h */,
-				150E947A149A29CF00A50C7B /* VirtualButton.h */,
+				15EC4CF81583201000A77FC0 /* Area.h */,
+				15EC4CF91583201000A77FC0 /* CameraCalibration.h */,
+				15EC4CFA1583201000A77FC0 /* CameraDevice.h */,
+				15EC4CFB1583201000A77FC0 /* Frame.h */,
+				15EC4CFC1583201000A77FC0 /* Image.h */,
+				15EC4CFD1583201000A77FC0 /* ImageTarget.h */,
+				15EC4CFE1583201000A77FC0 /* Marker.h */,
+				15EC4CFF1583201000A77FC0 /* Matrices.h */,
+				15EC4D001583201000A77FC0 /* MultiTarget.h */,
+				15EC4D011583201000A77FC0 /* NonCopyable.h */,
+				15EC4D021583201000A77FC0 /* QCAR.h */,
+				15EC4D031583201000A77FC0 /* Rectangle.h */,
+				15EC4D041583201000A77FC0 /* Renderer.h */,
+				15EC4D051583201000A77FC0 /* State.h */,
+				15EC4D061583201000A77FC0 /* System.h */,
+				15EC4D071583201000A77FC0 /* Tool.h */,
+				15EC4D081583201000A77FC0 /* Trackable.h */,
+				15EC4D091583201000A77FC0 /* Tracker.h */,
+				15EC4D0A1583201000A77FC0 /* TubeTarget.h */,
+				15EC4D0B1583201000A77FC0 /* UIGLViewProtocol.h */,
+				15EC4D0C1583201000A77FC0 /* UpdateCallback.h */,
+				15EC4D0D1583201000A77FC0 /* Vectors.h */,
+				15EC4D0E1583201000A77FC0 /* VideoBackgroundConfig.h */,
+				15EC4D0F1583201000A77FC0 /* VideoMode.h */,
+				15EC4D101583201000A77FC0 /* VirtualButton.h */,
 			);
 			path = QCAR;
 			sourceTree = "<group>";
 		};
-		150E947B149A29CF00A50C7B /* lib */ = {
+		15EC4D111583201000A77FC0 /* lib */ = {
 			isa = PBXGroup;
 			children = (
-				150E947C149A29CF00A50C7B /* arm */,
+				15EC4D121583201000A77FC0 /* arm */,
 			);
 			path = lib;
 			sourceTree = "<group>";
 		};
-		150E947C149A29CF00A50C7B /* arm */ = {
+		15EC4D121583201000A77FC0 /* arm */ = {
 			isa = PBXGroup;
 			children = (
-				150E947D149A29CF00A50C7B /* libQCAR.a */,
+				15EC4D131583201000A77FC0 /* libQCAR.a */,
 			);
 			path = arm;
-			sourceTree = "<group>";
-		};
-		150E947E149A29CF00A50C7B /* src */ = {
-			isa = PBXGroup;
-			children = (
-				150E947F149A29CF00A50C7B /* ofxQCAR.h */,
-				150E9480149A29CF00A50C7B /* ofxQCAR.mm */,
-				1502AC6214CADFF700748334 /* ofxQCAR_Utils.h */,
-				1502AC6314CADFF700748334 /* ofxQCAR_Utils.mm */,
-				1502AC5C14CADF5A00748334 /* ofxQCAR_EAGLView.h */,
-				1502AC5E14CADF5A00748334 /* ofxQCAR_EAGLView.mm */,
-				1502AC5D14CADF5A00748334 /* ofxQCAR_ViewController.h */,
-				1502AC5F14CADF5A00748334 /* ofxQCAR_ViewController.mm */,
-				1517063214CCDD3E00B303A1 /* ofxQCAR_Settings.h */,
-			);
-			path = src;
 			sourceTree = "<group>";
 		};
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
@@ -324,8 +326,8 @@
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765FC0DF74451002DB57D /* CoreGraphics.framework */,
 				5326AEA710A23A0500278DE6 /* CoreLocation.framework */,
-				150E9486149A2A7A00A50C7B /* SystemConfiguration.framework */,
-				150E9484149A2A5200A50C7B /* Security.framework */,
+				15EC4D64158327EE00A77FC0 /* SystemConfiguration.framework */,
+				15EC4D62158327E200A77FC0 /* Security.framework */,
 			);
 			name = "core frameworks";
 			sourceTree = "<group>";
@@ -341,7 +343,8 @@
 		BB16F26B0F2B646B00518274 /* addons */ = {
 			isa = PBXGroup;
 			children = (
-				150E945D149A29BD00A50C7B /* ofxQCAR */,
+				15EC4D681583285E00A77FC0 /* README.md */,
+				15B505171581D451004CF539 /* ofxQCAR */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -349,7 +352,7 @@
 		BB24DD8B10DA77E000E9C588 /* data */ = {
 			isa = PBXGroup;
 			children = (
-				150E9452149A298300A50C7B /* qcar_assets */,
+				156DD6A21583295200F5E857 /* qcar_assets */,
 				BB24DD8C10DA77E000E9C588 /* Default.png */,
 				BB24DD8D10DA77E000E9C588 /* Icon.png */,
 			);
@@ -360,7 +363,7 @@
 		BB24E1F710DAA51900E9C588 /* openFrameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E41D40FD13B3A0D800A75A5D /* iPhone+OF Lib.xcodeproj */,
+				E41D40FD13B3A0D800A75A5D /* iOS+OFLib.xcodeproj */,
 				32CA4F630368D1EE00C91783 /* iPhone_Prefix.pch */,
 				BB24DDC910DA781C00E9C588 /* ofxiphone-Info.plist */,
 				E41D3EE513B3906D00A75A5D /* CoreOF.xcconfig */,
@@ -389,10 +392,10 @@
 			isa = PBXGroup;
 			children = (
 				E4D8936B11527B74007E1F53 /* main.mm */,
-				E4D8936D11527B74007E1F53 /* testApp.mm */,
 				E4D8936C11527B74007E1F53 /* testApp.h */,
-				1502AC5814CAD9C700748334 /* UI */,
-				150E945B149A299900A50C7B /* 3d */,
+				E4D8936D11527B74007E1F53 /* testApp.mm */,
+				15B505521581D60B004CF539 /* UI */,
+				15B505501581D60B004CF539 /* 3d */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -439,7 +442,7 @@
 			projectReferences = (
 				{
 					ProductGroup = E41D40FE13B3A0D800A75A5D /* Products */;
-					ProjectRef = E41D40FD13B3A0D800A75A5D /* iPhone+OF Lib.xcodeproj */;
+					ProjectRef = E41D40FD13B3A0D800A75A5D /* iOS+OFLib.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -469,9 +472,10 @@
 				BB24DDCA10DA781C00E9C588 /* ofxiphone-Info.plist in Resources */,
 				E41D3ED713B38FB500A75A5D /* Project.xcconfig in Resources */,
 				E41D3EE613B3906D00A75A5D /* CoreOF.xcconfig in Resources */,
-				150E9457149A298300A50C7B /* config.xml in Resources */,
-				150E9458149A298300A50C7B /* qcar-resources.dat in Resources */,
-				150E945A149A298300A50C7B /* TextureTeapotBrass.png in Resources */,
+				15EC4D691583285E00A77FC0 /* README.md in Resources */,
+				156DD6A61583295200F5E857 /* config.xml in Resources */,
+				156DD6A71583295200F5E857 /* qcar-resources.dat in Resources */,
+				156DD6A81583295200F5E857 /* TextureTeapotBrass.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,7 +493,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cp -rf bin/data/ \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app\"";
+			shellScript = "cp -rf bin/data/ \"$TARGET_BUILD_DIR/$PRODUCT_NAME.app\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -500,12 +504,12 @@
 			files = (
 				E4D8936E11527B74007E1F53 /* main.mm in Sources */,
 				E4D8936F11527B74007E1F53 /* testApp.mm in Sources */,
-				150E9483149A29CF00A50C7B /* ofxQCAR.mm in Sources */,
-				1502AC5B14CAD9C700748334 /* MyAppDelegate.mm in Sources */,
-				1502AC6014CADF5A00748334 /* ofxQCAR_EAGLView.mm in Sources */,
-				1502AC6114CADF5A00748334 /* ofxQCAR_ViewController.mm in Sources */,
-				1502AC6414CADFF800748334 /* ofxQCAR_Utils.mm in Sources */,
-				1525B1C814CE395700B808F9 /* MyAppViewController.mm in Sources */,
+				15B505431581D464004CF539 /* ofxQCAR.mm in Sources */,
+				15B505441581D464004CF539 /* ofxQCAR_EAGLView.mm in Sources */,
+				15B505451581D464004CF539 /* ofxQCAR_Utils.mm in Sources */,
+				15B505461581D464004CF539 /* ofxQCAR_ViewController.mm in Sources */,
+				15B505571581D60B004CF539 /* MyAppDelegate.mm in Sources */,
+				15B505581581D60B004CF539 /* MyAppViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -531,19 +535,18 @@
 					../../../addons/ofxQCAR/libs/qcar/include,
 				);
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../../addons/ofxQCAR/libs/qcar/lib/arm,
 				);
 				PRODUCT_NAME = "${TARGET_NAME}";
+				USER_HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS) ../../../addons/ofxQCAR/libs/qcar/include";
 			};
 			name = Debug;
 		};
 		1D6058950D05DD3E006BFB54 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPhone_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
@@ -551,12 +554,12 @@
 					../../../addons/ofxQCAR/libs/qcar/include,
 				);
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../../addons/ofxQCAR/libs/qcar/lib/arm,
 				);
 				PRODUCT_NAME = "${TARGET_NAME}";
+				USER_HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS) ../../../addons/ofxQCAR/libs/qcar/include";
 			};
 			name = Release;
 		};
@@ -572,7 +575,6 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
 				GCC_WARN_ABOUT_POINTER_SIGNEDNESS = NO;
@@ -580,6 +582,7 @@
 				GCC_WARN_ALLOW_INCOMPLETE_PROTOCOL = NO;
 				GCC_WARN_PROTOTYPE_CONVERSION = NO;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS)";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
@@ -605,9 +608,9 @@
 				GCC_OPTIMIZATION_LEVEL = 3;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_THUMB_SUPPORT = NO;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS)";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
