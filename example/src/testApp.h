@@ -4,7 +4,7 @@
 #include "ofxiPhone.h"
 #include "ofxiPhoneExtras.h"
 
-//#include "ofxQCAR.h"
+#include "ofxQCAR.h"
 #include "Teapot.h"
 
 class testApp : public ofxiPhoneApp{

@@ -3,11 +3,10 @@
 //  emptyExample
 //
 //  Created by lukasz karluk on 12/12/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
 #import "MyAppViewController.h"
-//#import "ofxQCAR_ViewController.h"
+#import "ofxQCAR_ViewController.h"
 #import "testApp.h"
 
 @implementation MyAppViewController
@@ -87,12 +86,12 @@
 
 - (void) creatApp : (ofBaseApp*)app withFrame : (CGRect)rect
 {
-//    ofxQCAR_ViewController * viewController;
-//    viewController = [[[ ofxQCAR_ViewController alloc ] initWithFrame : rect
-//                                                                  app : app ] autorelease ];
-//    
-//    [ self.navigationController pushViewController : viewController
-//                                          animated : YES ];
+    ofxQCAR_ViewController * viewController;
+    viewController = [[[ ofxQCAR_ViewController alloc ] initWithFrame : rect
+                                                                  app : app ] autorelease ];
+    
+    [ self.navigationController pushViewController : viewController
+                                          animated : YES ];
 }
 
 @end

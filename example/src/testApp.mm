@@ -2,27 +2,29 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){	
-	ofBackground( 127 );
+	ofBackground(127);
     
-    teapotImage.loadImage( "qcar_assets/TextureTeapotBrass.png" );
-    teapotImage.mirror( true, false );  //-- flip texture vertically since the texture coords are set that way on the teapot.
+    teapotImage.loadImage("qcar_assets/TextureTeapotBrass.png");
+    teapotImage.mirror(true, false);  //-- flip texture vertically since the texture coords are set that way on the teapot.
     
     touchPoint.x = touchPoint.y = -1;
-    
-//    ofxQCAR::getInstance()->setup();
+
+    ofxQCAR * qcar = ofxQCAR::getInstance();
+    qcar->addTarget("Stones & Chips", "StonesAndChips.xml");
+    qcar->addTarget("Tarmac", "Tarmac.xml");
+    qcar->setup();
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-//    ofxQCAR::getInstance()->update();
+    ofxQCAR::getInstance()->update();
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-//    ofxQCAR *qcar;
-//    qcar = ofxQCAR::getInstance();
-//    qcar->draw();
-//    
+    ofxQCAR * qcar = ofxQCAR::getInstance();
+    qcar->draw();
+    
 //    bool bPressed;
 //    bPressed = touchPoint.x >= 0 && touchPoint.y >= 0;
 //    
@@ -77,22 +79,22 @@ void testApp::draw(){
 
 //--------------------------------------------------------------
 void testApp::exit(){
-//    ofxQCAR::getInstance()->exit();
+    ofxQCAR::getInstance()->exit();
 }
 
 //--------------------------------------------------------------
 void testApp::touchDown(ofTouchEventArgs & touch){
-    touchPoint.set( touch.x, touch.y );
+    touchPoint.set(touch.x, touch.y);
 }
 
 //--------------------------------------------------------------
 void testApp::touchMoved(ofTouchEventArgs & touch){
-    touchPoint.set( touch.x, touch.y );
+    touchPoint.set(touch.x, touch.y);
 }
 
 //--------------------------------------------------------------
 void testApp::touchUp(ofTouchEventArgs & touch){
-    touchPoint.set( -1, -1 );
+    touchPoint.set(-1, -1);
 }
 
 //--------------------------------------------------------------
