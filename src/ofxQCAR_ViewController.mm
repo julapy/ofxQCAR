@@ -5,7 +5,7 @@
 //
 
 #import "ofxQCAR_ViewController.h"
-#import "ofxQCAR.h"
+#import "ofxQCAR_EAGLView.h"
 #import "ofxiPhoneExtras.h"
 
 @interface ofxQCAR_ViewController() {
@@ -27,8 +27,11 @@
     viewBounds.size.width = frame.size.height;
     viewBounds.size.height = frame.size.width;
     
-    self.glView = [[[ofxQCAR_EAGLView alloc] initWithFrame:viewBounds] autorelease];
-    ((ofxQCAR_EAGLView*)self.glView).delegate = self;
+    self.glView = [[[ofxQCAR_EAGLView alloc] initWithFrame:viewBounds 
+                                                  andDepth:ofxiPhoneGetOFWindow()->isDepthEnabled()
+                                                     andAA:ofxiPhoneGetOFWindow()->isAntiAliasingEnabled()
+                                             andNumSamples:ofxiPhoneGetOFWindow()->getAntiAliasingSampleCount()
+                                                 andRetina:ofxiPhoneGetOFWindow()->isRetinaSupported()] autorelease];
 //    [self.view insertSubview:self.glView atIndex:0];
     
     parentView = [[UIView alloc] initWithFrame:viewBounds];
@@ -37,12 +40,10 @@
 }
 
 - (void)destroy {
-    ((ofxQCAR_EAGLView*)self.glView).delegate = nil;
     [super destroy];
 }
 
 - (void)dealloc {
-    ((ofxQCAR_EAGLView*)self.glView).delegate = nil;
     [super dealloc];
 }
 
