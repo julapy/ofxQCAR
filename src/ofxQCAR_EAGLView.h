@@ -14,12 +14,15 @@
 #import "EAGLView.h"
 #import <QCAR/UIGLViewProtocol.h>
 #import "ofxQCAR_Settings.h"
+#import "ofxQCAR_Utils.h"
 
 @interface ofxQCAR_EAGLView : EAGLView <UIGLViewProtocol>
 {
     id <ofxQCAR_EAGLViewDelegate> delegate;
     
 @private
+    ofxQCAR_Utils *qUtils; // QCAR utils class
+    
     EAGLContext *context;
     
     // The pixel dimensions of the CAEAGLLayer.
@@ -32,14 +35,9 @@
     GLuint colorRenderbuffer;
     GLuint depthRenderbuffer;
     
-#ifndef USE_OPENGL1
-    // OpenGL 2 data
-    unsigned int shaderProgramID;
-    GLint vertexHandle;
-    GLint normalHandle;
-    GLint textureCoordHandle;
-    GLint mvpMatrixHandle;
-#endif
+    NSMutableArray* textures;   // loaded textures
+    NSMutableArray *objects3D;  // objects to draw
+    BOOL renderingInited;
     
 	NSMutableDictionary	*touchesDict;
 	int touchScale;

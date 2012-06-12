@@ -24,14 +24,7 @@
 /////////////////////////////////////////////////////////
 
 ofxQCAR * ofxQCAR::_instance = NULL;
-
 bool bBeginDraw = false;
-
-#if !(TARGET_IPHONE_SIMULATOR)
-
-ofxQCAR_Delegate * delegate = nil;
-
-#endif
 
 /////////////////////////////////////////////////////////
 //  DELEGATE.
@@ -39,24 +32,23 @@ ofxQCAR_Delegate * delegate = nil;
 
 @implementation ofxQCAR_Delegate
 
-- (void)qcar_initialised {
+- (void)initApplication {
     //
 }
 
-- (void)qcar_cameraStarted {
+- (void)initApplicationAR {
     //
 }
 
-- (void)qcar_cameraStopped {
-    //
-}
-
-- (void)qcar_projectionMatrixReady {
-    //
-}
-
-- (void)qcar_update {
-    //
+- (void)postInitQCAR {
+    // These two calls to setHint tell QCAR to split work over multiple
+    // frames.  Depending on your requirements you can opt to omit these.
+    QCAR::setHint(QCAR::HINT_IMAGE_TARGET_MULTI_FRAME_ENABLED, 1);
+    QCAR::setHint(QCAR::HINT_IMAGE_TARGET_MILLISECONDS_PER_MULTI_FRAME, 25);
+    
+    // Here we could also make a QCAR::setHint call to set the maximum
+    // number of simultaneous targets                
+    // QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, 2);
 }
 
 @end
@@ -87,14 +79,8 @@ void ofxQCAR::addTarget(string targetName, string targetPath) {
 
 void ofxQCAR::setup() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    
-    if(!delegate) {
-        delegate = [[ofxQCAR_Delegate alloc] init];
-    }
-    
     [[ofxQCAR_Utils getInstance] createARofSize:[[UIScreen mainScreen] bounds].size 
-                                    forDelegate:nil];
-    
+                                    forDelegate:[[ofxQCAR_Delegate alloc] init]];
 #endif
     
     bBeginDraw = false;
@@ -360,22 +346,24 @@ void ofxQCAR::draw() {
     
     //--- render the video background.
     
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
     QCAR::State state = QCAR::Renderer::getInstance().begin();
     QCAR::Renderer::getInstance().drawVideoBackground();
     QCAR::Renderer::getInstance().end();
     
     //--- restore openFrameworks render configuration.
     
-    glViewport(0, 0, ofGetWidth(), ofGetHeight());
-    ofSetupScreen();
-    
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-    
-    glDisable(GL_TEXTURE_2D);
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_NORMAL_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+//    glViewport(0, 0, ofGetWidth(), ofGetHeight());
+//    ofSetupScreen();
+//    
+//    glDisable(GL_DEPTH_TEST);
+//    glDisable(GL_CULL_FACE);
+//    
+//    glDisable(GL_TEXTURE_2D);
+//    glDisableClientState(GL_VERTEX_ARRAY);
+//    glDisableClientState(GL_NORMAL_ARRAY);
+//    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     
 #endif
 }
@@ -422,14 +410,8 @@ void ofxQCAR::drawMarkerBounds() {
 
 void ofxQCAR::exit() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    
+    [ofxQCAR_Utils getInstance].delegate = nil;
     [[ofxQCAR_Utils getInstance] pauseAR];
     [[ofxQCAR_Utils getInstance] destroyAR];
-    
-    if(delegate) {
-        [delegate release];
-        delegate = nil;
-    }
-
 #endif
 }

@@ -8,6 +8,8 @@
 #import "ofxiPhoneViewController.h"
 #import "ofxQCAR_EAGLView.h"
 
-@interface ofxQCAR_ViewController : ofxiPhoneViewController <ofxQCAR_EAGLViewDelegate>
+@interface ofxQCAR_ViewController : ofxiPhoneViewController <ofxQCAR_EAGLViewDelegate> {
+    //
+}
 
 @end

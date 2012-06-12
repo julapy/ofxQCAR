@@ -1,28 +1,49 @@
-//
-//  ofxQCAREAGLView.m
-//
-//  Created by lukasz karluk on 19/01/12.
-//
+/*==============================================================================
+ Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+ All Rights Reserved.
+ Qualcomm Confidential and Proprietary
+ ==============================================================================*/
 
-#if !(TARGET_IPHONE_SIMULATOR)
+#import <QuartzCore/QuartzCore.h>
+#import "AR_EAGLView.h"
+#import "Texture.h"
+#import <QCAR/QCAR.h>
 
-#import "ofxQCAR_EAGLView.h"
-#import "ofxiPhoneExtras.h"
+#import "QCARutils.h"
 
-#import <QCAR/Renderer.h>
-#import <QCAR/Tool.h>
-#import <QCAR/Trackable.h>
+#ifndef USE_OPENGL1
+#import "ShaderUtils.h"
+#define MAKESTRING(x) #x
+#import "Shaders/Shader.fsh"
+#import "Shaders/Shader.vsh"
+#endif
 
-@interface ofxQCAR_EAGLView (PrivateMethods)
+
+@implementation Object3D
+
+@synthesize numVertices;
+@synthesize vertices;
+@synthesize normals;
+@synthesize texCoords;
+@synthesize numIndices;
+@synthesize indices;
+@synthesize texture;
+
+@end
+
+@interface AR_EAGLView (PrivateMethods)
 - (void)setFramebuffer;
 - (BOOL)presentFramebuffer;
 - (void)createFramebuffer;
 - (void)deleteFramebuffer;
+- (int)loadTextures;
+- (void)initRendering;
 @end
 
-@implementation ofxQCAR_EAGLView
 
-@synthesize delegate;
+@implementation AR_EAGLView
+
+@synthesize textureList;
 
 // You must implement this method
 + (Class)layerClass
@@ -30,13 +51,39 @@
     return [CAEAGLLayer class];
 }
 
+// test to see if the screen has hi-res mode
+- (BOOL) isRetinaEnabled
+{
+    return ([[UIScreen mainScreen] respondsToSelector:@selector(displayLinkWithTarget:selector:)]
+            &&
+            ([UIScreen mainScreen].scale == 2.0));
+}
 
+// use to allow this view to access loaded textures
+- (void) useTextures:(NSMutableArray *)theTextures
+{
+    textures = theTextures;
+}
+ 
+
+#pragma mark ---- view lifecycle ---
+/////////////////////////////////////////////////////////////////
+//
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     
 	if (self) {
-        qUtils = [ofxQCAR_Utils getInstance];
+        qUtils = [QCARutils getInstance];
+        objects3D = [[NSMutableArray alloc] initWithCapacity:2];
+        textureList = [[NSMutableArray alloc] initWithCapacity:2];
+        
+        // switch on hi-res mode if available
+        if ([self isRetinaEnabled])
+        {
+            self.contentScaleFactor = 2.0f;
+            qUtils.contentScalingFactor = self.contentScaleFactor;
+        }
         
         CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
         
@@ -45,21 +92,6 @@
                                         [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking,
                                         kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat,
                                         nil];
-        
-        touchScale = 1.0;
-        touchesDict = [ [ NSMutableDictionary alloc ] init ];
-
-		if( ofxiPhoneGetOFWindow()->isRetinaSupported() )
-		{
-			if( [[UIScreen mainScreen] respondsToSelector:@selector(scale)] )
-            {
-				if( [[UIScreen mainScreen] scale] > 1 )
-				{
-					self.contentScaleFactor = 2.0f;
-                    qUtils.contentScalingFactor = self.contentScaleFactor;
-				}
-			}
-		}
         
 #ifdef USE_OPENGL1
         context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
@@ -89,12 +121,29 @@
     }
     
     [context release];
-    
-    [touchesDict release];
-    
+    [objects3D release];
+    [textureList release];
     [super dealloc];
 }
 
+
+/////////////////////////////////////////////////////////////////
+//
+- (void)layoutSubviews
+{
+    NSLog(@"EAGLView: layoutSubviews");
+    
+    // The framebuffer will be re-created at the beginning of the next setFramebuffer method call.
+    [self deleteFramebuffer];
+    
+    // Initialisation done once, or once per screen size change
+    [self initRendering];
+}
+
+
+#pragma mark --- OpenGL essentials ---
+/////////////////////////////////////////////////////////////////
+//
 - (void)createFramebuffer
 {
 #ifdef USE_OPENGL1
@@ -137,7 +186,7 @@
         // Create colour render buffer and allocate backing store
         glGenRenderbuffers(1, &colorRenderbuffer);
         glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
-        
+
         // Allocate the renderbuffer's storage (shared with the drawable object)
         [context renderbufferStorage:GL_RENDERBUFFER fromDrawable:(CAEAGLLayer *)self.layer];
         glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &framebufferWidth);
@@ -162,6 +211,9 @@
 #endif
 }
 
+
+/////////////////////////////////////////////////////////////////
+//
 - (void)deleteFramebuffer
 {
     if (context) {
@@ -201,6 +253,9 @@
     }
 }
 
+
+/////////////////////////////////////////////////////////////////
+//
 - (void)setFramebuffer
 {
     if (context) {
@@ -221,6 +276,9 @@
     }
 }
 
+
+/////////////////////////////////////////////////////////////////
+//
 - (BOOL)presentFramebuffer
 {
     BOOL success = FALSE;
@@ -240,154 +298,147 @@
     return success;
 }
 
-- (void)layoutSubviews
+
+/////////////////////////////////////////////////////////////////
+// TEMPLATE - this is app specific and
+// expected to be overridden in EAGLView.mm
+- (void) setup3dObjects
 {
-    NSLog(@"EAGLView: layoutSubviews");
-    
-    // The framebuffer will be re-created at the beginning of the next setFramebuffer method call.
-    [self deleteFramebuffer];
+    for (int i=0; i < [textures count]; i++)
+    {
+        Object3D *obj3D = [[Object3D alloc] init];
+
+        obj3D.numVertices = 0;
+        obj3D.vertices = nil;
+        obj3D.normals = nil;
+        obj3D.texCoords = nil;
+        
+        obj3D.numIndices = 0;
+        obj3D.indices = nil;
+        
+        obj3D.texture = [textures objectAtIndex:i];
+
+        [objects3D addObject:obj3D];
+        [obj3D release];
+    }
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+// Initialise OpenGL 2.x shaders
+- (void)initShaders
+{
+#ifndef USE_OPENGL1
+    // OpenGL 2 initialisation
+    shaderProgramID = ShaderUtils::createProgramFromBuffer(vertexShader, fragmentShader);
+    
+    if (0 < shaderProgramID) {
+        vertexHandle = glGetAttribLocation(shaderProgramID, "vertexPosition");
+        normalHandle = glGetAttribLocation(shaderProgramID, "vertexNormal");
+        textureCoordHandle = glGetAttribLocation(shaderProgramID, "vertexTexCoord");
+        mvpMatrixHandle = glGetUniformLocation(shaderProgramID, "modelViewProjectionMatrix");
+    }
+    else {
+        NSLog(@"Could not initialise augmentation shader");
+    }
+#endif
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Initialise OpenGL rendering
+- (void)initRendering
+{
+    if (renderingInited)
+        return;
+    
+    // Define the clear colour
+    glClearColor(0.0f, 0.0f, 0.0f, QCAR::requiresAlpha() ? 0.0f : 1.0f);
+    
+    // Generate the OpenGL texture objects
+    for (int i = 0; i < [textures count]; ++i) {
+        GLuint nID;
+        Texture* texture = [textures objectAtIndex:i];
+        glGenTextures(1, &nID);
+        [texture setTextureID: nID];
+        glBindTexture(GL_TEXTURE_2D, nID);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, [texture width], [texture height], 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*)[texture pngData]);
+    }
+    
+    // set up objects using the above textures.
+    [self setup3dObjects];
+    
+    if (QCAR::GL_20 & qUtils.QCARFlags) {
+        [self initShaders];
+    }
+    
+    renderingInited = YES;
+}
+
+
+////////////////////////////////////////////////////////////////////////////////
+// Draw the current frame using OpenGL
+//
+// This code is a TEMPLATE for the subclassing EAGLView to complete
+//
+// The subclass override of this method is called by QCAR when it wishes to render the current frame to
+// the screen.
+//
+// *** QCAR will call the subclassed method on a single background thread ***
 - (void)renderFrameQCAR
 {
-    [ self.delegate performSelectorOnMainThread:@selector(timerLoop) withObject:nil waitUntilDone:NO ];
-}
-
-////////////////////////////////////////////////
-//  OVERWRITE TO DISABLE.
-////////////////////////////////////////////////
-
-- (id) initWithFrame:(CGRect)frame andDepth:(bool)depth andAA:(bool)fsaaEnabled andNumSamples:(int)samples andRetina:(bool)retinaEnabled
-{
-	return self = [self initWithFrame:frame];
-}
-
-- (void)startRender 
-{
+#ifdef renderFrameQCAR_TEMPLATE 
     [self setFramebuffer];
-}
-
-- (void)finishRender 
-{
+    
+    // Clear colour and depth buffers
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    // Render video background and retrieve tracking state
+    QCAR::State state = QCAR::Renderer::getInstance().begin();
+    QCAR::Renderer::getInstance().drawVideoBackground();
+    
+    if (QCAR::GL_11 & qUtils.QCARFlags) {
+        glEnable(GL_TEXTURE_2D);
+        glDisable(GL_LIGHTING);
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glEnableClientState(GL_NORMAL_ARRAY);
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    }
+    
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_CULL_FACE);
+    
+    for (int i = 0; i < state.getNumActiveTrackables(); ++i) {        
+        // Render using the appropriate version of OpenGL
+        if (QCAR::GL_11 & qUtils.QCARFlags){
+            ////////////////////////////////////////////////
+            // In subclass, draw augmentations in OpenGL ES 1.1 here
+            ////////////////////////////////////////////////
+        }
+#ifndef USE_OPENGL1
+        else {
+            ////////////////////////////////////////////////
+            // In subclass, draw augmentations in OpenGL ES 2.0 here
+            ////////////////////////////////////////////////
+        }
+#endif
+    }
+    
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    
+    if (QCAR::GL_11 & qUtils.QCARFlags) {
+        glDisable(GL_TEXTURE_2D);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    }
+    
+    QCAR::Renderer::getInstance().end();
     [self presentFramebuffer];
-}
-
-////////////////////////////////////////////////
-//  TOUCH OVERWRITE.
-////////////////////////////////////////////////
-
-//------------------------------------------------------
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-	
-	for(UITouch *touch in touches) {
-		int touchIndex = 0;
-		while([[touchesDict allValues] containsObject:[NSNumber numberWithInt:touchIndex]]) {
-			touchIndex++;
-		}
-		
-		[touchesDict setObject:[NSNumber numberWithInt:touchIndex] forKey:[NSValue valueWithPointer:touch]];
-		
-		CGPoint touchPoint = [touch locationInView:self];
-		
-		touchPoint.x*=touchScale; // this has to be done because retina still returns points in 320x240 but with high percision
-		touchPoint.y*=touchScale;
-		
-		iPhoneGetOFWindow()->rotateXY(touchPoint.x, touchPoint.y);
-		
-		if( touchIndex==0 ){
-			ofNotifyMousePressed(touchPoint.x, touchPoint.y, 0);
-		}
-		
-		ofTouchEventArgs touchArgs;
-		touchArgs.x = touchPoint.x;
-		touchArgs.y = touchPoint.y;
-		touchArgs.id = touchIndex;
-		if([touch tapCount] == 2) ofNotifyEvent(ofEvents().touchDoubleTap,touchArgs);	// send doubletap
-		ofNotifyEvent(ofEvents().touchDown,touchArgs);	// but also send tap (upto app programmer to ignore this if doubletap came that frame)
-	}
-}
-
-//------------------------------------------------------
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-	//	NSLog(@"touchesMoved: %i %i %i", [touches count],  [[event touchesForView:self] count], multitouchData.numTouches);
-	
-	for(UITouch *touch in touches) {
-		int touchIndex = [[touchesDict objectForKey:[NSValue valueWithPointer:touch]] intValue];
-		//		[activeTouches setObject:[NSNumber numberWithInt:touchIndex] forKey:[NSValue valueWithPointer:touch]];
-		
-		CGPoint touchPoint = [touch locationInView:self];
-		
-		touchPoint.x*=touchScale; // this has to be done because retina still returns points in 320x240 but with high percision
-		touchPoint.y*=touchScale;
-		
-		iPhoneGetOFWindow()->rotateXY(touchPoint.x, touchPoint.y);
-		
-		if( touchIndex==0 ){
-			ofNotifyMouseDragged(touchPoint.x, touchPoint.y, 0);			
-		}		
-		ofTouchEventArgs touchArgs;
-		touchArgs.numTouches = [[event touchesForView:self] count];
-		touchArgs.x = touchPoint.x;
-		touchArgs.y = touchPoint.y;
-		touchArgs.id = touchIndex;
-		ofNotifyEvent(ofEvents().touchMoved, touchArgs);
-	}
-	
-}
-
-//------------------------------------------------------
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-	//	NSLog(@"touchesEnded: %i %i %i", [touches count],  [[event touchesForView:self] count], multitouchData.numTouches);
-	for(UITouch *touch in touches) {
-		int touchIndex = [[touchesDict objectForKey:[NSValue valueWithPointer:touch]] intValue];
-		
-		[touchesDict removeObjectForKey:[NSValue valueWithPointer:touch]];
-		
-		CGPoint touchPoint = [touch locationInView:self];
-		
-		touchPoint.x*=touchScale; // this has to be done because retina still returns points in 320x240 but with high percision
-		touchPoint.y*=touchScale;
-		
-		iPhoneGetOFWindow()->rotateXY(touchPoint.x, touchPoint.y);
-		
-		if( touchIndex==0 ){
-			ofNotifyMouseReleased(touchPoint.x, touchPoint.y, 0);						
-		}
-		
-		ofTouchEventArgs touchArgs;
-		touchArgs.numTouches = [[event touchesForView:self] count] - [touches count];
-		touchArgs.x = touchPoint.x;
-		touchArgs.y = touchPoint.y;
-		touchArgs.id = touchIndex;
-		ofNotifyEvent(ofEvents().touchUp, touchArgs);
-	}
-}
-
-//------------------------------------------------------
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-	
-	
-	for(UITouch *touch in touches) {
-		int touchIndex = [[touchesDict objectForKey:[NSValue valueWithPointer:touch]] intValue];
-		
-		CGPoint touchPoint = [touch locationInView:self];
-		
-		touchPoint.x*=touchScale; // this has to be done because retina still returns points in 320x240 but with high percision
-		touchPoint.y*=touchScale;
-		
-		iPhoneGetOFWindow()->rotateXY(touchPoint.x, touchPoint.y);
-		
-		ofTouchEventArgs touchArgs;
-		touchArgs.numTouches = [[event touchesForView:self] count];
-		touchArgs.x = touchPoint.x;
-		touchArgs.y = touchPoint.y;
-		touchArgs.id = touchIndex;
-		ofNotifyEvent(ofEvents().touchCancelled, touchArgs);
-	}
-	
-	[self touchesEnded:touches withEvent:event];
+#endif //renderFrameQCAR_TEMPLATE
 }
 
 @end
-
-#endif

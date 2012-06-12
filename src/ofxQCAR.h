@@ -11,11 +11,9 @@
 #import "ofMain.h"
 
 @interface ofxQCAR_Delegate : NSObject
--(void) qcar_initialised;
--(void) qcar_cameraStarted;
--(void) qcar_cameraStopped;
--(void) qcar_projectionMatrixReady;
--(void) qcar_update;
+- (void)initApplication;    // Initialise the application
+- (void)initApplicationAR;  // Initialise the AR parts of the application
+- (void)postInitQCAR;       // Do the things that need doing after initialisation
 @end
 
 enum ofxQCAR_MarkerCorner {
@@ -46,35 +44,35 @@ public:
     virtual void draw();
     virtual void exit();
     
-    virtual void pause  ();
-    virtual void resume ();
+    virtual void pause();
+    virtual void resume();
     
-    virtual void begin  ();
-    virtual void end    ();
+    virtual void begin();
+    virtual void end();
     
-    void drawMarkerRect         ();
-    void drawMarkerCenter       ();
-    void drawMarkerCorners      ();
-    void drawMarkerBounds       ();
+    void drawMarkerRect();
+    void drawMarkerCenter();
+    void drawMarkerCorners();
+    void drawMarkerBounds();
     
-    void torchOn        ();
-    void torchOff       ();
-    void autoFocusOn    ();
-    void autoFocusOff   ();
+    void torchOn();
+    void torchOff();
+    void autoFocusOn();
+    void autoFocusOff();
     
-    ofMatrix4x4 getProjectionMatrix         ();
-    ofMatrix4x4 getModelViewMatrix          ();
-    ofRectangle getMarkerRect               ();
-    ofVec2f     getMarkerCenter             ();
-    ofVec2f     getMarkerCorner             ( ofxQCAR_MarkerCorner cornerIndex );
-    ofVec3f     getMarkerRotation           ();
-    float       getMarkerRotationLeftRight  ();
-    float       getMarkerRotationUpDown     ();
-    string      getMarkerName               ();
-    bool hasFoundMarker                     ();
+    ofMatrix4x4 getProjectionMatrix();
+    ofMatrix4x4 getModelViewMatrix();
+    ofRectangle getMarkerRect();
+    ofVec2f     getMarkerCenter();
+    ofVec2f     getMarkerCorner(ofxQCAR_MarkerCorner cornerIndex);
+    ofVec3f     getMarkerRotation();
+    float       getMarkerRotationLeftRight();
+    float       getMarkerRotationUpDown();
+    string      getMarkerName();
+    bool hasFoundMarker();
     
 private:
     
-    static ofxQCAR* _instance;
+    static ofxQCAR * _instance;
     
 };
