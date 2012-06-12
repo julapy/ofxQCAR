@@ -16,9 +16,9 @@
 
 @synthesize navigationController;
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
-    [ super applicationDidFinishLaunching: application ];
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    [super applicationDidFinishLaunching: application];
     
     /**
      *
@@ -32,11 +32,11 @@
      *
      **/
     
-    self.navigationController = [ [ UINavigationController alloc ] init ];
-    [ self.window setRootViewController: self.navigationController ];
+    self.navigationController = [[UINavigationController alloc] init];
+    [self.window setRootViewController:self.navigationController];
     
-//    [ self.navigationController pushViewController : [ [ [ MyAppViewController alloc ] init ] autorelease ]
-//                                          animated : YES ];
+//    [self.navigationController pushViewController:[[[MyAppViewController alloc] init] autorelease]
+//                                         animated:YES];
     
     ofxQCAR_ViewController * viewController;
     viewController = [[[ofxQCAR_ViewController alloc] initWithFrame:[UIScreen mainScreen].bounds 
@@ -50,10 +50,8 @@
     return YES;
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
     self.navigationController = nil;
-    
     [ super dealloc ];
 }
 

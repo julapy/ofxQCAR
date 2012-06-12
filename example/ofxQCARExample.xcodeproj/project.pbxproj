@@ -85,7 +85,6 @@
 		1531510F158459DA006C8A5C /* ofxQCAR_EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_EAGLView.mm; sourceTree = "<group>"; };
 		15315110158459DA006C8A5C /* ofxQCAR_EAGLView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_EAGLView.h; sourceTree = "<group>"; };
 		1531511315845CDC006C8A5C /* ofxQCAR.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR.mm; sourceTree = "<group>"; };
-		1531511415845CDC006C8A5C /* ofxQCAR_Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Settings.h; sourceTree = "<group>"; };
 		1531511615845CDC006C8A5C /* ofxQCAR.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR.h; sourceTree = "<group>"; };
 		1531511915845FFB006C8A5C /* ofxQCAR_Utils.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_Utils.mm; sourceTree = "<group>"; };
 		1531511A15845FFB006C8A5C /* ofxQCAR_Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_Utils.h; sourceTree = "<group>"; };
@@ -304,7 +303,6 @@
 				1531510C1584540A006C8A5C /* ofxQCAR_ViewController.mm */,
 				15315110158459DA006C8A5C /* ofxQCAR_EAGLView.h */,
 				1531510F158459DA006C8A5C /* ofxQCAR_EAGLView.mm */,
-				1531511415845CDC006C8A5C /* ofxQCAR_Settings.h */,
 			);
 			path = src;
 			sourceTree = "<group>";

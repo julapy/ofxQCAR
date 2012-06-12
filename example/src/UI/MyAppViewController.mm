@@ -78,20 +78,12 @@
     
 }
 
-- (void)buttonPressed:(id)sender
-{
-    [ self creatApp: new testApp() withFrame: [ [ UIScreen mainScreen ] bounds ] ];
-    self.navigationController.navigationBar.topItem.title = @"Qualcomm AR";
-}
-
-- (void) creatApp : (ofBaseApp*)app withFrame : (CGRect)rect
-{
+- (void)buttonPressed:(id)sender {
     ofxQCAR_ViewController * viewController;
-    viewController = [[[ ofxQCAR_ViewController alloc ] initWithFrame : rect
-                                                                  app : app ] autorelease ];
-    
-    [ self.navigationController pushViewController : viewController
-                                          animated : YES ];
+    viewController = [[[ofxQCAR_ViewController alloc] initWithFrame:[[UIScreen mainScreen] bounds]
+                                                                app:new testApp()] autorelease];
+    [self.navigationController pushViewController:viewController animated:YES];
+    self.navigationController.navigationBar.topItem.title = @"Qualcomm AR";
 }
 
 @end

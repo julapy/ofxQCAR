@@ -10,6 +10,6 @@
 
 @interface MyAppDelegate : ofxiPhoneAppDelegate
 
-@property (nonatomic, retain) UINavigationController* navigationController;
+@property (nonatomic, retain) UINavigationController * navigationController;
 
 @end
