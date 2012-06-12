@@ -11,6 +11,7 @@
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
 #import <QCAR/UIGLViewProtocol.h>
+#import "ofxQCAR_Utils.h"
 
 @class Texture;
 
@@ -53,7 +54,7 @@
     NSMutableArray *textureList; // list of textures to load
     
 @protected
-    QCARutils *qUtils; // QCAR utils class
+    ofxQCAR_Utils *qUtils; // QCAR utils class
     
     EAGLContext *context;
     

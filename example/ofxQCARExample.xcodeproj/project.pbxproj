@@ -16,6 +16,7 @@
 		153151241584F349006C8A5C /* Tarmac.dat in Resources */ = {isa = PBXBuildFile; fileRef = 1531511F1584F349006C8A5C /* Tarmac.dat */; };
 		153151251584F349006C8A5C /* Tarmac.xml in Resources */ = {isa = PBXBuildFile; fileRef = 153151201584F349006C8A5C /* Tarmac.xml */; };
 		153151261584F349006C8A5C /* TextureTeapotBrass.png in Resources */ = {isa = PBXBuildFile; fileRef = 153151211584F349006C8A5C /* TextureTeapotBrass.png */; };
+		15723C061587220900C38E46 /* AR_EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 153150FA158451DE006C8A5C /* AR_EAGLView.mm */; };
 		15766B551583329D0015F67F /* libQCAR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15766B541583329D0015F67F /* libQCAR.a */; };
 		15B505571581D60B004CF539 /* MyAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B505541581D60B004CF539 /* MyAppDelegate.mm */; };
 		15B505581581D60B004CF539 /* MyAppViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B505561581D60B004CF539 /* MyAppViewController.mm */; };
@@ -75,8 +76,6 @@
 		15315102158451DE006C8A5C /* OverlayViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OverlayViewController.mm; sourceTree = "<group>"; };
 		15315103158451DE006C8A5C /* QCARutils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QCARutils.h; sourceTree = "<group>"; };
 		15315104158451DE006C8A5C /* QCARutils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QCARutils.mm; sourceTree = "<group>"; };
-		15315106158451DE006C8A5C /* Shader.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = Shader.fsh; sourceTree = "<group>"; };
-		15315107158451DE006C8A5C /* Shader.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = Shader.vsh; sourceTree = "<group>"; };
 		15315108158451DE006C8A5C /* ShaderUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderUtils.cpp; sourceTree = "<group>"; };
 		15315109158451DE006C8A5C /* ShaderUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderUtils.h; sourceTree = "<group>"; };
 		1531510A158451DE006C8A5C /* Texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
@@ -135,7 +134,7 @@
 		15EC4D64158327EE00A77FC0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		15EC4D681583285E00A77FC0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../../../addons/ofxQCAR/README.md; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D6058910D05DD3D006BFB54 /* ofxQCAR_example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ofxQCAR_example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* ofxQCARExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ofxQCARExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765FC0DF74451002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		32CA4F630368D1EE00C91783 /* iPhone_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPhone_Prefix.pch; sourceTree = "<group>"; };
@@ -203,22 +202,12 @@
 				15315102158451DE006C8A5C /* OverlayViewController.mm */,
 				15315103158451DE006C8A5C /* QCARutils.h */,
 				15315104158451DE006C8A5C /* QCARutils.mm */,
-				15315105158451DE006C8A5C /* Shaders */,
 				15315108158451DE006C8A5C /* ShaderUtils.cpp */,
 				15315109158451DE006C8A5C /* ShaderUtils.h */,
 				1531510A158451DE006C8A5C /* Texture.h */,
 				1531510B158451DE006C8A5C /* Texture.mm */,
 			);
 			path = ARCommon;
-			sourceTree = "<group>";
-		};
-		15315105158451DE006C8A5C /* Shaders */ = {
-			isa = PBXGroup;
-			children = (
-				15315106158451DE006C8A5C /* Shader.fsh */,
-				15315107158451DE006C8A5C /* Shader.vsh */,
-			);
-			path = Shaders;
 			sourceTree = "<group>";
 		};
 		1531511C1584F349006C8A5C /* qcar_assets */ = {
@@ -359,7 +348,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* ofxQCAR_example.app */,
+				1D6058910D05DD3D006BFB54 /* ofxQCARExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -471,9 +460,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1D6058900D05DD3D006BFB54 /* ofxQCAR_example */ = {
+		1D6058900D05DD3D006BFB54 /* ofxQCARExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "ofxQCAR_example" */;
+			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "ofxQCARExample" */;
 			buildPhases = (
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
@@ -485,9 +474,9 @@
 			dependencies = (
 				E41D410413B3A11300A75A5D /* PBXTargetDependency */,
 			);
-			name = ofxQCAR_example;
+			name = ofxQCARExample;
 			productName = iPhone;
-			productReference = 1D6058910D05DD3D006BFB54 /* ofxQCAR_example.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* ofxQCARExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -495,7 +484,7 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
-			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ofxQCAR_example" */;
+			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ofxQCARExample" */;
 			compatibilityVersion = "Xcode 3.1";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -515,7 +504,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				1D6058900D05DD3D006BFB54 /* ofxQCAR_example */,
+				1D6058900D05DD3D006BFB54 /* ofxQCARExample */,
 			);
 		};
 /* End PBXProject section */
@@ -580,6 +569,7 @@
 				15315111158459DA006C8A5C /* ofxQCAR_EAGLView.mm in Sources */,
 				1531511815845CDD006C8A5C /* ofxQCAR.mm in Sources */,
 				1531511B15845FFB006C8A5C /* ofxQCAR_Utils.mm in Sources */,
+				15723C061587220900C38E46 /* AR_EAGLView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -609,7 +599,7 @@
 					"$(inherited)",
 					../../../addons/ofxQCAR/libs/qcar/lib/arm,
 				);
-				PRODUCT_NAME = ofxQCAR_example;
+				PRODUCT_NAME = ofxQCARExample;
 				USER_HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS) ../../../addons/ofxQCAR/libs/qcar/include";
 			};
 			name = Debug;
@@ -628,7 +618,7 @@
 					"$(inherited)",
 					../../../addons/ofxQCAR/libs/qcar/lib/arm,
 				);
-				PRODUCT_NAME = ofxQCAR_example;
+				PRODUCT_NAME = ofxQCARExample;
 				USER_HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS) ../../../addons/ofxQCAR/libs/qcar/include";
 			};
 			name = Release;
@@ -693,7 +683,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "ofxQCAR_example" */ = {
+		1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "ofxQCARExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
@@ -702,7 +692,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ofxQCAR_example" */ = {
+		C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ofxQCARExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,

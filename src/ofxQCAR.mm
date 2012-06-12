@@ -11,6 +11,8 @@
 #if !(TARGET_IPHONE_SIMULATOR)
 
 #import "ofxQCAR_Utils.h"
+#import "ofxiPhoneExtras.h"
+
 #import <QCAR/Renderer.h>
 #import <QCAR/Tool.h>
 #import <QCAR/Trackable.h>
@@ -78,7 +80,27 @@ void ofxQCAR::addTarget(string targetName, string targetPath) {
 }
 
 void ofxQCAR::setup() {
+    /**
+     *  IMPORTANT!
+     *  when background clear is set to true,
+     *  it interferes with QCAR and stops it from rendering.
+     *  since the camera image changes on every frame and clears the background anyway, 
+     *  it's ok to set it to false.
+     */
+    ofSetBackgroundAuto(false);
+    
 #if !(TARGET_IPHONE_SIMULATOR)
+    
+    [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11;
+    
+    if(ofxiPhoneGetOFWindow()->isRetinaSupported()) {
+        if([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+            if([[UIScreen mainScreen] scale] > 1) {
+                [ofxQCAR_Utils getInstance].contentScalingFactor = 2.0f;
+            }
+        }
+    }
+    
     [[ofxQCAR_Utils getInstance] createARofSize:[[UIScreen mainScreen] bounds].size 
                                     forDelegate:[[ofxQCAR_Delegate alloc] init]];
 #endif
@@ -345,8 +367,6 @@ void ofxQCAR::draw() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
     //--- render the video background.
-    
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
     QCAR::State state = QCAR::Renderer::getInstance().begin();
     QCAR::Renderer::getInstance().drawVideoBackground();

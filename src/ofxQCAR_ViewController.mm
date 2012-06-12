@@ -6,6 +6,13 @@
 
 #import "ofxQCAR_ViewController.h"
 #import "ofxQCAR.h"
+#import "ofxiPhoneExtras.h"
+
+@interface ofxQCAR_ViewController() {
+    UIView * parentView; // Avoids unwanted interactions between UIViewController and EAGLView
+}
+
+@end
 
 @implementation ofxQCAR_ViewController
 
@@ -17,12 +24,16 @@
     CGRect viewBounds;
     viewBounds.origin.x = 0;
     viewBounds.origin.y = 0;
-    viewBounds.size.width = [UIScreen mainScreen].bounds.size.height;
-    viewBounds.size.height = [UIScreen mainScreen].bounds.size.width;
+    viewBounds.size.width = frame.size.height;
+    viewBounds.size.height = frame.size.width;
     
     self.glView = [[[ofxQCAR_EAGLView alloc] initWithFrame:viewBounds] autorelease];
     ((ofxQCAR_EAGLView*)self.glView).delegate = self;
-    [self.view insertSubview:self.glView atIndex:0];
+//    [self.view insertSubview:self.glView atIndex:0];
+    
+    parentView = [[UIView alloc] initWithFrame:viewBounds];
+    [parentView addSubview:self.glView];
+    self.view = parentView;
 }
 
 - (void)destroy {

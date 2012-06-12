@@ -36,8 +36,6 @@
     self = [super initWithFrame:frame];
     
 	if (self) {
-        qUtils = [ofxQCAR_Utils getInstance];
-        
         CAEAGLLayer *eaglLayer = (CAEAGLLayer *)self.layer;
         
         eaglLayer.opaque = TRUE;
@@ -47,29 +45,21 @@
                                         nil];
         
         touchScale = 1.0;
-        touchesDict = [ [ NSMutableDictionary alloc ] init ];
+        touchesDict = [[NSMutableDictionary alloc] init];
 
-		if( ofxiPhoneGetOFWindow()->isRetinaSupported() )
-		{
-			if( [[UIScreen mainScreen] respondsToSelector:@selector(scale)] )
-            {
-				if( [[UIScreen mainScreen] scale] > 1 )
-				{
+		if(ofxiPhoneGetOFWindow()->isRetinaSupported()) {
+			if([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
+				if([[UIScreen mainScreen] scale] > 1) {
 					self.contentScaleFactor = 2.0f;
-                    qUtils.contentScalingFactor = self.contentScaleFactor;
 				}
 			}
 		}
         
 #ifdef USE_OPENGL1
         context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
-        qUtils.QCARFlags = QCAR::GL_11;
 #else
         context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-        qUtils.QCARFlags = QCAR::GL_20;
 #endif
-        
-        NSLog(@"QCAR OpenGL flag: %d", qUtils.QCARFlags);
         
         if (!context) {
             NSLog(@"Failed to create ES context");
@@ -79,8 +69,7 @@
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self deleteFramebuffer];
     
     // Tear down context
@@ -95,8 +84,7 @@
     [super dealloc];
 }
 
-- (void)createFramebuffer
-{
+- (void)createFramebuffer {
 #ifdef USE_OPENGL1
     if (context && !defaultFramebuffer) {
         [EAGLContext setCurrentContext:context];
@@ -162,8 +150,7 @@
 #endif
 }
 
-- (void)deleteFramebuffer
-{
+- (void)deleteFramebuffer {
     if (context) {
         [EAGLContext setCurrentContext:context];
         
@@ -201,8 +188,7 @@
     }
 }
 
-- (void)setFramebuffer
-{
+- (void)setFramebuffer {
     if (context) {
         [EAGLContext setCurrentContext:context];
         
@@ -221,8 +207,7 @@
     }
 }
 
-- (BOOL)presentFramebuffer
-{
+- (BOOL)presentFramebuffer {
     BOOL success = FALSE;
     
     if (context) {
@@ -233,42 +218,47 @@
 #else
         glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
 #endif
-        
         success = [context presentRenderbuffer:GL_RENDERBUFFER];
     }
     
     return success;
 }
 
-- (void)layoutSubviews
-{
+- (void)layoutSubviews {
     NSLog(@"EAGLView: layoutSubviews");
     
     // The framebuffer will be re-created at the beginning of the next setFramebuffer method call.
     [self deleteFramebuffer];
 }
 
-- (void)renderFrameQCAR
-{
-    [ self.delegate performSelectorOnMainThread:@selector(timerLoop) withObject:nil waitUntilDone:NO ];
+- (void)renderFrameQCAR {
+    [self.delegate performSelectorOnMainThread:@selector(timerLoop) 
+                                    withObject:nil 
+                                 waitUntilDone:NO];
 }
 
 ////////////////////////////////////////////////
 //  OVERWRITE TO DISABLE.
 ////////////////////////////////////////////////
 
-- (id) initWithFrame:(CGRect)frame andDepth:(bool)depth andAA:(bool)fsaaEnabled andNumSamples:(int)samples andRetina:(bool)retinaEnabled
-{
-	return self = [self initWithFrame:frame];
+- (id) initWithFrame:(CGRect)frame 
+            andDepth:(bool)depth 
+               andAA:(bool)fsaaEnabled 
+       andNumSamples:(int)samples 
+           andRetina:(bool)retinaEnabled {
+    
+    self = [self initWithFrame:frame];
+    if(self) {
+        //
+    }
+	return self;
 }
 
-- (void)startRender 
-{
+- (void)startRender {
     [self setFramebuffer];
 }
 
-- (void)finishRender 
-{
+- (void)finishRender {
     [self presentFramebuffer];
 }
 
@@ -365,7 +355,6 @@
 
 //------------------------------------------------------
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event {
-	
 	
 	for(UITouch *touch in touches) {
 		int touchIndex = [[touchesDict objectForKey:[NSValue valueWithPointer:touch]] intValue];

@@ -9,6 +9,9 @@
 #import "MyAppDelegate.h"
 #import "MyAppViewController.h"
 
+#import "ofxQCAR_ViewController.h"
+#import "testApp.h"
+
 @implementation MyAppDelegate
 
 @synthesize navigationController;
@@ -32,8 +35,13 @@
     self.navigationController = [ [ UINavigationController alloc ] init ];
     [ self.window setRootViewController: self.navigationController ];
     
-    [ self.navigationController pushViewController : [ [ [ MyAppViewController alloc ] init ] autorelease ]
-                                          animated : YES ];
+//    [ self.navigationController pushViewController : [ [ [ MyAppViewController alloc ] init ] autorelease ]
+//                                          animated : YES ];
+    
+    ofxQCAR_ViewController * viewController;
+    viewController = [[[ofxQCAR_ViewController alloc] initWithFrame:[UIScreen mainScreen].bounds 
+                                                                app:new testApp()] autorelease];
+    [self.navigationController pushViewController:viewController animated:NO];
     
     //--- style the UINavigationController
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;

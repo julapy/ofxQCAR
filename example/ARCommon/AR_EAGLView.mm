@@ -8,8 +8,12 @@
 #import "AR_EAGLView.h"
 #import "Texture.h"
 #import <QCAR/QCAR.h>
+#import <QCAR/Renderer.h>
 
-#import "QCARutils.h"
+#import "ofxQCAR_Utils.h"
+
+#define USE_OPENGL1
+#define renderFrameQCAR_TEMPLATE
 
 #ifndef USE_OPENGL1
 #import "ShaderUtils.h"
@@ -74,7 +78,7 @@
     self = [super initWithFrame:frame];
     
 	if (self) {
-        qUtils = [QCARutils getInstance];
+        qUtils = [ofxQCAR_Utils getInstance];
         objects3D = [[NSMutableArray alloc] initWithCapacity:2];
         textureList = [[NSMutableArray alloc] initWithCapacity:2];
         
@@ -399,42 +403,42 @@
     QCAR::State state = QCAR::Renderer::getInstance().begin();
     QCAR::Renderer::getInstance().drawVideoBackground();
     
-    if (QCAR::GL_11 & qUtils.QCARFlags) {
-        glEnable(GL_TEXTURE_2D);
-        glDisable(GL_LIGHTING);
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glEnableClientState(GL_NORMAL_ARRAY);
-        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    }
-    
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_CULL_FACE);
-    
-    for (int i = 0; i < state.getNumActiveTrackables(); ++i) {        
-        // Render using the appropriate version of OpenGL
-        if (QCAR::GL_11 & qUtils.QCARFlags){
-            ////////////////////////////////////////////////
-            // In subclass, draw augmentations in OpenGL ES 1.1 here
-            ////////////////////////////////////////////////
-        }
-#ifndef USE_OPENGL1
-        else {
-            ////////////////////////////////////////////////
-            // In subclass, draw augmentations in OpenGL ES 2.0 here
-            ////////////////////////////////////////////////
-        }
-#endif
-    }
-    
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_CULL_FACE);
-    
-    if (QCAR::GL_11 & qUtils.QCARFlags) {
-        glDisable(GL_TEXTURE_2D);
-        glDisableClientState(GL_VERTEX_ARRAY);
-        glDisableClientState(GL_NORMAL_ARRAY);
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    }
+//    if (QCAR::GL_11 & qUtils.QCARFlags) {
+//        glEnable(GL_TEXTURE_2D);
+//        glDisable(GL_LIGHTING);
+//        glEnableClientState(GL_VERTEX_ARRAY);
+//        glEnableClientState(GL_NORMAL_ARRAY);
+//        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+//    }
+//    
+//    glEnable(GL_DEPTH_TEST);
+//    glEnable(GL_CULL_FACE);
+//    
+//    for (int i = 0; i < state.getNumActiveTrackables(); ++i) {        
+//        // Render using the appropriate version of OpenGL
+//        if (QCAR::GL_11 & qUtils.QCARFlags){
+//            ////////////////////////////////////////////////
+//            // In subclass, draw augmentations in OpenGL ES 1.1 here
+//            ////////////////////////////////////////////////
+//        }
+//#ifndef USE_OPENGL1
+//        else {
+//            ////////////////////////////////////////////////
+//            // In subclass, draw augmentations in OpenGL ES 2.0 here
+//            ////////////////////////////////////////////////
+//        }
+//#endif
+//    }
+//    
+//    glDisable(GL_DEPTH_TEST);
+//    glDisable(GL_CULL_FACE);
+//    
+//    if (QCAR::GL_11 & qUtils.QCARFlags) {
+//        glDisable(GL_TEXTURE_2D);
+//        glDisableClientState(GL_VERTEX_ARRAY);
+//        glDisableClientState(GL_NORMAL_ARRAY);
+//        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+//    }
     
     QCAR::Renderer::getInstance().end();
     [self presentFramebuffer];
