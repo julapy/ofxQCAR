@@ -23,8 +23,39 @@ enum ofxQCAR_MarkerCorner {
     OFX_QCAR_MARKER_CORNER_BOTTOM_LEFT  = 3,
 };
 
+class ofxQCAR_Marker {
+public:
+    ofxQCAR_Marker() {
+        scaleX = 1;
+        scaleY = 1;
+        markerRotationLeftRight = 0;
+        markerRotationUpDown = 0;
+        markerName = "";
+    }
+    ofMatrix4x4 projectionMatrix;
+    ofMatrix4x4 modelViewMatrix;
+    float scaleX;
+    float scaleY;
+    
+    ofRectangle markerRect;
+    ofVec2f markerCenter;
+    ofVec2f markerCorners[4];
+    ofVec3f markerRotation;
+    float markerRotationLeftRight;
+    float markerRotationUpDown;
+    string markerName;
+};
+
+class ofxQCAR_UpdateCallback;
+
 class ofxQCAR : public ofBaseApp
 {
+/**
+ *  this allows ofxQCAR_UpdateCallback to make
+ *  changes directly to ofxQCAR, even private members.
+ */
+friend class ofxQCAR_UpdateCallback;
+    
 public:
     
      ofxQCAR();
@@ -74,5 +105,6 @@ public:
 private:
     
     static ofxQCAR * _instance;
+    vector<ofxQCAR_Marker> markersFound;
     
 };

@@ -34,56 +34,59 @@ void testApp::draw(){
     ofxQCAR * qcar = ofxQCAR::getInstance();
     qcar->draw();
     
-//    bool bPressed;
-//    bPressed = touchPoint.x >= 0 && touchPoint.y >= 0;
-//    
-//    if( qcar->hasFoundMarker() )
-//    {
-//        glDisable( GL_DEPTH_TEST );
-//        ofEnableBlendMode( OF_BLENDMODE_ALPHA );
-//        ofSetLineWidth( 3 );
-//        
-//        bool bInside = false;
-//        if( bPressed )
-//        {
-//            vector<ofPoint> markerPoly;
-//            markerPoly.push_back( qcar->getMarkerCorner( (ofxQCAR_MarkerCorner)0 ) );
-//            markerPoly.push_back( qcar->getMarkerCorner( (ofxQCAR_MarkerCorner)1 ) );
-//            markerPoly.push_back( qcar->getMarkerCorner( (ofxQCAR_MarkerCorner)2 ) );
-//            markerPoly.push_back( qcar->getMarkerCorner( (ofxQCAR_MarkerCorner)3 ) );
-//            bInside = ofInsidePoly( touchPoint, markerPoly );
-//        }
-//        
-//        ofSetColor( ofColor( 255, 0, 255, bInside ? 150 : 50 ) );
-//        qcar->drawMarkerRect();
-//        
-//        ofSetColor( ofColor :: yellow );
-//        qcar->drawMarkerBounds();
-//        ofSetColor( ofColor :: cyan );
-//        qcar->drawMarkerCenter();
-//        qcar->drawMarkerCorners();
-//        
-//        ofSetColor( ofColor::white );
-//        ofSetLineWidth( 1 );
-//        
-//        glEnable( GL_DEPTH_TEST );
-//        ofEnableNormalizedTexCoords();
-//        
-//        teapotImage.getTextureReference().bind();
-//        ofDrawTeapot( qcar->getProjectionMatrix(), qcar->getModelViewMatrix(), 3 );
-//        teapotImage.getTextureReference().unbind();
-//        
-//        ofDisableNormalizedTexCoords();
-//    }
-//    
-//    glEnable( GL_DEPTH_TEST );
-//    
-//    if( bPressed )
-//    {
-//        ofSetColor( ofColor :: red );
-//        ofDrawBitmapString( "touch x = " + ofToString( (int)touchPoint.x ), 20, 40 );
-//        ofDrawBitmapString( "touch y = " + ofToString( (int)touchPoint.y ), 20, 60 );
-//    }
+    bool bPressed;
+    bPressed = touchPoint.x >= 0 && touchPoint.y >= 0;
+    
+    if(qcar->hasFoundMarker()) {
+
+        glDisable(GL_DEPTH_TEST);
+        ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+        ofSetLineWidth(3);
+        
+        bool bInside = false;
+        if(bPressed) {
+            vector<ofPoint> markerPoly;
+            markerPoly.push_back(qcar->getMarkerCorner((ofxQCAR_MarkerCorner)0));
+            markerPoly.push_back(qcar->getMarkerCorner((ofxQCAR_MarkerCorner)1));
+            markerPoly.push_back(qcar->getMarkerCorner((ofxQCAR_MarkerCorner)2));
+            markerPoly.push_back(qcar->getMarkerCorner((ofxQCAR_MarkerCorner)3));
+            bInside = ofInsidePoly(touchPoint, markerPoly);
+        }
+        
+        ofSetColor(ofColor(255, 0, 255, bInside ? 150 : 50));
+        qcar->drawMarkerRect();
+        
+        ofSetColor(ofColor::yellow);
+        qcar->drawMarkerBounds();
+        ofSetColor(ofColor::cyan);
+        qcar->drawMarkerCenter();
+        qcar->drawMarkerCorners();
+        
+        ofSetColor(ofColor::white);
+        ofSetLineWidth(1);
+        
+        glEnable(GL_DEPTH_TEST);
+        ofEnableNormalizedTexCoords();
+        
+        teapotImage.getTextureReference().bind();
+        ofDrawTeapot(qcar->getProjectionMatrix(), qcar->getModelViewMatrix(), 3);
+        teapotImage.getTextureReference().unbind();
+        
+        ofDisableNormalizedTexCoords();
+    }
+    
+    ofSetColor(ofColor::red);
+    ofRect((ofGetWidth()-200) * 0.5, 
+           (ofGetHeight()-200) * 0.5, 
+           200, 200);
+    
+    glEnable(GL_DEPTH_TEST);
+    
+    if(bPressed) {
+        ofSetColor(ofColor::red);
+        ofDrawBitmapString("touch x = " + ofToString((int)touchPoint.x), 20, 40);
+        ofDrawBitmapString("touch y = " + ofToString((int)touchPoint.y), 20, 60);
+    }
 }
 
 //--------------------------------------------------------------

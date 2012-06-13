@@ -15,9 +15,107 @@
 
 #import <QCAR/Renderer.h>
 #import <QCAR/Tool.h>
+#import <QCAR/Tracker.h>
 #import <QCAR/Trackable.h>
 #import <QCAR/ImageTarget.h>
 #import <QCAR/CameraDevice.h>
+#import <QCAR/UpdateCallback.h>
+
+class ofxQCAR_UpdateCallback : public QCAR::UpdateCallback {
+    virtual void QCAR_onUpdate(QCAR::State& state) {
+        
+        ofxQCAR::getInstance()->markersFound.clear();
+        
+        for (int i = 0; i<state.getNumActiveTrackables(); ++i) {
+
+            const QCAR::Trackable* trackable = state.getActiveTrackable(i);
+            if(!trackable) {
+                continue;
+            }
+            
+            if(trackable->getStatus() != QCAR::Trackable::DETECTED &&
+               trackable->getStatus() != QCAR::Trackable::TRACKED) {
+                continue;
+            }
+            
+            QCAR::Matrix44F modelViewMatrix = QCAR::Tool::convertPose2GLMatrix(trackable->getPose());
+            
+            ofxQCAR_Marker marker;
+            marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
+//            marker.modelViewMatrix.scale(scaleY, scaleX, 1);
+            
+            QCAR::Vec2F markerSize;
+            if(trackable->getType() == QCAR::Trackable::IMAGE_TARGET) {
+                QCAR::ImageTarget* imageTarget = (QCAR::ImageTarget *)trackable;
+                markerSize = imageTarget->getSize();
+            }
+            
+            marker.markerName = trackable->getName();
+            
+            marker.markerRect.width  = markerSize.data[0];
+            marker.markerRect.height = markerSize.data[1];
+            
+            float markerWH = marker.markerRect.width  * 0.5;
+            float markerHH = marker.markerRect.height * 0.5;
+            
+            QCAR::Vec3F corners[ 4 ];
+            corners[0] = QCAR::Vec3F(-markerWH,  markerHH, 0);     // top left.
+            corners[1] = QCAR::Vec3F( markerWH,  markerHH, 0);     // top right.
+            corners[2] = QCAR::Vec3F( markerWH, -markerHH, 0);     // bottom right.
+            corners[3] = QCAR::Vec3F(-markerWH, -markerHH, 0);     // bottom left.
+            
+            const QCAR::CameraCalibration & cameraCalibration = QCAR::CameraDevice::getInstance().getCameraCalibration();
+            
+            QCAR::Vec2F cameraPoint = QCAR::Tool::projectPoint(cameraCalibration,trackable->getPose(), QCAR::Vec3F(0, 0, 0));
+            QCAR::Vec2F xyPoint = cameraPointToScreenPoint(cameraPoint);
+            marker.markerCenter.x = xyPoint.data[0];
+            marker.markerCenter.y = xyPoint.data[1];
+            
+            for(int i=0; i<4; i++) {
+                QCAR::Vec2F cameraPoint = QCAR::Tool::projectPoint(cameraCalibration,trackable->getPose(), corners[i]);
+                QCAR::Vec2F xyPoint = cameraPointToScreenPoint(cameraPoint);
+                marker.markerCorners[i].x = xyPoint.data[0];
+                marker.markerCorners[i].y = xyPoint.data[1];
+            }
+            
+            ofMatrix4x4 inverseModelView = marker.modelViewMatrix.getInverse();
+            inverseModelView = inverseModelView.getTransposedOf(inverseModelView);
+            marker.markerRotation.set(inverseModelView.getPtr()[8], inverseModelView.getPtr()[9], inverseModelView.getPtr()[10]);
+            marker.markerRotation.normalize();
+            marker.markerRotation.rotate(90, ofVec3f(0, 0, 1));
+            
+            marker.markerRotationLeftRight = marker.markerRotation.angle(ofVec3f(0, 1, 0)); // this only works in landscape mode.
+            marker.markerRotationUpDown = marker.markerRotation.angle(ofVec3f(1, 0, 0));    // this only works in landscape mode.
+            
+            ofxQCAR::getInstance()->markersFound.push_back(marker);
+        }
+    }
+    
+    virtual QCAR::Vec2F cameraPointToScreenPoint(QCAR::Vec2F cameraPoint) {
+
+        QCAR::VideoMode videoMode = QCAR::CameraDevice::getInstance().getVideoMode(QCAR::CameraDevice::MODE_DEFAULT);
+        const QCAR::VideoBackgroundConfig & config = QCAR::Renderer::getInstance().getVideoBackgroundConfig();
+        
+        return QCAR::Vec2F();
+        
+//        int xOffset = ((int)ofGetWidth()  - config.mSize.data[0]) / 2.0f + config.mPosition.data[0];
+//        int yOffset = ((int)ofGetHeight() - config.mSize.data[1]) / 2.0f - config.mPosition.data[1];
+//        
+//        bool isActivityInPortraitMode = true;
+//        if(isActivityInPortraitMode) {
+//            // camera image is rotated 90 degrees
+//            int rotatedX = videoMode.mHeight - cameraPoint.data[1];
+//            int rotatedY = cameraPoint.data[0];
+//            
+//            return QCAR::Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
+//                               rotatedY * config.mSize.data[1] / (float) videoMode.mWidth + yOffset);
+//        } else {
+//            return QCAR::Vec2F(cameraPoint.data[0] * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
+//                               cameraPoint.data[1] * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
+//        }
+    }
+    
+} qcarUpdate;
 
 #endif
 
@@ -51,6 +149,8 @@ bool bBeginDraw = false;
     // Here we could also make a QCAR::setHint call to set the maximum
     // number of simultaneous targets                
     // QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, 2);
+    
+    QCAR::registerCallback(&qcarUpdate);
 }
 
 @end
@@ -156,163 +256,119 @@ void ofxQCAR::resume() {
 //  GETTERS.
 /////////////////////////////////////////////////////////
 
-ofMatrix4x4 ofxQCAR :: getProjectionMatrix () 
-{ 
+ofMatrix4x4 ofxQCAR::getProjectionMatrix() { 
 #if !(TARGET_IPHONE_SIMULATOR)    
-    
-//    if( utils )
-//        return utils->projectionMatrix;
-//    else
-//        return ofMatrix4x4();
-    
+    if(hasFoundMarker()) {
+        return markersFound[0].projectionMatrix;
+    } else {
+        return ofMatrix4x4();
+    }
 #else
-    
     return ofMatrix4x4();
-    
 #endif
 }
 
-ofMatrix4x4 ofxQCAR :: getModelViewMatrix () 
-{ 
+ofMatrix4x4 ofxQCAR::getModelViewMatrix() {
 #if !(TARGET_IPHONE_SIMULATOR)    
-    
-//    if( utils )
-//        return utils->modelViewMatrix;
-//    else
-//        return ofMatrix4x4();
-    
+    if(hasFoundMarker()) {
+        return markersFound[0].modelViewMatrix;
+    } else {
+        return ofMatrix4x4();
+    }
 #else
-    
     return ofMatrix4x4();
-    
 #endif
 }
 
-ofRectangle ofxQCAR :: getMarkerRect ()
-{
+ofRectangle ofxQCAR::getMarkerRect() {
 #if !(TARGET_IPHONE_SIMULATOR)    
-    
-//    if( utils )
-//        return utils->markerRect;
-//    else
-//        return ofRectangle();
-    
+    if(hasFoundMarker()) {
+        return markersFound[0].markerRect;
+    } else {
+        return ofRectangle();
+    }
 #else
-    
     return ofRectangle();
-    
 #endif
 }
 
-ofVec2f ofxQCAR :: getMarkerCenter ()
-{
+ofVec2f ofxQCAR::getMarkerCenter() {
 #if !(TARGET_IPHONE_SIMULATOR)    
-    
-//    if( utils )
-//        return utils->markerCenter;
-//    else
-//        return ofVec2f();
-    
+    if(hasFoundMarker()) {
+        return markersFound[0].markerCenter;
+    } else {
+        return ofVec2f();
+    }
 #else
-    
     return ofVec2f();
-    
 #endif
 }
 
-ofVec2f ofxQCAR :: getMarkerCorner ( ofxQCAR_MarkerCorner cornerIndex )
-{
+ofVec2f ofxQCAR::getMarkerCorner(ofxQCAR_MarkerCorner cornerIndex) {
 #if !(TARGET_IPHONE_SIMULATOR)    
-    
-//    if( utils )
-//        return utils->markerCorners[ cornerIndex ];
-//    else
-//        return ofVec2f();
-    
+    if(hasFoundMarker()) {
+        return markersFound[0].markerCorners[cornerIndex];
+    } else {
+        return ofVec2f();
+    }
 #else
-    
     return ofVec2f();
-    
 #endif
 }
 
-bool ofxQCAR :: hasFoundMarker () 
-{ 
+bool ofxQCAR::hasFoundMarker() { 
 #if !(TARGET_IPHONE_SIMULATOR)     
-    
-//    if( utils )
-//        return utils->bFoundMarker;
-//    else
-//        return false;
-    
+    return markersFound.size() > 0;
 #else
-    
     return false;
-    
 #endif
 }
 
-ofVec3f ofxQCAR :: getMarkerRotation ()
-{
+ofVec3f ofxQCAR::getMarkerRotation() {
 #if !(TARGET_IPHONE_SIMULATOR)     
-    
-//    if( utils )
-//        return utils->markerRotation;
-//    else
-//        return ofVec3f();
-    
+    if(hasFoundMarker()) {
+        return markersFound[0].markerRotation;
+    } else {
+        return ofVec3f();
+    }
 #else
-    
     return ofVec3f();
-    
 #endif
 }
 
-float ofxQCAR :: getMarkerRotationLeftRight ()
-{
+float ofxQCAR::getMarkerRotationLeftRight() {
 #if !(TARGET_IPHONE_SIMULATOR)     
-    
-//    if( utils )
-//        return utils->markerRotationLeftRight;
-//    else
-//        return 0;
-    
+    if(hasFoundMarker()) {
+        return markersFound[0].markerRotationLeftRight;
+    } else {
+        return 0;
+    }
 #else
-    
     return 0;
-    
 #endif
 }
 
-float ofxQCAR :: getMarkerRotationUpDown ()
-{
-#if !(TARGET_IPHONE_SIMULATOR)     
-    
-//    if( utils )
-//        return utils->markerRotationUpDown;
-//    else
-//        return 0;
-    
+float ofxQCAR::getMarkerRotationUpDown() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    if(hasFoundMarker()) {
+        return markersFound[0].markerRotationUpDown;
+    } else {
+        return 0;
+    }
 #else
-    
     return 0;
-    
 #endif
 }
 
-string ofxQCAR :: getMarkerName ()
-{
+string ofxQCAR::getMarkerName() {
 #if !(TARGET_IPHONE_SIMULATOR)     
-    
-//    if( utils )
-//        return utils->markerName;
-//    else
-//        return "";
-    
+    if(hasFoundMarker()) {
+        return markersFound[0].markerName;
+    } else {
+        return "";
+    }
 #else
-    
     return "";
-    
 #endif
 }
 
@@ -374,16 +430,16 @@ void ofxQCAR::draw() {
     
     //--- restore openFrameworks render configuration.
     
-//    glViewport(0, 0, ofGetWidth(), ofGetHeight());
-//    ofSetupScreen();
-//    
-//    glDisable(GL_DEPTH_TEST);
-//    glDisable(GL_CULL_FACE);
-//    
-//    glDisable(GL_TEXTURE_2D);
-//    glDisableClientState(GL_VERTEX_ARRAY);
-//    glDisableClientState(GL_NORMAL_ARRAY);
-//    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glViewport(0, 0, ofGetWidth(), ofGetHeight());
+    ofSetupScreen();
+    
+    glDisable(GL_DEPTH_TEST);
+    glDisable(GL_CULL_FACE);
+    
+    glDisable(GL_TEXTURE_2D);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_NORMAL_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
     
 #endif
 }
