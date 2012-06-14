@@ -373,6 +373,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     // Background thread must have its own autorelease pool
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     QCAR::setInitParameters(QCARFlags);
+//    QCAR::setInitParameters(QCAR::ROTATE_IOS_90); // this seems to kill the rendering.
     
     // QCAR::init() will return positive numbers up to 100 as it progresses towards success
     // and negative numbers for error indicators
@@ -579,7 +580,8 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     viewSize.height *= contentScalingFactor;
     
     // Inform QCAR that the drawing surface size has changed
-    QCAR::onSurfaceChanged(viewSize.height, viewSize.width);
+//    QCAR::onSurfaceChanged(viewSize.height, viewSize.width);
+    QCAR::onSurfaceChanged(viewSize.width, viewSize.height);
     
     // let the delegate handle this if wanted
     if ((delegate != nil) && [delegate respondsToSelector:@selector(postInitQCAR)])

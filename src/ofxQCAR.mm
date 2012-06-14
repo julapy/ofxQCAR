@@ -42,6 +42,7 @@ class ofxQCAR_UpdateCallback : public QCAR::UpdateCallback {
             
             ofxQCAR_Marker marker;
             marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
+            marker.projectionMatrix = ofMatrix4x4([[ofxQCAR_Utils getInstance] projectionMatrix].data);
 //            marker.modelViewMatrix.scale(scaleY, scaleX, 1);
             
             QCAR::Vec2F markerSize;

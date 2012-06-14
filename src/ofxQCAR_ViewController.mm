@@ -31,8 +31,10 @@
     CGRect viewBounds;
     viewBounds.origin.x = 0;
     viewBounds.origin.y = 0;
-    viewBounds.size.width = arViewSize.height;
-    viewBounds.size.height = arViewSize.width;
+    viewBounds.size.width = arViewSize.width;
+    viewBounds.size.height = arViewSize.height;
+//    viewBounds.size.width = arViewSize.height;
+//    viewBounds.size.height = arViewSize.width;
     
     self.glView = [[[ofxQCAR_EAGLView alloc] initWithFrame:viewBounds 
                                                   andDepth:ofxiPhoneGetOFWindow()->isDepthEnabled()
@@ -94,27 +96,27 @@
     {
         NSLog(@"ARVC: Rotating to Portrait");
         pos = centre;
-        rot = 90;
+        rot = 0;
     }
     else if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
     {
         NSLog(@"ARVC: Rotating to Upside Down");        
         pos = centre;
-        rot = 270;
+        rot = 180;
     }
     else if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
     {
         NSLog(@"ARVC: Rotating to Landscape Left");        
         pos.x = centre.y;
         pos.y = centre.x;
-        rot = 180;
+        rot = 90;
     }
     else if (interfaceOrientation == UIInterfaceOrientationLandscapeRight)
     {
         NSLog(@"ARParent: Rotating to Landscape Right");
         pos.x = centre.y;
         pos.y = centre.x;
-        rot = 0;
+        rot = 270;
     }
     
     self.glView.layer.position = pos;
