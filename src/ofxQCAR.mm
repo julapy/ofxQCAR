@@ -41,10 +41,14 @@ class ofxQCAR_UpdateCallback : public QCAR::UpdateCallback {
             
             QCAR::Matrix44F modelViewMatrix = QCAR::Tool::convertPose2GLMatrix(trackable->getPose());
             
+            QCAR::VideoBackgroundConfig config = [ofxQCAR_Utils getInstance].config;
+            float scaleX = config.mSize.data[0] / (float)ofGetWidth();
+            float scaleY = config.mSize.data[1] / (float)ofGetHeight();
+            
             ofxQCAR_Marker marker;
             marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
+            marker.modelViewMatrix.scale(scaleY, scaleX, 1);
             marker.projectionMatrix = ofMatrix4x4([[ofxQCAR_Utils getInstance] projectionMatrix].data);
-//            marker.modelViewMatrix.scale(scaleY, scaleX, 1);
             
             QCAR::Vec2F markerSize;
             if(trackable->getType() == QCAR::Trackable::IMAGE_TARGET) {

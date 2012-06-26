@@ -21,6 +21,7 @@ void testApp::setup(){
     ofxQCAR * qcar = ofxQCAR::getInstance();
     qcar->addTarget("Stones & Chips", "StonesAndChips.xml");
     qcar->addTarget("Tarmac", "Tarmac.xml");
+    qcar->autoFocusOn();
     qcar->setup();
 }
 
