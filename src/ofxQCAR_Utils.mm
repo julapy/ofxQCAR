@@ -4,6 +4,8 @@
  Qualcomm Confidential and Proprietary
  ==============================================================================*/
 
+#if !(TARGET_IPHONE_SIMULATOR)
+
 #import "ofxQCAR_Utils.h"
 #import <QCAR/QCAR.h>
 #import <QCAR/QCAR_iOS.h>
@@ -936,3 +938,5 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
 }
 
 @end
+
+#endif

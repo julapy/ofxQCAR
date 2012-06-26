@@ -4,6 +4,8 @@
  Qualcomm Confidential and Proprietary
  ==============================================================================*/
 
+#if !(TARGET_IPHONE_SIMULATOR)
+
 #import <Foundation/Foundation.h>
 #import <QCAR/Tool.h>
 #import <QCAR/DataSet.h>
@@ -143,3 +145,5 @@ enum _errorCode {
 - (void)cameraTriggerAF;
 
 @end
+
+#endif

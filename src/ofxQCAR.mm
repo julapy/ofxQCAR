@@ -145,6 +145,7 @@ bool bBeginDraw = false;
 }
 
 - (void)postInitQCAR {
+#if !(TARGET_IPHONE_SIMULATOR)    
     // These two calls to setHint tell QCAR to split work over multiple
     // frames.  Depending on your requirements you can opt to omit these.
     QCAR::setHint(QCAR::HINT_IMAGE_TARGET_MULTI_FRAME_ENABLED, 1);
@@ -154,7 +155,8 @@ bool bBeginDraw = false;
     // number of simultaneous targets                
     // QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, 2);
     
-    QCAR::registerCallback(&qcarUpdate);
+    QCAR::registerCallback(&qcarUpdate);    
+#endif
 }
 
 @end
@@ -412,6 +414,13 @@ void ofxQCAR::draw() {
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    
+#else
+    
+    ofSetColor(ofColor::white);
+    ofDrawBitmapString("QCAR does not run on the Simulator",
+                       (int)(ofGetWidth() * 0.5 - 135),
+                       (int)(ofGetHeight() * 0.5 + 10));
     
 #endif
 }
