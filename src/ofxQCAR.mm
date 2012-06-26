@@ -184,15 +184,6 @@ void ofxQCAR::addTarget(string targetName, string targetPath) {
 }
 
 void ofxQCAR::setup() {
-    /**
-     *  IMPORTANT!
-     *  when background clear is set to true,
-     *  it interferes with QCAR and stops it from rendering.
-     *  since the camera image changes on every frame and clears the background anyway, 
-     *  it's ok to set it to false.
-     */
-    ofSetBackgroundAuto(false);
-    
 #if !(TARGET_IPHONE_SIMULATOR)
     
     [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11 | QCAR::ROTATE_IOS_90;

@@ -58,7 +58,7 @@ static void ofDrawTeapot ()
 static void ofDrawTeapot ( const ofMatrix4x4 &projectionMatrix, const ofMatrix4x4 &modelViewMatrix, float objectScale = 3.0f )
 {
     glEnable( GL_DEPTH_TEST );
-    glEnable( GL_CULL_FACE );
+    glEnable( GL_CULL_FACE );   
     
     glPushMatrix();
     glTranslatef( ofGetWidth() * 0.5, ofGetHeight() * 0.5, 0 );

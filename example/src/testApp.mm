@@ -4,15 +4,6 @@
 void testApp::setup(){	
 	ofBackground(127);
     
-    /**
-     *  IMPORTANT!
-     *  when background clear is set to true,
-     *  it interferes with QCAR and stops it from rendering.
-     *  since the camera image changes on every frame and clears the background anyway, 
-     *  it's ok to set it to false.
-     */
-    ofSetBackgroundAuto(false);
-    
     teapotImage.loadImage("qcar_assets/TextureTeapotBrass.png");
     teapotImage.mirror(true, false);  //-- flip texture vertically since the texture coords are set that way on the teapot.
     
