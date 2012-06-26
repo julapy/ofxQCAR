@@ -128,6 +128,7 @@ class ofxQCAR_UpdateCallback : public QCAR::UpdateCallback {
 /////////////////////////////////////////////////////////
 
 ofxQCAR * ofxQCAR::_instance = NULL;
+NSMutableArray * targets = nil;
 bool bBeginDraw = false;
 
 /////////////////////////////////////////////////////////
@@ -135,6 +136,10 @@ bool bBeginDraw = false;
 /////////////////////////////////////////////////////////
 
 @implementation ofxQCAR_Delegate
+
+- (void)dealloc {
+    [super dealloc];
+}
 
 - (void)initApplication {
     //
@@ -179,9 +184,19 @@ ofxQCAR::~ofxQCAR () {
 
 void ofxQCAR::addTarget(string targetName, string targetPath) {
 #if !(TARGET_IPHONE_SIMULATOR)
-    NSString * name = [[NSString alloc] initWithUTF8String:targetName.c_str()];
-    NSString * path = [[NSString alloc] initWithUTF8String:targetPath.c_str()];
+    if(targets == nil) {
+        targets = [[NSMutableArray alloc] init];
+    }
+    
+    NSString * name = [[[NSString alloc] initWithUTF8String:targetName.c_str()] autorelease];
+    NSString * path = [[[NSString alloc] initWithUTF8String:targetPath.c_str()] autorelease];
+    NSDictionary * dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                           name, @"name",
+                           path, @"path", nil];
+    [targets addObject:dict];
+    
     [[ofxQCAR_Utils getInstance] addTargetName:name atPath:path];
+    
 #endif
 }
 
@@ -467,8 +482,14 @@ void ofxQCAR::drawMarkerBounds(unsigned int k) {
 
 void ofxQCAR::exit() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    [ofxQCAR_Utils getInstance].delegate = nil;
+
+    markersFound.clear();
+
+    [targets release];
+    targets = nil;
+    
     [[ofxQCAR_Utils getInstance] pauseAR];
     [[ofxQCAR_Utils getInstance] destroyAR];
+    
 #endif
 }

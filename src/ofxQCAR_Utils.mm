@@ -117,7 +117,10 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
 
 // discard resources
 - (void)dealloc {
-    targetsList = nil;
+    if(targetsList != nil) {
+        [targetsList release];
+        targetsList = nil;
+    }
     [super dealloc];
 }
 
@@ -207,6 +210,13 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
         QCAR::deinit();
     
     appStatus = APPSTATUS_UNINITED;
+
+    [targetsList removeAllObjects];
+    
+    if(delegate != nil) {
+        [delegate release];
+        delegate = nil;
+    }
 }
 
 
