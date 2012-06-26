@@ -4,6 +4,7 @@
 //  Created by lukasz karluk on 19/01/12.
 //
 
+#import "ofxQCAR.h"
 #import "ofxQCAR_ViewController.h"
 #import "ofxQCAR_EAGLView.h"
 #import "ofxiPhoneExtras.h"
@@ -36,6 +37,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self handleARViewRotation:self.interfaceOrientation];
+    [self startAnimation];
 }
 
 - (void)destroy {
@@ -86,16 +88,22 @@
         return;
     }
     
-    CGAffineTransform rotate = CGAffineTransformMakeRotation(rot * M_PI  / 180);
+    CGAffineTransform rotate = CGAffineTransformMakeRotation(rot * M_PI / 180);
     
     self.glView.layer.position = centre;
     self.glView.transform = rotate;
 }
 
+- (void)stopAnimation {
+    ofxQCAR::getInstance()->pause();
+}
+
+- (void)startAnimation {
+    ofxQCAR::getInstance()->resume();
+}
+
 - (void)lockGL {}                                           // NOT NEEDED - QCAR runs of its own timer loop.
 - (void)unlockGL {}                                         // NOT NEEDED - QCAR runs of its own timer loop.
-- (void)stopAnimation {}                                    // NOT NEEDED - QCAR runs of its own timer loop.
-- (void)startAnimation {}                                   // NOT NEEDED - QCAR runs of its own timer loop.
 - (void)setAnimationFrameInterval:(float)frameInterval {}   // NOT NEEDED - QCAR runs of its own timer loop.
 - (void)setFrameRate:(float)rate {}                         // NOT NEEDED - QCAR runs of its own timer loop.
 

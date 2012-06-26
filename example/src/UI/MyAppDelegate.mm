@@ -33,15 +33,10 @@
      **/
     
     self.navigationController = [[UINavigationController alloc] init];
+    [self.navigationController pushViewController:[[[MyAppViewController alloc] init] autorelease]
+                                         animated:YES];
+
     [self.window setRootViewController:self.navigationController];
-    
-//    [self.navigationController pushViewController:[[[MyAppViewController alloc] init] autorelease]
-//                                         animated:YES];
-    
-    ofxQCAR_ViewController * viewController;
-    viewController = [[[ofxQCAR_ViewController alloc] initWithFrame:[UIScreen mainScreen].bounds 
-                                                                app:new testApp()] autorelease];
-    [self.navigationController pushViewController:viewController animated:NO];
     
     //--- style the UINavigationController
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;

@@ -2,7 +2,7 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){	
-	ofBackground(127);
+	ofBackground(0);
     
     teapotImage.loadImage("qcar_assets/TextureTeapotBrass.png");
     teapotImage.mirror(true, false);  //-- flip texture vertically since the texture coords are set that way on the teapot.
