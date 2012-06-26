@@ -33,8 +33,6 @@
     viewBounds.origin.y = 0;
     viewBounds.size.width = arViewSize.width;
     viewBounds.size.height = arViewSize.height;
-//    viewBounds.size.width = arViewSize.height;
-//    viewBounds.size.height = arViewSize.width;
     
     self.glView = [[[ofxQCAR_EAGLView alloc] initWithFrame:viewBounds 
                                                   andDepth:ofxiPhoneGetOFWindow()->isDepthEnabled()
@@ -85,42 +83,35 @@
 }
 
 - (void) handleARViewRotation:(UIInterfaceOrientation)interfaceOrientation {
-    CGPoint centre, pos;
+    
+    CGPoint centre;
     NSInteger rot;
     
-    // Set the EAGLView's position (its centre) to be the centre of the window, based on orientation
-    centre.x = arViewSize.width / 2;
-    centre.y = arViewSize.height / 2;
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
     
-    if (interfaceOrientation == UIInterfaceOrientationPortrait)
-    {
-        NSLog(@"ARVC: Rotating to Portrait");
-        pos = centre;
+    if(UIInterfaceOrientationIsPortrait(interfaceOrientation)) {
+        centre.x = screenSize.width * 0.5;
+        centre.y = screenSize.height * 0.5;
+    } else if(UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+        centre.x = screenSize.height * 0.5;
+        centre.y = screenSize.width * 0.5;
+    }
+    
+    if (interfaceOrientation == UIInterfaceOrientationPortrait) {
         rot = 0;
-    }
-    else if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-    {
-        NSLog(@"ARVC: Rotating to Upside Down");        
-        pos = centre;
+    } else if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown) {
         rot = 180;
-    }
-    else if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft)
-    {
-        NSLog(@"ARVC: Rotating to Landscape Left");        
-        pos.x = centre.y;
-        pos.y = centre.x;
+    } else if (interfaceOrientation == UIInterfaceOrientationLandscapeLeft) {
         rot = 90;
-    }
-    else if (interfaceOrientation == UIInterfaceOrientationLandscapeRight)
-    {
-        NSLog(@"ARParent: Rotating to Landscape Right");
-        pos.x = centre.y;
-        pos.y = centre.x;
+    } else if (interfaceOrientation == UIInterfaceOrientationLandscapeRight) {
         rot = 270;
+    } else {
+        return;
     }
     
-    self.glView.layer.position = pos;
     CGAffineTransform rotate = CGAffineTransformMakeRotation(rot * M_PI  / 180);
+    
+    self.glView.layer.position = centre;
     self.glView.transform = rotate;
 }
 

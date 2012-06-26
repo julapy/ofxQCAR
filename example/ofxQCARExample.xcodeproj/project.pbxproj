@@ -593,11 +593,13 @@
 					../../../addons/ofxQCAR/libs/qcar/include,
 				);
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../../addons/ofxQCAR/libs/qcar/lib/arm,
 				);
 				PRODUCT_NAME = ofxQCARExample;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS) ../../../addons/ofxQCAR/libs/qcar/include";
 			};
 			name = Debug;
@@ -612,11 +614,13 @@
 					../../../addons/ofxQCAR/libs/qcar/include,
 				);
 				INFOPLIST_FILE = "ofxiphone-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../../addons/ofxQCAR/libs/qcar/lib/arm,
 				);
 				PRODUCT_NAME = ofxQCARExample;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS) ../../../addons/ofxQCAR/libs/qcar/include";
 			};
 			name = Release;

@@ -20,6 +20,7 @@
 #import <QCAR/ImageTarget.h>
 #import <QCAR/CameraDevice.h>
 #import <QCAR/UpdateCallback.h>
+#import <QCAR/QCAR_iOS.h>
 
 class ofxQCAR_UpdateCallback : public QCAR::UpdateCallback {
     virtual void QCAR_onUpdate(QCAR::State& state) {
@@ -192,7 +193,7 @@ void ofxQCAR::setup() {
     
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11;
+    [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11 | QCAR::ROTATE_IOS_90;
     
     if(ofxiPhoneGetOFWindow()->isRetinaSupported()) {
         if([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {

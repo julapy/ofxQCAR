@@ -618,8 +618,8 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     if (arVideo > arScreen)
     {
         // Video mode is wider than the screen.  We'll crop the left and right edges of the video
-        config.mSize.data[0] = (int)viewSize.width * arVideo;
-        config.mSize.data[1] = (int)viewSize.width;
+        config.mSize.data[0] = (int)viewSize.width;
+        config.mSize.data[1] = (int)viewSize.width * arVideo;
         width = (int)viewSize.width;
         height = (int)viewSize.height;
     }
@@ -627,8 +627,8 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     {
         // Video mode is taller than the screen.  We'll crop the top and bottom edges of the video.
         // Also used when aspect ratios match (no cropping).
-        config.mSize.data[0] = (int)viewSize.height;
-        config.mSize.data[1] = (int)viewSize.height / arVideo;
+        config.mSize.data[0] = (int)viewSize.height / arVideo;
+        config.mSize.data[1] = (int)viewSize.height;
         width = (int)viewSize.height;
         height = (int)viewSize.width;
     }
