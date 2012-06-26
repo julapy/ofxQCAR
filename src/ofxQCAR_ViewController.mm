@@ -12,29 +12,15 @@
     //
 }
 
-@property (nonatomic) CGSize arViewSize;
-
 @end
 
 @implementation ofxQCAR_ViewController
-
-@synthesize arViewSize;
 
 #if !(TARGET_IPHONE_SIMULATOR)
 
 - (void)initGLViewWithFrame:(CGRect)frame {
     
-    arViewSize = frame.size;
-    
-    // We are going to rotate our EAGLView by 90/270 degrees as the camera's idea of orientation is different to the screen,
-    // so its width must be equal to the screen's height, and height to width
-    CGRect viewBounds;
-    viewBounds.origin.x = 0;
-    viewBounds.origin.y = 0;
-    viewBounds.size.width = arViewSize.width;
-    viewBounds.size.height = arViewSize.height;
-    
-    self.glView = [[[ofxQCAR_EAGLView alloc] initWithFrame:viewBounds 
+    self.glView = [[[ofxQCAR_EAGLView alloc] initWithFrame:frame 
                                                   andDepth:ofxiPhoneGetOFWindow()->isDepthEnabled()
                                                      andAA:ofxiPhoneGetOFWindow()->isAntiAliasingEnabled()
                                              andNumSamples:ofxiPhoneGetOFWindow()->getAntiAliasingSampleCount()
@@ -65,16 +51,7 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Support all orientations
-    return YES;
-    
-    // Support both portrait orientations
-    //return (UIInterfaceOrientationPortrait == interfaceOrientation ||
-    //        UIInterfaceOrientationPortraitUpsideDown == interfaceOrientation);
-    
-    // Support both landscape orientations
-    //return (UIInterfaceOrientationLandscapeLeft == interfaceOrientation ||
-    //        UIInterfaceOrientationLandscapeRight == interfaceOrientation);
+    return YES; // Support all orientations
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 

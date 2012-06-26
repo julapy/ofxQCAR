@@ -72,6 +72,8 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
 
 @synthesize projectionMatrix;
 
+@synthesize config;
+
 @synthesize videoStreamStarted;
 
 @synthesize cameraTorchOn, cameraContinuousAFOn;
@@ -598,7 +600,6 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     QCAR::VideoMode videoMode = cameraDevice.getVideoMode(QCAR::CameraDevice::MODE_DEFAULT);
     
     // Configure the video background
-    QCAR::VideoBackgroundConfig config;
     config.mEnabled = true;
     config.mSynchronous = true;
     config.mPosition.data[0] = 0.0f;

@@ -75,11 +75,6 @@ void testApp::draw(){
         ofDisableNormalizedTexCoords();
     }
     
-    ofSetColor(ofColor::red);
-    ofRect((ofGetWidth()-200) * 0.5, 
-           (ofGetHeight()-200) * 0.5, 
-           200, 200);
-    
     glEnable(GL_DEPTH_TEST);
     
     if(bPressed) {

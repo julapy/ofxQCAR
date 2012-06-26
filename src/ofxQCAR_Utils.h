@@ -8,6 +8,7 @@
 #import <QCAR/Tool.h>
 #import <QCAR/DataSet.h>
 #import <QCAR/ImageTarget.h>
+#import <QCAR/VideoBackgroundConfig.h>
 
 // Target type - used by the app to tell QCAR its intent
 typedef enum typeOfTarget {
@@ -84,6 +85,8 @@ enum _errorCode {
     
     QCAR::Matrix44F projectionMatrix; // OpenGL projection matrix
     
+    QCAR::VideoBackgroundConfig config;
+    
     BOOL videoStreamStarted;    // becomes true at first "camera is running"
     
 @private
@@ -105,6 +108,8 @@ enum _errorCode {
 @property (nonatomic) struct tagViewport viewport;
 
 @property (nonatomic) QCAR::Matrix44F projectionMatrix;
+
+@property (nonatomic) QCAR::VideoBackgroundConfig config;
 
 @property (nonatomic) BOOL videoStreamStarted;
 
