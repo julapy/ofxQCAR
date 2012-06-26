@@ -78,29 +78,31 @@ public:
     virtual void pause();
     virtual void resume();
     
-    virtual void begin();
+    virtual void begin(unsigned int i=0);
     virtual void end();
     
-    void drawMarkerRect();
-    void drawMarkerCenter();
-    void drawMarkerCorners();
-    void drawMarkerBounds();
+    void drawMarkerRect(unsigned int markerIndex=0);
+    void drawMarkerCenter(unsigned int markerIndex=0);
+    void drawMarkerCorners(unsigned int markerIndex=0);
+    void drawMarkerBounds(unsigned int markerIndex=0);
     
     void torchOn();
     void torchOff();
     void autoFocusOn();
     void autoFocusOff();
-    
-    ofMatrix4x4 getProjectionMatrix();
-    ofMatrix4x4 getModelViewMatrix();
-    ofRectangle getMarkerRect();
-    ofVec2f     getMarkerCenter();
-    ofVec2f     getMarkerCorner(ofxQCAR_MarkerCorner cornerIndex);
-    ofVec3f     getMarkerRotation();
-    float       getMarkerRotationLeftRight();
-    float       getMarkerRotationUpDown();
-    string      getMarkerName();
+
     bool hasFoundMarker();
+    int numOfMarkersFound();
+    
+    ofMatrix4x4 getProjectionMatrix(unsigned int markerIndex=0);
+    ofMatrix4x4 getModelViewMatrix(unsigned int markerIndex=0);
+    ofRectangle getMarkerRect(unsigned int markerIndex=0);
+    ofVec2f     getMarkerCenter(unsigned int markerIndex=0);
+    ofVec2f     getMarkerCorner(ofxQCAR_MarkerCorner cornerIndex, unsigned int markerIndex=0);
+    ofVec3f     getMarkerRotation(unsigned int markerIndex=0);
+    float       getMarkerRotationLeftRight(unsigned int markerIndex=0);
+    float       getMarkerRotationUpDown(unsigned int markerIndex=0);
+    string      getMarkerName(unsigned int markerIndex=0);
     
 private:
     

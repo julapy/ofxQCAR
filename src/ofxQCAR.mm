@@ -251,120 +251,84 @@ void ofxQCAR::resume() {
 //  GETTERS.
 /////////////////////////////////////////////////////////
 
-ofMatrix4x4 ofxQCAR::getProjectionMatrix() { 
-#if !(TARGET_IPHONE_SIMULATOR)    
-    if(hasFoundMarker()) {
-        return markersFound[0].projectionMatrix;
+bool ofxQCAR::hasFoundMarker() { 
+    return numOfMarkersFound() > 0;
+}
+
+int ofxQCAR::numOfMarkersFound() {
+    return markersFound.size();
+}
+
+ofMatrix4x4 ofxQCAR::getProjectionMatrix(unsigned int i) { 
+    if(i < numOfMarkersFound()) {
+        return markersFound[i].projectionMatrix;
     } else {
         return ofMatrix4x4();
     }
-#else
-    return ofMatrix4x4();
-#endif
 }
 
-ofMatrix4x4 ofxQCAR::getModelViewMatrix() {
-#if !(TARGET_IPHONE_SIMULATOR)    
-    if(hasFoundMarker()) {
-        return markersFound[0].modelViewMatrix;
+ofMatrix4x4 ofxQCAR::getModelViewMatrix(unsigned int i) {
+    if(i < numOfMarkersFound()) {
+        return markersFound[i].modelViewMatrix;
     } else {
         return ofMatrix4x4();
     }
-#else
-    return ofMatrix4x4();
-#endif
 }
 
-ofRectangle ofxQCAR::getMarkerRect() {
-#if !(TARGET_IPHONE_SIMULATOR)    
-    if(hasFoundMarker()) {
-        return markersFound[0].markerRect;
+ofRectangle ofxQCAR::getMarkerRect(unsigned int i) {
+    if(i < numOfMarkersFound()) {
+        return markersFound[i].markerRect;
     } else {
         return ofRectangle();
     }
-#else
-    return ofRectangle();
-#endif
 }
 
-ofVec2f ofxQCAR::getMarkerCenter() {
-#if !(TARGET_IPHONE_SIMULATOR)    
-    if(hasFoundMarker()) {
-        return markersFound[0].markerCenter;
+ofVec2f ofxQCAR::getMarkerCenter(unsigned int i) {
+    if(i < numOfMarkersFound()) {
+        return markersFound[i].markerCenter;
     } else {
         return ofVec2f();
     }
-#else
-    return ofVec2f();
-#endif
 }
 
-ofVec2f ofxQCAR::getMarkerCorner(ofxQCAR_MarkerCorner cornerIndex) {
-#if !(TARGET_IPHONE_SIMULATOR)    
-    if(hasFoundMarker()) {
-        return markersFound[0].markerCorners[cornerIndex];
+ofVec2f ofxQCAR::getMarkerCorner(ofxQCAR_MarkerCorner cornerIndex, unsigned int i) {
+    if(i < numOfMarkersFound()) {
+        return markersFound[i].markerCorners[cornerIndex];
     } else {
         return ofVec2f();
     }
-#else
-    return ofVec2f();
-#endif
 }
 
-bool ofxQCAR::hasFoundMarker() { 
-#if !(TARGET_IPHONE_SIMULATOR)     
-    return markersFound.size() > 0;
-#else
-    return false;
-#endif
-}
-
-ofVec3f ofxQCAR::getMarkerRotation() {
-#if !(TARGET_IPHONE_SIMULATOR)     
-    if(hasFoundMarker()) {
-        return markersFound[0].markerRotation;
+ofVec3f ofxQCAR::getMarkerRotation(unsigned int i) {
+    if(i < numOfMarkersFound()) {
+        return markersFound[i].markerRotation;
     } else {
         return ofVec3f();
     }
-#else
-    return ofVec3f();
-#endif
 }
 
-float ofxQCAR::getMarkerRotationLeftRight() {
-#if !(TARGET_IPHONE_SIMULATOR)     
-    if(hasFoundMarker()) {
-        return markersFound[0].markerRotationLeftRight;
+float ofxQCAR::getMarkerRotationLeftRight(unsigned int i) {
+    if(i < numOfMarkersFound()) {
+        return markersFound[i].markerRotationLeftRight;
     } else {
         return 0;
     }
-#else
-    return 0;
-#endif
 }
 
-float ofxQCAR::getMarkerRotationUpDown() {
-#if !(TARGET_IPHONE_SIMULATOR)
-    if(hasFoundMarker()) {
-        return markersFound[0].markerRotationUpDown;
+float ofxQCAR::getMarkerRotationUpDown(unsigned int i) {
+    if(i < numOfMarkersFound()) {
+        return markersFound[i].markerRotationUpDown;
     } else {
         return 0;
     }
-#else
-    return 0;
-#endif
 }
 
-string ofxQCAR::getMarkerName() {
-#if !(TARGET_IPHONE_SIMULATOR)     
-    if(hasFoundMarker()) {
-        return markersFound[0].markerName;
+string ofxQCAR::getMarkerName(unsigned int i) {
+    if(i < numOfMarkersFound()) {
+        return markersFound[i].markerName;
     } else {
         return "";
     }
-#else
-    return "";
-#endif
 }
 
 /////////////////////////////////////////////////////////
@@ -379,7 +343,12 @@ void ofxQCAR::update () {
 //  BEGIN / END.
 /////////////////////////////////////////////////////////
 
-void ofxQCAR::begin () {
+void ofxQCAR::begin(unsigned int i) {
+    
+    if(!hasFoundMarker()) {
+        return;
+    }
+    
     if(bBeginDraw) { // begin() can not be called again before end() being called first.
         return;
     }
@@ -390,10 +359,10 @@ void ofxQCAR::begin () {
     glTranslatef(ofGetWidth() * 0.5, ofGetHeight() * 0.5, 0);
 
     glMatrixMode(GL_PROJECTION);
-    glLoadMatrixf(getProjectionMatrix().getPtr());
+    glLoadMatrixf(getProjectionMatrix(i).getPtr());
     
     glMatrixMode(GL_MODELVIEW);
-    glLoadMatrixf(getModelViewMatrix().getPtr());
+    glLoadMatrixf(getModelViewMatrix(i).getPtr());
     
     glScalef(1, -1, 1);
 }
@@ -439,12 +408,12 @@ void ofxQCAR::draw() {
 #endif
 }
 
-void ofxQCAR::drawMarkerRect() {
+void ofxQCAR::drawMarkerRect(unsigned int i) {
 
     begin();
 
-    float markerW = getMarkerRect().width;
-    float markerH = getMarkerRect().height;
+    float markerW = getMarkerRect(i).width;
+    float markerH = getMarkerRect(i).height;
     ofRect(-markerW * 0.5, 
            -markerH * 0.5, 
            markerW, 
@@ -453,23 +422,23 @@ void ofxQCAR::drawMarkerRect() {
     end();
 }
 
-void ofxQCAR::drawMarkerCenter() {
-    const ofVec2f& markerCenter = getMarkerCenter();
+void ofxQCAR::drawMarkerCenter(unsigned int i) {
+    const ofVec2f& markerCenter = getMarkerCenter(i);
     ofCircle(markerCenter.x, markerCenter.y, 4);
 }
 
-void ofxQCAR::drawMarkerCorners() {
+void ofxQCAR::drawMarkerCorners(unsigned int j) {
     for(int i=0; i<4; i++) {
-        const ofVec2f& markerCorner = getMarkerCorner((ofxQCAR_MarkerCorner)i);
+        const ofVec2f& markerCorner = getMarkerCorner((ofxQCAR_MarkerCorner)i, j);
         ofCircle(markerCorner.x, markerCorner.y, 4);
     }
 }
 
-void ofxQCAR::drawMarkerBounds() {
+void ofxQCAR::drawMarkerBounds(unsigned int k) {
     for(int i=0; i<4; i++) {
         int j = (i + 1) % 4;
-        const ofVec2f& mc1 = getMarkerCorner((ofxQCAR_MarkerCorner)i);
-        const ofVec2f& mc2 = getMarkerCorner((ofxQCAR_MarkerCorner)j);
+        const ofVec2f& mc1 = getMarkerCorner((ofxQCAR_MarkerCorner)i, k);
+        const ofVec2f& mc2 = getMarkerCorner((ofxQCAR_MarkerCorner)j, k);
         
         ofLine(mc1.x, mc1.y, mc2.x, mc2.y);
     }
