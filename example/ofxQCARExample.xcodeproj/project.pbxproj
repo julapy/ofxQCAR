@@ -16,7 +16,6 @@
 		153151241584F349006C8A5C /* Tarmac.dat in Resources */ = {isa = PBXBuildFile; fileRef = 1531511F1584F349006C8A5C /* Tarmac.dat */; };
 		153151251584F349006C8A5C /* Tarmac.xml in Resources */ = {isa = PBXBuildFile; fileRef = 153151201584F349006C8A5C /* Tarmac.xml */; };
 		153151261584F349006C8A5C /* TextureTeapotBrass.png in Resources */ = {isa = PBXBuildFile; fileRef = 153151211584F349006C8A5C /* TextureTeapotBrass.png */; };
-		15723C061587220900C38E46 /* AR_EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 153150FA158451DE006C8A5C /* AR_EAGLView.mm */; };
 		15766B551583329D0015F67F /* libQCAR.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 15766B541583329D0015F67F /* libQCAR.a */; };
 		15B505571581D60B004CF539 /* MyAppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B505541581D60B004CF539 /* MyAppDelegate.mm */; };
 		15B505581581D60B004CF539 /* MyAppViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 15B505561581D60B004CF539 /* MyAppViewController.mm */; };
@@ -64,22 +63,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		153150F9158451DE006C8A5C /* AR_EAGLView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AR_EAGLView.h; sourceTree = "<group>"; };
-		153150FA158451DE006C8A5C /* AR_EAGLView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AR_EAGLView.mm; sourceTree = "<group>"; };
-		153150FB158451DE006C8A5C /* ARParentViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARParentViewController.h; sourceTree = "<group>"; };
-		153150FC158451DE006C8A5C /* ARParentViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARParentViewController.m; sourceTree = "<group>"; };
-		153150FD158451DE006C8A5C /* ARViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARViewController.h; sourceTree = "<group>"; };
-		153150FE158451DE006C8A5C /* ARViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ARViewController.mm; sourceTree = "<group>"; };
-		153150FF158451DE006C8A5C /* OverlayView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OverlayView.h; sourceTree = "<group>"; };
-		15315100158451DE006C8A5C /* OverlayView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OverlayView.m; sourceTree = "<group>"; };
-		15315101158451DE006C8A5C /* OverlayViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OverlayViewController.h; sourceTree = "<group>"; };
-		15315102158451DE006C8A5C /* OverlayViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = OverlayViewController.mm; sourceTree = "<group>"; };
-		15315103158451DE006C8A5C /* QCARutils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QCARutils.h; sourceTree = "<group>"; };
-		15315104158451DE006C8A5C /* QCARutils.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QCARutils.mm; sourceTree = "<group>"; };
-		15315108158451DE006C8A5C /* ShaderUtils.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderUtils.cpp; sourceTree = "<group>"; };
-		15315109158451DE006C8A5C /* ShaderUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderUtils.h; sourceTree = "<group>"; };
-		1531510A158451DE006C8A5C /* Texture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Texture.h; sourceTree = "<group>"; };
-		1531510B158451DE006C8A5C /* Texture.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Texture.mm; sourceTree = "<group>"; };
 		1531510C1584540A006C8A5C /* ofxQCAR_ViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_ViewController.mm; sourceTree = "<group>"; };
 		1531510D1584540A006C8A5C /* ofxQCAR_ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_ViewController.h; sourceTree = "<group>"; };
 		1531510F158459DA006C8A5C /* ofxQCAR_EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_EAGLView.mm; sourceTree = "<group>"; };
@@ -186,29 +169,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		153150F8158451DE006C8A5C /* ARCommon */ = {
-			isa = PBXGroup;
-			children = (
-				153150F9158451DE006C8A5C /* AR_EAGLView.h */,
-				153150FA158451DE006C8A5C /* AR_EAGLView.mm */,
-				153150FB158451DE006C8A5C /* ARParentViewController.h */,
-				153150FC158451DE006C8A5C /* ARParentViewController.m */,
-				153150FD158451DE006C8A5C /* ARViewController.h */,
-				153150FE158451DE006C8A5C /* ARViewController.mm */,
-				153150FF158451DE006C8A5C /* OverlayView.h */,
-				15315100158451DE006C8A5C /* OverlayView.m */,
-				15315101158451DE006C8A5C /* OverlayViewController.h */,
-				15315102158451DE006C8A5C /* OverlayViewController.mm */,
-				15315103158451DE006C8A5C /* QCARutils.h */,
-				15315104158451DE006C8A5C /* QCARutils.mm */,
-				15315108158451DE006C8A5C /* ShaderUtils.cpp */,
-				15315109158451DE006C8A5C /* ShaderUtils.h */,
-				1531510A158451DE006C8A5C /* Texture.h */,
-				1531510B158451DE006C8A5C /* Texture.mm */,
-			);
-			path = ARCommon;
-			sourceTree = "<group>";
-		};
 		1531511C1584F349006C8A5C /* qcar_assets */ = {
 			isa = PBXGroup;
 			children = (
@@ -355,7 +315,6 @@
 			isa = PBXGroup;
 			children = (
 				E4D8936A11527B74007E1F53 /* src */,
-				153150F8158451DE006C8A5C /* ARCommon */,
 				BB24DD8B10DA77E000E9C588 /* data */,
 				BB24E1F710DAA51900E9C588 /* openFrameworks */,
 				BB16F26B0F2B646B00518274 /* addons */,
@@ -567,7 +526,6 @@
 				15315111158459DA006C8A5C /* ofxQCAR_EAGLView.mm in Sources */,
 				1531511815845CDD006C8A5C /* ofxQCAR.mm in Sources */,
 				1531511B15845FFB006C8A5C /* ofxQCAR_Utils.mm in Sources */,
-				15723C061587220900C38E46 /* AR_EAGLView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
