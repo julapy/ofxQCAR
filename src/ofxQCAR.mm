@@ -259,6 +259,14 @@ int ofxQCAR::numOfMarkersFound() {
     return markersFound.size();
 }
 
+ofxQCAR_Marker ofxQCAR::getMarker(unsigned int i) {
+    if(i < numOfMarkersFound()) {
+        return markersFound[i];
+    } else {
+        return ofxQCAR_Marker();
+    }
+}
+
 ofMatrix4x4 ofxQCAR::getProjectionMatrix(unsigned int i) { 
     if(i < numOfMarkersFound()) {
         return markersFound[i].projectionMatrix;
