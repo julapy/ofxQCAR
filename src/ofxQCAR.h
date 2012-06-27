@@ -111,9 +111,16 @@ public:
     
     ofVec2f point3DToScreen2D(ofVec3f point, unsigned int markerIndex=0);
     
+    int getCameraWidth();
+    int getCameraHeight();
+    unsigned char * getCameraPixels();
+    
 private:
     
     static ofxQCAR * _instance;
     vector<ofxQCAR_Marker> markersFound;
     
+    unsigned char * cameraPixels;
+    int cameraWidth;
+    int cameraHeight;
 };
