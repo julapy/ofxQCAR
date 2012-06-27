@@ -31,9 +31,13 @@ public:
         markerRotationLeftRight = 0;
         markerRotationUpDown = 0;
         markerName = "";
+        for(int i=0; i<12; i++) {
+            poseMatrixData[i] = 0;
+        }
     }
     ofMatrix4x4 projectionMatrix;
     ofMatrix4x4 modelViewMatrix;
+    float poseMatrixData[3*4];
     float scaleX;
     float scaleY;
     
@@ -104,6 +108,8 @@ public:
     float       getMarkerRotationLeftRight(unsigned int markerIndex=0);
     float       getMarkerRotationUpDown(unsigned int markerIndex=0);
     string      getMarkerName(unsigned int markerIndex=0);
+    
+    ofVec2f point3DToScreen2D(ofVec3f point, unsigned int markerIndex=0);
     
 private:
     

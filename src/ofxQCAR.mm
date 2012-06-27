@@ -20,7 +20,34 @@
 #import <QCAR/ImageTarget.h>
 #import <QCAR/CameraDevice.h>
 #import <QCAR/UpdateCallback.h>
+#import <QCAR/Matrices.h>
 #import <QCAR/QCAR_iOS.h>
+
+/////////////////////////////////////////////////////////
+//
+/////////////////////////////////////////////////////////
+
+QCAR::Vec2F cameraPointToScreenPoint(QCAR::Vec2F cameraPoint) {
+    
+    QCAR::VideoMode videoMode = QCAR::CameraDevice::getInstance().getVideoMode(QCAR::CameraDevice::MODE_DEFAULT);
+    QCAR::VideoBackgroundConfig config = [ofxQCAR_Utils getInstance].config;
+    
+    int xOffset = ((int)ofGetWidth()  - config.mSize.data[0]) / 2.0f + config.mPosition.data[0];
+    int yOffset = ((int)ofGetHeight() - config.mSize.data[1]) / 2.0f - config.mPosition.data[1];
+    
+    bool isActivityInPortraitMode = true;
+    if(isActivityInPortraitMode) {
+        // camera image is rotated 90 degrees
+        int rotatedX = videoMode.mHeight - cameraPoint.data[1];
+        int rotatedY = cameraPoint.data[0];
+        
+        return QCAR::Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
+                           rotatedY * config.mSize.data[1] / (float) videoMode.mWidth + yOffset);
+    } else {
+        return QCAR::Vec2F(cameraPoint.data[0] * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
+                           cameraPoint.data[1] * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
+    }
+}
 
 class ofxQCAR_UpdateCallback : public QCAR::UpdateCallback {
     virtual void QCAR_onUpdate(QCAR::State& state) {
@@ -49,6 +76,10 @@ class ofxQCAR_UpdateCallback : public QCAR::UpdateCallback {
             marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
             marker.modelViewMatrix.scale(scaleY, scaleX, 1);
             marker.projectionMatrix = ofMatrix4x4([[ofxQCAR_Utils getInstance] projectionMatrix].data);
+            
+            for(int i=0; i<12; i++) {
+                marker.poseMatrixData[i] = trackable->getPose().data[i];
+            }
             
             QCAR::Vec2F markerSize;
             if(trackable->getType() == QCAR::Trackable::IMAGE_TARGET) {
@@ -94,28 +125,6 @@ class ofxQCAR_UpdateCallback : public QCAR::UpdateCallback {
             marker.markerRotationUpDown = marker.markerRotation.angle(ofVec3f(1, 0, 0));    // this only works in landscape mode.
             
             ofxQCAR::getInstance()->markersFound.push_back(marker);
-        }
-    }
-    
-    virtual QCAR::Vec2F cameraPointToScreenPoint(QCAR::Vec2F cameraPoint) {
-
-        QCAR::VideoMode videoMode = QCAR::CameraDevice::getInstance().getVideoMode(QCAR::CameraDevice::MODE_DEFAULT);
-        QCAR::VideoBackgroundConfig config = [ofxQCAR_Utils getInstance].config;
-        
-        int xOffset = ((int)ofGetWidth()  - config.mSize.data[0]) / 2.0f + config.mPosition.data[0];
-        int yOffset = ((int)ofGetHeight() - config.mSize.data[1]) / 2.0f - config.mPosition.data[1];
-        
-        bool isActivityInPortraitMode = true;
-        if(isActivityInPortraitMode) {
-            // camera image is rotated 90 degrees
-            int rotatedX = videoMode.mHeight - cameraPoint.data[1];
-            int rotatedY = cameraPoint.data[0];
-            
-            return QCAR::Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
-                               rotatedY * config.mSize.data[1] / (float) videoMode.mWidth + yOffset);
-        } else {
-            return QCAR::Vec2F(cameraPoint.data[0] * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
-                               cameraPoint.data[1] * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
         }
     }
     
@@ -353,6 +362,25 @@ string ofxQCAR::getMarkerName(unsigned int i) {
         return markersFound[i].markerName;
     } else {
         return "";
+    }
+}
+
+ofVec2f ofxQCAR::point3DToScreen2D(ofVec3f point, unsigned int i) {
+    if(i < numOfMarkersFound()) {
+        
+        ofxQCAR_Marker & marker = markersFound[i];
+        QCAR::Matrix34F pose;
+        for(int i=0; i<12; i++) {
+            pose.data[i] = marker.poseMatrixData[i];
+        }
+        
+        const QCAR::CameraCalibration& cameraCalibration = QCAR::CameraDevice::getInstance().getCameraCalibration();
+        QCAR::Vec2F cameraPoint = QCAR::Tool::projectPoint(cameraCalibration, pose, QCAR::Vec3F(point.x, point.y, point.z));
+        QCAR::Vec2F xyPoint = cameraPointToScreenPoint(cameraPoint);
+        ofVec2f screenPoint(xyPoint.data[ 0 ], xyPoint.data[ 1 ]);
+        return screenPoint;
+    } else {
+        return ofVec2f();
     }
 }
 

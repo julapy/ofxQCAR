@@ -18,7 +18,7 @@
 }
 
 - (void)timerLoop {
-    ofxiPhoneGetOFWindow()->timerLoop();
+    [ofxiPhoneGetViewController() timerLoop];
 }
 
 @end
