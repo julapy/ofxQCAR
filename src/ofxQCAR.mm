@@ -463,11 +463,15 @@ void ofxQCAR::draw() {
     State state = Renderer::getInstance().begin();
     Renderer::getInstance().drawVideoBackground();
     
-    Frame frame = state.getFrame();
-    const Image * image = frame.getImage(0);
-    cameraWidth = image->getBufferWidth();
-    cameraHeight = image->getBufferHeight();
-    cameraPixels = (unsigned char *)image->getPixels();
+    if([ofxQCAR_Utils getInstance].appStatus == APPSTATUS_CAMERA_RUNNING) {
+        Frame frame = state.getFrame();
+        const Image * image = frame.getImage(0);
+        if(image) {
+            cameraWidth = image->getBufferWidth();
+            cameraHeight = image->getBufferHeight();
+            cameraPixels = (unsigned char *)image->getPixels();
+        }
+    }
     
     Renderer::getInstance().end();
     
