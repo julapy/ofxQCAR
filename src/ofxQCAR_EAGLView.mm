@@ -12,12 +12,6 @@
 @implementation ofxQCAR_EAGLView
 
 - (void)renderFrameQCAR {
-    [self performSelectorOnMainThread:@selector(timerLoop) 
-                           withObject:nil 
-                        waitUntilDone:NO];    
-}
-
-- (void)timerLoop {
     [ofxiPhoneGetViewController() timerLoop];
 }
 
