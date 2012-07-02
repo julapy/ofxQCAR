@@ -462,6 +462,10 @@ void ofxQCAR::draw() {
     
     State state = Renderer::getInstance().begin();
     Renderer::getInstance().drawVideoBackground();
+
+    cameraWidth = 0;
+    cameraHeight = 0;
+    cameraPixels = NULL;    // reset values on every frame.
     
     if([ofxQCAR_Utils getInstance].appStatus == APPSTATUS_CAMERA_RUNNING) {
         Frame frame = state.getFrame();
