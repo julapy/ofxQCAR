@@ -4,10 +4,8 @@
 //  Created by lukasz karluk on 19/01/12.
 //
 
-#import "ofxQCAR.h"
 #import "ofxQCAR_ViewController.h"
 #import "ofxQCAR_EAGLView.h"
-#import "ofxiPhoneExtras.h"
 
 @interface ofxQCAR_ViewController() {
     //
@@ -19,14 +17,16 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 
-- (void)initGLViewWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame app:(ofxiPhoneApp *)app {
     
-    self.glView = [[[ofxQCAR_EAGLView alloc] initWithFrame:frame 
-                                                  andDepth:ofxiPhoneGetOFWindow()->isDepthEnabled()
-                                                     andAA:ofxiPhoneGetOFWindow()->isAntiAliasingEnabled()
-                                             andNumSamples:ofxiPhoneGetOFWindow()->getAntiAliasingSampleCount()
-                                                 andRetina:ofxiPhoneGetOFWindow()->isRetinaSupported()] autorelease];
-    [self.view insertSubview:self.glView atIndex:0];
+    if((self = [super init])) {
+        self.glView = [[[ofxQCAR_EAGLView alloc] initWithFrame:frame andApp:app] autorelease];
+        self.glView.delegate = self;
+        [self.view addSubview:self.glView];
+        [self.glView setup];
+    }
+    
+    return self;
 }
 
 - (void)viewDidLoad {
@@ -37,19 +37,14 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self handleARViewRotation:self.interfaceOrientation];
-    [self startAnimation];
 }
 
-- (void)destroy {
-    [super destroy];
+- (void)viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
 }
 
 - (void)dealloc {
     [super dealloc];
-}
-
-- (void)timerLoop {
-    [super timerLoop];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -93,19 +88,6 @@
     self.glView.layer.position = centre;
     self.glView.transform = rotate;
 }
-
-- (void)stopAnimation {
-    ofxQCAR::getInstance()->pause();
-}
-
-- (void)startAnimation {
-    ofxQCAR::getInstance()->resume();
-}
-
-- (void)lockGL {}                                           // NOT NEEDED - QCAR runs of its own timer loop.
-- (void)unlockGL {}                                         // NOT NEEDED - QCAR runs of its own timer loop.
-- (void)setAnimationFrameInterval:(float)frameInterval {}   // NOT NEEDED - QCAR runs of its own timer loop.
-- (void)setFrameRate:(float)rate {}                         // NOT NEEDED - QCAR runs of its own timer loop.
 
 #endif
 

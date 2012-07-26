@@ -8,11 +8,24 @@
 
 #import "ofxQCAR_EAGLView.h"
 #import "ofxiPhoneExtras.h"
+#import "ofxQCAR.h"
 
 @implementation ofxQCAR_EAGLView
 
+- (void)dealloc {
+    [super dealloc];
+}
+
 - (void)renderFrameQCAR {
-    [ofxiPhoneGetViewController() timerLoop];
+    [self drawView];
+}
+
+- (void)stopAnimation {
+    ofxQCAR::getInstance()->pause();
+}
+
+- (void)startAnimation {
+    ofxQCAR::getInstance()->resume();
 }
 
 @end

@@ -6,10 +6,10 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 
-#import "EAGLView.h"
+#import "ofxiOSEAGLView.h"
 #import <QCAR/UIGLViewProtocol.h>
 
-@interface ofxQCAR_EAGLView : EAGLView <UIGLViewProtocol> {
+@interface ofxQCAR_EAGLView : ofxiOSEAGLView <UIGLViewProtocol> {
     //
 }
 

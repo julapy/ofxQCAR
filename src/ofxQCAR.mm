@@ -462,6 +462,7 @@ void ofxQCAR::draw() {
     
     State state = Renderer::getInstance().begin();
     Renderer::getInstance().drawVideoBackground();
+    Renderer::getInstance().end();
 
     cameraWidth = 0;
     cameraHeight = 0;
@@ -476,8 +477,6 @@ void ofxQCAR::draw() {
             cameraPixels = (unsigned char *)image->getPixels();
         }
     }
-    
-    Renderer::getInstance().end();
     
     //--- restore openFrameworks render configuration.
     
