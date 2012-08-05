@@ -22,7 +22,7 @@
     if((self = [super init])) {
         self.glView = [[[ofxQCAR_EAGLView alloc] initWithFrame:frame andApp:app] autorelease];
         self.glView.delegate = self;
-        [self.view addSubview:self.glView];
+        [self.view insertSubview:self.glView atIndex:0];
         [self.glView setup];
     }
     
