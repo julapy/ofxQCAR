@@ -373,6 +373,7 @@ string ofxQCAR::getMarkerName(unsigned int i) {
 }
 
 ofVec2f ofxQCAR::point3DToScreen2D(ofVec3f point, unsigned int i) {
+#if !(TARGET_IPHONE_SIMULATOR)
     if(i < numOfMarkersFound()) {
         
         ofxQCAR_Marker & marker = markersFound[i];
@@ -389,6 +390,9 @@ ofVec2f ofxQCAR::point3DToScreen2D(ofVec3f point, unsigned int i) {
     } else {
         return ofVec2f();
     }
+#else
+    return ofVec2f();
+#endif
 }
 
 int ofxQCAR::getCameraWidth() {
