@@ -38,8 +38,7 @@ Vec2F cameraPointToScreenPoint(Vec2F cameraPoint) {
     int xOffset = ((int)ofGetWidth()  - config.mSize.data[0]) / 2.0f + config.mPosition.data[0];
     int yOffset = ((int)ofGetHeight() - config.mSize.data[1]) / 2.0f - config.mPosition.data[1];
     
-    bool isActivityInPortraitMode = true;
-    if(isActivityInPortraitMode) {
+    if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
         // camera image is rotated 90 degrees
         int rotatedX = videoMode.mHeight - cameraPoint.data[1];
         int rotatedY = cameraPoint.data[0];
@@ -188,6 +187,7 @@ ofxQCAR::ofxQCAR () {
     cameraPixels = NULL;
     cameraWidth = 0;
     cameraHeight = 0;
+    orientation = OFX_QCAR_ORIENTATION_PORTRAIT;
 }
 
 ofxQCAR::~ofxQCAR () {
@@ -197,6 +197,14 @@ ofxQCAR::~ofxQCAR () {
 /////////////////////////////////////////////////////////
 //  SETUP.
 /////////////////////////////////////////////////////////
+
+void ofxQCAR::setOrientation(ofxQCAR_Orientation orientation) {
+    this->orientation = orientation;
+}
+
+ofxQCAR_Orientation ofxQCAR::getOrientation() {
+    return orientation;
+}
 
 void ofxQCAR::addTarget(string targetName, string targetPath) {
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -219,17 +227,26 @@ void ofxQCAR::addTarget(string targetName, string targetPath) {
 void ofxQCAR::setup() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11 | QCAR::ROTATE_IOS_90;
-    
-    if(ofxiPhoneGetOFWindow()->isRetinaSupported()) {
-        if([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
-            if([[UIScreen mainScreen] scale] > 1) {
-                [ofxQCAR_Utils getInstance].contentScalingFactor = 2.0f;
-            }
-        }
+    if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
+        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11 | QCAR::ROTATE_IOS_90;
+    } else {
+        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11 | QCAR::ROTATE_IOS_180;
     }
     
-    [[ofxQCAR_Utils getInstance] createARofSize:[[UIScreen mainScreen] bounds].size 
+    if(ofxiPhoneGetOFWindow()->isRetinaEnabled()) {
+        [ofxQCAR_Utils getInstance].contentScalingFactor = 2.0f;
+    }
+    
+    CGSize arSize = CGSizeZero;
+    if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
+        arSize.width = [[UIScreen mainScreen] bounds].size.width;
+        arSize.height = [[UIScreen mainScreen] bounds].size.height;
+    } else {
+        arSize.width = [[UIScreen mainScreen] bounds].size.height;
+        arSize.height = [[UIScreen mainScreen] bounds].size.width;
+    }
+    
+    [[ofxQCAR_Utils getInstance] createARofSize:arSize
                                     forDelegate:[[ofxQCAR_Delegate alloc] init]];
 #endif
     
