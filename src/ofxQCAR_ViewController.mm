@@ -6,6 +6,7 @@
 
 #import "ofxQCAR_ViewController.h"
 #import "ofxQCAR_EAGLView.h"
+#import "ofxQCAR.h"
 
 @interface ofxQCAR_ViewController() {
     //
@@ -22,11 +23,13 @@
 }
 
 - (id)initWithAppInPortraitMode:(ofxiPhoneApp *)app {
+    ofxQCAR::getInstance()->setOrientation(OFX_QCAR_ORIENTATION_PORTRAIT);
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     return [self initWithFrame:CGRectMake(0, 0, screenSize.width, screenSize.height) app:app];
 }
 
 - (id)initWithAppInLandscapeMode:(ofxiPhoneApp *)app {
+    ofxQCAR::getInstance()->setOrientation(OFX_QCAR_ORIENTATION_LANDSCAPE);
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     return [self initWithFrame:CGRectMake(0, 0, screenSize.height, screenSize.width) app:app];
 }
@@ -62,7 +65,13 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES; // Support all orientations
+    ofxQCAR_Orientation orientation = ofxQCAR::getInstance()->getOrientation();
+    if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
+        return UIInterfaceOrientationIsPortrait(interfaceOrientation);
+    } else if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE) {
+        return UIInterfaceOrientationIsLandscape(interfaceOrientation);
+    }
+    return YES;
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -70,7 +79,7 @@
     [self handleARViewRotation:interfaceOrientation];
 }
 
-- (void) handleARViewRotation:(UIInterfaceOrientation)interfaceOrientation {
+- (void)handleARViewRotation:(UIInterfaceOrientation)interfaceOrientation {
     
     CGPoint centre;
     NSInteger rot;
@@ -95,6 +104,11 @@
         rot = 270;
     } else {
         return;
+    }
+    
+    ofxQCAR_Orientation orientation = ofxQCAR::getInstance()->getOrientation();
+    if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE) {
+        rot -= 90;
     }
     
     CGAffineTransform rotate = CGAffineTransformMakeRotation(rot * M_PI / 180);
