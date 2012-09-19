@@ -46,8 +46,12 @@ Vec2F cameraPointToScreenPoint(Vec2F cameraPoint) {
         return Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
                      rotatedY * config.mSize.data[1] / (float) videoMode.mWidth + yOffset);
     } else {
-        return Vec2F(cameraPoint.data[0] * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
-                     cameraPoint.data[1] * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
+        // camera image is rotated 180 degrees
+        int rotatedX = videoMode.mWidth - cameraPoint.data[0];
+        int rotatedY = videoMode.mHeight - cameraPoint.data[1];
+        
+        return Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
+                     rotatedY * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
     }
 }
 
