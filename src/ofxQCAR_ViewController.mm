@@ -17,6 +17,20 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 
+- (id)initWithApp:(ofxiPhoneApp *)app {
+    return [self initWithAppInPortraitMode:app];
+}
+
+- (id)initWithAppInPortraitMode:(ofxiPhoneApp *)app {
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    return [self initWithFrame:CGRectMake(0, 0, screenSize.width, screenSize.height) app:app];
+}
+
+- (id)initWithAppInLandscapeMode:(ofxiPhoneApp *)app {
+    CGSize screenSize = [UIScreen mainScreen].bounds.size;
+    return [self initWithFrame:CGRectMake(0, 0, screenSize.height, screenSize.width) app:app];
+}
+
 - (id)initWithFrame:(CGRect)frame app:(ofxiPhoneApp *)app {
     
     if((self = [super init])) {

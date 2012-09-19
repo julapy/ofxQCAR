@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15277E8E16097AA0006DAEB1 /* MyAppViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 15277E8D16097AA0006DAEB1 /* MyAppViewController.xib */; };
 		1531510E1584540A006C8A5C /* ofxQCAR_ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1531510C1584540A006C8A5C /* ofxQCAR_ViewController.mm */; };
 		15315111158459DA006C8A5C /* ofxQCAR_EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1531510F158459DA006C8A5C /* ofxQCAR_EAGLView.mm */; };
 		1531511815845CDD006C8A5C /* ofxQCAR.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1531511315845CDC006C8A5C /* ofxQCAR.mm */; };
@@ -63,6 +64,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15277E8D16097AA0006DAEB1 /* MyAppViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyAppViewController.xib; sourceTree = "<group>"; };
 		1531510C1584540A006C8A5C /* ofxQCAR_ViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_ViewController.mm; sourceTree = "<group>"; };
 		1531510D1584540A006C8A5C /* ofxQCAR_ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_ViewController.h; sourceTree = "<group>"; };
 		1531510F158459DA006C8A5C /* ofxQCAR_EAGLView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ofxQCAR_EAGLView.mm; sourceTree = "<group>"; };
@@ -282,6 +284,7 @@
 				15B505541581D60B004CF539 /* MyAppDelegate.mm */,
 				15B505551581D60B004CF539 /* MyAppViewController.h */,
 				15B505561581D60B004CF539 /* MyAppViewController.mm */,
+				15277E8D16097AA0006DAEB1 /* MyAppViewController.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -492,6 +495,7 @@
 				153151241584F349006C8A5C /* Tarmac.dat in Resources */,
 				153151251584F349006C8A5C /* Tarmac.xml in Resources */,
 				153151261584F349006C8A5C /* TextureTeapotBrass.png in Resources */,
+				15277E8E16097AA0006DAEB1 /* MyAppViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
