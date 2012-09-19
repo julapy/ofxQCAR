@@ -77,8 +77,14 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
             Matrix44F modelViewMatrix = Tool::convertPose2GLMatrix(trackable->getPose());
             
             VideoBackgroundConfig config = [ofxQCAR_Utils getInstance].config;
-            float scaleX = config.mSize.data[0] / (float)ofGetWidth();
-            float scaleY = config.mSize.data[1] / (float)ofGetHeight();
+            float scaleX = 1.0, scaleY = 1.0;
+            if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
+                scaleX = config.mSize.data[0] / (float)ofGetWidth();
+                scaleY = config.mSize.data[1] / (float)ofGetHeight();
+            } else {
+                scaleX = config.mSize.data[1] / (float)ofGetHeight();
+                scaleY = config.mSize.data[0] / (float)ofGetWidth();
+            }
             
             ofxQCAR_Marker marker;
             marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
