@@ -615,6 +615,8 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     config.mPosition.data[0] = 0.0f;
     config.mPosition.data[1] = 0.0f;
     
+    BOOL bOrientationLandscape = (viewSize.width > viewSize.height);
+    
     // Compare aspect ratios of video and screen.  If they are different
     // we use the full screen size while maintaining the video's aspect
     // ratio, which naturally entails some cropping of the video.
@@ -622,34 +624,33 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     // which is why "width" and "height" appear to be reversed.
     float arVideo = (float)videoMode.mWidth / (float)videoMode.mHeight;
     float arScreen = viewSize.height / viewSize.width;
-    
-    int width;
-    int height;
+    if(bOrientationLandscape) {
+        arScreen = viewSize.width / viewSize.height;
+    }
     
     if (arVideo > arScreen)
     {
         // Video mode is wider than the screen.  We'll crop the left and right edges of the video
-        config.mSize.data[0] = (int)viewSize.width;
-        config.mSize.data[1] = (int)viewSize.width * arVideo;
-        width = (int)viewSize.width;
-        height = (int)viewSize.height;
+        if(bOrientationLandscape) {
+            config.mSize.data[0] = (int)viewSize.height * arVideo;
+            config.mSize.data[1] = (int)viewSize.height;
+        } else {
+            config.mSize.data[0] = (int)viewSize.width;
+            config.mSize.data[1] = (int)viewSize.width * arVideo;
+        }
     }
     else
     {
         // Video mode is taller than the screen.  We'll crop the top and bottom edges of the video.
         // Also used when aspect ratios match (no cropping).
-        config.mSize.data[0] = (int)viewSize.height / arVideo;
-        config.mSize.data[1] = (int)viewSize.height;
-        width = (int)viewSize.height;
-        height = (int)viewSize.width;
+        if(bOrientationLandscape) {
+            config.mSize.data[0] = (int)viewSize.width;
+            config.mSize.data[1] = (int)viewSize.width / arVideo;
+        } else {
+            config.mSize.data[0] = (int)viewSize.height / arVideo;
+            config.mSize.data[1] = (int)viewSize.height;
+        }
     }
-    
-    // Calculate the viewport for the app to use when rendering.  This may or
-    // may not be used, depending on the desired functionality of the app
-    viewport.posX = ((width - config.mSize.data[0]) / 2) + config.mPosition.data[0];
-    viewport.posY =  (((int)(height - config.mSize.data[1])) / (int) 2) + config.mPosition.data[1];
-    viewport.sizeX = config.mSize.data[0];
-    viewport.sizeY = config.mSize.data[1];
     
     // Set the config
     QCAR::Renderer::getInstance().setVideoBackgroundConfig(config);
