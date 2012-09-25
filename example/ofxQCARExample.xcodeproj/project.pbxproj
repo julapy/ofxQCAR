@@ -563,6 +563,7 @@
 				PRODUCT_NAME = ofxQCARExample;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS) ../../../addons/ofxQCAR/libs/qcar/include";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
@@ -584,6 +585,7 @@
 				PRODUCT_NAME = ofxQCARExample;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "$(OF_CORE_HEADERS) ../../../addons/ofxQCAR/libs/qcar/include";
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
