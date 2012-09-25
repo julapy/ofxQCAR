@@ -10,8 +10,7 @@ void testApp::setup(){
     touchPoint.x = touchPoint.y = -1;
 
     ofxQCAR * qcar = ofxQCAR::getInstance();
-    qcar->addTarget("Stones & Chips", "StonesAndChips.xml");
-    qcar->addTarget("Tarmac", "Tarmac.xml");
+    qcar->addTarget("Qualcomm.xml", "Qualcomm.xml");
     qcar->autoFocusOn();
     qcar->setup();
 }
