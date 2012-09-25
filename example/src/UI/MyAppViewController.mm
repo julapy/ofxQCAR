@@ -34,6 +34,10 @@
 
 - (IBAction)launchButtonPressed:(id)sender {
 
+    if(orientation == -1) { // orientation will not be set on iOS6 and needs to be set here.
+        orientation = self.interfaceOrientation;
+    }
+    
     ofxQCAR_ViewController * viewController;
     if(UIInterfaceOrientationIsPortrait(orientation)) {
         viewController = [[[ofxQCAR_ViewController alloc] initWithAppInPortraitMode:new testApp()] autorelease];
@@ -61,5 +65,13 @@
     
     return (UIInterfaceOrientation)orientation == toInterfaceOrientation;
 }
+
+#ifdef __IPHONE_6_0
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAll;
+}
+
+#endif
 
 @end
