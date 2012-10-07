@@ -70,8 +70,8 @@ void testApp::draw(){
     
     if(bPressed) {
         ofSetColor(ofColor::red);
-        ofDrawBitmapString("touch x = " + ofToString((int)touchPoint.x), 20, 40);
-        ofDrawBitmapString("touch y = " + ofToString((int)touchPoint.y), 20, 60);
+        ofDrawBitmapString("touch x = " + ofToString((int)touchPoint.x), 20, 200);
+        ofDrawBitmapString("touch y = " + ofToString((int)touchPoint.y), 20, 220);
     }
 }
 
