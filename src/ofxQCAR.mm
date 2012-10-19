@@ -38,8 +38,7 @@ Vec2F cameraPointToScreenPoint(Vec2F cameraPoint) {
     int xOffset = ((int)ofGetWidth()  - config.mSize.data[0]) / 2.0f + config.mPosition.data[0];
     int yOffset = ((int)ofGetHeight() - config.mSize.data[1]) / 2.0f - config.mPosition.data[1];
     
-    bool isActivityInPortraitMode = true;
-    if(isActivityInPortraitMode) {
+    if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
         // camera image is rotated 90 degrees
         int rotatedX = videoMode.mHeight - cameraPoint.data[1];
         int rotatedY = cameraPoint.data[0];
@@ -47,8 +46,12 @@ Vec2F cameraPointToScreenPoint(Vec2F cameraPoint) {
         return Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
                      rotatedY * config.mSize.data[1] / (float) videoMode.mWidth + yOffset);
     } else {
-        return Vec2F(cameraPoint.data[0] * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
-                     cameraPoint.data[1] * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
+        // camera image is rotated 180 degrees
+        int rotatedX = videoMode.mWidth - cameraPoint.data[0];
+        int rotatedY = videoMode.mHeight - cameraPoint.data[1];
+        
+        return Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
+                     rotatedY * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
     }
 }
 
@@ -74,8 +77,14 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
             Matrix44F modelViewMatrix = Tool::convertPose2GLMatrix(trackable->getPose());
             
             VideoBackgroundConfig config = [ofxQCAR_Utils getInstance].config;
-            float scaleX = config.mSize.data[0] / (float)ofGetWidth();
-            float scaleY = config.mSize.data[1] / (float)ofGetHeight();
+            float scaleX = 1.0, scaleY = 1.0;
+            if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
+                scaleX = config.mSize.data[0] / (float)ofGetWidth();
+                scaleY = config.mSize.data[1] / (float)ofGetHeight();
+            } else {
+                scaleX = config.mSize.data[1] / (float)ofGetHeight();
+                scaleY = config.mSize.data[0] / (float)ofGetWidth();
+            }
             
             ofxQCAR_Marker marker;
             marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
@@ -188,6 +197,7 @@ ofxQCAR::ofxQCAR () {
     cameraPixels = NULL;
     cameraWidth = 0;
     cameraHeight = 0;
+    orientation = OFX_QCAR_ORIENTATION_PORTRAIT;
 }
 
 ofxQCAR::~ofxQCAR () {
@@ -197,6 +207,14 @@ ofxQCAR::~ofxQCAR () {
 /////////////////////////////////////////////////////////
 //  SETUP.
 /////////////////////////////////////////////////////////
+
+void ofxQCAR::setOrientation(ofxQCAR_Orientation orientation) {
+    this->orientation = orientation;
+}
+
+ofxQCAR_Orientation ofxQCAR::getOrientation() {
+    return orientation;
+}
 
 void ofxQCAR::addTarget(string targetName, string targetPath) {
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -219,17 +237,26 @@ void ofxQCAR::addTarget(string targetName, string targetPath) {
 void ofxQCAR::setup() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11 | QCAR::ROTATE_IOS_90;
-    
-    if(ofxiPhoneGetOFWindow()->isRetinaSupported()) {
-        if([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
-            if([[UIScreen mainScreen] scale] > 1) {
-                [ofxQCAR_Utils getInstance].contentScalingFactor = 2.0f;
-            }
-        }
+    if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
+        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11 | QCAR::ROTATE_IOS_90;
+    } else {
+        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11 | QCAR::ROTATE_IOS_180;
     }
     
-    [[ofxQCAR_Utils getInstance] createARofSize:[[UIScreen mainScreen] bounds].size 
+    if(ofxiPhoneGetOFWindow()->isRetinaEnabled()) {
+        [ofxQCAR_Utils getInstance].contentScalingFactor = 2.0f;
+    }
+    
+    CGSize arSize = CGSizeZero;
+    if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
+        arSize.width = [[UIScreen mainScreen] bounds].size.width;
+        arSize.height = [[UIScreen mainScreen] bounds].size.height;
+    } else {
+        arSize.width = [[UIScreen mainScreen] bounds].size.height;
+        arSize.height = [[UIScreen mainScreen] bounds].size.width;
+    }
+    
+    [[ofxQCAR_Utils getInstance] createARofSize:arSize
                                     forDelegate:[[ofxQCAR_Delegate alloc] init]];
 #endif
     
@@ -373,6 +400,7 @@ string ofxQCAR::getMarkerName(unsigned int i) {
 }
 
 ofVec2f ofxQCAR::point3DToScreen2D(ofVec3f point, unsigned int i) {
+#if !(TARGET_IPHONE_SIMULATOR)
     if(i < numOfMarkersFound()) {
         
         ofxQCAR_Marker & marker = markersFound[i];
@@ -389,6 +417,9 @@ ofVec2f ofxQCAR::point3DToScreen2D(ofVec3f point, unsigned int i) {
     } else {
         return ofVec2f();
     }
+#else
+    return ofVec2f();
+#endif
 }
 
 int ofxQCAR::getCameraWidth() {
@@ -468,15 +499,15 @@ void ofxQCAR::draw() {
     cameraHeight = 0;
     cameraPixels = NULL;    // reset values on every frame.
     
-//    if([ofxQCAR_Utils getInstance].appStatus == APPSTATUS_CAMERA_RUNNING) {
-//        Frame frame = state.getFrame();
-//        const Image * image = frame.getImage(0);
-//        if(image) {
-//            cameraWidth = image->getBufferWidth();
-//            cameraHeight = image->getBufferHeight();
-//            cameraPixels = (unsigned char *)image->getPixels();
-//        }
-//    }
+    if([ofxQCAR_Utils getInstance].appStatus == APPSTATUS_CAMERA_RUNNING) {
+        Frame frame = state.getFrame();
+        const Image * image = frame.getImage(0);
+        if(image) {
+            cameraWidth = image->getBufferWidth();
+            cameraHeight = image->getBufferHeight();
+            cameraPixels = (unsigned char *)image->getPixels();
+        }
+    }
     
     //--- restore openFrameworks render configuration.
     
@@ -490,6 +521,9 @@ void ofxQCAR::draw() {
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+
+    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // applies colour to textures.
     
 #else
     

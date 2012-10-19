@@ -10,8 +10,7 @@ void testApp::setup(){
     touchPoint.x = touchPoint.y = -1;
 
     ofxQCAR * qcar = ofxQCAR::getInstance();
-    qcar->addTarget("Stones & Chips", "StonesAndChips.xml");
-    qcar->addTarget("Tarmac", "Tarmac.xml");
+    qcar->addTarget("Qualcomm.xml", "Qualcomm.xml");
     qcar->autoFocusOn();
     qcar->setup();
 }
@@ -71,8 +70,8 @@ void testApp::draw(){
     
     if(bPressed) {
         ofSetColor(ofColor::red);
-        ofDrawBitmapString("touch x = " + ofToString((int)touchPoint.x), 20, 40);
-        ofDrawBitmapString("touch y = " + ofToString((int)touchPoint.y), 20, 60);
+        ofDrawBitmapString("touch x = " + ofToString((int)touchPoint.x), 20, 200);
+        ofDrawBitmapString("touch y = " + ofToString((int)touchPoint.y), 20, 220);
     }
 }
 

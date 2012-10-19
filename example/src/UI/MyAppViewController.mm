@@ -9,81 +9,69 @@
 #import "ofxQCAR_ViewController.h"
 #import "testApp.h"
 
+@interface MyAppViewController() {
+    int orientation;
+}
+@end
+
 @implementation MyAppViewController
 
-- (void)viewDidAppear:(BOOL)animated 
-{
+- (id)init {
+    self = [super init];
+    if(self) {
+        orientation = -1;
+    }
+    return self;
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 }
 
-- (void)loadView  
-{
-    [super loadView];
-    
-    self.view.backgroundColor = [UIColor blackColor ];
-    
-    UIImageView* backgroundView;
-    backgroundView = [[[UIImageView alloc ] initWithImage:[UIImage imageNamed:@"Default.png"]] autorelease];
-    backgroundView.alpha = 0.1;
-    [ self.view addSubview: backgroundView ];
-    
-    CGRect screenRect = [[ UIScreen mainScreen ] bounds ];
-    
-    CGRect scrollViewFrame = CGRectMake(0.f,
-                                        0.f,
-                                        screenRect.size.width,
-                                        screenRect.size.height);
-    
-    UIScrollView* containerView = [[[UIScrollView alloc] initWithFrame:scrollViewFrame] autorelease];
-    containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    containerView.showsHorizontalScrollIndicator = NO;
-    containerView.showsVerticalScrollIndicator = YES;
-    containerView.alwaysBounceVertical = YES;
-    [self.view addSubview:containerView];
+- (IBAction)launchButtonPressed:(id)sender {
 
-    int buttonH = screenRect.size.height * 0.4;
-    int buttonY = ( screenRect.size.height - 44 - buttonH ) * 0.5 - 10;
-    CGRect buttonRect = CGRectMake( 0, buttonY, screenRect.size.width, buttonH );
-
-    UIButton *button;
-    button = [ self makeButtonWithFrame : buttonRect
-                                andText : @"Launch QCAR" ];
-    [ button addTarget:self action:@selector(buttonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [ containerView addSubview : button ];
+    if(orientation == -1) { // orientation will not be set on iOS6 and needs to be set here.
+        orientation = self.interfaceOrientation;
+    }
     
-    containerView.contentSize = CGSizeMake( buttonRect.size.width, buttonRect.size.height * 3 );
-}
-
-- (UIButton*) makeButtonWithFrame : (CGRect)frame 
-                          andText : (NSString*)text
-{
-    UIFont *font;
-    font = [ UIFont fontWithName:@"Georgia" size:40 ];
-    
-    UILabel *label;
-    label = [[[ UILabel alloc ] initWithFrame: CGRectMake( 0, 0, frame.size.width, frame.size.height ) ] autorelease ];
-    label.backgroundColor = [ UIColor colorWithWhite: 1 alpha: 0.95 ];
-    label.textColor = [ UIColor colorWithWhite: 0 alpha: 1 ];
-    label.text = text;
-    label.textAlignment = UITextAlignmentCenter;
-    label.font = font;
-    label.userInteractionEnabled = NO;
-    label.exclusiveTouch = NO;
-    
-    UIButton* button = [[[ UIButton alloc ] initWithFrame: frame ] autorelease ];
-    [ button setBackgroundColor: [ UIColor clearColor ] ];
-    [ button addSubview: label ];
-    
-    return button;
-    
-}
-
-- (void)buttonPressed:(id)sender {
     ofxQCAR_ViewController * viewController;
-    viewController = [[[ofxQCAR_ViewController alloc] initWithFrame:[[UIScreen mainScreen] bounds]
-                                                                app:new testApp()] autorelease];
+    if(UIInterfaceOrientationIsPortrait(orientation)) {
+        viewController = [[[ofxQCAR_ViewController alloc] initWithAppInPortraitMode:new testApp()] autorelease];
+    } else if(UIInterfaceOrientationIsLandscape(orientation)) {
+        viewController = [[[ofxQCAR_ViewController alloc] initWithAppInLandscapeMode:new testApp()] autorelease];
+    }
+
     [self.navigationController pushViewController:viewController animated:YES];
     self.navigationController.navigationBar.topItem.title = @"Qualcomm AR";
 }
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    /**
+     *  orientation value is originally set to -1
+     *  the very first time this method is called,
+     *  is when it tries to set the orientation to
+     *  the value of Supported Device Orientations.
+     *  so the first value is saved,
+     *  and locked off to that orientation.
+     */
+    if(orientation == -1) {
+        orientation = toInterfaceOrientation;
+        return YES;
+    }
+    
+    return (UIInterfaceOrientation)orientation == toInterfaceOrientation;
+}
+
+#ifdef __IPHONE_6_0
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return UIInterfaceOrientationMaskAll;
+}
+
+#endif
 
 @end

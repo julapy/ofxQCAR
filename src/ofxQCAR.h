@@ -23,6 +23,11 @@ enum ofxQCAR_MarkerCorner {
     OFX_QCAR_MARKER_CORNER_BOTTOM_LEFT  = 3,
 };
 
+enum ofxQCAR_Orientation {
+    OFX_QCAR_ORIENTATION_PORTRAIT,
+    OFX_QCAR_ORIENTATION_LANDSCAPE
+};
+
 class ofxQCAR_Marker {
 public:
     ofxQCAR_Marker() {
@@ -72,6 +77,9 @@ public:
         return _instance;
 	};
     
+    void setOrientation(ofxQCAR_Orientation orientation);
+    ofxQCAR_Orientation getOrientation();
+    
     virtual void addTarget(const string targetName, const string targetPath);
     
     virtual void setup();
@@ -119,6 +127,7 @@ private:
     
     static ofxQCAR * _instance;
     vector<ofxQCAR_Marker> markersFound;
+    ofxQCAR_Orientation orientation;
     
     unsigned char * cameraPixels;
     int cameraWidth;

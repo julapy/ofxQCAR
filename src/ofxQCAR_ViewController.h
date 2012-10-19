@@ -11,4 +11,10 @@
     //
 }
 
+- (id)initWithApp:(ofxiPhoneApp *)app;
+- (id)initWithAppInPortraitMode:(ofxiPhoneApp *)app;
+- (id)initWithAppInLandscapeMode:(ofxiPhoneApp *)app;
+
+- (void)handleARViewRotation:(UIInterfaceOrientation)interfaceOrientation;
+
 @end
