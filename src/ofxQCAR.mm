@@ -458,6 +458,8 @@ void ofxQCAR::begin(unsigned int i) {
     
     bBeginDraw = true;
     
+    ofPushView();
+    
     glPushMatrix();
     glTranslatef(ofGetWidth() * 0.5, ofGetHeight() * 0.5, 0);
 
@@ -475,9 +477,9 @@ void ofxQCAR::end () {
         return;
     }
     
-    ofSetupScreen();
-
     glPopMatrix();
+    
+    ofPopView();
     
     bBeginDraw = false;
 }
@@ -488,6 +490,9 @@ void ofxQCAR::end () {
 
 void ofxQCAR::draw() {
 #if !(TARGET_IPHONE_SIMULATOR)
+
+    ofPushView();
+    ofPushStyle();
     
     //--- render the video background.
     
@@ -511,8 +516,8 @@ void ofxQCAR::draw() {
     
     //--- restore openFrameworks render configuration.
     
-    glViewport(0, 0, ofGetWidth(), ofGetHeight());
-    ofSetupScreen();
+    ofPopView();
+    ofPopStyle();
     
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
