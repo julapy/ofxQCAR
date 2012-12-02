@@ -62,7 +62,8 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
         
         qcar->markersFound.clear();
         
-        for (int i = 0; i<state.getNumActiveTrackables(); ++i) {
+        int numOfActiveTrackables = state.getNumActiveTrackables();
+        for(int i=0; i<numOfActiveTrackables; ++i) {
 
             const Trackable* trackable = state.getActiveTrackable(i);
             if(!trackable) {
@@ -542,7 +543,7 @@ void ofxQCAR::draw() {
 
 void ofxQCAR::drawMarkerRect(unsigned int i) {
 
-    begin();
+    begin(i);
 
     float markerW = getMarkerRect(i).width;
     float markerH = getMarkerRect(i).height;
