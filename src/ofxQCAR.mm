@@ -465,16 +465,16 @@ void ofxQCAR::begin(unsigned int i) {
     
     ofPushView();
     
-    glPushMatrix();
-    glTranslatef(ofGetWidth() * 0.5, ofGetHeight() * 0.5, 0);
+    ofPushMatrix();
+    ofTranslate(ofGetWidth() * 0.5, ofGetHeight() * 0.5);
 
-    glMatrixMode(GL_PROJECTION);
-    glLoadMatrixf(getProjectionMatrix(i).getPtr());
+    ofSetMatrixMode(OF_MATRIX_PROJECTION);
+    ofLoadMatrix(getProjectionMatrix(i).getPtr());
     
-    glMatrixMode(GL_MODELVIEW);
-    glLoadMatrixf(getModelViewMatrix(i).getPtr());
-    
-    glScalef(1, -1, 1);
+    ofSetMatrixMode(OF_MATRIX_MODELVIEW);
+    ofLoadMatrix(getModelViewMatrix(i).getPtr());
+
+    ofScale(1, -1, 1);
 }
 
 void ofxQCAR::end () {
@@ -482,7 +482,7 @@ void ofxQCAR::end () {
         return;
     }
     
-    glPopMatrix();
+    ofPopMatrix();
     
     ofPopView();
     
