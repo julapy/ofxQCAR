@@ -106,6 +106,8 @@ public:
     bool hasFoundMarker();
     int numOfMarkersFound();
     
+    void setMaxNumOfMarkers(int maxNumOfMarkers);
+    
     ofxQCAR_Marker getMarker(unsigned int markerIndex=0);
     ofMatrix4x4 getProjectionMatrix(unsigned int markerIndex=0);
     ofMatrix4x4 getModelViewMatrix(unsigned int markerIndex=0);

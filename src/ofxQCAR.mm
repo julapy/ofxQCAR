@@ -180,10 +180,6 @@ bool bBeginDraw = false;
     QCAR::setHint(QCAR::HINT_IMAGE_TARGET_MULTI_FRAME_ENABLED, 1);
     QCAR::setHint(QCAR::HINT_IMAGE_TARGET_MILLISECONDS_PER_MULTI_FRAME, 25);
     
-    // Here we could also make a QCAR::setHint call to set the maximum
-    // number of simultaneous targets                
-    // QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, 2);
-    
     QCAR::registerCallback(&qcarUpdate);    
 #endif
 }
@@ -306,6 +302,14 @@ void ofxQCAR::resume() {
 #if !(TARGET_IPHONE_SIMULATOR)    
     [[ofxQCAR_Utils getInstance] resumeAR];
 #endif
+}
+
+/////////////////////////////////////////////////////////
+//  CONFIG.
+/////////////////////////////////////////////////////////
+
+void ofxQCAR::setMaxNumOfMarkers(int maxNumOfMarkers) {
+    QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, maxNumOfMarkers);
 }
 
 /////////////////////////////////////////////////////////
