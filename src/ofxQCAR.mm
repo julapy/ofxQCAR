@@ -87,7 +87,9 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
                 scaleY = config.mSize.data[0] / (float)ofGetWidth();
             }
             
-            ofxQCAR_Marker marker;
+            qcar->markersFound.push_back(ofxQCAR_Marker());
+            ofxQCAR_Marker & marker = qcar->markersFound.back();
+            
             marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
             marker.modelViewMatrix.scale(scaleY, scaleX, 1);
             marker.projectionMatrix = ofMatrix4x4([[ofxQCAR_Utils getInstance] projectionMatrix].data);
@@ -116,18 +118,11 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
             corners[2] = Vec3F( markerWH, -markerHH, 0);     // bottom right.
             corners[3] = Vec3F(-markerWH, -markerHH, 0);     // bottom left.
             
-            const CameraCalibration & cameraCalibration = CameraDevice::getInstance().getCameraCalibration();
+            marker.markerCenter = qcar->point3DToScreen2D(ofVec3f(0, 0, 0), i);
             
-            Vec2F cameraPoint = Tool::projectPoint(cameraCalibration,trackable->getPose(), Vec3F(0, 0, 0));
-            Vec2F xyPoint = cameraPointToScreenPoint(cameraPoint);
-            marker.markerCenter.x = xyPoint.data[0];
-            marker.markerCenter.y = xyPoint.data[1];
-            
-            for(int i=0; i<4; i++) {
-                Vec2F cameraPoint = Tool::projectPoint(cameraCalibration,trackable->getPose(), corners[i]);
-                Vec2F xyPoint = cameraPointToScreenPoint(cameraPoint);
-                marker.markerCorners[i].x = xyPoint.data[0];
-                marker.markerCorners[i].y = xyPoint.data[1];
+            for(int j=0; j<4; j++) {
+                ofVec3f markerCorner = ofVec3f(corners[j].data[0], corners[j].data[1], corners[j].data[2]);
+                marker.markerCorners[j] = qcar->point3DToScreen2D(markerCorner, i);
             }
             
             ofMatrix4x4 inverseModelView = marker.modelViewMatrix.getInverse();
@@ -138,8 +133,6 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
             
             marker.markerRotationLeftRight = marker.markerRotation.angle(ofVec3f(0, 1, 0)); // this only works in landscape mode.
             marker.markerRotationUpDown = marker.markerRotation.angle(ofVec3f(1, 0, 0));    // this only works in landscape mode.
-            
-            qcar->markersFound.push_back(marker);
         }
     }
     
