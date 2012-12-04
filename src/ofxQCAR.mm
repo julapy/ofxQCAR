@@ -465,10 +465,12 @@ void ofxQCAR::begin(unsigned int i) {
     
     ofPushView();
     
-    ofSetMatrixMode(OF_MATRIX_PROJECTION);
+//    ofSetMatrixMode(OF_MATRIX_PROJECTION);
+    glMatrixMode(GL_PROJECTION); // swap back when the above is merged into develop.
     ofLoadMatrix(getProjectionMatrix(i).getPtr());
     
-    ofSetMatrixMode(OF_MATRIX_MODELVIEW);
+//    ofSetMatrixMode(OF_MATRIX_MODELVIEW);
+    glMatrixMode(GL_MODELVIEW); // swap back when the above is merged into develop.
     ofLoadMatrix(getModelViewMatrix(i).getPtr());
 }
 
