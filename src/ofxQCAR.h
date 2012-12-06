@@ -35,6 +35,7 @@ public:
         scaleY = 1;
         markerRotationLeftRight = 0;
         markerRotationUpDown = 0;
+        markerAngleToCamera = 0;
         markerName = "";
         for(int i=0; i<12; i++) {
             poseMatrixData[i] = 0;
@@ -52,6 +53,7 @@ public:
     ofVec3f markerRotation;
     float markerRotationLeftRight;
     float markerRotationUpDown;
+    float markerAngleToCamera;
     string markerName;
 };
 
@@ -117,6 +119,7 @@ public:
     ofVec3f     getMarkerRotation(unsigned int markerIndex=0);
     float       getMarkerRotationLeftRight(unsigned int markerIndex=0);
     float       getMarkerRotationUpDown(unsigned int markerIndex=0);
+    float       getMarkerAngleToCamera(unsigned int markerIndex=0);
     string      getMarkerName(unsigned int markerIndex=0);
     
     ofVec2f point3DToScreen2D(ofVec3f point, unsigned int markerIndex=0);

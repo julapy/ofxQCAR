@@ -133,6 +133,22 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
             
             marker.markerRotationLeftRight = marker.markerRotation.angle(ofVec3f(0, 1, 0)); // this only works in landscape mode.
             marker.markerRotationUpDown = marker.markerRotation.angle(ofVec3f(1, 0, 0));    // this only works in landscape mode.
+            
+            /**
+             *  angle of marker to camera around the y-axis (pointing up from the center of marker)
+             */
+            ofVec3f cameraPosition(inverseModelView(0, 3), inverseModelView(1, 3), inverseModelView(2, 3));
+            ofVec3f projectedDirectionToTarget(-cameraPosition.x, -cameraPosition.y, 0);
+            projectedDirectionToTarget.normalize();
+            ofVec3f markerForward(0.0f, 1.0f, 0.0f);
+            float dot = projectedDirectionToTarget.dot(markerForward);
+            ofVec3f cross = projectedDirectionToTarget.crossed(markerForward);
+            float angle = acos(dot);
+            angle *= 180.0f / PI;
+            if(cross.z > 0) {
+                angle = 360.0f - angle;
+            }
+            marker.markerAngleToCamera = angle;
         }
     }
     
@@ -386,6 +402,14 @@ float ofxQCAR::getMarkerRotationLeftRight(unsigned int i) {
 float ofxQCAR::getMarkerRotationUpDown(unsigned int i) {
     if(i < numOfMarkersFound()) {
         return markersFound[i].markerRotationUpDown;
+    } else {
+        return 0;
+    }
+}
+
+float ofxQCAR::getMarkerAngleToCamera(unsigned int i) {
+    if(i < numOfMarkersFound()) {
+        return markersFound[i].markerAngleToCamera;
     } else {
         return 0;
     }
