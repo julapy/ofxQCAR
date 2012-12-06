@@ -302,7 +302,9 @@ void ofxQCAR::resume() {
 /////////////////////////////////////////////////////////
 
 void ofxQCAR::setMaxNumOfMarkers(int maxNumOfMarkers) {
+#if !(TARGET_IPHONE_SIMULATOR)
     QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, maxNumOfMarkers);
+#endif
 }
 
 /////////////////////////////////////////////////////////
