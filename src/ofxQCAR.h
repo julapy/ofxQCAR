@@ -124,6 +124,7 @@ public:
     
     ofVec2f point3DToScreen2D(ofVec3f point, unsigned int markerIndex=0);
     
+    void setCameraPixelsFlag(bool b);
     int getCameraWidth();
     int getCameraHeight();
     unsigned char * getCameraPixels();
@@ -134,6 +135,7 @@ private:
     vector<ofxQCAR_Marker> markersFound;
     ofxQCAR_Orientation orientation;
     
+    bool bUpdateCameraPixels;
     unsigned char * cameraPixels;
     int cameraWidth;
     int cameraHeight;

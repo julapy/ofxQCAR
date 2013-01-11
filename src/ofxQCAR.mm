@@ -200,6 +200,7 @@ bool bBeginDraw = false;
 /////////////////////////////////////////////////////////
 
 ofxQCAR::ofxQCAR () {
+    bUpdateCameraPixels = false;
     cameraPixels = NULL;
     cameraWidth = 0;
     cameraHeight = 0;
@@ -446,6 +447,10 @@ ofVec2f ofxQCAR::point3DToScreen2D(ofVec3f point, unsigned int i) {
 #endif
 }
 
+void ofxQCAR::setCameraPixelsFlag(bool b) {
+    bUpdateCameraPixels = b;
+}
+
 int ofxQCAR::getCameraWidth() {
     return cameraWidth;
 }
@@ -523,7 +528,7 @@ void ofxQCAR::draw() {
     cameraHeight = 0;
     cameraPixels = NULL;    // reset values on every frame.
     
-    if([ofxQCAR_Utils getInstance].appStatus == APPSTATUS_CAMERA_RUNNING) {
+    if(bUpdateCameraPixels && [ofxQCAR_Utils getInstance].appStatus == APPSTATUS_CAMERA_RUNNING) {
         Frame frame = state.getFrame();
         const Image * image = frame.getImage(0);
         if(image) {
