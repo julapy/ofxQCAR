@@ -1,5 +1,5 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
 
@@ -18,9 +18,10 @@ namespace QCAR
 
 // iOS specific initialisation flags
 enum IOS_INIT_FLAGS {
-    ROTATE_IOS_90 = 4,  ///< <b>iOS:</b> Rotates rendering 90 degrees
-    ROTATE_IOS_180 = 8, ///< <b>iOS:</b> Rotates rendering 180 degrees
-    ROTATE_IOS_270 = 16 ///< <b>iOS:</b> Rotates rendering 270 degrees
+    ROTATE_IOS_90 = 4,      ///< <b>iOS:</b> Rotates rendering 90 degrees
+    ROTATE_IOS_180 = 8,     ///< <b>iOS:</b> Rotates rendering 180 degrees
+    ROTATE_IOS_270 = 16,    ///< <b>iOS:</b> Rotates rendering 270 degrees
+    ROTATE_IOS_0 = 32       ///< <b>iOS:</b> Rotates rendering 0 degrees
 };
 
 

@@ -1,8 +1,8 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
-			
+            
 @file 
     MarkerTracker.h
 
@@ -41,7 +41,8 @@ public:
     /// Creates a new Marker
     /**
      *  Creates a new marker of the given name, size and id. Returns the new
-     *  instance on success, NULL otherwise.
+     *  instance on success, NULL otherwise. Use MarkerTracker::destroyMarker
+     *  to destroy the returned Marker when it is no longer needed.
      */   
     virtual Marker* createFrameMarker(int markerId, const char* name,
                                     const QCAR::Vec2F& size) = 0;

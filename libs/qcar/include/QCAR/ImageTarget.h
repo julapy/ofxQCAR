@@ -1,8 +1,8 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
-			
+            
 @file 
     ImageTarget.h
 
@@ -33,6 +33,17 @@ class VirtualButton;
 class QCAR_API ImageTarget : public Trackable
 {
 public:
+
+    /// Returns the system-wide unique id of the target.
+    /**
+     *  The target id uniquely identifies an ImageTarget across multiple
+     *  QCAR sessions. The system wide unique id may be generated off-line.
+     *  This is opposed to the function getId() which is a dynamically
+     *  generated id and which uniquely identifies a Trackable within one run
+     *  of QCAR only.
+     */
+    virtual const char* getUniqueTargetId() const = 0;
+
     /// Returns the size (width and height) of the target (in 3D scene units).
     virtual Vec2F getSize() const = 0;
 
@@ -78,6 +89,10 @@ public:
      *  Returns false if the corresponding DataSet is currently active.
      */
     virtual bool destroyVirtualButton(VirtualButton* button) = 0;
+
+    /// Returns the meta data string for this ImageTarget.
+    virtual const char* getMetaData() const = 0;
+
 };
 
 } // namespace QCAR

@@ -1,8 +1,8 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
-			
+            
 @file 
     Trackable.h
 
@@ -21,11 +21,9 @@
 namespace QCAR
 {
 
-/// Base class for all objects that can be tracked in 6DOF.
+/// Base class for all objects that can be tracked.
 /**
- *  A Trackable is an object who's pose can be estimated in six
- *  degrees of freedom (3D, 6DOF). Every Trackable has a name, an id,
- *  a type, a pose and a status (e.g. tracked).
+ *  Every Trackable has a name, an id and a type.
  *  See the TYPE enum for a list of all classes that derive from Trackable.
  */
 class QCAR_API Trackable : private NonCopyable
@@ -38,34 +36,24 @@ public:
         MULTI_TARGET,       ///< A trackable of MultiTarget type
         MARKER,             ///< A trackable of Marker type
     };
-
-    /// Status of a Trackables
-    enum STATUS {
-        UNKNOWN,            ///< The state of the trackable is unknown
-        UNDEFINED,          ///< The state of the trackable is not defined
-                            ///< (this trackable does not have a state)
-        NOT_FOUND,          ///< The trackable was not found
-        DETECTED,           ///< The trackable was detected
-        TRACKED             ///< The trackable was tracked
-    };
-
+    
     /// Returns the type of 3D object (e.g. MARKER)
     virtual TYPE getType() const = 0;
 
     /// Returns true if the object is of or derived of the given type
     virtual bool isOfType(TYPE type) const = 0;
-
-    /// Returns the tracking status
-    virtual STATUS getStatus() const = 0;
-
+        
     /// Returns a unique id for all 3D trackable objects
     virtual int getId() const = 0;
 
     /// Returns the Trackable's name
     virtual const char* getName() const = 0;
 
-    /// Returns the current pose matrix in row-major order
-    virtual const Matrix34F& getPose() const = 0;
+    /// Sets the given user data for this Trackable. Returns true if successful
+    virtual bool setUserData(void* userData) = 0;
+
+    /// Returns the pointer previously set by setUserData()
+    virtual void* getUserData() const = 0;
 
     virtual ~Trackable()  {}
 };

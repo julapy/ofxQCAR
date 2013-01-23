@@ -1,8 +1,8 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
-			
+            
 @file 
     VideoBackgroundConfig.h
 
@@ -19,17 +19,39 @@
 namespace QCAR
 {
 
+enum VIDEO_BACKGROUND_REFLECTION
+{
+    VIDEO_BACKGROUND_REFLECTION_DEFAULT,  ///< Allows the SDK to set the recommended reflection settings for the current camera
+    VIDEO_BACKGROUND_REFLECTION_ON,       ///< Overrides the SDK recommendation to force a reflection
+    VIDEO_BACKGROUND_REFLECTION_OFF       ///< Overrides the SDK recommendation to disable reflection
+};
+
 /// Video background configuration
 struct VideoBackgroundConfig
 {
+    /// Constructor to provide basic initalization. 
+    VideoBackgroundConfig()
+    {
+        mEnabled = true;
+        mSynchronous = true;
+        mPosition.data[0] = 0;
+        mPosition.data[1] = 0;
+        mSize.data[0] = 0;
+        mSize.data[1] = 0;
+        mReflection = VIDEO_BACKGROUND_REFLECTION_DEFAULT;
+    }
+
     /// Enables/disables rendering of the video background.
     bool mEnabled;
 
-    /// Enables/disables synchronization of video background and tracking data.
+    /// Enables/disables synchronization of render and camera frame rate.
     /**
-     *  Depending on the video background rendering mode this may not always be
-     *  possible. If deactivated the video background always shows the latest
-     *  camera image.
+     *  If synchronization is enabled the SDK will attempt to match the
+     *  rendering frame rate with the camera frame rate. This may result
+     *  in a performance gain as potentially redundant render calls are
+     *  avoided. Enabling this is not recommended if your augmented content
+     *  needs to be animated at a rate higher than the rate at which the
+     *  camera delivers frames.
      */
     bool mSynchronous;
 
@@ -51,6 +73,21 @@ struct VideoBackgroundConfig
      *  image.
      */
     Vec2I mSize;
+
+    /// Reflection parameter to control how the video background is rendered
+    /**
+     *  By setting this to VIDEO_BACKGROUND_REFLECTION_DEFAULT, the SDK will
+     *  update the projection matrix and video background automatically to provide
+     *  the best AR mode possible for the given camera on your specific device.
+     *  For the BACK camera, this will generally result in no reflection at all.
+     *  For the FRONT camera, this will generally result in a reflection to provide
+     *  an "AR Mirror" effect.
+     *  
+     *  This can also be overridden by selecting VIDEO_BACKGROUND_REFLECTION_ON or
+     *  VIDEO_BACKGROUND_REFLECTION_OFF.  This may be desirable in advanced use
+     *  cases.
+     */
+    VIDEO_BACKGROUND_REFLECTION mReflection;
 };
 
 } // namespace QCAR

@@ -1,8 +1,8 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
-			
+            
 @file 
     DataSet.h
 
@@ -23,6 +23,7 @@ namespace QCAR
 // Forward declarations:
 class Trackable;
 class MultiTarget;
+class TrackableSource;
 
 /// A container of one or more trackables.
 /**
@@ -85,6 +86,16 @@ public:
      */
     virtual Trackable* getTrackable(int idx) = 0;
 
+    /// Creates a new Trackable from the given TrackableSource and registers
+    /// it with the dataset
+    /**
+     *  Use DataSet::destroy() to destroy the returned Trackable
+     *  if it is no longer required.
+     *  This method must not be called while the dataset is active or it will
+     *  return NULL.
+     */
+    virtual Trackable* createTrackable(const TrackableSource* source) = 0;
+
     /// Creates a new MultiTarget and registers it with the dataset
     /**
      *  Use DataSet::destroy() to destroy the returned MultiTarget
@@ -94,12 +105,25 @@ public:
      */
     virtual MultiTarget* createMultiTarget(const char* name) = 0;
 
-    /// Destroys a MultiTarget
+    /// Destroys a Trackable
     /**
      *  This method must not be called while the dataset is active or it will
      *  return false.
      */
-    virtual bool destroy(MultiTarget* multiTarget) = 0;
+    virtual bool destroy(Trackable* trackable) = 0;
+
+    /// Checks if this DataSet's Trackable capacity is reached.
+    /**
+     *  Returns true if the number of Trackables created in this DataSet
+     *  has reached the maximum capacity, false otherwise.
+     */
+    virtual bool hasReachedTrackableLimit() = 0;
+
+    /// Checks if this dataset is active
+    /**
+     * Returns true if the dataset is active
+     */
+    virtual bool isActive() const = 0;
 
     virtual ~DataSet()  {}
 };
