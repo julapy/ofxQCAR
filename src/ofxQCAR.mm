@@ -62,20 +62,20 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
         
         qcar->markersFound.clear();
         
-        int numOfActiveTrackables = state.getNumActiveTrackables();
-        for(int i=0; i<numOfActiveTrackables; ++i) {
+        int numOfTrackables = state.getNumTrackableResults();
+        for(int i=0; i<numOfTrackables; ++i) {
 
-            const Trackable* trackable = state.getActiveTrackable(i);
-            if(!trackable) {
+            const TrackableResult * trackableResult = state.getTrackableResult(i);
+            if(trackableResult == NULL) {
                 continue;
             }
             
-            if(trackable->getStatus() != Trackable::DETECTED &&
-               trackable->getStatus() != Trackable::TRACKED) {
+            if(trackableResult->getStatus() != TrackableResult::DETECTED &&
+               trackableResult->getStatus() != TrackableResult::TRACKED) {
                 continue;
             }
             
-            Matrix44F modelViewMatrix = Tool::convertPose2GLMatrix(trackable->getPose());
+            Matrix44F modelViewMatrix = Tool::convertPose2GLMatrix(trackableResult->getPose());
             
             VideoBackgroundConfig config = [ofxQCAR_Utils getInstance].config;
             float scaleX = 1.0, scaleY = 1.0;
@@ -95,16 +95,17 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
             marker.projectionMatrix = ofMatrix4x4([[ofxQCAR_Utils getInstance] projectionMatrix].data);
             
             for(int i=0; i<12; i++) {
-                marker.poseMatrixData[i] = trackable->getPose().data[i];
+                marker.poseMatrixData[i] = trackableResult->getPose().data[i];
             }
             
             Vec2F markerSize;
-            if(trackable->getType() == Trackable::IMAGE_TARGET) {
-                ImageTarget* imageTarget = (ImageTarget *)trackable;
+            const Trackable & trackable = trackableResult->getTrackable();
+            if(trackableResult->getType() == TrackableResult::IMAGE_TARGET_RESULT) {
+                ImageTarget* imageTarget = (ImageTarget *)(&trackable);
                 markerSize = imageTarget->getSize();
             }
             
-            marker.markerName = trackable->getName();
+            marker.markerName = trackable.getName();
             
             marker.markerRect.width  = markerSize.data[0];
             marker.markerRect.height = markerSize.data[1];
@@ -161,7 +162,6 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
 /////////////////////////////////////////////////////////
 
 ofxQCAR * ofxQCAR::_instance = NULL;
-NSMutableArray * targets = nil;
 bool bBeginDraw = false;
 
 /////////////////////////////////////////////////////////
@@ -184,12 +184,7 @@ bool bBeginDraw = false;
 
 - (void)postInitQCAR {
 #if !(TARGET_IPHONE_SIMULATOR)    
-    // These two calls to setHint tell QCAR to split work over multiple
-    // frames.  Depending on your requirements you can opt to omit these.
-    QCAR::setHint(QCAR::HINT_IMAGE_TARGET_MULTI_FRAME_ENABLED, 1);
-    QCAR::setHint(QCAR::HINT_IMAGE_TARGET_MILLISECONDS_PER_MULTI_FRAME, 25);
-    
-    QCAR::registerCallback(&qcarUpdate);    
+    QCAR::registerCallback(&qcarUpdate);
 #endif
 }
 
@@ -225,17 +220,9 @@ ofxQCAR_Orientation ofxQCAR::getOrientation() {
 
 void ofxQCAR::addTarget(string targetName, string targetPath) {
 #if !(TARGET_IPHONE_SIMULATOR)
-    if(targets == nil) {
-        targets = [[NSMutableArray alloc] init];
-    }
-    
+
     NSString * name = [[[NSString alloc] initWithUTF8String:targetName.c_str()] autorelease];
     NSString * path = [[[NSString alloc] initWithUTF8String:targetPath.c_str()] autorelease];
-    NSDictionary * dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                           name, @"name",
-                           path, @"path", nil];
-    [targets addObject:dict];
-    
     [[ofxQCAR_Utils getInstance] addTargetName:name atPath:path];
     
 #endif
@@ -245,9 +232,9 @@ void ofxQCAR::setup() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
     if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
-        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11 | QCAR::ROTATE_IOS_90;
+        [ofxQCAR_Utils getInstance].QCARFlags = (QCAR::GL_11 | QCAR::ROTATE_IOS_90);
     } else {
-        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11 | QCAR::ROTATE_IOS_180;
+        [ofxQCAR_Utils getInstance].QCARFlags = (QCAR::GL_11 | QCAR::ROTATE_IOS_180);
     }
     
     if(ofxiPhoneGetOFWindow()->isRetinaEnabled()) {
@@ -609,9 +596,6 @@ void ofxQCAR::exit() {
 
     markersFound.clear();
 
-    [targets release];
-    targets = nil;
-    
     [[ofxQCAR_Utils getInstance] pauseAR];
     [[ofxQCAR_Utils getInstance] destroyAR];
     

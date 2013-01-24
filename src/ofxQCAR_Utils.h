@@ -10,6 +10,8 @@
 #import <QCAR/Tool.h>
 #import <QCAR/DataSet.h>
 #import <QCAR/ImageTarget.h>
+#import <QCAR/CameraDevice.h>
+#import <QCAR/TrackableResult.h>
 #import <QCAR/VideoBackgroundConfig.h>
 
 // Target type - used by the app to tell QCAR its intent
@@ -41,7 +43,9 @@ enum _errorCode {
     QCAR_ERRCODE_ACTIVATE_DATASET = -1003,
     QCAR_ERRCODE_DEACTIVATE_DATASET = -1004,
     QCAR_ERRCODE_DESTROY_DATASET = -1005,
-    QCAR_ERRCODE_LOAD_TARGET = -1006
+    QCAR_ERRCODE_LOAD_TARGET = -1006,
+    QCAR_ERRCODE_NO_NETWORK_CONNECTION = -1007,
+    QCAR_ERRCODE_NO_SERVICE_AVAILABLE = -1008
 };
 
 #pragma mark --- Class interface for DataSet list ---
@@ -90,22 +94,30 @@ enum _errorCode {
     QCAR::VideoBackgroundConfig config;
     
     BOOL videoStreamStarted;    // becomes true at first "camera is running"
+    BOOL isVisualSearchOn;
+    BOOL vsAutoControlEnabled;
+    NSInteger noOfCameras;
+    BOOL orientationChanged;
+    UIInterfaceOrientation orientation;
     
 @private
     QCAR::DataSet * currentDataSet; // the loaded DataSet
     BOOL cameraTorchOn;
     BOOL cameraContinuousAFOn;
+    
+@protected
+    QCAR::CameraDevice::CAMERA activeCamera;
 }
 
 @property (nonatomic) CGSize viewSize;
-@property (nonatomic, assign) id delegate; 
+@property (nonatomic, assign) id delegate;
 
 @property (nonatomic) CGFloat contentScalingFactor;
 @property (nonatomic, retain) NSMutableArray *targetsList;
-@property (nonatomic) int QCARFlags;           
-@property (nonatomic) status appStatus;        
+@property (nonatomic) int QCARFlags;
+@property (nonatomic) status appStatus;
 @property (nonatomic) int errorCode;
-
+@property (nonatomic) NSInteger noOfCameras;
 @property (nonatomic) TargetType targetType;
 @property (nonatomic) struct tagViewport viewport;
 
@@ -117,10 +129,23 @@ enum _errorCode {
 
 @property (nonatomic, readonly) BOOL cameraTorchOn;
 @property (nonatomic, readonly) BOOL cameraContinuousAFOn;
+@property (nonatomic) BOOL isVisualSearchOn;
+@property (nonatomic) BOOL vsAutoControlEnabled;
+
+@property (readwrite) BOOL orientationChanged;
+@property (readwrite) UIInterfaceOrientation orientation;
+
+@property (nonatomic, readonly) QCAR::CameraDevice::CAMERA activeCamera;
 
 #pragma mark --- Class Methods ---
 
 + (ofxQCAR_Utils *) getInstance;
+
+- (void)initApplication;
+- (void)initApplicationAR;
+- (void)postInitQCAR;
+
+- (void)restoreCameraSettings;
 
 - (void)createARofSize:(CGSize)theSize forDelegate:(id)theDelegate;
 - (void)destroyAR;
@@ -143,6 +168,9 @@ enum _errorCode {
 - (void)cameraSetTorchMode:(BOOL)switchOn;
 - (void)cameraSetContinuousAFMode:(BOOL)switchOn;
 - (void)cameraTriggerAF;
+- (void)cameraCancelAF;
+- (void)cameraPerformAF;
+- (void) configureVideoBackground;
 
 @end
 
