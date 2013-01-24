@@ -109,6 +109,7 @@ public:
     int numOfMarkersFound();
     
     void setMaxNumOfMarkers(int maxNumOfMarkers);
+    int getMaxNumOfMarkers();
     
     ofxQCAR_Marker getMarker(unsigned int markerIndex=0);
     ofMatrix4x4 getProjectionMatrix(unsigned int markerIndex=0);
@@ -139,4 +140,6 @@ private:
     unsigned char * cameraPixels;
     int cameraWidth;
     int cameraHeight;
+    
+    int maxNumOfMarkers;
 };

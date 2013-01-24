@@ -188,6 +188,7 @@ bool bBeginDraw = false;
     // frames.  Depending on your requirements you can opt to omit these.
     QCAR::setHint(QCAR::HINT_IMAGE_TARGET_MULTI_FRAME_ENABLED, 1);
     QCAR::setHint(QCAR::HINT_IMAGE_TARGET_MILLISECONDS_PER_MULTI_FRAME, 25);
+    QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, ofxQCAR::getInstance()->getMaxNumOfMarkers());
     
     QCAR::registerCallback(&qcarUpdate);    
 #endif
@@ -205,6 +206,7 @@ ofxQCAR::ofxQCAR () {
     cameraWidth = 0;
     cameraHeight = 0;
     orientation = OFX_QCAR_ORIENTATION_PORTRAIT;
+    maxNumOfMarkers = 1;
 }
 
 ofxQCAR::~ofxQCAR () {
@@ -318,10 +320,15 @@ void ofxQCAR::resume() {
 //  CONFIG.
 /////////////////////////////////////////////////////////
 
-void ofxQCAR::setMaxNumOfMarkers(int maxNumOfMarkers) {
+void ofxQCAR::setMaxNumOfMarkers(int maxMarkers) {
+    maxNumOfMarkers = maxMarkers;
 #if !(TARGET_IPHONE_SIMULATOR)
     QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, maxNumOfMarkers);
 #endif
+}
+
+int ofxQCAR::getMaxNumOfMarkers() {
+    return maxNumOfMarkers;
 }
 
 /////////////////////////////////////////////////////////
