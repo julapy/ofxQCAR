@@ -184,6 +184,12 @@ bool bBeginDraw = false;
 
 - (void)postInitQCAR {
 #if !(TARGET_IPHONE_SIMULATOR)    
+    if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
+        QCAR::setRotation(QCAR::ROTATE_IOS_90);
+    } else {
+        QCAR::setRotation(QCAR::ROTATE_IOS_180);
+    }
+
     QCAR::registerCallback(&qcarUpdate);
 #endif
 }
@@ -232,9 +238,9 @@ void ofxQCAR::setup() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
     if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
-        [ofxQCAR_Utils getInstance].QCARFlags = (QCAR::GL_11 | QCAR::ROTATE_IOS_90);
+        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11;
     } else {
-        [ofxQCAR_Utils getInstance].QCARFlags = (QCAR::GL_11 | QCAR::ROTATE_IOS_180);
+        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11;
     }
     
     if(ofxiPhoneGetOFWindow()->isRetinaEnabled()) {
@@ -478,11 +484,11 @@ void ofxQCAR::begin(unsigned int i) {
     
 //    ofSetMatrixMode(OF_MATRIX_PROJECTION);
     glMatrixMode(GL_PROJECTION); // swap back when the above is merged into develop.
-    ofLoadMatrix(getProjectionMatrix(i).getPtr());
+    glLoadMatrixf(getProjectionMatrix(i).getPtr());
     
 //    ofSetMatrixMode(OF_MATRIX_MODELVIEW);
     glMatrixMode(GL_MODELVIEW); // swap back when the above is merged into develop.
-    ofLoadMatrix(getModelViewMatrix(i).getPtr());
+    glLoadMatrixf(getModelViewMatrix(i).getPtr());
 }
 
 void ofxQCAR::end () {
