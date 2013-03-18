@@ -1,8 +1,8 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
-			
+            
 @file 
     QCAR.h
 
@@ -51,6 +51,8 @@ enum PIXEL_FORMAT {
     GRAYSCALE = 4,              ///< A grayscale pixel stored in one byte
     YUV = 8,                    ///< A color pixel stored in 12 or more bits
                                 ///< using Y, U and V planes
+    RGBA8888 = 16,              ///< A color pixel stored in 32 bits using 8 bits
+                                ///< each and an alpha channel.
 };
 
 
@@ -64,28 +66,6 @@ enum HINT {
      *  Default is: 1.
      */
     HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS = 0,
-
-    /// Enables splitting the detection of new image targets over multiple
-    /// frames
-    /**
-     *  This hint tells the tracker that detection of currently untracked
-     *  image targets shall be split over multiple frames. The tracker will
-     *  therefore require less time per frame but longer to find new targets.
-     *  Default value is 0 (no multi-frame detection).
-     */
-    HINT_IMAGE_TARGET_MULTI_FRAME_ENABLED = 1,
-
-    /// Defines how many milliseconds will be spent on detection and tracking
-    /// per frame in multi-frame mode
-    /**
-     *  Multi-frame mode works time-based: Only as much work is done per frame
-     *  as fits into a given time budget. The remaining work is postponed to the
-     *  next frame. The number of frames can be limited using
-     *  HINT_IMAGE_TARGET_MULTI_FRAME_ENABLED. If this value is set too low,
-     *  then no targets might ever be detected. This value is only effective if
-     *  multi-frame detection is enabled. Default value is 25 (milliseconds).
-     */
-    HINT_IMAGE_TARGET_MILLISECONDS_PER_MULTI_FRAME = 2
 };
 
 

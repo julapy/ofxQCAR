@@ -1,8 +1,8 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
-			
+            
 @file 
     VirtualButton.h
 
@@ -70,9 +70,6 @@ public:
 
     /// Returns the name of the button as ASCII string.
     virtual const char* getName() const = 0;
-
-    /// Returns true if the virtual button is pressed.
-    virtual bool isPressed() const = 0;
 
     /// Returns a unique id for this virtual button.
     virtual int getID() const = 0;

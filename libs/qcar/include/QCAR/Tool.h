@@ -1,8 +1,8 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
-			
+            
 @file 
     Tool.h
 
@@ -46,11 +46,11 @@ namespace Tool
      *  The projectPoint() function takes a 3D point in scene coordinates and
      *  transforms it using the given pose matrix. It then projects it into the
      *  camera image (pixel coordinates) using the given camera calibration.
-	 *  Note that camera coordinates are usually different from screen
-	 *  coordinates, since screen and camera resolution can be different.
-	 *  Transforming from camera to screen coordinates requires another
-	 *  transformation using the settings applied to the Renderer via the
-	 *  VideoBackgroundConfig structure.
+     *  Note that camera coordinates are usually different from screen
+     *  coordinates, since screen and camera resolution can be different.
+     *  Transforming from camera to screen coordinates requires another
+     *  transformation using the settings applied to the Renderer via the
+     *  VideoBackgroundConfig structure.
      */
     QCAR_API Vec2F projectPoint(const CameraCalibration& calib,
                                 const Matrix34F& pose, const Vec3F& point);

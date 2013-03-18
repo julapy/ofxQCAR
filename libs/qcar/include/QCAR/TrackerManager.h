@@ -1,9 +1,8 @@
-
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
-			
+            
 @file 
     TrackerManager.h
 
@@ -16,6 +15,7 @@
 
 // Include files
 #include <QCAR/Tracker.h>
+#include <QCAR/NonCopyable.h>
 
 namespace QCAR
 {
@@ -27,7 +27,7 @@ namespace QCAR
  *  application. See the Tracker base class for a list of available tracker
  *  types.
  */
-class QCAR_API TrackerManager
+class QCAR_API TrackerManager : private NonCopyable
 {
 public:
     /// Returns the TrackerManager singleton instance.
@@ -60,6 +60,9 @@ public:
      *  CameraDevice is currently initialized.
      */
     virtual bool deinitTracker(Tracker::TYPE type) = 0;
+
+//protected:
+//    virtual ~TrackerManager() {}
 };
 
 } // namespace QCAR

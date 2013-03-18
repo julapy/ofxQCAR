@@ -12,6 +12,7 @@ void testApp::setup(){
     ofxQCAR * qcar = ofxQCAR::getInstance();
     qcar->addTarget("Qualcomm.xml", "Qualcomm.xml");
     qcar->autoFocusOn();
+    qcar->setCameraPixelsFlag(true);
     qcar->setup();
 }
 
@@ -67,6 +68,37 @@ void testApp::draw(){
     }
     
     glEnable(GL_DEPTH_TEST);
+    
+    /**
+     *  access to camera pixels.
+     */
+    int cameraW = qcar->getCameraWidth();
+    int cameraH = qcar->getCameraHeight();
+    unsigned char * cameraPixels = qcar->getCameraPixels();
+    if(cameraW > 0 && cameraH > 0 && cameraPixels != NULL) {
+        if(cameraImage.isAllocated() == false ) {
+            cameraImage.allocate(cameraW, cameraH, OF_IMAGE_GRAYSCALE);
+        }
+        cameraImage.setFromPixels(cameraPixels, cameraW, cameraH, OF_IMAGE_GRAYSCALE);
+        if(qcar->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
+            cameraImage.rotate90(1);
+        } else if(qcar->getOrientation() == OFX_QCAR_ORIENTATION_LANDSCAPE) {
+            cameraImage.mirror(true, true);
+        }
+
+        cameraW = cameraImage.getWidth() * 0.5;
+        cameraH = cameraImage.getHeight() * 0.5;
+        int cameraX = 0;
+        int cameraY = ofGetHeight() - cameraH;
+        cameraImage.draw(cameraX, cameraY, cameraW, cameraH);
+        
+        ofPushStyle();
+        ofSetColor(ofColor::white);
+        ofNoFill();
+        ofSetLineWidth(3);
+        ofRect(cameraX, cameraY, cameraW, cameraH);
+        ofPopStyle();
+    }
     
     if(bPressed) {
         ofSetColor(ofColor::red);

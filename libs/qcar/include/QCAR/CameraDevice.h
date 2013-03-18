@@ -1,8 +1,8 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
-			
+            
 @file 
     CameraDevice.h
 
@@ -41,11 +41,18 @@ public:
         FOCUS_MODE_MACRO             ///< Macro mode for close-up focus
     };
 
+    enum CAMERA
+    {
+        CAMERA_DEFAULT,              ///< Default camera device.  Usually BACK
+        CAMERA_BACK,                 ///< Rear facing camera
+        CAMERA_FRONT                 ///< Front facing camera
+    };
+
     /// Returns the CameraDevice singleton instance.
     static CameraDevice& getInstance();
 
     /// Initializes the camera.
-    virtual bool init() = 0;
+    virtual bool init(CAMERA camera = CAMERA_DEFAULT) = 0;
 
     /// Deinitializes the camera.
     /**
@@ -68,8 +75,8 @@ public:
 
     /// Returns the number of available video modes.
     /**
-     *  This is device specific and can differ between mobile devices or Android
-     *  versions.
+     *  This is device specific and can differ between mobile devices or operating
+     *  system versions.
      */
     virtual int getNumVideoModes() = 0;
 
@@ -80,31 +87,33 @@ public:
     virtual VideoMode getVideoMode(int nIndex) = 0;
 
     /// Chooses a video mode out of the list of modes
+    /*
+     *  This function can be only called after the camera device has been
+     *  initialized but not started yet. Once you have started the camera and
+     *  you need the select another video mode, you need to stop(), deinit(),
+     *  then init() the camera before calling selectVideoMode() again.
+     */
     virtual bool selectVideoMode(int index) = 0;
-
 
     /// Provides read-only access to camera calibration data.
     virtual const CameraCalibration& getCameraCalibration() const = 0;
 
+    /// Enable/disable torch mode if the device supports it.
     /**
-     * Enable the torch mode on the device if the device supports 
-     * this API. 
-     * 
-     * @param on 
-     * 
-     * @return bool - True if the device supports this and we were 
-     *                able to turn the camera torch on, False
-     *                otherwise
+     *  Returns true if the requested operation was successful, False
+     *  otherwise.
      */
     virtual bool setFlashTorchMode(bool on) = 0;
 
+    /// Set the requested focus mode if the device supports it.
     /**
-     * Set the active focus mode.  This method returns false if the 
-     * requested focus mode is not supported on this device. 
-     * 
-     * @param focusMode 
-     * 
-     * @return bool 
+     *  The allowed values are FOCUS_MODE_NORMAL, FOCUS_MODE_TRIGGERAUTO,
+     *  FOCUS_MODE_CONTINUOUSAUTO, FOCUS_MODE_INFINITY, FOCUS_MODE_MACRO,
+     *  though not all modes are supported on all devices. Returns true if
+     *  the requested operation was successful, False otherwise.
+     *  Also note that triggering a single autofocus event using 
+     *  FOCUS_MODE_TRIGGERAUTO may stop continuous autofocus if that focus
+     *  mode was set earlier.
      */
     virtual bool setFocusMode(int focusMode) = 0;
 };

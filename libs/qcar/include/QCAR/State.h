@@ -1,8 +1,8 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
-			
+            
 @file 
     State.h
 
@@ -17,12 +17,11 @@
 #include <QCAR/System.h>
 #include <QCAR/Frame.h>
 
-
-
 namespace QCAR
 {
 
 class Trackable;
+class TrackableResult;
 class StateData;
 
 
@@ -70,15 +69,15 @@ public:
     const Trackable* getTrackable(int idx) const;
 
     /// Returns the number of Trackable objects currently being tracked
-    int getNumActiveTrackables() const;
+    int getNumTrackableResults() const;
 
-    /// Provides access to a specific Trackable object currently being tracked.
+    /// Provides access to a specific TrackableResult object.
     /**
      *  The returned object is only valid as long as the State
      *  object is valid. Do not keep a copy of the pointer!
      */
-    const Trackable* getActiveTrackable(int idx) const;
-
+    const TrackableResult* getTrackableResult(int idx) const;
+    
 protected:
     StateData* mData;
 

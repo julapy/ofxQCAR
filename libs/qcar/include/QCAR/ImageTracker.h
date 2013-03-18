@@ -1,8 +1,8 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2010-2012 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
-			
+            
 @file 
     ImageTracker.h
 
@@ -22,6 +22,8 @@ namespace QCAR
 // Forward Declaration
 class Trackable;
 class DataSet;
+class ImageTargetBuilder;
+class TargetFinder;
 
 /// ImageTracker class.
 /**
@@ -41,8 +43,11 @@ class QCAR_API ImageTracker : public Tracker
 {
 public:
 
-    /// Factory function for creating an empty dataset. Returns the new instance on
-    /// success, NULL otherwise.
+    /// Factory function for creating an empty dataset.
+    /**
+     *  Returns the new instance on success, NULL otherwise. Use
+     *  DataSet::destroyDataSet() to destroy a DataSet that is no longer needed.
+     */      
     virtual DataSet* createDataSet() = 0;
 
     /// Destroys the given dataset and releases allocated resources.
@@ -51,16 +56,15 @@ public:
 
     /// Activates the given dataset.
     /**
-     *  Only a single DataSet can be active at any one time. This function will
-     *  return true if the DataSet was successfully activated and false
-     *  otherwise (E.g. because another dataset is already active).
+     *  This function will return true if the DataSet was successfully 
+     *  activated and false otherwise.
      *  The recommended way to swap datasets is during the execution of the
      *  UpdateCallback, which guarantees that the ImageTracker is not working
      *  concurrently.
      */    
     virtual bool activateDataSet(DataSet* dataset) = 0;
     
-    /// Dectivates the given dataset.
+    /// Deactivates the given dataset.
     /**
      *  This function will return true if the DataSet was successfully
      *  deactivated and false otherwise (E.g. because this dataset is not
@@ -71,9 +75,21 @@ public:
      */    
     virtual bool deactivateDataSet(DataSet* dataset) = 0;
 
-    /// Returns the currently active dataset. Returns NULL if no DataSet has
-    /// been activated.
-    virtual DataSet* getActiveDataSet() = 0;
+    /// Returns the idx-th active dataset. Returns NULL if no DataSet has
+    /// been activated or if idx is out of range.
+    virtual DataSet* getActiveDataSet(const int idx = 0) = 0;
+
+    /// Returns the number of currently activated dataset. 
+    virtual int getActiveDataSetCount() const = 0;
+
+    /// Returns instance of ImageTargetBuilder to be used for generated
+    /// target image from current scene.
+    virtual ImageTargetBuilder* getImageTargetBuilder() = 0;
+    
+    /// Returns instance of TargetFinder to be used for retrieving
+    /// targets by cloud-based recognition.
+    virtual TargetFinder* getTargetFinder() = 0;
+
 };
 
 } // namespace QCAR
