@@ -1,5 +1,5 @@
 /*==============================================================================
-            Copyright (c) 2012 QUALCOMM Austria Research Center GmbH.
+            Copyright (c) 2012-2013 QUALCOMM Austria Research Center GmbH.
             All Rights Reserved.
             Qualcomm Confidential and Proprietary
             
