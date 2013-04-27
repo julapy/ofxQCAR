@@ -4,8 +4,6 @@
 //  Created by lukasz karluk on 19/01/12.
 //
 
-#if !(TARGET_IPHONE_SIMULATOR)
-
 #import "ofxQCAR_EAGLView.h"
 #import "ofxiPhoneExtras.h"
 #import "ofxQCAR.h"
@@ -29,5 +27,3 @@
 }
 
 @end
-
-#endif

@@ -16,8 +16,6 @@
 
 @implementation ofxQCAR_ViewController
 
-#if !(TARGET_IPHONE_SIMULATOR)
-
 - (id)initWithApp:(ofxiPhoneApp *)app {
     return [self initWithAppInPortraitMode:app];
 }
@@ -116,7 +114,5 @@
     self.glView.layer.position = centre;
     self.glView.transform = rotate;
 }
-
-#endif
 
 @end
