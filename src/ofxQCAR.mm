@@ -12,6 +12,7 @@
 
 #import "ofxQCAR_Utils.h"
 #import "ofxiPhoneExtras.h"
+#import "ofGLES2Renderer.h"
 
 #import <QCAR/Renderer.h>
 #import <QCAR/Tool.h>
@@ -240,10 +241,11 @@ void ofxQCAR::addTarget(string targetName, string targetPath) {
 void ofxQCAR::setup() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
+    string rendererType = ofGetCurrentRenderer()->getType();
+    if(rendererType == "GL") {
         [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11;
-    } else {
-        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11;
+    } else if(rendererType == "GLES2") {
+        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_20;
     }
     
     if(ofxiPhoneGetOFWindow()->isRetinaEnabled()) {
@@ -490,13 +492,17 @@ void ofxQCAR::begin(unsigned int i) {
     
     ofPushView();
     
-//    ofSetMatrixMode(OF_MATRIX_PROJECTION);
-    glMatrixMode(GL_PROJECTION); // swap back when the above is merged into develop.
-    glLoadMatrixf(getProjectionMatrix(i).getPtr());
+    ofSetMatrixMode(OF_MATRIX_PROJECTION);
+    ofLoadMatrix(getProjectionMatrix(i));
     
-//    ofSetMatrixMode(OF_MATRIX_MODELVIEW);
-    glMatrixMode(GL_MODELVIEW); // swap back when the above is merged into develop.
-    glLoadMatrixf(getModelViewMatrix(i).getPtr());
+//    glMatrixMode(GL_PROJECTION); // swap back when the above is merged into develop.
+//    glLoadMatrixf(getProjectionMatrix(i).getPtr());
+    
+    ofSetMatrixMode(OF_MATRIX_MODELVIEW);
+    ofLoadMatrix(getModelViewMatrix(i));
+    
+//    glMatrixMode(GL_MODELVIEW); // swap back when the above is merged into develop.
+//    glLoadMatrixf(getModelViewMatrix(i).getPtr());
 }
 
 void ofxQCAR::end () {
@@ -524,7 +530,7 @@ void ofxQCAR::draw() {
     State state = Renderer::getInstance().begin();
     Renderer::getInstance().drawVideoBackground();
     Renderer::getInstance().end();
-
+    
     cameraWidth = 0;
     cameraHeight = 0;
     cameraPixels = NULL;    // reset values on every frame.
@@ -547,13 +553,20 @@ void ofxQCAR::draw() {
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_CULL_FACE);
     
-    glDisable(GL_TEXTURE_2D);
-    glDisableClientState(GL_VERTEX_ARRAY);
-    glDisableClientState(GL_NORMAL_ARRAY);
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    glDisableClientState(GL_COLOR_ARRAY);
-
-    glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // applies colour to textures.
+    if([ofxQCAR_Utils getInstance].QCARFlags & QCAR::GL_11) {
+        glDisable(GL_TEXTURE_2D);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // applies colour to textures.
+    }
+    
+    ofDisableVertices();
+    ofDisableNormals();
+    ofDisableTexCoords();
+    ofDisableColorCoords();
+    
+    if([ofxQCAR_Utils getInstance].QCARFlags & QCAR::GL_20) {
+        ofGLES2Renderer * renderer = (ofGLES2Renderer *)ofGetCurrentRenderer().get();
+        renderer->endCustomShader();
+    }
     
 #else
     
