@@ -524,6 +524,7 @@ void ofxQCAR::draw() {
 
     ofPushView();
     ofPushStyle();
+    ofDisableBlendMode();
     
     //--- render the video background.
     
