@@ -60,9 +60,12 @@ void testApp::draw(){
         glEnable(GL_DEPTH_TEST);
         ofEnableNormalizedTexCoords();
         
+        qcar->begin();
         teapotImage.getTextureReference().bind();
-        ofDrawTeapot(qcar->getProjectionMatrix(), qcar->getModelViewMatrix(), 3);
+        ofScale(3, 3, 3);
+        ofDrawTeapot();
         teapotImage.getTextureReference().unbind();
+        qcar->end();
         
         ofDisableNormalizedTexCoords();
     }
