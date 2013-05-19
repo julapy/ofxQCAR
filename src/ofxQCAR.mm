@@ -283,22 +283,26 @@ void ofxQCAR::startUserDefinedTarget() {
     }
     
     TrackerManager & trackerManager = TrackerManager::getInstance();
+    
     ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
-    if(imageTracker != NULL) {
-        ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
-        
-        if(targetBuilder != NULL) {
-            if(targetBuilder->getFrameQuality() != ImageTargetBuilder::FRAME_QUALITY_NONE) {
-                targetBuilder->stopScan();
-            }
-            
-            imageTracker->stop();
-            
-            targetBuilder->startScan();
-            
-            bLookingForUserDefinedTargets = true;
-        }
+    if(imageTracker == NULL) {
+        return;
     }
+
+    ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
+    if(targetBuilder == NULL) {
+        return;
+    }
+
+    if(targetBuilder->getFrameQuality() != ImageTargetBuilder::FRAME_QUALITY_NONE) {
+        targetBuilder->stopScan();
+    }
+    
+    imageTracker->stop();
+    
+    targetBuilder->startScan();
+    
+    bLookingForUserDefinedTargets = true;
 }
 
 void ofxQCAR::stopUserDefinedTarget() {
@@ -307,25 +311,28 @@ void ofxQCAR::stopUserDefinedTarget() {
     }
     
     TrackerManager & trackerManager = TrackerManager::getInstance();
+
     ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
-    
-    if(imageTracker != NULL) {
-        ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
-        if(targetBuilder) {
-            if(targetBuilder->getFrameQuality() != ImageTargetBuilder::FRAME_QUALITY_NONE) {
-                targetBuilder->stopScan();
-                targetBuilder = NULL;
-                
-                TrackerManager & trackerManager = TrackerManager::getInstance();
-                ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
-                
-                imageTracker->start();
-                
-                bLookingForUserDefinedTargets = false;
-                bFoundGoodQualityTarget = false;
-            }
-        }
+    if(imageTracker == NULL) {
+        return;
     }
+
+    ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
+    if(targetBuilder == NULL) {
+        return;
+    }
+
+    if(targetBuilder->getFrameQuality() == ImageTargetBuilder::FRAME_QUALITY_NONE) {
+        return;
+    }
+
+    targetBuilder->stopScan();
+    targetBuilder = NULL;
+    
+    imageTracker->start();
+    
+    bLookingForUserDefinedTargets = false;
+    bFoundGoodQualityTarget = false;
 }
 
 bool ofxQCAR::hasFoundGoodQualityTarget() {
