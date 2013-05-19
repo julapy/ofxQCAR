@@ -9,6 +9,7 @@
 #pragma once
 
 #import "ofMain.h"
+#import "ofxQCAR_App.h"
 
 @interface ofxQCAR_Delegate : NSObject
 - (void)initApplication;    // Initialise the application
@@ -84,6 +85,10 @@ public:
     
     virtual void addTarget(const string targetName, const string targetPath);
     
+    void startUserDefinedTarget();
+    void stopUserDefinedTarget();
+    bool hasFoundGoodQualityTarget();
+    
     virtual void setup();
     virtual void update();
     virtual void draw();
@@ -142,4 +147,7 @@ private:
     int cameraHeight;
     
     int maxNumOfMarkers;
+    
+    bool bLookingForUserDefinedTargets;
+    bool bFoundGoodQualityTarget;
 };

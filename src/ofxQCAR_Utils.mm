@@ -231,18 +231,22 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     // Deinitialise QCAR SDK
     if (appStatus != APPSTATUS_UNINITED)
     {
-        // deactivate the dataset and unload any pre-loaded datasets
-        [self deactivateDataSet:currentDataSet];
-        
-        if (targetType != TYPE_FRAMEMARKERS)
-        {
-            // Unload all the requested datasets
-            for (DataSetItem *aDataSet in targetsList)
+        if(userDefDataSet != nil) {
+            [self unloadUserDefinedTargets];
+        } else {
+            // deactivate the dataset and unload any pre-loaded datasets
+            [self deactivateDataSet:currentDataSet];
+            
+            if (targetType != TYPE_FRAMEMARKERS)
             {
-                if (aDataSet.dataSet != nil)
+                // Unload all the requested datasets
+                for (DataSetItem *aDataSet in targetsList)
                 {
-                    [self unloadDataSet:aDataSet.dataSet];
-                    aDataSet.dataSet = nil;
+                    if (aDataSet.dataSet != nil)
+                    {
+                        [self unloadDataSet:aDataSet.dataSet];
+                        aDataSet.dataSet = nil;
+                    }
                 }
             }
         }
@@ -538,6 +542,11 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
 // Load the tracker data [performed on a background thread]
 - (void)loadTracker
 {
+    if([targetsList count] == 0) {
+        [self initUserDefinedTargets];
+        return;
+    }
+    
     // Background thread must have its own autorelease pool
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     BOOL haveLoadedOneDataSet = NO;
@@ -578,6 +587,41 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     [pool release];
 }
 
+- (void)initUserDefinedTargets
+{
+    // Background thread must have its own autorelease pool
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    
+    NSLog(@"UDTQCARutils: LoadTrackerData");
+    
+    // Get the image tracker:
+    QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
+                                                                        trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    if (imageTracker != nil)
+    {
+        // Create the data set:
+        userDefDataSet = imageTracker->createDataSet();
+        if (userDefDataSet != nil)
+        {
+            if (!imageTracker->activateDataSet(userDefDataSet))
+            {
+                NSLog(@"Failed to activate data set.");
+                appStatus = APPSTATUS_ERROR;
+                errorCode = QCAR_ERRCODE_LOAD_TARGET;
+            }
+        }
+    }
+    
+    NSLog(@"Successfully loaded and activated data set.");
+    
+    
+    // Continue execution on the main thread
+    if (appStatus != APPSTATUS_ERROR)
+        [self performSelectorOnMainThread:@selector(bumpAppStatus) withObject:nil waitUntilDone:NO];
+    
+    [pool release];
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Start capturing images from the camera
@@ -919,6 +963,43 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     
     // Deactivate the data set prior to reconfiguration:
     it->activateDataSet(currentDataSet);
+}
+
+- (void)unloadUserDefinedTargets {
+    BOOL success = NO;
+    // Get the image tracker:
+    QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    if (imageTracker == NULL)
+    {
+        NSLog(@"Failed to destroy the tracking data set because the ImageTracker has not been initialized.");
+        errorCode = QCAR_ERRCODE_INIT_TRACKER;
+    }
+    
+    if (userDefDataSet != 0)
+    {
+        if (imageTracker->getActiveDataSet() && !imageTracker->deactivateDataSet(userDefDataSet))
+        {
+            NSLog(@"Failed to destroy the tracking data set because the data set could not be deactivated.");
+            errorCode = QCAR_ERRCODE_DEACTIVATE_DATASET;
+        }
+        else
+        {
+            if (!imageTracker->destroyDataSet(userDefDataSet))
+            {
+                NSLog(@"Failed to destroy the tracking data set.");
+                
+            }
+            else
+            {
+                NSLog(@"Successfully destroyed the data set.");
+                
+                success = YES;
+            }
+        }
+    }
+    
+    userDefDataSet = nil;
 }
 
 

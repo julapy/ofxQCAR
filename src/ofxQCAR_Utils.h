@@ -101,6 +101,7 @@ enum _errorCode {
     UIInterfaceOrientation orientation;
     
 @private
+    QCAR::DataSet * userDefDataSet;
     QCAR::DataSet * currentDataSet; // the loaded DataSet
     BOOL cameraTorchOn;
     BOOL cameraContinuousAFOn;
