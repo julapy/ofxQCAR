@@ -7,7 +7,7 @@
 #include "ofxQCAR.h"
 #include "Teapot.h"
 
-class testApp : public ofxiPhoneApp{
+class testApp : public ofxQCAR_App {
 	
 public:
     void setup();
