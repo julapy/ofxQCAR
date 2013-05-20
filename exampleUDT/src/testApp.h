@@ -16,6 +16,10 @@ public:
     void exit();
     
     void qcarInitialised();
+    bool scanTarget();
+    bool saveTarget();
+    bool isScanning();
+    bool isTracking();
 	
     void touchDown(ofTouchEventArgs & touch);
     void touchMoved(ofTouchEventArgs & touch);

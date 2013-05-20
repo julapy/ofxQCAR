@@ -85,8 +85,11 @@ public:
     
     virtual void addTarget(const string targetName, const string targetPath);
     
-    void startUserDefinedTarget();
-    void stopUserDefinedTarget();
+    void scanCustomTarget();
+    void saveCustomTarget();
+    void trackCustomTarget();
+    bool isTrackingCustomTarget();
+    bool isScanningCustomTarget();
     bool hasFoundGoodQualityTarget();
     
     virtual void setup();
@@ -137,6 +140,11 @@ public:
     
 private:
     
+    void startScan();
+    void stopScan();
+    void startTracker();
+    void stopTracker();
+    
     static ofxQCAR * _instance;
     vector<ofxQCAR_Marker> markersFound;
     ofxQCAR_Orientation orientation;
@@ -148,6 +156,9 @@ private:
     
     int maxNumOfMarkers;
     
-    bool bLookingForUserDefinedTargets;
+    bool bScanTarget;
+    bool bSaveTarget;
+    bool bTrackTarget;
     bool bFoundGoodQualityTarget;
+    int targetCount = 1;
 };

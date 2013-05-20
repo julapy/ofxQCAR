@@ -869,6 +869,9 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     return theDataSet;
 }
 
+- (QCAR::DataSet *)getUserDefDataSet {
+    return userDefDataSet;
+}
 
 - (BOOL)deactivateDataSet:(QCAR::DataSet *)theDataSet
 {

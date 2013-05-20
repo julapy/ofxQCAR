@@ -6,7 +6,7 @@
 //
 
 #import "MyAppViewController.h"
-#import "ofxQCAR_ViewController.h"
+#import "ARViewController.h"
 #import "testApp.h"
 
 @interface MyAppViewController() {
@@ -40,9 +40,9 @@
     
     ofxQCAR_ViewController * viewController;
     if(UIInterfaceOrientationIsPortrait(orientation)) {
-        viewController = [[[ofxQCAR_ViewController alloc] initWithAppInPortraitMode:new testApp()] autorelease];
+        viewController = [[[ARViewController alloc] initWithAppInPortraitMode:new testApp()] autorelease];
     } else if(UIInterfaceOrientationIsLandscape(orientation)) {
-        viewController = [[[ofxQCAR_ViewController alloc] initWithAppInLandscapeMode:new testApp()] autorelease];
+        viewController = [[[ARViewController alloc] initWithAppInLandscapeMode:new testApp()] autorelease];
     }
 
     [self.navigationController pushViewController:viewController animated:YES];

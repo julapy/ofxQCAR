@@ -157,6 +157,7 @@ enum _errorCode {
 
 - (BOOL)unloadDataSet:(QCAR::DataSet *)theDataSet;
 - (QCAR::DataSet *)loadDataSet:(NSString *)dataSetPath;
+- (QCAR::DataSet *)getUserDefDataSet;
 - (BOOL)deactivateDataSet:(QCAR::DataSet *)theDataSet;
 - (BOOL)activateDataSet:(QCAR::DataSet *)theDataSet;
 - (void) allowDataSetModification;

@@ -24,6 +24,8 @@
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		5326AEA810A23A0500278DE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5326AEA710A23A0500278DE6 /* CoreLocation.framework */; };
 		53F323EB10A20EDB00E0DAE4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */; };
+		671751231748B6D200098785 /* ARViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 671751211748B6D200098785 /* ARViewController.mm */; };
+		671751241748B6D200098785 /* ARViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 671751221748B6D200098785 /* ARViewController.xib */; };
 		67EF885A16AFA3BF000B949B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67EF885816AFA39F000B949B /* CoreMotion.framework */; };
 		BB16EBD20F2B2A9500518274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD10F2B2A9500518274 /* OpenGLES.framework */; };
 		BB16EBD90F2B2AB500518274 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD80F2B2AB500518274 /* QuartzCore.framework */; };
@@ -88,6 +90,9 @@
 		5326AEA710A23A0500278DE6 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		671751181748A8E000098785 /* ofxQCAR_App.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ofxQCAR_App.h; sourceTree = "<group>"; };
+		671751201748B6D200098785 /* ARViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ARViewController.h; sourceTree = "<group>"; };
+		671751211748B6D200098785 /* ARViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ARViewController.mm; sourceTree = "<group>"; };
+		671751221748B6D200098785 /* ARViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ARViewController.xib; sourceTree = "<group>"; };
 		67EF883116AF727A000B949B /* Area.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Area.h; sourceTree = "<group>"; };
 		67EF883216AF727A000B949B /* CameraCalibration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraCalibration.h; sourceTree = "<group>"; };
 		67EF883316AF727A000B949B /* CameraDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraDevice.h; sourceTree = "<group>"; };
@@ -250,6 +255,9 @@
 				15B505551581D60B004CF539 /* MyAppViewController.h */,
 				15B505561581D60B004CF539 /* MyAppViewController.mm */,
 				15277E8D16097AA0006DAEB1 /* MyAppViewController.xib */,
+				671751201748B6D200098785 /* ARViewController.h */,
+				671751211748B6D200098785 /* ARViewController.mm */,
+				671751221748B6D200098785 /* ARViewController.xib */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -504,6 +512,7 @@
 				15EC4D691583285E00A77FC0 /* README.md in Resources */,
 				153151261584F349006C8A5C /* TextureTeapotBrass.png in Resources */,
 				15277E8E16097AA0006DAEB1 /* MyAppViewController.xib in Resources */,
+				671751241748B6D200098785 /* ARViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,6 +547,7 @@
 				15315111158459DA006C8A5C /* ofxQCAR_EAGLView.mm in Sources */,
 				1531511815845CDD006C8A5C /* ofxQCAR.mm in Sources */,
 				1531511B15845FFB006C8A5C /* ofxQCAR_Utils.mm in Sources */,
+				671751231748B6D200098785 /* ARViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

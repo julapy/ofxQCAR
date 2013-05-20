@@ -11,12 +11,42 @@ void testApp::setup(){
     
     qcar = ofxQCAR::getInstance();
     qcar->autoFocusOn();
-    qcar->setCameraPixelsFlag(true);
+    qcar->setCameraPixelsFlag(false);
     qcar->setup();
 }
 
 void testApp::qcarInitialised() {
-    qcar->startUserDefinedTarget();
+    scanTarget();
+}
+
+bool testApp::scanTarget() {
+    qcar->scanCustomTarget();
+    return true;
+}
+
+bool testApp::saveTarget() {
+    if(qcar->hasFoundGoodQualityTarget()) {
+        qcar->saveCustomTarget();
+        return true;
+    }
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Low Quality Image"
+                                                        message:@"The image has very little detail, please try another."
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles: nil];
+    [alertView show];
+    [alertView release];
+    
+    return false;
+}
+
+bool testApp::isScanning() {
+    return qcar->isScanningCustomTarget();
+}
+
+bool testApp::isTracking() {
+    return qcar->isTrackingCustomTarget();
 }
 
 //--------------------------------------------------------------
@@ -28,23 +58,25 @@ void testApp::update(){
 void testApp::draw(){
     
     qcar->draw();
-    
-    int screenW = ofGetWidth();
-    int markerW = screenW * 0.8;
-    ofRectangle markerRect(0, 0, markerW, markerW);
-    markerRect.x = (int)((ofGetWidth() - markerRect.width) * 0.5);
-    markerRect.y = (int)((ofGetHeight() - markerRect.height) * 0.5);
 
-    ofPushStyle();
-    ofNoFill();
-    ofSetLineWidth(10);
-    if(qcar->hasFoundGoodQualityTarget()) {
-        ofSetColor(ofColor::green);
-    } else {
-        ofSetColor(ofColor::red);
+    if(qcar->isScanningCustomTarget()) {
+        int screenW = ofGetWidth();
+        int markerW = screenW * 0.9;
+        ofRectangle markerRect(0, 0, markerW, markerW);
+        markerRect.x = (int)((ofGetWidth() - markerRect.width) * 0.5);
+        markerRect.y = (int)((ofGetHeight() - markerRect.height) * 0.5);
+        
+        ofPushStyle();
+        ofNoFill();
+        ofSetLineWidth(3);
+        if(qcar->hasFoundGoodQualityTarget()) {
+            ofSetColor(ofColor::green);
+        } else {
+            ofSetColor(ofColor::red);
+        }
+        ofRect(markerRect);
+        ofPopStyle();
     }
-    ofRect(markerRect);
-    ofPopStyle();
     
     if(qcar->hasFoundMarker()) {
 
@@ -71,7 +103,6 @@ void testApp::draw(){
 
 //--------------------------------------------------------------
 void testApp::exit(){
-    qcar->stopUserDefinedTarget();
     qcar->exit();
 }
 
