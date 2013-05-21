@@ -319,6 +319,7 @@ void ofxQCAR::setup() {
 //  USER DEFINED TARGETS.
 /////////////////////////////////////////////////////////
 void ofxQCAR::scanCustomTarget() {
+#if !(TARGET_IPHONE_SIMULATOR)
     if(bScanTarget == true) {
         return;
     }
@@ -327,9 +328,11 @@ void ofxQCAR::scanCustomTarget() {
     startScan();
     
     bScanTarget = true;
+#endif
 }
 
 void ofxQCAR::saveCustomTarget() {
+#if !(TARGET_IPHONE_SIMULATOR)
     if((bSaveTarget == true) || (bFoundGoodQualityTarget == false)) {
         return;
     }
@@ -350,9 +353,11 @@ void ofxQCAR::saveCustomTarget() {
     while(!targetBuilder->build(name, 320.0));
     
     bSaveTarget = true;
+#endif
 }
 
 void ofxQCAR::trackCustomTarget() {
+#if !(TARGET_IPHONE_SIMULATOR)
     if(bScanTarget == false) {
         return;
     }
@@ -364,6 +369,7 @@ void ofxQCAR::trackCustomTarget() {
     bSaveTarget = false;
     bTrackTarget = true;
     bFoundGoodQualityTarget = false;
+#endif
 }
 
 bool ofxQCAR::isScanningCustomTarget() {
@@ -380,6 +386,7 @@ bool ofxQCAR::hasFoundGoodQualityTarget() {
 
 //------------------------------ private.
 void ofxQCAR::startScan() {
+#if !(TARGET_IPHONE_SIMULATOR)
     TrackerManager & trackerManager = TrackerManager::getInstance();
     ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
     if(imageTracker == NULL) {
@@ -393,9 +400,11 @@ void ofxQCAR::startScan() {
         targetBuilder->stopScan();
     }
     targetBuilder->startScan();
+#endif
 }
 
 void ofxQCAR::stopScan() {
+#if !(TARGET_IPHONE_SIMULATOR)
     TrackerManager & trackerManager = TrackerManager::getInstance();
     ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
     if(imageTracker == NULL) {
@@ -406,24 +415,29 @@ void ofxQCAR::stopScan() {
         return;
     }
     targetBuilder->stopScan();
+#endif
 }
 
 void ofxQCAR::startTracker() {
+#if !(TARGET_IPHONE_SIMULATOR)
     TrackerManager & trackerManager = TrackerManager::getInstance();
     ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
     if(imageTracker == NULL) {
         return;
     }
     imageTracker->start();
+#endif
 }
 
 void ofxQCAR::stopTracker() {
+#if !(TARGET_IPHONE_SIMULATOR)
     TrackerManager & trackerManager = TrackerManager::getInstance();
     ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
     if(imageTracker == NULL) {
         return;
     }
     imageTracker->stop();
+#endif
 }
 
 /////////////////////////////////////////////////////////
