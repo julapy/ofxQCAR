@@ -140,6 +140,8 @@ public:
     
 private:
     
+    void init();
+    
     void startScan();
     void stopScan();
     void startTracker();

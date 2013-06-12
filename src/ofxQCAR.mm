@@ -247,17 +247,7 @@ bool bBeginDraw = false;
 /////////////////////////////////////////////////////////
 
 ofxQCAR::ofxQCAR () {
-    bUpdateCameraPixels = false;
-    cameraPixels = NULL;
-    cameraWidth = 0;
-    cameraHeight = 0;
-    orientation = OFX_QCAR_ORIENTATION_PORTRAIT;
-    maxNumOfMarkers = 1;
-    bScanTarget = false;
-    bSaveTarget = false;
-    bTrackTarget = false;
-    bFoundGoodQualityTarget = false;
-    targetCount = 1;
+    init();
 }
 
 ofxQCAR::~ofxQCAR () {
@@ -284,6 +274,20 @@ void ofxQCAR::addTarget(string targetName, string targetPath) {
     [[ofxQCAR_Utils getInstance] addTargetName:name atPath:path];
     
 #endif
+}
+
+void ofxQCAR::init() {
+    bUpdateCameraPixels = false;
+    cameraPixels = NULL;
+    cameraWidth = 0;
+    cameraHeight = 0;
+    orientation = OFX_QCAR_ORIENTATION_PORTRAIT;
+    maxNumOfMarkers = 1;
+    bScanTarget = false;
+    bSaveTarget = false;
+    bTrackTarget = false;
+    bFoundGoodQualityTarget = false;
+    targetCount = 1;
 }
 
 void ofxQCAR::setup() {
@@ -780,6 +784,8 @@ void ofxQCAR::drawMarkerBounds(unsigned int k) {
 /////////////////////////////////////////////////////////
 
 void ofxQCAR::exit() {
+    init();
+    
 #if !(TARGET_IPHONE_SIMULATOR)
 
     stopScan();
