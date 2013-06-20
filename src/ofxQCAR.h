@@ -60,7 +60,7 @@ public:
 
 class ofxQCAR_UpdateCallback;
 
-class ofxQCAR : public ofBaseApp
+class ofxQCAR
 {
 /**
  *  this allows ofxQCAR_UpdateCallback to make
