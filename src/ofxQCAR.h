@@ -86,6 +86,7 @@ public:
     virtual void addTarget(const string targetName, const string targetPath);
     
     void scanCustomTarget();
+    void stopCustomTarget();
     void saveCustomTarget();
     void trackCustomTarget();
     bool isTrackingCustomTarget();

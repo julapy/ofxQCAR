@@ -542,11 +542,6 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
 // Load the tracker data [performed on a background thread]
 - (void)loadTracker
 {
-    if([targetsList count] == 0) {
-        [self initUserDefinedTargets];
-        return;
-    }
-    
     // Background thread must have its own autorelease pool
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     BOOL haveLoadedOneDataSet = NO;
@@ -579,43 +574,15 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
             errorCode = QCAR_ERRCODE_LOAD_TARGET;
         }
     }
-
-    // Continue execution on the main thread
-    if (appStatus != APPSTATUS_ERROR)
-        [self performSelectorOnMainThread:@selector(bumpAppStatus) withObject:nil waitUntilDone:NO];
     
-    [pool release];
-}
-
-- (void)initUserDefinedTargets
-{
-    // Background thread must have its own autorelease pool
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    
-    NSLog(@"UDTQCARutils: LoadTrackerData");
-    
-    // Get the image tracker:
+    //------------------------------------------------------------------ create a user defined data set.
     QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
-                                                                        trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
-    if (imageTracker != nil)
-    {
-        // Create the data set:
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    if(imageTracker != nil) {
         userDefDataSet = imageTracker->createDataSet();
-        if (userDefDataSet != nil)
-        {
-            if (!imageTracker->activateDataSet(userDefDataSet))
-            {
-                NSLog(@"Failed to activate data set.");
-                appStatus = APPSTATUS_ERROR;
-                errorCode = QCAR_ERRCODE_LOAD_TARGET;
-            }
-        }
     }
-    
-    NSLog(@"Successfully loaded and activated data set.");
-    
-    
+    //------------------------------------------------------------------
+
     // Continue execution on the main thread
     if (appStatus != APPSTATUS_ERROR)
         [self performSelectorOnMainThread:@selector(bumpAppStatus) withObject:nil waitUntilDone:NO];
@@ -867,6 +834,15 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     }
     
     return theDataSet;
+}
+
+- (QCAR::DataSet *)getDefaultDataSet {
+    if([targetsList count] == 0) {
+        return nil;
+    }
+    
+    DataSetItem * dataSetItem = [targetsList objectAtIndex:0];
+    return dataSetItem.dataSet;
 }
 
 - (QCAR::DataSet *)getUserDefDataSet {

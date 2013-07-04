@@ -335,6 +335,25 @@ void ofxQCAR::scanCustomTarget() {
 #endif
 }
 
+void ofxQCAR::stopCustomTarget() {
+#if !(TARGET_IPHONE_SIMULATOR)
+
+    startTracker();
+    stopScan();
+    
+    TrackerManager & trackerManager = TrackerManager::getInstance();
+    ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
+    imageTracker->deactivateDataSet(imageTracker->getActiveDataSet());
+    imageTracker->activateDataSet([[ofxQCAR_Utils getInstance] getDefaultDataSet]);
+    
+    bScanTarget = false;
+    bSaveTarget = false;
+    bTrackTarget = false;
+    bFoundGoodQualityTarget = false;
+
+#endif
+}
+
 void ofxQCAR::saveCustomTarget() {
 #if !(TARGET_IPHONE_SIMULATOR)
     if((bSaveTarget == true) || (bFoundGoodQualityTarget == false)) {
