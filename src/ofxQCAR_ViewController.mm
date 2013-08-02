@@ -16,23 +16,23 @@
 
 @implementation ofxQCAR_ViewController
 
-- (id)initWithApp:(ofxiPhoneApp *)app {
+- (id)initWithApp:(ofxiOSApp *)app {
     return [self initWithAppInPortraitMode:app];
 }
 
-- (id)initWithAppInPortraitMode:(ofxiPhoneApp *)app {
+- (id)initWithAppInPortraitMode:(ofxiOSApp *)app {
     ofxQCAR::getInstance()->setOrientation(OFX_QCAR_ORIENTATION_PORTRAIT);
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     return [self initWithFrame:CGRectMake(0, 0, screenSize.width, screenSize.height) app:app];
 }
 
-- (id)initWithAppInLandscapeMode:(ofxiPhoneApp *)app {
+- (id)initWithAppInLandscapeMode:(ofxiOSApp *)app {
     ofxQCAR::getInstance()->setOrientation(OFX_QCAR_ORIENTATION_LANDSCAPE);
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     return [self initWithFrame:CGRectMake(0, 0, screenSize.height, screenSize.width) app:app];
 }
 
-- (id)initWithFrame:(CGRect)frame app:(ofxiPhoneApp *)app {
+- (id)initWithFrame:(CGRect)frame app:(ofxiOSApp *)app {
     
     if((self = [super init])) {
         self.glView = [[[ofxQCAR_EAGLView alloc] initWithFrame:frame andApp:app] autorelease];

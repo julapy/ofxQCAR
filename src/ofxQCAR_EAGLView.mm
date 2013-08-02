@@ -5,7 +5,7 @@
 //
 
 #import "ofxQCAR_EAGLView.h"
-#import "ofxiPhoneExtras.h"
+#import "ofxiOSExtras.h"
 #import "ofxQCAR.h"
 
 @implementation ofxQCAR_EAGLView

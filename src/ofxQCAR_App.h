@@ -9,10 +9,10 @@
 #pragma once
 
 #include "ofMain.h"
-#include "ofxiPhone.h"
-#include "ofxiPhoneExtras.h"
+#include "ofxiOS.h"
+#include "ofxiOSExtras.h"
 
-class ofxQCAR_App : public ofxiPhoneApp{
+class ofxQCAR_App : public ofxiOSApp {
 
 public:
     

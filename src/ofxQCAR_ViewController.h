@@ -5,15 +5,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ofxiPhoneViewController.h"
+#import "ofxiOSViewController.h"
 
-@interface ofxQCAR_ViewController : ofxiPhoneViewController {
+@interface ofxQCAR_ViewController : ofxiOSViewController {
     //
 }
 
-- (id)initWithApp:(ofxiPhoneApp *)app;
-- (id)initWithAppInPortraitMode:(ofxiPhoneApp *)app;
-- (id)initWithAppInLandscapeMode:(ofxiPhoneApp *)app;
+- (id)initWithApp:(ofxiOSApp *)app;
+- (id)initWithAppInPortraitMode:(ofxiOSApp *)app;
+- (id)initWithAppInLandscapeMode:(ofxiOSApp *)app;
 
 - (void)handleARViewRotation:(UIInterfaceOrientation)interfaceOrientation;
 
