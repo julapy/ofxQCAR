@@ -1,8 +1,8 @@
 ofxQCAR is an OpenFrameworks wrapper for Qualcomm's Vuforia (QCAR).
 https://developer.vuforia.com
 
-ofxQCAR wraps Vuforia SDK 2.0.31
-and has been tested on OpenFrameworks 0074.
+ofxQCAR wraps Vuforia SDK 2.0.32
+and has been tested on OpenFrameworks 008.
 
 The example project should get you up and running very quickly,
 although if you need to start your own XCode project from scratch,
