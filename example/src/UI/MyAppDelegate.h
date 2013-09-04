@@ -6,9 +6,9 @@
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "ofxiPhoneAppDelegate.h"
+#import "ofxiOSAppDelegate.h"
 
-@interface MyAppDelegate : ofxiPhoneAppDelegate
+@interface MyAppDelegate : ofxiOSAppDelegate
 
 @property (nonatomic, retain) UINavigationController * navigationController;
 
