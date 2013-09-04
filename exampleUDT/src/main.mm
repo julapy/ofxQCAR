@@ -2,10 +2,11 @@
 #include "testApp.h"
 
 int main(){
-    ofAppiPhoneWindow *window = new ofAppiPhoneWindow();
+    ofAppiPhoneWindow * window = new ofAppiPhoneWindow();
     window->enableDepthBuffer();
-    window->enableRetinaSupport();
+    window->enableRetina();
+    window->enableRendererES2();
     
-    ofSetupOpenGL( ofPtr<ofAppBaseWindow>( window ), 1024,768, OF_FULLSCREEN );
-    window->startAppWithDelegate( "MyAppDelegate" );
+    ofSetupOpenGL(ofPtr<ofAppBaseWindow>(window), 1024,768, OF_FULLSCREEN);
+    window->startAppWithDelegate("MyAppDelegate");
 }

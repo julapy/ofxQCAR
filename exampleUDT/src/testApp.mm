@@ -5,11 +5,13 @@ ofxQCAR * qcar = NULL;
 //--------------------------------------------------------------
 void testApp::setup(){	
 	ofBackground(0);
+    ofSetOrientation(OF_ORIENTATION_DEFAULT);
     
     teapotImage.loadImage("qcar_assets/TextureTeapotBrass.png");
     teapotImage.mirror(true, false);  //-- flip texture vertically since the texture coords are set that way on the teapot.
     
     qcar = ofxQCAR::getInstance();
+    qcar->addTarget("Qualcomm.xml", "Qualcomm.xml");
     qcar->autoFocusOn();
     qcar->setCameraPixelsFlag(false);
     qcar->setup();
@@ -92,9 +94,12 @@ void testApp::draw(){
         glEnable(GL_DEPTH_TEST);
         ofEnableNormalizedTexCoords();
         
+        qcar->begin();
         teapotImage.getTextureReference().bind();
-        ofDrawTeapot(qcar->getProjectionMatrix(), qcar->getModelViewMatrix(), 3);
+        ofScale(3, 3, 3);
+        ofDrawTeapot();
         teapotImage.getTextureReference().unbind();
+        qcar->end();
         
         ofDisableNormalizedTexCoords();
         glDisable(GL_DEPTH_TEST);
