@@ -32,7 +32,7 @@ void testApp::draw(){
     
     if(qcar->hasFoundMarker()) {
 
-        glDisable(GL_DEPTH_TEST);
+        ofDisableDepthTest();
         ofEnableBlendMode(OF_BLENDMODE_ALPHA);
         ofSetLineWidth(3);
         
@@ -58,7 +58,7 @@ void testApp::draw(){
         ofSetColor(ofColor::white);
         ofSetLineWidth(1);
         
-        glEnable(GL_DEPTH_TEST);
+        ofEnableDepthTest();
         ofEnableNormalizedTexCoords();
         
         qcar->begin();
@@ -71,7 +71,7 @@ void testApp::draw(){
         ofDisableNormalizedTexCoords();
     }
     
-    glEnable(GL_DEPTH_TEST);
+    ofDisableDepthTest();
     
     /**
      *  access to camera pixels.
@@ -106,8 +106,9 @@ void testApp::draw(){
     
     if(bPressed) {
         ofSetColor(ofColor::red);
-        ofDrawBitmapString("touch x = " + ofToString((int)touchPoint.x), 20, 200);
-        ofDrawBitmapString("touch y = " + ofToString((int)touchPoint.y), 20, 220);
+        ofDrawBitmapString("touch x = " + ofToString((int)touchPoint.x), ofGetWidth() - 140, ofGetHeight() - 40);
+        ofDrawBitmapString("touch y = " + ofToString((int)touchPoint.y), ofGetWidth() - 140, ofGetHeight() - 20);
+        ofSetColor(ofColor::white);
     }
 }
 

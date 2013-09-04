@@ -293,8 +293,8 @@ void ofxQCAR::init() {
 void ofxQCAR::setup() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
-        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11;
+    if(ofIsGLProgrammableRenderer()) {
+        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_20;
     } else {
         [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11;
     }
@@ -746,7 +746,7 @@ void ofxQCAR::draw() {
     ofPopView();
     ofPopStyle();
     
-    glDisable(GL_DEPTH_TEST);
+    ofDisableDepthTest();
     glDisable(GL_CULL_FACE);
     
     if([ofxQCAR_Utils getInstance].QCARFlags & QCAR::GL_11) {
@@ -760,7 +760,8 @@ void ofxQCAR::draw() {
     
     if([ofxQCAR_Utils getInstance].QCARFlags & QCAR::GL_20) {
         ofGLProgrammableRenderer * renderer = (ofGLProgrammableRenderer *)ofGetCurrentRenderer().get();
-        renderer->endCustomShader();
+        ofShader & currentShader = renderer->getCurrentShader();
+        currentShader.begin();
     }
     
 #else
