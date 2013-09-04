@@ -12,7 +12,6 @@
 
 #import "ofxQCAR_Utils.h"
 #import "ofxiOSExtras.h"
-#import "ofGLProgrammableRenderer.h"
 
 #import <QCAR/Renderer.h>
 #import <QCAR/Tool.h>
@@ -294,8 +293,8 @@ void ofxQCAR::init() {
 void ofxQCAR::setup() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    if(ofIsGLProgrammableRenderer()) {
-        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_20;
+    if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
+        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11;
     } else {
         [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11;
     }
@@ -688,17 +687,17 @@ void ofxQCAR::begin(unsigned int i) {
     
     ofPushView();
     
-    ofSetMatrixMode(OF_MATRIX_PROJECTION);
-    ofLoadMatrix(getProjectionMatrix(i));
+    // need to set orientation again with vFlip turned off,
+    // otherwise the model coordinates along the y-axis will be flipped the wrong way.
+    ofSetOrientation(ofGetOrientation(), false);
     
-//    glMatrixMode(GL_PROJECTION); // swap back when the above is merged into develop.
-//    glLoadMatrixf(getProjectionMatrix(i).getPtr());
+    ofSetMatrixMode(OF_MATRIX_PROJECTION);
+    ofMatrix4x4 projectionMatrix = getProjectionMatrix(i);
+    ofLoadMatrix(projectionMatrix);
     
     ofSetMatrixMode(OF_MATRIX_MODELVIEW);
-    ofLoadMatrix(getModelViewMatrix(i));
-    
-//    glMatrixMode(GL_MODELVIEW); // swap back when the above is merged into develop.
-//    glLoadMatrixf(getModelViewMatrix(i).getPtr());
+    ofMatrix4x4 modelViewMatrix = getModelViewMatrix(i);
+    ofLoadMatrix(modelViewMatrix);
 }
 
 void ofxQCAR::end () {
@@ -752,6 +751,10 @@ void ofxQCAR::draw() {
     
     if([ofxQCAR_Utils getInstance].QCARFlags & QCAR::GL_11) {
         glDisable(GL_TEXTURE_2D);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glDisableClientState(GL_COLOR_ARRAY);
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // applies colour to textures.
     }
     
@@ -776,9 +779,9 @@ void ofxQCAR::drawMarkerRect(unsigned int i) {
 
     float markerW = getMarkerRect(i).width;
     float markerH = getMarkerRect(i).height;
-    ofRect(-markerW * 0.5, 
-           -markerH * 0.5, 
-           markerW, 
+    ofRect(-markerW * 0.5,
+           -markerH * 0.5,
+           markerW,
            markerH);
     
     end();
