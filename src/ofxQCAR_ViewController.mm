@@ -32,18 +32,6 @@
     return [self initWithFrame:CGRectMake(0, 0, screenSize.height, screenSize.width) app:app];
 }
 
-- (id)initWithFrame:(CGRect)frame app:(ofxiOSApp *)app {
-    
-    if((self = [super init])) {
-        self.glView = [[[ofxQCAR_EAGLView alloc] initWithFrame:frame andApp:app] autorelease];
-        self.glView.delegate = self;
-        [self.view insertSubview:self.glView atIndex:0];
-        [self.glView setup];
-    }
-    
-    return self;
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self handleARViewRotation:self.interfaceOrientation];
