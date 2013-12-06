@@ -491,6 +491,12 @@ void ofxQCAR::autoFocusOff() {
 #endif
 }
 
+void ofxQCAR::autoFocusOnce() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    [[ofxQCAR_Utils getInstance] cameraPerformAF];
+#endif
+}
+
 /////////////////////////////////////////////////////////
 //  PAUSE / RESUME QCAR.
 /////////////////////////////////////////////////////////

@@ -113,6 +113,7 @@ public:
     void torchOff();
     void autoFocusOn();
     void autoFocusOff();
+    void autoFocusOnce();
 
     bool hasFoundMarker();
     int numOfMarkersFound();
