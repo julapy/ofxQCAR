@@ -612,9 +612,10 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
             if(tracker != 0)
                 tracker->start();
             
-            // Cache the projection matrix:
+            float nearPlane = 2.0f;
+            float farPlane = 10000.0f;
             const QCAR::CameraCalibration& cameraCalibration = QCAR::CameraDevice::getInstance().getCameraCalibration();
-            projectionMatrix = QCAR::Tool::getProjectionGL(cameraCalibration, 2.0f, 10000.0f);
+            projectionMatrix = QCAR::Tool::getProjectionGL(cameraCalibration, nearPlane, farPlane);
         }
         
         // Restore camera settings

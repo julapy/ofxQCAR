@@ -140,6 +140,8 @@ public:
     int getCameraHeight();
     unsigned char * getCameraPixels();
     
+    void setFlipY(bool b);
+    
 private:
     
     void init();
@@ -152,6 +154,8 @@ private:
     static ofxQCAR * _instance;
     vector<ofxQCAR_Marker> markersFound;
     ofxQCAR_Orientation orientation;
+    
+    bool bFlipY;
     
     bool bUpdateCameraPixels;
     unsigned char * cameraPixels;

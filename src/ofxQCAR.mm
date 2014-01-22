@@ -277,6 +277,7 @@ void ofxQCAR::addTarget(string targetName, string targetPath) {
 }
 
 void ofxQCAR::init() {
+    bFlipY = false;
     bUpdateCameraPixels = false;
     cameraPixels = NULL;
     cameraWidth = 0;
@@ -667,6 +668,10 @@ unsigned char * ofxQCAR::getCameraPixels() {
     return cameraPixels;
 }
 
+void ofxQCAR::setFlipY(bool b) {
+    bFlipY = b;
+}
+
 /////////////////////////////////////////////////////////
 //  UPDATE.
 /////////////////////////////////////////////////////////
@@ -693,17 +698,30 @@ void ofxQCAR::begin(unsigned int i) {
     
     ofPushView();
     
-    // need to set orientation again with vFlip turned off,
-    // otherwise the model coordinates along the y-axis will be flipped the wrong way.
-    ofSetOrientation(ofGetOrientation(), false);
+    // TODO!
+    // seems to me that when bFlipY is true,
+    // this is the correct convention.
+    // but all older projects have been working with bFlipY set the false.
+    // todo in the future is remove bFlipY and assume its always true.
+    
+    if(bFlipY == false) {
+        ofSetOrientation(ofGetOrientation(), false);
+    }
     
     ofSetMatrixMode(OF_MATRIX_PROJECTION);
     ofMatrix4x4 projectionMatrix = getProjectionMatrix(i);
+    if(bFlipY == true) {
+        projectionMatrix.postMultScale(ofVec3f(1, -1, 1));
+    }
     ofLoadMatrix(projectionMatrix);
     
     ofSetMatrixMode(OF_MATRIX_MODELVIEW);
     ofMatrix4x4 modelViewMatrix = getModelViewMatrix(i);
     ofLoadMatrix(modelViewMatrix);
+
+    if(bFlipY == true) {
+        ofScale(1, -1, 1);
+    }
 }
 
 void ofxQCAR::end () {
