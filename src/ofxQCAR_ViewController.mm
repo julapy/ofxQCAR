@@ -21,13 +21,11 @@
 }
 
 - (id)initWithAppInPortraitMode:(ofxiOSApp *)app {
-    ofxQCAR::getInstance()->setOrientation(OFX_QCAR_ORIENTATION_PORTRAIT);
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     return [self initWithFrame:CGRectMake(0, 0, screenSize.width, screenSize.height) app:app];
 }
 
 - (id)initWithAppInLandscapeMode:(ofxiOSApp *)app {
-    ofxQCAR::getInstance()->setOrientation(OFX_QCAR_ORIENTATION_LANDSCAPE);
     CGSize screenSize = [UIScreen mainScreen].bounds.size;
     return [self initWithFrame:CGRectMake(0, 0, screenSize.height, screenSize.width) app:app];
 }
