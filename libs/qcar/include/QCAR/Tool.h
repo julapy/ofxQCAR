@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2010-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     Tool.h
 
 @brief
     Header file for global Tool functions.
-
 ==============================================================================*/
 #ifndef _QCAR_TOOL_H_
 #define _QCAR_TOOL_H_
@@ -27,10 +26,10 @@ class CameraCalibration;
 /// Tool functions
 namespace Tool
 {
-    /// Returns a 4x4 col-major OpenGL model-view matrix from a 3x4 QCAR pose
+    /// Returns a 4x4 col-major OpenGL model-view matrix from a 3x4 Vuforia pose
     /// matrix.
     /**
-     *  QCAR uses 3x4 row-major matrices for pose data. convertPose2GLMatrix()
+     *  Vuforia uses 3x4 row-major matrices for pose data. convertPose2GLMatrix()
      *  takes such a pose matrix and returns an OpenGL compatible model-view
      *  matrix.
      */
@@ -55,7 +54,7 @@ namespace Tool
     QCAR_API Vec2F projectPoint(const CameraCalibration& calib,
                                 const Matrix34F& pose, const Vec3F& point);
 
-    /// Multiplies two QCAR pose matrices
+    /// Multiplies two Vuforia pose matrices
     /**
      *  In order to apply a transformation A on top of a transformation B,
      *  perform: multiply(B,A).
@@ -63,9 +62,13 @@ namespace Tool
     QCAR_API Matrix34F multiply(const Matrix34F& matLeft,
                                 const Matrix34F& matRight);
 
-    /// Multiplies two QCAR-style 4x4-matrices (row-major order)
+    /// Multiplies two Vuforia-style 4x4-matrices (row-major order)
     QCAR_API Matrix44F multiply(const Matrix44F& matLeft,
                                 const Matrix44F& matRight);
+
+    /// Multiplies 1 vector and 1 Vuforia-style 4x4-matrix (row-major order)
+    QCAR_API Vec4F multiply(const Vec4F& vec,
+                            const Matrix44F& mat);
 
     /// Multiplies two GL-style matrices (col-major order)
     QCAR_API Matrix44F multiplyGL(const Matrix44F& matLeft,

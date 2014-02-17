@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2010-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     NonCopyable.h
 
 @brief
     Header file for NonCopyable class.
-
 ==============================================================================*/
 #ifndef _QCAR_NONCOPYABLE_H_
 #define _QCAR_NONCOPYABLE_H_

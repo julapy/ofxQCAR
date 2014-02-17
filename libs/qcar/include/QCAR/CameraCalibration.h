@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2010-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     CameraCalibration.h
 
 @brief
     Header file for CameraCalibration class.
-
 ==============================================================================*/
 #ifndef _QCAR_CAMERACALIBRATION_H_
 #define _QCAR_CAMERACALIBRATION_H_
@@ -35,6 +34,10 @@ public:
 
     /// Returns the radial distortion as 4D vector.
     virtual Vec4F getDistortionParameters() const = 0;
+
+protected:
+
+    virtual ~CameraCalibration() {}
 };
 
 } // namespace QCAR

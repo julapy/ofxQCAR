@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2012-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2012-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     VirtualButtonResult.h
 
 @brief
     Header file for VirtualButtonResult class.
-
 ==============================================================================*/
 #ifndef _QCAR_VIRTUALBUTTONRESULT_H_
 #define _QCAR_VIRTUALBUTTONRESULT_H_

@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2012-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2012-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     TargetFinder.h
 
 @brief
     Header file for TargetFinder class.
-
 ==============================================================================*/
 #ifndef _QCAR_TARGET_FINDER_H_
 #define _QCAR_TARGET_FINDER_H_
@@ -136,7 +135,7 @@ public:
     /// Enable this search result for tracking
     /**
      *  Creates an ImageTarget for local detection and tracking of this target.
-     *  The pose of this target will be reported in the QCAR State. Note that
+     *  The pose of this target will be reported in the Vuforia State. Note that
      *  this call may result in an earlier ImageTarget that was enabled for
      *  tracking to be destroyed. Thus it is not advised to hold a pointer to an
      *  earlier created ImageTarget after calling enableTracking again. Returns

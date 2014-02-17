@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2010-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     Marker.h
 
 @brief
     Header file for Marker class.
-
 ==============================================================================*/
 #ifndef _QCAR_MARKER_H_
 #define _QCAR_MARKER_H_
@@ -26,11 +25,15 @@ class QCAR_API Marker : public Trackable
 {
 public:
     /// Type of markers
-    enum TYPE {
+    enum MARKER_TYPE
+    {
         INVALID,            ///< Invalid marker type
         ID_FRAME            ///< An id-encoded marker that stores the id
                             ///< in the frame
     };
+
+    /// Returns the Trackable class' type
+    static Type getClassType();
 
     /// Returns the size of the marker in 3D scene units.
     virtual Vec2F getSize() const = 0;
@@ -44,7 +47,7 @@ public:
 
     /// Returns the marker type (as opposed to the trackable's type, which can
     /// be queried using getType())
-    virtual TYPE getMarkerType() const = 0;
+    virtual MARKER_TYPE getMarkerType() const = 0;
 };
 
 } // namespace QCAR

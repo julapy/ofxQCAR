@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2010-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     Vectors.h
 
 @brief
     Header file for vector structs.
-
 ==============================================================================*/
 #ifndef _QCAR_VECTOR_H_
 #define _QCAR_VECTOR_H_
@@ -90,6 +89,12 @@ struct Vec2I
     {
         for(int i=0; i<2; i++)
             data[i]= v[i];
+    }
+
+    Vec2I(int v0, int v1)
+    {
+        data[0] = v0;
+        data[1] = v1;
     }
 
     int data[2];

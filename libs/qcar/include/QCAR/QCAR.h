@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2010-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     QCAR.h
 
 @brief
     Header file for global QCAR methods.
-
 ==============================================================================*/
 #ifndef _QCAR_QCAR_H_
 #define _QCAR_QCAR_H_
@@ -25,7 +24,7 @@ class VideoSource;
 
 /// Initialization flags
 /**
- *  Use when calling QCAR::init()
+ *  Use when calling init()
  */
 enum INIT_FLAGS {
     GL_11 = 1,          ///< Enables OpenGL ES 1.1 rendering
@@ -53,10 +52,12 @@ enum PIXEL_FORMAT {
                                 ///< using Y, U and V planes
     RGBA8888 = 16,              ///< A color pixel stored in 32 bits using 8 bits
                                 ///< each and an alpha channel.
+    INDEXED = 32,               ///< One byte per pixel where the value maps to
+                                ///< a domain-specific range.
 };
 
 
-/// Use when calling QCAR::setHint()
+/// Use when calling setHint()
 enum HINT {
     /// How many image targets to detect and track at the same time
     /**
@@ -69,11 +70,11 @@ enum HINT {
 };
 
 
-/// Deinitializes QCAR
+/// Deinitializes Vuforia
 void QCAR_API deinit();
 
 
-/// Sets a hint for the QCAR SDK
+/// Sets a hint for the Vuforia SDK
 /**
  *  Hints help the SDK to understand the developer's needs.
  *  However, depending on the device or SDK version the hints
