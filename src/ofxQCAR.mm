@@ -480,10 +480,49 @@ void ofxQCAR::startExtendedTracking() {
     {
         QCAR::Trackable* trackable = userDefDateSet->getTrackable(i);
         if (!trackable->startExtendedTracking()){
-            printf("Failed to start extended tracking");
+            NSLog(@"Failed to start extended tracking");
         }
     }
+#endif
+}
+
+void ofxQCAR::addExtraTarget(string targetName) {
+#if !(TARGET_IPHONE_SIMULATOR)
+    TrackerManager & trackerManager = TrackerManager::getInstance();
+    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
     
+    if (imageTracker == NULL)
+    {
+        NSLog(@"Failed to load tracking data set because the ImageTracker has"
+              " not been initialized.");
+         return;
+    }
+    // Create the data sets:
+    DataSet *  extraset = imageTracker->createDataSet();
+    if (extraset == 0)
+    {
+        NSLog(@"Failed to create a new tracking data.");
+         return;
+        
+    }
+    // Load the data sets:
+    if (!extraset->load(targetName.c_str(), QCAR::DataSet::STORAGE_APPRESOURCE))
+    {
+        NSLog(@"Failed to load data set.");
+         return;
+    }
+   
+    // Activate the data set:
+    if (!imageTracker->activateDataSet(extraset))
+    {
+        NSLog(@"Failed to activate data set.");
+         return;
+    }
+   
+    
+    
+    NSLog(@"New dataset active. Active datasets: %d", imageTracker->getActiveDataSetCount());
+
     
 #endif
 }

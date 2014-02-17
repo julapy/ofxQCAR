@@ -16,14 +16,13 @@ void testApp::setup(){
     scaleExtTrack = 3;
 
     ofxQCAR * qcar = ofxQCAR::getInstance();
-    qcar->addTarget("Qualcomm.xml", "Qualcomm.xml");
+    qcar->addTarget("QualcommExtra1.xml", "QualcommExtra1.xml");
+    
+    
     qcar->autoFocusOn();
     qcar->setCameraPixelsFlag(true);
     qcar->setup();
-    qcar->update();
-     qcar->draw();
-
-    
+ 
 }
 
 //--------------------------------------------------------------
@@ -134,6 +133,7 @@ void testApp::touchDown(ofTouchEventArgs & touch){
      ofxQCAR * qcar = ofxQCAR::getInstance();
     scaleExtTrack=20;
       qcar->startExtendedTracking();
+
 }
 
 //--------------------------------------------------------------
@@ -151,7 +151,8 @@ void testApp::touchUp(ofTouchEventArgs & touch){
 
 //--------------------------------------------------------------
 void testApp::touchDoubleTap(ofTouchEventArgs & touch){
-
+     ofxQCAR * qcar = ofxQCAR::getInstance();
+    qcar->addExtraTarget("QualcommExtra2.xml");
 }
 
 //--------------------------------------------------------------

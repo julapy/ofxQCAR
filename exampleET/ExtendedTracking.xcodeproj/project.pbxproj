@@ -19,14 +19,16 @@
 		15EC4D661583280300A77FC0 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EC4D64158327EE00A77FC0 /* SystemConfiguration.framework */; };
 		15EC4D671583280300A77FC0 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15EC4D62158327E200A77FC0 /* Security.framework */; };
 		15EC4D691583285E00A77FC0 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 15EC4D681583285E00A77FC0 /* README.md */; };
-		15ED7E251611430900D879C2 /* Qualcomm.xml in Resources */ = {isa = PBXBuildFile; fileRef = 15ED7E231611430900D879C2 /* Qualcomm.xml */; };
-		15ED7E261611430900D879C2 /* Qualcomm.dat in Resources */ = {isa = PBXBuildFile; fileRef = 15ED7E241611430900D879C2 /* Qualcomm.dat */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765FD0DF74451002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765FC0DF74451002DB57D /* CoreGraphics.framework */; };
 		5326AEA810A23A0500278DE6 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5326AEA710A23A0500278DE6 /* CoreLocation.framework */; };
 		53F323EB10A20EDB00E0DAE4 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53F323EA10A20EDB00E0DAE4 /* OpenAL.framework */; };
 		67EF885A16AFA3BF000B949B /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 67EF885816AFA39F000B949B /* CoreMotion.framework */; };
+		A750681018B2956A00900A85 /* QualcommExtra1.dat in Resources */ = {isa = PBXBuildFile; fileRef = A750680C18B2956A00900A85 /* QualcommExtra1.dat */; };
+		A750681118B2956A00900A85 /* QualcommExtra1.xml in Resources */ = {isa = PBXBuildFile; fileRef = A750680D18B2956A00900A85 /* QualcommExtra1.xml */; };
+		A750681218B2956A00900A85 /* QualcommExtra2.dat in Resources */ = {isa = PBXBuildFile; fileRef = A750680E18B2956A00900A85 /* QualcommExtra2.dat */; };
+		A750681318B2956A00900A85 /* QualcommExtra2.xml in Resources */ = {isa = PBXBuildFile; fileRef = A750680F18B2956A00900A85 /* QualcommExtra2.xml */; };
 		BB16EBD20F2B2A9500518274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD10F2B2A9500518274 /* OpenGLES.framework */; };
 		BB16EBD90F2B2AB500518274 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB16EBD80F2B2AB500518274 /* QuartzCore.framework */; };
 		BB24DD8F10DA77E000E9C588 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = BB24DD8C10DA77E000E9C588 /* Default.png */; };
@@ -82,8 +84,6 @@
 		15EC4D62158327E200A77FC0 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		15EC4D64158327EE00A77FC0 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		15EC4D681583285E00A77FC0 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README.md; path = ../../../addons/ofxQCAR/README.md; sourceTree = "<group>"; };
-		15ED7E231611430900D879C2 /* Qualcomm.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Qualcomm.xml; sourceTree = "<group>"; };
-		15ED7E241611430900D879C2 /* Qualcomm.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = Qualcomm.dat; sourceTree = "<group>"; };
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D6058910D05DD3D006BFB54 /* ExtendedTracking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExtendedTracking.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -132,6 +132,10 @@
 		67EF885616AF727A000B949B /* VirtualButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualButton.h; sourceTree = "<group>"; };
 		67EF885716AF727A000B949B /* VirtualButtonResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VirtualButtonResult.h; sourceTree = "<group>"; };
 		67EF885816AFA39F000B949B /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
+		A750680C18B2956A00900A85 /* QualcommExtra1.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = QualcommExtra1.dat; sourceTree = "<group>"; };
+		A750680D18B2956A00900A85 /* QualcommExtra1.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = QualcommExtra1.xml; sourceTree = "<group>"; };
+		A750680E18B2956A00900A85 /* QualcommExtra2.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = QualcommExtra2.dat; sourceTree = "<group>"; };
+		A750680F18B2956A00900A85 /* QualcommExtra2.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = QualcommExtra2.xml; sourceTree = "<group>"; };
 		BB16EBD10F2B2A9500518274 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		BB16EBD80F2B2AB500518274 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		BB24DD8C10DA77E000E9C588 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
@@ -183,8 +187,10 @@
 		1531511C1584F349006C8A5C /* qcar_assets */ = {
 			isa = PBXGroup;
 			children = (
-				15ED7E231611430900D879C2 /* Qualcomm.xml */,
-				15ED7E241611430900D879C2 /* Qualcomm.dat */,
+				A750680C18B2956A00900A85 /* QualcommExtra1.dat */,
+				A750680D18B2956A00900A85 /* QualcommExtra1.xml */,
+				A750680E18B2956A00900A85 /* QualcommExtra2.dat */,
+				A750680F18B2956A00900A85 /* QualcommExtra2.xml */,
 				153151211584F349006C8A5C /* TextureTeapotBrass.png */,
 			);
 			path = qcar_assets;
@@ -510,10 +516,12 @@
 				E41D3ED713B38FB500A75A5D /* Project.xcconfig in Resources */,
 				E41D3EE613B3906D00A75A5D /* CoreOF.xcconfig in Resources */,
 				15EC4D691583285E00A77FC0 /* README.md in Resources */,
+				A750681318B2956A00900A85 /* QualcommExtra2.xml in Resources */,
 				153151261584F349006C8A5C /* TextureTeapotBrass.png in Resources */,
+				A750681118B2956A00900A85 /* QualcommExtra1.xml in Resources */,
+				A750681018B2956A00900A85 /* QualcommExtra1.dat in Resources */,
+				A750681218B2956A00900A85 /* QualcommExtra2.dat in Resources */,
 				15277E8E16097AA0006DAEB1 /* MyAppViewController.xib in Resources */,
-				15ED7E251611430900D879C2 /* Qualcomm.xml in Resources */,
-				15ED7E261611430900D879C2 /* Qualcomm.dat in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

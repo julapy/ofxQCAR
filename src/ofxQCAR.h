@@ -144,6 +144,7 @@ public:
     
     void startExtendedTracking();
     void stopExtendedTracking();
+    void addExtraTarget(string targetName);
     
 private:
     
