@@ -112,7 +112,8 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
             }
             
             if(trackableResult->getStatus() != TrackableResult::DETECTED &&
-               trackableResult->getStatus() != TrackableResult::TRACKED) {
+               trackableResult->getStatus() != TrackableResult::TRACKED &&
+               trackableResult->getStatus() != TrackableResult::EXTENDED_TRACKED) {
                 continue;
             }
             
@@ -463,6 +464,51 @@ void ofxQCAR::stopTracker() {
     imageTracker->stop();
 #endif
 }
+
+void ofxQCAR::startExtendedTracking() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    TrackerManager & trackerManager = TrackerManager::getInstance();
+    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
+    if(imageTracker == NULL) {
+        return;
+    }
+    DataSet * userDefDateSet = imageTracker->getActiveDataSet();;
+    if(userDefDateSet == NULL) {
+        return;
+    }
+    for (int i = 0; i < userDefDateSet->getNumTrackables(); i++)
+    {
+        QCAR::Trackable* trackable = userDefDateSet->getTrackable(i);
+        if (!trackable->startExtendedTracking()){
+            printf("Failed to start extended tracking");
+        }
+    }
+    
+    
+#endif
+}
+
+void ofxQCAR::stopExtendedTracking() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    TrackerManager & trackerManager = TrackerManager::getInstance();
+    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
+    if(imageTracker == NULL) {
+        return;
+    }
+    DataSet * userDefDateSet = imageTracker->getActiveDataSet();;
+    if(userDefDateSet == NULL) {
+        return;
+    }
+    for (int i = 0; i < userDefDateSet->getNumTrackables(); i++)
+    {
+        QCAR::Trackable* trackable = userDefDateSet->getTrackable(i);
+        if (!trackable->stopExtendedTracking()) {
+            printf("Failed to start extended tracking");
+        }
+    }
+#endif
+}
+
 
 /////////////////////////////////////////////////////////
 //  SETTERS.

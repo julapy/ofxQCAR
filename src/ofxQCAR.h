@@ -142,6 +142,9 @@ public:
     
     void setFlipY(bool b);
     
+    void startExtendedTracking();
+    void stopExtendedTracking();
+    
 private:
     
     void init();
