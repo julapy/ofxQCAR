@@ -59,7 +59,24 @@ Vec2F cameraPointToScreenPoint(Vec2F cameraPoint) {
 }
 
 class ofxQCAR_UpdateCallback : public UpdateCallback {
+    
+public:
+    
+    bool bUpdateCallbackInProgress = false;
+    bool isUpdateCallbackInProgress() {
+        return bUpdateCallbackInProgress;
+    }
+    
+    vector<ofxQCAR_Marker> markersFound;
+    vector<ofxQCAR_Marker> & getMarkersFound() {
+        return markersFound;
+    }
+    
+private:
+    
     virtual void QCAR_onUpdate(State& state) {
+        
+        bUpdateCallbackInProgress = true;
         
         ofxQCAR * qcar = ofxQCAR::getInstance();
         
@@ -101,7 +118,7 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
             }
         }
         
-        qcar->markersFound.clear();
+        markersFound.clear();
         
         int numOfTrackables = state.getNumTrackableResults();
         for(int i=0; i<numOfTrackables; ++i) {
@@ -129,8 +146,8 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
                 scaleY = config.mSize.data[0] / (float)ofGetWidth();
             }
             
-            qcar->markersFound.push_back(ofxQCAR_Marker());
-            ofxQCAR_Marker & marker = qcar->markersFound.back();
+            markersFound.push_back(ofxQCAR_Marker());
+            ofxQCAR_Marker & marker = markersFound.back();
             
             marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
             marker.modelViewMatrix.scale(scaleY, scaleX, 1);
@@ -193,6 +210,8 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
             }
             marker.markerAngleToCamera = angle;
         }
+        
+        bUpdateCallbackInProgress = false;
     }
     
 } qcarUpdate;
@@ -763,6 +782,15 @@ void ofxQCAR::setFlipY(bool b) {
 
 void ofxQCAR::update () {
     bBeginDraw = false;
+    
+    // the qcar update callback runs in a different thread.
+    // code below first checks if the update callback is progress,
+    // if not, marker data is copied from the qcarUpdate object.
+
+    if(qcarUpdate.isUpdateCallbackInProgress() == true) {
+        return;
+    }
+    markersFound = qcarUpdate.getMarkersFound();
 }
 
 /////////////////////////////////////////////////////////
@@ -784,28 +812,28 @@ void ofxQCAR::begin(unsigned int i) {
     ofPushView();
     
     // TODO!
-        // seems to me that when bFlipY is true,
-        // this is the correct convention.
-        // but all older projects have been working with bFlipY set the false.
-        // todo in the future is remove bFlipY and assume its always true.
+    // seems to me that when bFlipY is true,
+    // this is the correct convention.
+    // but all older projects have been working with bFlipY set the false.
+    // todo in the future is remove bFlipY and assume its always true.
     
-        if(bFlipY == false) {
-            ofSetOrientation(ofGetOrientation(), false);
-        }
+    if(bFlipY == false) {
+        ofSetOrientation(ofGetOrientation(), false);
+    }
     
     ofSetMatrixMode(OF_MATRIX_PROJECTION);
     ofMatrix4x4 projectionMatrix = getProjectionMatrix(i);
     if(bFlipY == true) {
-                projectionMatrix.postMultScale(ofVec3f(1, -1, 1));
-            }
+        projectionMatrix.postMultScale(ofVec3f(1, -1, 1));
+    }
     ofLoadMatrix(projectionMatrix);
     
     ofSetMatrixMode(OF_MATRIX_MODELVIEW);
     ofMatrix4x4 modelViewMatrix = getModelViewMatrix(i);
     ofLoadMatrix(modelViewMatrix);
     if(bFlipY == true) {
-                ofScale(1, -1, 1);
-            }
+        ofScale(1, -1, 1);
+    }
 }
 
 void ofxQCAR::end () {
