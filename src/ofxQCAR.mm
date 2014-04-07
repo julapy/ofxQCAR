@@ -769,6 +769,8 @@ void ofxQCAR::setFlipY(bool b) {
 
 void ofxQCAR::update () {
     bBeginDraw = false;
+
+#if !(TARGET_IPHONE_SIMULATOR)
     
     // the qcar update callback runs in a different thread.
     // code below first checks if the update callback is progress,
@@ -778,6 +780,8 @@ void ofxQCAR::update () {
         return;
     }
     markersFound = qcarUpdate.getMarkersFound();
+    
+#endif
 }
 
 /////////////////////////////////////////////////////////
