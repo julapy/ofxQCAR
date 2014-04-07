@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2010-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     Area.h
 
 @brief
     Header file for Area class.
-
 ==============================================================================*/
 
 
@@ -23,12 +22,13 @@ namespace QCAR
 {
 
 
-/// Area is the base class for 2D shapes used in QCAR
+/// Area is the base class for 2D shapes used in Vuforia
 class QCAR_API Area
 {
 public:
     enum TYPE {
         RECTANGLE,
+        RECTANGLE_INT,
         INVALID
     };
 

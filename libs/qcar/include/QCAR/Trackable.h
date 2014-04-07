@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2010-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     Trackable.h
 
 @brief
     Header file for Trackable class.
-
 ==============================================================================*/
 #ifndef _QCAR_TRACKABLE_H_
 #define _QCAR_TRACKABLE_H_
@@ -17,6 +16,7 @@
 #include <QCAR/NonCopyable.h>
 #include <QCAR/Matrices.h>
 #include <QCAR/System.h>
+#include <QCAR/Type.h>
 
 namespace QCAR
 {
@@ -24,24 +24,20 @@ namespace QCAR
 /// Base class for all objects that can be tracked.
 /**
  *  Every Trackable has a name, an id and a type.
- *  See the TYPE enum for a list of all classes that derive from Trackable.
  */
 class QCAR_API Trackable : private NonCopyable
 {
 public:
-    /// Types of Trackables
-    enum TYPE {
-        UNKNOWN_TYPE,       ///< A trackable of unknown type
-        IMAGE_TARGET,       ///< A trackable of ImageTarget type
-        MULTI_TARGET,       ///< A trackable of MultiTarget type
-        MARKER,             ///< A trackable of Marker type
-    };
-    
-    /// Returns the type of 3D object (e.g. MARKER)
-    virtual TYPE getType() const = 0;
 
-    /// Returns true if the object is of or derived of the given type
-    virtual bool isOfType(TYPE type) const = 0;
+    /// Returns the Trackable class' type
+    static Type getClassType();
+
+    /// Returns the Trackable instance's type
+    virtual Type getType() const = 0;
+
+    /// Checks whether the Trackable instance's type equals or has been
+    /// derived from a give type
+    virtual bool isOfType(Type type) const = 0;
         
     /// Returns a unique id for all 3D trackable objects
     virtual int getId() const = 0;
@@ -54,6 +50,12 @@ public:
 
     /// Returns the pointer previously set by setUserData()
     virtual void* getUserData() const = 0;
+
+    /// Starts extended tracking for this Trackable. Returns true if successful
+    virtual bool startExtendedTracking() = 0;
+
+    /// Stops extended tracking for this Trackable. Returns true if successful
+    virtual bool stopExtendedTracking() = 0;
 
     virtual ~Trackable()  {}
 };

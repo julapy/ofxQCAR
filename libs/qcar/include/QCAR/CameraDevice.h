@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2010-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     CameraDevice.h
 
 @brief
     Header file for CameraDevice class.
-
 ==============================================================================*/
 #ifndef _QCAR_CAMERADEVICE_H_
 #define _QCAR_CAMERADEVICE_H_
@@ -27,9 +26,9 @@ class QCAR_API CameraDevice : private NonCopyable
 public:
     enum MODE
     {
-        MODE_DEFAULT = -1,           ///< Default camera mode
-        MODE_OPTIMIZE_SPEED = -2,    ///< Fast camera mode
-        MODE_OPTIMIZE_QUALITY = -3   ///< High-quality camera mode
+        MODE_DEFAULT = -1,                ///< Default camera mode
+        MODE_OPTIMIZE_SPEED = -2,         ///< Fast camera mode
+        MODE_OPTIMIZE_QUALITY = -3,       ///< High-quality camera mode
     };
 
     enum FOCUS_MODE 
@@ -82,7 +81,7 @@ public:
 
     /// Returns the video mode currently selected.
     /**
-     *  If no video mode is set then QCAR chooses a video mode.
+     *  If no video mode is set then Vuforia chooses a video mode.
      */
     virtual VideoMode getVideoMode(int nIndex) = 0;
 

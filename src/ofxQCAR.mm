@@ -65,7 +65,7 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
         
         if(qcar->bSaveTarget) {
             TrackerManager & trackerManager = TrackerManager::getInstance();
-            ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
+            ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
             ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
             TrackableSource * trackableSource = targetBuilder->getTrackableSource();
             
@@ -83,7 +83,7 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
             }
         } else if(qcar->bScanTarget) {
             TrackerManager & trackerManager = TrackerManager::getInstance();
-            ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
+            ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
             ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
             ImageTargetBuilder::FRAME_QUALITY frameQuality = targetBuilder->getFrameQuality();
             
@@ -112,7 +112,8 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
             }
             
             if(trackableResult->getStatus() != TrackableResult::DETECTED &&
-               trackableResult->getStatus() != TrackableResult::TRACKED) {
+               trackableResult->getStatus() != TrackableResult::TRACKED &&
+               trackableResult->getStatus() != TrackableResult::EXTENDED_TRACKED) {
                 continue;
             }
             
@@ -141,7 +142,7 @@ class ofxQCAR_UpdateCallback : public UpdateCallback {
             
             Vec2F markerSize;
             const Trackable & trackable = trackableResult->getTrackable();
-            if(trackableResult->getType() == TrackableResult::IMAGE_TARGET_RESULT) {
+            if(trackableResult -> isOfType(ImageTarget::getClassType())){
                 ImageTarget* imageTarget = (ImageTarget *)(&trackable);
                 markerSize = imageTarget->getSize();
             }
@@ -343,7 +344,7 @@ void ofxQCAR::stopCustomTarget() {
     stopScan();
     
     TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
+    ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
     imageTracker->deactivateDataSet(imageTracker->getActiveDataSet());
     imageTracker->activateDataSet([[ofxQCAR_Utils getInstance] getDefaultDataSet]);
     
@@ -361,7 +362,7 @@ void ofxQCAR::saveCustomTarget() {
         return;
     }
     TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
+    ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
     if(imageTracker == NULL) {
         return;
     }
@@ -412,7 +413,7 @@ bool ofxQCAR::hasFoundGoodQualityTarget() {
 void ofxQCAR::startScan() {
 #if !(TARGET_IPHONE_SIMULATOR)
     TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
+    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
     if(imageTracker == NULL) {
         return;
     }
@@ -430,7 +431,7 @@ void ofxQCAR::startScan() {
 void ofxQCAR::stopScan() {
 #if !(TARGET_IPHONE_SIMULATOR)
     TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
+    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
     if(imageTracker == NULL) {
         return;
     }
@@ -445,7 +446,7 @@ void ofxQCAR::stopScan() {
 void ofxQCAR::startTracker() {
 #if !(TARGET_IPHONE_SIMULATOR)
     TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
+    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
     if(imageTracker == NULL) {
         return;
     }
@@ -456,13 +457,97 @@ void ofxQCAR::startTracker() {
 void ofxQCAR::stopTracker() {
 #if !(TARGET_IPHONE_SIMULATOR)
     TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(Tracker::IMAGE_TRACKER));
+    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
     if(imageTracker == NULL) {
         return;
     }
     imageTracker->stop();
 #endif
 }
+
+void ofxQCAR::startExtendedTracking() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    TrackerManager & trackerManager = TrackerManager::getInstance();
+    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
+    if(imageTracker == NULL) {
+        return;
+    }
+    DataSet * userDefDateSet = imageTracker->getActiveDataSet();;
+    if(userDefDateSet == NULL) {
+        return;
+    }
+    for (int i = 0; i < userDefDateSet->getNumTrackables(); i++)
+    {
+        QCAR::Trackable* trackable = userDefDateSet->getTrackable(i);
+        if (!trackable->startExtendedTracking()){
+            NSLog(@"Failed to start extended tracking");
+        }
+    }
+#endif
+}
+
+void ofxQCAR::addExtraTarget(string targetName) {
+#if !(TARGET_IPHONE_SIMULATOR)
+    TrackerManager & trackerManager = TrackerManager::getInstance();
+    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
+    
+    if (imageTracker == NULL)
+    {
+        NSLog(@"Failed to load tracking data set because the ImageTracker has"
+              " not been initialized.");
+         return;
+    }
+    // Create the data sets:
+    DataSet *  extraset = imageTracker->createDataSet();
+    if (extraset == 0)
+    {
+        NSLog(@"Failed to create a new tracking data.");
+         return;
+        
+    }
+    // Load the data sets:
+    if (!extraset->load(targetName.c_str(), QCAR::DataSet::STORAGE_APPRESOURCE))
+    {
+        NSLog(@"Failed to load data set.");
+         return;
+    }
+   
+    // Activate the data set:
+    if (!imageTracker->activateDataSet(extraset))
+    {
+        NSLog(@"Failed to activate data set.");
+         return;
+    }
+   
+    
+    
+    NSLog(@"New dataset active. Active datasets: %d", imageTracker->getActiveDataSetCount());
+
+    
+#endif
+}
+
+void ofxQCAR::stopExtendedTracking() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    TrackerManager & trackerManager = TrackerManager::getInstance();
+    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
+    if(imageTracker == NULL) {
+        return;
+    }
+    DataSet * userDefDateSet = imageTracker->getActiveDataSet();;
+    if(userDefDateSet == NULL) {
+        return;
+    }
+    for (int i = 0; i < userDefDateSet->getNumTrackables(); i++)
+    {
+        QCAR::Trackable* trackable = userDefDateSet->getTrackable(i);
+        if (!trackable->stopExtendedTracking()) {
+            printf("Failed to start extended tracking");
+        }
+    }
+#endif
+}
+
 
 /////////////////////////////////////////////////////////
 //  SETTERS.
@@ -699,29 +784,28 @@ void ofxQCAR::begin(unsigned int i) {
     ofPushView();
     
     // TODO!
-    // seems to me that when bFlipY is true,
-    // this is the correct convention.
-    // but all older projects have been working with bFlipY set the false.
-    // todo in the future is remove bFlipY and assume its always true.
+        // seems to me that when bFlipY is true,
+        // this is the correct convention.
+        // but all older projects have been working with bFlipY set the false.
+        // todo in the future is remove bFlipY and assume its always true.
     
-    if(bFlipY == false) {
-        ofSetOrientation(ofGetOrientation(), false);
-    }
+        if(bFlipY == false) {
+            ofSetOrientation(ofGetOrientation(), false);
+        }
     
     ofSetMatrixMode(OF_MATRIX_PROJECTION);
     ofMatrix4x4 projectionMatrix = getProjectionMatrix(i);
     if(bFlipY == true) {
-        projectionMatrix.postMultScale(ofVec3f(1, -1, 1));
-    }
+                projectionMatrix.postMultScale(ofVec3f(1, -1, 1));
+            }
     ofLoadMatrix(projectionMatrix);
     
     ofSetMatrixMode(OF_MATRIX_MODELVIEW);
     ofMatrix4x4 modelViewMatrix = getModelViewMatrix(i);
     ofLoadMatrix(modelViewMatrix);
-
     if(bFlipY == true) {
-        ofScale(1, -1, 1);
-    }
+                ofScale(1, -1, 1);
+            }
 }
 
 void ofxQCAR::end () {

@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2010-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     ImageTarget.h
 
 @brief
     Header file for ImageTarget class.
-
 ==============================================================================*/
 #ifndef _QCAR_IMAGETARGET_H_
 #define _QCAR_IMAGETARGET_H_
@@ -34,13 +33,16 @@ class QCAR_API ImageTarget : public Trackable
 {
 public:
 
+    /// Returns the Trackable class' type
+    static Type getClassType();
+
     /// Returns the system-wide unique id of the target.
     /**
      *  The target id uniquely identifies an ImageTarget across multiple
-     *  QCAR sessions. The system wide unique id may be generated off-line.
+     *  Vuforia sessions. The system wide unique id may be generated off-line.
      *  This is opposed to the function getId() which is a dynamically
      *  generated id and which uniquely identifies a Trackable within one run
-     *  of QCAR only.
+     *  of Vuforia only.
      */
     virtual const char* getUniqueTargetId() const = 0;
 

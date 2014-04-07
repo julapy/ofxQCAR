@@ -13,6 +13,7 @@
 #import <QCAR/Tracker.h>
 #import <QCAR/TrackerManager.h>
 #import <QCAR/ImageTracker.h>
+#import <QCAR/MultiTarget.h>
 #import <QCAR/MarkerTracker.h>
 #import <QCAR/VideoBackgroundConfig.h>
 
@@ -478,7 +479,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     if (targetType != TYPE_FRAMEMARKERS)
     {
         // Image Tracker...
-        QCAR::Tracker* trackerBase = trackerManager.initTracker(QCAR::Tracker::IMAGE_TRACKER);
+        QCAR::Tracker* trackerBase = trackerManager.initTracker(QCAR::ImageTracker::getClassType());
         if (trackerBase == NULL)
         {
             NSLog(@"Failed to initialize ImageTracker.");
@@ -492,7 +493,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     else
     {
         // Marker Tracker...
-        QCAR::Tracker* trackerBase = trackerManager.initTracker(QCAR::Tracker::MARKER_TRACKER);
+        QCAR::Tracker* trackerBase = trackerManager.initTracker(QCAR::ImageTracker::getClassType());
         if (trackerBase == NULL)
         {
             NSLog(@"Failed to initialize MarkerTracker.");
@@ -577,7 +578,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     
     //------------------------------------------------------------------ create a user defined data set.
     QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::ImageTracker::getClassType()));
     if(imageTracker != nil) {
         userDefDataSet = imageTracker->createDataSet();
     }
@@ -607,8 +608,8 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
             // Start the tracker
             QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
             QCAR::Tracker* tracker = trackerManager.getTracker(targetType == TYPE_FRAMEMARKERS ?
-                                                               QCAR::Tracker::MARKER_TRACKER :
-                                                               QCAR::Tracker::IMAGE_TRACKER);
+                                                               QCAR::MarkerTracker::getClassType() :
+                                                               QCAR::ImageTracker::getClassType());
             if(tracker != 0)
                 tracker->start();
             
@@ -631,8 +632,8 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     // Stop the tracker:
     QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
     QCAR::Tracker* tracker = trackerManager.getTracker(targetType == TYPE_FRAMEMARKERS ?
-                                                       QCAR::Tracker::MARKER_TRACKER :
-                                                       QCAR::Tracker::IMAGE_TRACKER);
+                                                       QCAR::MarkerTracker::getClassType() :
+                                                       QCAR::ImageTracker::getClassType());
     if(tracker != 0)
         tracker->stop();
     
@@ -745,7 +746,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     
     // Get the image tracker:
     QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::ImageTracker::getClassType()));
     
     if (imageTracker == NULL)
     {
@@ -791,7 +792,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     
     // Get the image tracker:
     QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::ImageTracker::getClassType()));
     
     if (imageTracker == NULL)
     {
@@ -863,7 +864,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     
     // Get the image tracker:
     QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::ImageTracker::getClassType()));
     
     if (imageTracker == NULL)
     {
@@ -901,7 +902,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     
     // Get the image tracker:
     QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::ImageTracker::getClassType()));
     
     if (imageTracker == NULL) {
         NSLog(@"Failed to load tracking data set because the ImageTracker has not been initialized.");
@@ -930,7 +931,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
 
 - (void) allowDataSetModification
 {
-    QCAR::ImageTracker* it = reinterpret_cast<QCAR::ImageTracker*>(QCAR::TrackerManager::getInstance().getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    QCAR::ImageTracker* it = reinterpret_cast<QCAR::ImageTracker*>(QCAR::TrackerManager::getInstance().getTracker(QCAR::ImageTracker::getClassType()));
     
     // Deactivate the data set prior to reconfiguration:
     it->deactivateDataSet(currentDataSet);
@@ -939,7 +940,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
 
 - (void) saveDataSetModifications
 {
-    QCAR::ImageTracker* it = reinterpret_cast<QCAR::ImageTracker*>(QCAR::TrackerManager::getInstance().getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    QCAR::ImageTracker* it = reinterpret_cast<QCAR::ImageTracker*>(QCAR::TrackerManager::getInstance().getTracker(QCAR::ImageTracker::getClassType()));
     
     // Deactivate the data set prior to reconfiguration:
     it->activateDataSet(currentDataSet);
@@ -949,7 +950,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     BOOL success = NO;
     // Get the image tracker:
     QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::ImageTracker::getClassType()));
     if (imageTracker == NULL)
     {
         NSLog(@"Failed to destroy the tracking data set because the ImageTracker has not been initialized.");
@@ -994,13 +995,13 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
 {
     QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
     QCAR::ImageTracker* imageTracker = (QCAR::ImageTracker*)
-    trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER);
+    trackerManager.getTracker(QCAR::ImageTracker::getClassType());
     
     if (imageTracker != nil || currentDataSet == nil)
     {
         for(int i=0; i<currentDataSet->getNumTrackables(); i++)
         {
-            if(currentDataSet->getTrackable(i)->getType()==QCAR::Trackable::IMAGE_TARGET)
+            if(currentDataSet->getTrackable(i)->isOfType(QCAR::ImageTarget::getClassType()))
             {
                 if(!strcmp(currentDataSet->getTrackable(i)->getName(),name))
                     return reinterpret_cast<QCAR::ImageTarget*>(currentDataSet->getTrackable(i));
@@ -1017,7 +1018,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
 {
     QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
     QCAR::ImageTracker* imageTracker = (QCAR::ImageTracker*)
-    trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER);
+    trackerManager.getTracker(QCAR::ImageTracker::getClassType());
     QCAR::MultiTarget *mit = NULL;
     
     if (imageTracker == nil || currentDataSet == nil)
@@ -1027,7 +1028,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
     //
     for(int i=0; i<currentDataSet->getNumTrackables(); i++)
     {
-        if(currentDataSet->getTrackable(i)->getType()==QCAR::Trackable::MULTI_TARGET)
+        if(currentDataSet->getTrackable(i)->isOfType(QCAR::MultiTarget::getClassType()))
         {
             NSLog(@"MultiTarget exists -> no need to create one");
             mit = reinterpret_cast<QCAR::MultiTarget*>(currentDataSet->getTrackable(i));
@@ -1062,7 +1063,7 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
         QCAR::Trackable* trackable = currentDataSet->getTrackable(itemNo);
         
         assert(trackable);
-        assert(trackable->getType() == QCAR::Trackable::IMAGE_TARGET);
+        assert(trackable->getType().isOfType(QCAR::ImageTarget::getClassType()));
         return static_cast<QCAR::ImageTarget*>(trackable);
     }
     

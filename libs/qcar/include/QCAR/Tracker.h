@@ -1,20 +1,20 @@
 /*==============================================================================
-            Copyright (c) 2010-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     Tracker.h
 
 @brief
     Header file for Tracker class.
-
 ==============================================================================*/
 #ifndef _QCAR_TRACKER_H_
 #define _QCAR_TRACKER_H_
 
 // Include files
 #include <QCAR/NonCopyable.h>
+#include <QCAR/Type.h>
 
 namespace QCAR
 {
@@ -23,20 +23,20 @@ namespace QCAR
 /**
  *  The class exposes generic functionality for starting and stopping a
  *  given Tracker as well as querying the tracker type.
- *  See the TYPE enum for a list of all classes that derive from Tracker.
  */
 class QCAR_API Tracker : private NonCopyable
 {
 public:
 
-    /// Enumeration of the different tracker types
-    enum TYPE {
-        IMAGE_TRACKER,      ///< Tracks ImageTargets and MultiTargets.
-        MARKER_TRACKER,     ///< Tracks Markers.
-    };
+    /// Returns the Tracker class' type
+    static Type getClassType();
 
-    /// Returns the tracker type
-    virtual TYPE getType() = 0;
+    /// Returns the Tracker instance's type
+    virtual Type getType() const = 0;
+
+    /// Checks whether the Tracker instance's type equals or has been
+    /// derived from a give type
+    virtual bool isOfType(Type type) const = 0;
 
     /// Starts the Tracker
     virtual bool start() = 0;

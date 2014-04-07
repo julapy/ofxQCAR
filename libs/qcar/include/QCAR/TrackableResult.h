@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2012-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2012-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     TrackableResult.h
 
 @brief
     Header file for TrackableResult class.
-
 ==============================================================================*/
 #ifndef _QCAR_TRACKABLERESULT_H_
 #define _QCAR_TRACKABLERESULT_H_
@@ -27,18 +26,20 @@ namespace QCAR
  *  A TrackableResult is an object that represents the state of a Trackable
  *  which was found in a given frame. Every TrackableResult has a corresponding
  *  Trackable, a type, a 6DOF pose and a status (e.g. tracked).
- *  See the TYPE enum for a list of all classes that derive from TrackableResult.
  */
 class QCAR_API TrackableResult : private NonCopyable
 {
 public:
-    /// Types of TrackableResults
-    enum TYPE {
-        UNKNOWN_TYPE,           ///< A TrackableResult of unknown type
-        IMAGE_TARGET_RESULT,    ///< A TrackableResult of ImageTargetResult type
-        MULTI_TARGET_RESULT,    ///< A TrackableResult of MultiTargetResult type
-        MARKER_RESULT,          ///< A TrackableResult of MarkerResult type
-    };
+
+    /// Returns the TrackableResult class' type
+    static Type getClassType();
+
+    /// Returns the TrackableResult instance's type
+    virtual Type getType() const = 0;
+
+    /// Checks whether the TrackableResult instance's type equals or has been
+    /// derived from a give type
+    virtual bool isOfType(Type type) const = 0;
 
     /// Status of a TrackableResults
     enum STATUS {
@@ -46,14 +47,9 @@ public:
         UNDEFINED,          ///< The state of the TrackableResult is not defined
                             ///< (this TrackableResult does not have a state)
         DETECTED,           ///< The TrackableResult was detected
-        TRACKED             ///< The TrackableResult was tracked
+        TRACKED,            ///< The TrackableResult was tracked
+        EXTENDED_TRACKED    ///< The Trackable Result was extended tracked
     };
-
-    /// Returns the type of this result. (e.g. MARKER_RESULT)
-    virtual TYPE getType() const = 0;
-
-    /// Returns true if the object is of or derived of the given type
-    virtual bool isOfType(TYPE type) const = 0;
 
     /// Returns the tracking status
     virtual STATUS getStatus() const = 0;

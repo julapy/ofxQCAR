@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2012-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2012-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     MultiTargetResult.h
 
 @brief
     Header file for MultiTargetResult class.
-
 ==============================================================================*/
 #ifndef _QCAR_MULTITARGETRESULT_H_
 #define _QCAR_MULTITARGETRESULT_H_
@@ -24,6 +23,9 @@ namespace QCAR
 class QCAR_API MultiTargetResult : public TrackableResult
 {
 public:
+
+    /// Returns the TrackableResult class' type
+    static Type getClassType();
 
     /// Returns the corresponding Trackable that this result represents
     virtual const MultiTarget& getTrackable() const = 0;

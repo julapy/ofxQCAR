@@ -1,14 +1,13 @@
 /*==============================================================================
-            Copyright (c) 2010-2013 QUALCOMM Austria Research Center GmbH.
-            All Rights Reserved.
-            Qualcomm Confidential and Proprietary
-            
+Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
+All Rights Reserved.
+Proprietary - Qualcomm Connected Experiences, Inc.
+
 @file 
     Renderer.h
 
 @brief
     Header file for Renderer class.
-
 ==============================================================================*/
 #ifndef _QCAR_RENDERER_H_
 #define _QCAR_RENDERER_H_
@@ -45,6 +44,10 @@ public:
     /// State object.
     virtual State begin() = 0;
 
+    /// Marks the beginning of rendering for the given frame. Use this to draw a
+    /// specific camera frame, rather than the latest available one.
+    virtual void begin(State state) = 0;
+
     /// Draws the video background
     /// This should only be called between a begin() and end() calls
     virtual bool drawVideoBackground() = 0;
@@ -67,7 +70,7 @@ public:
     virtual const VideoBackgroundTextureInfo& 
                                       getVideoBackgroundTextureInfo() = 0;
 
-    /// Tells QCAR where the texture id to use for updating video
+    /// Tells Vuforia where the texture id to use for updating video
     /// background data
     virtual bool setVideoBackgroundTextureID(int textureID) = 0;
 
