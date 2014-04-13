@@ -743,6 +743,54 @@ ofVec2f ofxQCAR::point3DToScreen2D(ofVec3f point, unsigned int i) {
 #endif
 }
 
+ofVec2f ofxQCAR::screenPointToMarkerPoint(ofVec2f screenPoint, unsigned int i) {
+    
+#if !(TARGET_IPHONE_SIMULATOR)
+    if(i < numOfMarkersFound()) {
+        
+        ofxQCAR_Marker & marker = markersFound[i];
+        
+        float x = ofMap(screenPoint.x, 0, ofGetWidth(), -1.0, 1.0);
+        float y = ofMap(screenPoint.y, 0, ofGetHeight(), 1.0, -1.0);
+
+        ofVec3f ndcNear(x, y, -1);
+        ofVec3f ndcFar(x, y, 1);
+        
+        ofMatrix4x4 inverseProjMatrix = marker.projectionMatrix.getInverse();
+        ofVec3f pointOnNearPlane = inverseProjMatrix.preMult(ndcNear);
+        ofVec3f pointOnFarPlane = inverseProjMatrix.preMult(ndcFar);
+        
+        ofMatrix4x4 inverseModelViewMatrix = marker.modelViewMatrix.getInverse();
+        ofVec3f lineStart = inverseModelViewMatrix.preMult(pointOnNearPlane);
+        ofVec3f lineEnd = inverseModelViewMatrix.preMult(pointOnFarPlane);
+        ofVec3f lineDir = (lineEnd - lineStart).getNormalized();
+
+        ofVec3f planeCenter(0, 0, 0);
+        ofVec3f planeNormal(0, 0, 1);
+        ofVec3f planeDir = planeCenter - lineStart;
+
+        float n = planeNormal.dot(planeDir);
+        float d = planeNormal.dot(lineDir);
+        
+        if(fabs(d) < 0.00001) {
+            // Line is parallel to plane
+            return ofVec2f();
+        }
+        
+        float dist = n / d;
+        ofVec3f offset = lineDir * dist;
+        ofVec3f intersection = lineStart + offset;
+        
+        return ofVec2f(intersection.x, intersection.y);
+        
+    } else {
+        return ofVec2f();
+    }
+#else
+    return ofVec2f();
+#endif
+}
+
 void ofxQCAR::setCameraPixelsFlag(bool b) {
     bUpdateCameraPixels = b;
 }

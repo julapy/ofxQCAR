@@ -142,6 +142,7 @@ public:
     string      getMarkerName(unsigned int markerIndex=0);
     
     ofVec2f point3DToScreen2D(ofVec3f point, unsigned int markerIndex=0);
+    ofVec2f screenPointToMarkerPoint(ofVec2f screenPoint, unsigned int markerIndex=0);
     
     void setCameraPixelsFlag(bool b);
     int getCameraWidth();

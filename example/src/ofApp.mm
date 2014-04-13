@@ -1,7 +1,7 @@
-#include "testApp.h"
+#include "ofApp.h"
 
 //--------------------------------------------------------------
-void testApp::setup(){	
+void ofApp::setup(){
 	ofBackground(0);
     ofSetOrientation(OF_ORIENTATION_DEFAULT);
     
@@ -18,12 +18,12 @@ void testApp::setup(){
 }
 
 //--------------------------------------------------------------
-void testApp::update(){
+void ofApp::update(){
     ofxQCAR::getInstance()->update();
 }
 
 //--------------------------------------------------------------
-void testApp::draw(){
+void ofApp::draw(){
     ofxQCAR * qcar = ofxQCAR::getInstance();
     qcar->draw();
     
@@ -63,12 +63,30 @@ void testApp::draw(){
         
         qcar->begin();
         teapotImage.getTextureReference().bind();
+        ofSetColor(255, 230);
         ofScale(3, 3, 3);
         ofDrawTeapot();
+        ofSetColor(255);
         teapotImage.getTextureReference().unbind();
         qcar->end();
         
         ofDisableNormalizedTexCoords();
+        
+        qcar->begin();
+        ofNoFill();
+        ofSetColor(255, 0, 0, 200);
+        ofSetLineWidth(6);
+        float radius = 20;
+        ofPushMatrix();
+        ofTranslate(markerPoint.x, markerPoint.y);
+        ofCircle(0, 0, radius);
+        ofLine(-radius, 0, radius, 0);
+        ofLine(0, -radius, 0, radius);
+        ofPopMatrix();
+        ofFill();
+        ofSetColor(255);
+        ofSetLineWidth(1);
+        qcar->end();
     }
     
     ofDisableDepthTest();
@@ -113,52 +131,55 @@ void testApp::draw(){
 }
 
 //--------------------------------------------------------------
-void testApp::exit(){
+void ofApp::exit(){
     ofxQCAR::getInstance()->exit();
 }
 
 //--------------------------------------------------------------
-void testApp::touchDown(ofTouchEventArgs & touch){
+void ofApp::touchDown(ofTouchEventArgs & touch){
     touchPoint.set(touch.x, touch.y);
+    markerPoint = ofxQCAR::getInstance()->screenPointToMarkerPoint(ofVec2f(touch.x, touch.y));
 }
 
 //--------------------------------------------------------------
-void testApp::touchMoved(ofTouchEventArgs & touch){
+void ofApp::touchMoved(ofTouchEventArgs & touch){
     touchPoint.set(touch.x, touch.y);
+    markerPoint = ofxQCAR::getInstance()->screenPointToMarkerPoint(ofVec2f(touch.x, touch.y));
 }
 
 //--------------------------------------------------------------
-void testApp::touchUp(ofTouchEventArgs & touch){
+void ofApp::touchUp(ofTouchEventArgs & touch){
     touchPoint.set(-1, -1);
+    markerPoint = ofxQCAR::getInstance()->screenPointToMarkerPoint(ofVec2f(touch.x, touch.y));
 }
 
 //--------------------------------------------------------------
-void testApp::touchDoubleTap(ofTouchEventArgs & touch){
+void ofApp::touchDoubleTap(ofTouchEventArgs & touch){
 
 }
 
 //--------------------------------------------------------------
-void testApp::touchCancelled(ofTouchEventArgs & touch){
+void ofApp::touchCancelled(ofTouchEventArgs & touch){
     
 }
 
 //--------------------------------------------------------------
-void testApp::lostFocus(){
+void ofApp::lostFocus(){
 
 }
 
 //--------------------------------------------------------------
-void testApp::gotFocus(){
+void ofApp::gotFocus(){
 
 }
 
 //--------------------------------------------------------------
-void testApp::gotMemoryWarning(){
+void ofApp::gotMemoryWarning(){
 
 }
 
 //--------------------------------------------------------------
-void testApp::deviceOrientationChanged(int newOrientation){
+void ofApp::deviceOrientationChanged(int newOrientation){
 
 }
 
