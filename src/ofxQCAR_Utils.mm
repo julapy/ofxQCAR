@@ -138,11 +138,12 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
 }
 
 
-- (void) addTargetName:(NSString *)theName atPath:(NSString *)thePath
-{
-    DataSetItem *dataSet = [[DataSetItem alloc] initWithName:theName andPath:thePath];
-    if (dataSet != nil)
-        [targetsList addObject:dataSet];
+- (void)addTargetName:(NSString *)theName atPath:(NSString *)thePath {
+    DataSetItem * dataSet = [[DataSetItem alloc] initWithName:theName andPath:thePath];
+    if(dataSet == nil) {
+        return;
+    }
+    [targetsList addObject:dataSet];
     [dataSet release];
 }
 
@@ -229,31 +230,24 @@ static ofxQCAR_Utils *qUtils = nil; // singleton class
 {
     NSLog(@"QCARutils onDestroy()");
     
-    // Deinitialise QCAR SDK
-    if (appStatus != APPSTATUS_UNINITED)
-    {
-        if(userDefDataSet != nil) {
-            [self unloadUserDefinedTargets];
-        } else {
-            // deactivate the dataset and unload any pre-loaded datasets
-            [self deactivateDataSet:currentDataSet];
-            
-            if (targetType != TYPE_FRAMEMARKERS)
-            {
-                // Unload all the requested datasets
-                for (DataSetItem *aDataSet in targetsList)
-                {
-                    if (aDataSet.dataSet != nil)
-                    {
-                        [self unloadDataSet:aDataSet.dataSet];
-                        aDataSet.dataSet = nil;
-                    }
-                }
-            }
-        }
-        
-        QCAR::deinit();
+    if(appStatus == APPSTATUS_UNINITED) {
+        return;
     }
+    
+    [self deactivateDataSet:currentDataSet];
+    
+    if(targetType != TYPE_FRAMEMARKERS) {
+        for(DataSetItem * aDataSet in targetsList) {
+            [self unloadDataSet:aDataSet.dataSet];
+        }
+        [targetsList removeAllObjects];
+    }
+    
+    if(userDefDataSet != nil) {
+        [self unloadUserDefinedTargets];
+    }
+    
+    QCAR::deinit();
     
     appStatus = APPSTATUS_UNINITED;
 }
