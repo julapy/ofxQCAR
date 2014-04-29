@@ -159,7 +159,7 @@ private:
             
             Vec2F markerSize;
             const Trackable & trackable = trackableResult->getTrackable();
-            if(trackableResult -> isOfType(ImageTarget::getClassType())){
+            if(trackable.isOfType(ImageTarget::getClassType())){
                 ImageTarget* imageTarget = (ImageTarget *)(&trackable);
                 markerSize = imageTarget->getSize();
             }
