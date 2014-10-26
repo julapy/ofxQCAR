@@ -935,7 +935,7 @@ void ofxQCAR::draw() {
     
     if([ofxQCAR_Utils getInstance].QCARFlags & QCAR::GL_20) {
         ofGLProgrammableRenderer * renderer = (ofGLProgrammableRenderer *)ofGetCurrentRenderer().get();
-        ofShader & currentShader = renderer->getCurrentShader();
+        const ofShader & currentShader = renderer->getCurrentShader();
         currentShader.begin();
     }
     
