@@ -202,7 +202,7 @@ private:
             projectedDirectionToTarget.normalize();
             ofVec3f markerForward(0.0f, 1.0f, 0.0f);
             float dot = projectedDirectionToTarget.dot(markerForward);
-            ofVec3f cross = projectedDirectionToTarget.crossed(markerForward);
+            ofVec3f cross = projectedDirectionToTarget.getCrossed(markerForward);
             float angle = acos(dot);
             angle *= 180.0f / PI;
             if(cross.z > 0) {
@@ -955,23 +955,23 @@ void ofxQCAR::drawMarkerRect(unsigned int i) {
 
     float markerW = getMarkerRect(i).width;
     float markerH = getMarkerRect(i).height;
-    ofRect(-markerW * 0.5,
-           -markerH * 0.5,
-           markerW,
-           markerH);
+    ofDrawRectangle(-markerW * 0.5,
+                    -markerH * 0.5,
+                    markerW,
+                    markerH);
     
     end();
 }
 
 void ofxQCAR::drawMarkerCenter(unsigned int i) {
     const ofVec2f& markerCenter = getMarkerCenter(i);
-    ofCircle(markerCenter.x, markerCenter.y, 4);
+    ofDrawCircle(markerCenter.x, markerCenter.y, 4);
 }
 
 void ofxQCAR::drawMarkerCorners(unsigned int j) {
     for(int i=0; i<4; i++) {
         const ofVec2f& markerCorner = getMarkerCorner((ofxQCAR_MarkerCorner)i, j);
-        ofCircle(markerCorner.x, markerCorner.y, 4);
+        ofDrawCircle(markerCorner.x, markerCorner.y, 4);
     }
 }
 
@@ -981,7 +981,7 @@ void ofxQCAR::drawMarkerBounds(unsigned int k) {
         const ofVec2f& mc1 = getMarkerCorner((ofxQCAR_MarkerCorner)i, k);
         const ofVec2f& mc2 = getMarkerCorner((ofxQCAR_MarkerCorner)j, k);
         
-        ofLine(mc1.x, mc1.y, mc2.x, mc2.y);
+        ofDrawLine(mc1.x, mc1.y, mc2.x, mc2.y);
     }
 }
 

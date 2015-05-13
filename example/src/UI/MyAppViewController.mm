@@ -39,9 +39,9 @@
     }
     
     ofxQCAR_ViewController * viewController;
-    if(UIInterfaceOrientationIsPortrait(orientation)) {
+    if((orientation) == UIInterfaceOrientationPortrait || (orientation) == UIInterfaceOrientationPortraitUpsideDown) {
         viewController = [[[ofxQCAR_ViewController alloc] initWithAppInPortraitMode:new ofApp()] autorelease];
-    } else if(UIInterfaceOrientationIsLandscape(orientation)) {
+    } else if((orientation) == UIInterfaceOrientationLandscapeLeft || (orientation) == UIInterfaceOrientationLandscapeRight) {
         viewController = [[[ofxQCAR_ViewController alloc] initWithAppInLandscapeMode:new ofApp()] autorelease];
     }
 
