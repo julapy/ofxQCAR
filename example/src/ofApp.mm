@@ -5,7 +5,7 @@ void ofApp::setup(){
 	ofBackground(0);
     ofSetOrientation(OF_ORIENTATION_DEFAULT);
     
-    teapotImage.loadImage("qcar_assets/TextureTeapotBrass.png");
+    teapotImage.load("qcar_assets/TextureTeapotBrass.png");
     teapotImage.mirror(true, false);  //-- flip texture vertically since the texture coords are set that way on the teapot.
     
     touchPoint.x = touchPoint.y = -1;
@@ -62,12 +62,12 @@ void ofApp::draw(){
         ofEnableNormalizedTexCoords();
         
         qcar->begin();
-        teapotImage.getTextureReference().bind();
+        teapotImage.getTexture().bind();
         ofSetColor(255, 230);
         ofScale(3, 3, 3);
         ofDrawTeapot();
         ofSetColor(255);
-        teapotImage.getTextureReference().unbind();
+        teapotImage.getTexture().unbind();
         qcar->end();
         
         ofDisableNormalizedTexCoords();
@@ -79,9 +79,9 @@ void ofApp::draw(){
         float radius = 20;
         ofPushMatrix();
         ofTranslate(markerPoint.x, markerPoint.y);
-        ofCircle(0, 0, radius);
-        ofLine(-radius, 0, radius, 0);
-        ofLine(0, -radius, 0, radius);
+        ofDrawCircle(0, 0, radius);
+        ofDrawLine(-radius, 0, radius, 0);
+        ofDrawLine(0, -radius, 0, radius);
         ofPopMatrix();
         ofFill();
         ofSetColor(255);
@@ -118,7 +118,7 @@ void ofApp::draw(){
         ofSetColor(ofColor::white);
         ofNoFill();
         ofSetLineWidth(3);
-        ofRect(cameraX, cameraY, cameraW, cameraH);
+        ofDrawRectangle(cameraX, cameraY, cameraW, cameraH);
         ofPopStyle();
     }
     
