@@ -1,14 +1,15 @@
-/*==============================================================================
-Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2010-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     Renderer.h
 
 @brief
     Header file for Renderer class.
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_RENDERER_H_
 #define _QCAR_RENDERER_H_
 

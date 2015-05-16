@@ -1,19 +1,20 @@
-/*==============================================================================
-Copyright (c) 2012-2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2012-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     ImageTargetResult.h
 
 @brief
     Header file for ImageTargetResult class.
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_IMAGETARGETRESULT_H_
 #define _QCAR_IMAGETARGETRESULT_H_
 
 // Include files
-#include <QCAR/TrackableResult.h>
+#include <QCAR/ObjectTargetResult.h>
 #include <QCAR/ImageTarget.h>
 
 namespace QCAR
@@ -23,7 +24,7 @@ namespace QCAR
 class VirtualButtonResult;
 
 /// Result for an ImageTarget.
-class QCAR_API ImageTargetResult : public TrackableResult
+class QCAR_API ImageTargetResult : public ObjectTargetResult
 {
 public:
 

@@ -1,14 +1,15 @@
-/*==============================================================================
-Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2010-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     Trackable.h
 
 @brief
     Header file for Trackable class.
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_TRACKABLE_H_
 #define _QCAR_TRACKABLE_H_
 
@@ -56,6 +57,9 @@ public:
 
     /// Stops extended tracking for this Trackable. Returns true if successful
     virtual bool stopExtendedTracking() = 0;
+
+    /// Returns true if extended tracking has been enabled, false otherwise.
+    virtual bool isExtendedTrackingStarted() const = 0;
 
     virtual ~Trackable()  {}
 };

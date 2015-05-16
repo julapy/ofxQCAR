@@ -1,24 +1,22 @@
-/*==============================================================================
-Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2010-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     Rectangle.h
 
 @brief
     Header file for Rectangle class.
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_RECTANGLE_H_
 #define _QCAR_RECTANGLE_H_
 
-
 #include <QCAR/Area.h>
-
 
 namespace QCAR
 {
-
 
 /// Rectangle defines a 2D rectangular area
 class QCAR_API Rectangle : public Area

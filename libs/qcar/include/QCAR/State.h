@@ -1,14 +1,15 @@
-/*==============================================================================
-Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2010-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     State.h
 
 @brief
     Header file for State class.
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_STATE_H_
 #define _QCAR_STATE_H_
 
@@ -76,7 +77,7 @@ public:
      *  object is valid. Do not keep a copy of the pointer!
      */
     const TrackableResult* getTrackableResult(int idx) const;
-    
+
 protected:
     StateData* mData;
 

@@ -1,35 +1,36 @@
-/*==============================================================================
-Copyright (c) 2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2013-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     Obb2d.h
 
 @brief
     Header file for Obb2d class.
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_OBB2D_H_
 #define _QCAR_OBB2D_H_
-
 
 #include <QCAR/QCAR.h>
 #include <QCAR/Vectors.h>
 
-
 namespace QCAR
 {
-
 
 /// An Obb2D represents a 2D oriented bounding box
 class QCAR_API Obb2D
 {
 public:
 
+    /// Constructor.
     Obb2D();
 
+    /// Copy constructor.
     Obb2D(const Obb2D& other);
 
+    /// Construct from center, half extents and rotation.
     Obb2D(const Vec2F& nCenter, const Vec2F& nHalfExtents,
         float nRotation);
 

@@ -1,14 +1,15 @@
-/*==============================================================================
-Copyright (c) 2012-2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2012-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     TargetSearchResult.h
 
 @brief
     Header file for TargetSearchResult class.
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_TARGET_SEARCH_RESULT_H_
 #define _QCAR_TARGET_SEARCH_RESULT_H_
 

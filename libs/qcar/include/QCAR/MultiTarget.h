@@ -1,19 +1,21 @@
-/*==============================================================================
-Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2010-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     MultiTarget.h
 
 @brief
     Header file for MultiTarget class.
-==============================================================================*/
-#ifndef _QCAR_MULTITARGETHEADERFILE__
-#define _QCAR_MULTITARGETHEADERFILE__
+===============================================================================*/
+#ifndef _QCAR_MULTITARGET_H_
+#define _QCAR_MULTITARGET_H_
 
 // Include files
 #include <QCAR/Trackable.h>
+#include <QCAR/ObjectTarget.h>
 #include <QCAR/Matrices.h>
 #include <QCAR/Trackable.h>
 
@@ -29,7 +31,7 @@ struct Matrix34F;
  *  corresponding DataSet is active. The dataset must be deactivated first
  *  before reconfiguring a MultiTarget.
  */
-class QCAR_API MultiTarget : public Trackable
+class QCAR_API MultiTarget : public ObjectTarget
 {
 public:
 
@@ -102,4 +104,4 @@ public:
 
 } // namespace QCAR
 
-#endif //_QCAR_MULTITARGETHEADERFILE__
+#endif //_QCAR_MULTITARGET_H_

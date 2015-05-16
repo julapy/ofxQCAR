@@ -1,14 +1,15 @@
-/*==============================================================================
-Copyright (c) 2010-2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2010-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     Tool.h
 
 @brief
     Header file for global Tool functions.
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_TOOL_H_
 #define _QCAR_TOOL_H_
 
@@ -54,6 +55,12 @@ namespace Tool
     QCAR_API Vec2F projectPoint(const CameraCalibration& calib,
                                 const Matrix34F& pose, const Vec3F& point);
 
+    /// Project a camera coordinate down to a plane aligned on the x-y plane with 
+    /// the given pose.  Returns the offset along the plane from its origin.
+    QCAR_API Vec2F projectPointToPlaneXY(const CameraCalibration& calib,
+                                         const Matrix34F& pose, 
+                                         const Vec2F& screenPoint);
+
     /// Multiplies two Vuforia pose matrices
     /**
      *  In order to apply a transformation A on top of a transformation B,
@@ -69,6 +76,10 @@ namespace Tool
     /// Multiplies 1 vector and 1 Vuforia-style 4x4-matrix (row-major order)
     QCAR_API Vec4F multiply(const Vec4F& vec,
                             const Matrix44F& mat);
+
+    /// Multiplies 1 Vuforia-style 4x4-matrices (row-major order) and 1 vector
+    QCAR_API Vec4F multiply(const Matrix44F& mat,
+                            const Vec4F& vec);
 
     /// Multiplies two GL-style matrices (col-major order)
     QCAR_API Matrix44F multiplyGL(const Matrix44F& matLeft,

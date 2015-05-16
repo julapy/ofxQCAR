@@ -1,20 +1,21 @@
-/*==============================================================================
-Copyright (c) 2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2013-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     WordList.h
 
 @brief
     Header file for WordList class.
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_WORD_LIST_H_
 #define _QCAR_WORD_LIST_H_
 
 #include <QCAR/System.h>
 #include <QCAR/NonCopyable.h>
-
+#include <QCAR/QCAR.h>
 
 namespace QCAR
 {
@@ -37,6 +38,7 @@ class QCAR_API WordList : public NonCopyable
 {
 public:
 
+    /// Deprecated enum.  Use QCAR::STORAGE_TYPE instead.
     /// Types of storage locations
     enum STORAGE_TYPE {
         STORAGE_APP,            ///< Storage private to the application
@@ -58,6 +60,17 @@ public:
      *  Loads the word list from the given input file.
      *  Returns false if the path is NULL.
      */
+    virtual bool loadWordList(const char* path, QCAR::STORAGE_TYPE storageType) = 0;
+
+    /// Loads the word list from a binary file at the specified path 
+    /// and storage location.
+    /**
+     *  Loads the word list from the given input file.
+     *  Returns false if the path is NULL.
+     *  
+     *  This version is now deprecated, please use QCAR::STORAGE_TYPE based 
+     *  method instead.
+     */
     virtual bool loadWordList(const char* path, STORAGE_TYPE storageType) = 0;
 
     /// Loads a set of custom words from a plain text file
@@ -66,6 +79,18 @@ public:
      *  Each word must be between 2-45 characters in length. Returns the
      *  number of loaded custom words. The text file shall be encoded in UTF-8.
      *  If path is NULL the return value is -1.
+     */
+    virtual int addWordsFromFile(const char* path, QCAR::STORAGE_TYPE storageType) = 0;
+
+    /// Loads a set of custom words from a plain text file
+    /**
+     *  The word list is extended with the custom words in the plain text file.
+     *  Each word must be between 2-45 characters in length. Returns the
+     *  number of loaded custom words. The text file shall be encoded in UTF-8.
+     *  If path is NULL the return value is -1.
+     *  
+     *  This version is now deprecated, please use QCAR::STORAGE_TYPE based 
+     *  method instead.
      */
     virtual int addWordsFromFile(const char* path, STORAGE_TYPE storageType) = 0;
 
@@ -138,8 +163,22 @@ public:
      *  may be necessary to call getFilterListWordCount to find
      *  out what, if any, words have been loaded by this routine
      *  if it fails.
+     *  
+     *  This version is now deprecated, please use QCAR::STORAGE_TYPE based 
+     *  method instead.
      */
     virtual bool loadFilterList(const char* path, STORAGE_TYPE storageType) = 0;
+
+    /// Loads the filter list from a plain text file.
+    /**
+     *  The text file shall be encoded in UTF-8.
+     *  Returns false if the filter list cannot be loaded.  Note
+     *  some words may have been added to the filter list so it
+     *  may be necessary to call getFilterListWordCount to find
+     *  out what, if any, words have been loaded by this routine
+     *  if it fails.
+     */
+    virtual bool loadFilterList(const char* path, QCAR::STORAGE_TYPE storageType) = 0;
 
     /// Query the number of words in the filter list.
     virtual int getFilterListWordCount() = 0;

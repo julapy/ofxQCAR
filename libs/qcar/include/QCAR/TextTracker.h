@@ -1,14 +1,15 @@
-/*==============================================================================
-Copyright (c) 2013 Qualcomm Connected Experiences, Inc.
-All Rights Reserved.
-Proprietary - Qualcomm Connected Experiences, Inc.
+/*===============================================================================
+Copyright (c) 2013-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+
+Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
+and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 
 @file 
     TextTracker.h
 
 @brief
     Header file for TextTracker class.
-==============================================================================*/
+===============================================================================*/
 #ifndef _QCAR_TEXT_TRACKER_H_
 #define _QCAR_TEXT_TRACKER_H_
 
