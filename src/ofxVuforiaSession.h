@@ -66,7 +66,10 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 - (id)initWithDelegate:(id<ofxVuforiaSessionDelegate>) delegate;
 
 // initialize the AR library. This is an asynchronous method. When the initialization is complete, the callback method initARDone will be called
-- (void) initAR:(int) QCARInitFlags ARViewBoundsSize:(CGSize) ARViewBoundsSize orientation:(UIInterfaceOrientation) ARViewOrientation;
+- (void) initAR:(int) QCARInitFlags
+     boundsSize:(CGSize) ARViewBoundsSize
+    orientation:(UIInterfaceOrientation) ARViewOrientation
+     licenseKey:(NSString *) AppLicenseKey;
 
 // start the AR session
 - (bool) startAR:(QCAR::CameraDevice::CAMERA) camera error:(NSError **)error;

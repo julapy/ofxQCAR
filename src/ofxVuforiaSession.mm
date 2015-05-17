@@ -40,6 +40,7 @@ namespace {
 
 @interface ofxVuforiaSession ()
 
+@property (nonatomic, retain) NSString * licenseKey;
 @property (nonatomic, readwrite) CGSize mARViewBoundsSize;
 @property (nonatomic, readwrite) UIInterfaceOrientation mARViewOrientation;
 @property (nonatomic, readwrite) BOOL mIsActivityInPortraitMode;
@@ -104,12 +105,17 @@ namespace {
 }
 
 // Initialize the Vuforia SDK
-- (void) initAR:(int) QCARInitFlags ARViewBoundsSize:(CGSize) ARViewBoundsSize orientation:(UIInterfaceOrientation) ARViewOrientation {
+- (void) initAR:(int) QCARInitFlags
+     boundsSize:(CGSize) ARViewBoundsSize
+    orientation:(UIInterfaceOrientation) ARViewOrientation
+     licenseKey:(NSString *) AppLicenseKey {
+
     self.cameraIsActive = NO;
     self.cameraIsStarted = NO;
     mQCARInitFlags = QCARInitFlags;
     self.isRetinaDisplay = [self isRetinaDisplay];
     self.mARViewOrientation = ARViewOrientation;
+    self.licenseKey = AppLicenseKey;
 
     // If this device has a retina display, we expect the view bounds to
     // have been scaled up by a factor of 2; this allows it to calculate the size and position of
@@ -128,7 +134,7 @@ namespace {
 {
     // Background thread must have its own autorelease pool
     @autoreleasepool {
-        QCAR::setInitParameters(mQCARInitFlags,"");
+        QCAR::setInitParameters(mQCARInitFlags, [self.licenseKey UTF8String]);
         
         // QCAR::init() will return positive numbers up to 100 as it progresses
         // towards success.  Negative numbers indicate error conditions
