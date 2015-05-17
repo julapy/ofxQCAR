@@ -1,5 +1,7 @@
 #include "ofApp.h"
 
+static const string kLicenseKey = "AfJ6d4//////AAAAAck2JyVaKEJarsb9283lT4EiMz7jNMKKEPuFlDhX9shBx1A41N05tPNEMHb4IMvsx3DNpjbyXLrUQJdJcwS2IzV4NdmwY7R8CkxZFeVKEotcSjh296otcRMmZPAYWRQAFL7f4ljQLMSVjvDFZRLf9/X5uIR+wNNTqK47d1NpPhDBv2usiT0Z8SxSej5Dn919ue2p8o8QGk/KThAFPVCwIQxigXauDlECHFB0EHvoNNatMVsjyMC3hKU/btXbCFMa2wL5ZM/nQgVeqveMv5eOygzCCLkDIMC2R8QRQzqAvH4h2I0YBJ0CMxD98AP45wEwxLOOLMRFdIOi2THxpVhWHSHiU/b6XSX96FHY/0eM3aul";
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofBackground(0);
@@ -10,27 +12,29 @@ void ofApp::setup(){
     
     touchPoint.x = touchPoint.y = -1;
 
-    ofxQCAR * qcar = ofxQCAR::getInstance();
-    qcar->addTarget("Qualcomm.xml", "Qualcomm.xml");
-    qcar->autoFocusOn();
-    qcar->setCameraPixelsFlag(true);
-    qcar->setup();
+    ofxQCAR & QCAR = *ofxQCAR::getInstance();
+    QCAR.setLicenseKey(kLicenseKey); // ADD YOUR APPLICATION LICENSE KEY HERE.
+    QCAR.addMarkerDataPath("qcar_assets/Qualcomm.xml");
+    QCAR.autoFocusOn();
+    QCAR.setCameraPixelsFlag(true);
+    QCAR.setup();
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    ofxQCAR::getInstance()->update();
+    ofxQCAR & QCAR = *ofxQCAR::getInstance();
+    QCAR.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofxQCAR * qcar = ofxQCAR::getInstance();
-    qcar->draw();
+    ofxQCAR & QCAR = *ofxQCAR::getInstance();
+    QCAR.drawBackground();
     
     bool bPressed;
     bPressed = touchPoint.x >= 0 && touchPoint.y >= 0;
     
-    if(qcar->hasFoundMarker()) {
+    if(QCAR.hasFoundMarker()) {
 
         ofDisableDepthTest();
         ofEnableBlendMode(OF_BLENDMODE_ALPHA);
@@ -39,21 +43,21 @@ void ofApp::draw(){
         bool bInside = false;
         if(bPressed) {
             vector<ofPoint> markerPoly;
-            markerPoly.push_back(qcar->getMarkerCorner((ofxQCAR_MarkerCorner)0));
-            markerPoly.push_back(qcar->getMarkerCorner((ofxQCAR_MarkerCorner)1));
-            markerPoly.push_back(qcar->getMarkerCorner((ofxQCAR_MarkerCorner)2));
-            markerPoly.push_back(qcar->getMarkerCorner((ofxQCAR_MarkerCorner)3));
+            markerPoly.push_back(QCAR.getMarkerCorner((ofxQCAR_MarkerCorner)0));
+            markerPoly.push_back(QCAR.getMarkerCorner((ofxQCAR_MarkerCorner)1));
+            markerPoly.push_back(QCAR.getMarkerCorner((ofxQCAR_MarkerCorner)2));
+            markerPoly.push_back(QCAR.getMarkerCorner((ofxQCAR_MarkerCorner)3));
             bInside = ofInsidePoly(touchPoint, markerPoly);
         }
         
         ofSetColor(ofColor(255, 0, 255, bInside ? 150 : 50));
-        qcar->drawMarkerRect();
+        QCAR.drawMarkerRect();
         
         ofSetColor(ofColor::yellow);
-        qcar->drawMarkerBounds();
+        QCAR.drawMarkerBounds();
         ofSetColor(ofColor::cyan);
-        qcar->drawMarkerCenter();
-        qcar->drawMarkerCorners();
+        QCAR.drawMarkerCenter();
+        QCAR.drawMarkerCorners();
         
         ofSetColor(ofColor::white);
         ofSetLineWidth(1);
@@ -61,18 +65,18 @@ void ofApp::draw(){
         ofEnableDepthTest();
         ofEnableNormalizedTexCoords();
         
-        qcar->begin();
+        QCAR.begin();
         teapotImage.getTexture().bind();
         ofSetColor(255, 230);
         ofScale(3, 3, 3);
         ofDrawTeapot();
         ofSetColor(255);
         teapotImage.getTexture().unbind();
-        qcar->end();
+        QCAR.end();
         
         ofDisableNormalizedTexCoords();
         
-        qcar->begin();
+        QCAR.begin();
         ofNoFill();
         ofSetColor(255, 0, 0, 200);
         ofSetLineWidth(6);
@@ -86,7 +90,7 @@ void ofApp::draw(){
         ofFill();
         ofSetColor(255);
         ofSetLineWidth(1);
-        qcar->end();
+        QCAR.end();
     }
     
     ofDisableDepthTest();
@@ -94,17 +98,17 @@ void ofApp::draw(){
     /**
      *  access to camera pixels.
      */
-    int cameraW = qcar->getCameraWidth();
-    int cameraH = qcar->getCameraHeight();
-    unsigned char * cameraPixels = qcar->getCameraPixels();
+    int cameraW = QCAR.getCameraWidth();
+    int cameraH = QCAR.getCameraHeight();
+    unsigned char * cameraPixels = QCAR.getCameraPixels();
     if(cameraW > 0 && cameraH > 0 && cameraPixels != NULL) {
         if(cameraImage.isAllocated() == false ) {
             cameraImage.allocate(cameraW, cameraH, OF_IMAGE_GRAYSCALE);
         }
         cameraImage.setFromPixels(cameraPixels, cameraW, cameraH, OF_IMAGE_GRAYSCALE);
-        if(qcar->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
+        if(QCAR.getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
             cameraImage.rotate90(1);
-        } else if(qcar->getOrientation() == OFX_QCAR_ORIENTATION_LANDSCAPE) {
+        } else if(QCAR.getOrientation() == OFX_QCAR_ORIENTATION_LANDSCAPE) {
             cameraImage.mirror(true, true);
         }
 

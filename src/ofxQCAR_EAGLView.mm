@@ -14,7 +14,9 @@
 }
 
 - (void)renderFrameQCAR {
-    [self drawView];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self drawView];
+    });
 }
 
 - (void)stopAnimation {

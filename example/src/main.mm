@@ -17,5 +17,10 @@ int main(){
     
     ofAppiOSWindow * window = (ofAppiOSWindow *)ofCreateWindow(settings).get();
     
-    ofRunApp(new ofApp());
+    bool bUseNative = true;
+    if(bUseNative == true){
+        window->startAppWithDelegate("MyAppDelegate");
+    } else {
+        ofRunApp(new ofApp());
+    }
 }

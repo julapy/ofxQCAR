@@ -10,13 +10,12 @@
 
 #import "ofMain.h"
 #import "ofxQCAR_App.h"
+#import <QCAR/DataSet.h>
 
-@interface ofxQCAR_Delegate : NSObject
-- (void)initApplication;    // Initialise the application
-- (void)initApplicationAR;  // Initialise the AR parts of the application
-- (void)postInitQCAR;       // Do the things that need doing after initialisation
-@end
+class ofxQCAR_UpdateCallback;
+@class ofxVuforiaSession;
 
+//--------------------------------------------------------------
 enum ofxQCAR_MarkerCorner {
     OFX_QCAR_MARKER_CORNER_TOP_LEFT     = 0,
     OFX_QCAR_MARKER_CORNER_TOP_RIGHT    = 1,
@@ -24,11 +23,24 @@ enum ofxQCAR_MarkerCorner {
     OFX_QCAR_MARKER_CORNER_BOTTOM_LEFT  = 3,
 };
 
+//--------------------------------------------------------------
 enum ofxQCAR_Orientation {
     OFX_QCAR_ORIENTATION_PORTRAIT,
     OFX_QCAR_ORIENTATION_LANDSCAPE
 };
 
+//--------------------------------------------------------------
+class ofxQCAR_MarkerData {
+public:
+    ofxQCAR_MarkerData() {
+        dataPath = "";
+        dataSet = NULL;
+    }
+    string dataPath;
+    QCAR::DataSet * dataSet;
+};
+
+//--------------------------------------------------------------
 class ofxQCAR_Marker {
 public:
     ofxQCAR_Marker() {
@@ -59,8 +71,7 @@ public:
     string markerName;
 };
 
-class ofxQCAR_UpdateCallback;
-
+//--------------------------------------------------------------
 class ofxQCAR
 {
 /**
@@ -81,10 +92,21 @@ public:
         return _instance;
 	};
     
+    void setLicenseKey(string value);
+    
     void setOrientation(ofxQCAR_Orientation orientation);
     ofxQCAR_Orientation getOrientation();
     
-    virtual void addTarget(const string targetName, const string targetPath);
+    void addMarkerDataPath(const string & markerDataPath);
+    
+    bool qcarInitTrackers();
+    bool qcarLoadTrackersData();
+    void qcarInitARDone(NSError * error);
+    bool qcarStartTrackers();
+    bool qcarStopTrackers();
+    bool qcarUnloadTrackersData();
+    bool qcarDeinitTrackers();
+    void qcarUpdate(QCAR::State * state);
     
     void scanCustomTarget();
     void stopCustomTarget();
@@ -105,6 +127,7 @@ public:
     virtual void begin(unsigned int i=0);
     virtual void end();
     
+    void drawBackground();
     void drawMarkerRect(unsigned int markerIndex=0);
     void drawMarkerCenter(unsigned int markerIndex=0);
     void drawMarkerCorners(unsigned int markerIndex=0);
@@ -117,7 +140,7 @@ public:
     void autoFocusOnce();
 
     bool hasFoundMarker();
-    int numOfMarkersFound();
+    unsigned int numOfMarkersFound();
     
     // this are just some values to use in a to complex programm
     // in order to move values across diffrerent parts. 
@@ -165,6 +188,11 @@ private:
     void stopTracker();
     
     static ofxQCAR * _instance;
+    
+    ofxVuforiaSession * session;
+    string licenseKey;
+    
+    vector<ofxQCAR_MarkerData> markersData;
     vector<ofxQCAR_Marker> markersFound;
     ofxQCAR_Orientation orientation;
     
@@ -183,3 +211,7 @@ private:
     bool bFoundGoodQualityTarget;
     int targetCount = 1;
 };
+
+//--------------------------------------------------------------
+ofxQCAR & ofxQCARInstance();
+ofxQCAR_App & ofxQCARGetApp();

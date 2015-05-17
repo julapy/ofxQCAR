@@ -10,55 +10,60 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 
-#import "ofxQCAR_Utils.h"
+//#import "ofxQCAR_Utils.h"
+#import "ofxVuforiaSession.h"
 #import "ofxiOSExtras.h"
 
 #import <QCAR/Renderer.h>
 #import <QCAR/Tool.h>
 #import <QCAR/Tracker.h>
 #import <QCAR/Trackable.h>
+#import <QCAR/TrackableResult.h>
 #import <QCAR/ImageTarget.h>
 #import <QCAR/CameraDevice.h>
 #import <QCAR/UpdateCallback.h>
 #import <QCAR/Matrices.h>
 #import <QCAR/Image.h>
 #import <QCAR/QCAR_iOS.h>
-#import "QCAR/TrackerManager.h"
-#import "QCAR/ImageTracker.h"
-#import "QCAR/ImageTargetBuilder.h"
+#import <QCAR/TrackerManager.h>
+#import <QCAR/ObjectTracker.h>
+#import <QCAR/ImageTargetBuilder.h>
+#import <QCAR/VideoBackgroundConfig.h>
 
-using namespace QCAR;
+//using namespace QCAR;
 
 /////////////////////////////////////////////////////////
 //
 /////////////////////////////////////////////////////////
 
-Vec2F cameraPointToScreenPoint(Vec2F cameraPoint) {
+QCAR::Vec2F cameraPointToScreenPoint(QCAR::Vec2F cameraPoint) {
     
-    VideoMode videoMode = CameraDevice::getInstance().getVideoMode(CameraDevice::MODE_DEFAULT);
-    VideoBackgroundConfig config = [ofxQCAR_Utils getInstance].config;
+//    VideoMode videoMode = CameraDevice::getInstance().getVideoMode(CameraDevice::MODE_DEFAULT);
+//    VideoBackgroundConfig config = [ofxQCAR_Utils getInstance].config;
+//    
+//    int xOffset = ((int)ofGetWidth()  - config.mSize.data[0]) / 2.0f + config.mPosition.data[0];
+//    int yOffset = ((int)ofGetHeight() - config.mSize.data[1]) / 2.0f - config.mPosition.data[1];
+//    
+//    if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
+//        // camera image is rotated 90 degrees
+//        int rotatedX = videoMode.mHeight - cameraPoint.data[1];
+//        int rotatedY = cameraPoint.data[0];
+//        
+//        return Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
+//                     rotatedY * config.mSize.data[1] / (float) videoMode.mWidth + yOffset);
+//    } else {
+//        // camera image is rotated 180 degrees
+//        int rotatedX = videoMode.mWidth - cameraPoint.data[0];
+//        int rotatedY = videoMode.mHeight - cameraPoint.data[1];
+//        
+//        return Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
+//                     rotatedY * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
+//    }
     
-    int xOffset = ((int)ofGetWidth()  - config.mSize.data[0]) / 2.0f + config.mPosition.data[0];
-    int yOffset = ((int)ofGetHeight() - config.mSize.data[1]) / 2.0f - config.mPosition.data[1];
-    
-    if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
-        // camera image is rotated 90 degrees
-        int rotatedX = videoMode.mHeight - cameraPoint.data[1];
-        int rotatedY = cameraPoint.data[0];
-        
-        return Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
-                     rotatedY * config.mSize.data[1] / (float) videoMode.mWidth + yOffset);
-    } else {
-        // camera image is rotated 180 degrees
-        int rotatedX = videoMode.mWidth - cameraPoint.data[0];
-        int rotatedY = videoMode.mHeight - cameraPoint.data[1];
-        
-        return Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
-                     rotatedY * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
-    }
+    return QCAR::Vec2F(0, 0);
 }
 
-class ofxQCAR_UpdateCallback : public UpdateCallback {
+class ofxQCAR_UpdateCallback : public QCAR::UpdateCallback {
     
 public:
     
@@ -74,142 +79,142 @@ public:
     
 private:
     
-    virtual void QCAR_onUpdate(State& state) {
+    virtual void QCAR_onUpdate(QCAR::State& state) {
         
         bUpdateCallbackInProgress = true;
         
-        ofxQCAR * qcar = ofxQCAR::getInstance();
-        
-        if(qcar->bSaveTarget) {
-            TrackerManager & trackerManager = TrackerManager::getInstance();
-            ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
-            ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
-            TrackableSource * trackableSource = targetBuilder->getTrackableSource();
-            
-            if(trackableSource != NULL) {
-                imageTracker->deactivateDataSet(imageTracker->getActiveDataSet());
-                
-                DataSet * userDefDateSet = [[ofxQCAR_Utils getInstance] getUserDefDataSet];
-                if(userDefDateSet->hasReachedTrackableLimit() && userDefDateSet->getNumTrackables() > 1) {
-                    userDefDateSet->destroy(userDefDateSet->getTrackable(0));
-                }
-                userDefDateSet->createTrackable(trackableSource);
-                imageTracker->activateDataSet(userDefDateSet);
-                
-                qcar->trackCustomTarget();
-            }
-        } else if(qcar->bScanTarget) {
-            TrackerManager & trackerManager = TrackerManager::getInstance();
-            ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
-            ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
-            ImageTargetBuilder::FRAME_QUALITY frameQuality = targetBuilder->getFrameQuality();
-            
-            switch(frameQuality) {
-                case ImageTargetBuilder::FRAME_QUALITY_MEDIUM:
-                case ImageTargetBuilder::FRAME_QUALITY_HIGH:
-                    qcar->bFoundGoodQualityTarget = true;
-                    break;
-                case ImageTargetBuilder::FRAME_QUALITY_NONE:
-                case ImageTargetBuilder::FRAME_QUALITY_LOW:
-                    qcar->bFoundGoodQualityTarget = false;
-                    break;
-                default:
-                    break;
-            }
-        }
-        
-        markersFound.clear();
-        
-        int numOfTrackables = state.getNumTrackableResults();
-        for(int i=0; i<numOfTrackables; ++i) {
-
-            const TrackableResult * trackableResult = state.getTrackableResult(i);
-            if(trackableResult == NULL) {
-                continue;
-            }
-            
-            if(trackableResult->getStatus() != TrackableResult::DETECTED &&
-               trackableResult->getStatus() != TrackableResult::TRACKED &&
-               trackableResult->getStatus() != TrackableResult::EXTENDED_TRACKED) {
-                continue;
-            }
-            
-            Matrix44F modelViewMatrix = Tool::convertPose2GLMatrix(trackableResult->getPose());
-            
-            VideoBackgroundConfig config = [ofxQCAR_Utils getInstance].config;
-            float scaleX = 1.0, scaleY = 1.0;
-            if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
-                scaleX = config.mSize.data[0] / (float)ofGetWidth();
-                scaleY = config.mSize.data[1] / (float)ofGetHeight();
-            } else {
-                scaleX = config.mSize.data[1] / (float)ofGetHeight();
-                scaleY = config.mSize.data[0] / (float)ofGetWidth();
-            }
-            
-            markersFound.push_back(ofxQCAR_Marker());
-            ofxQCAR_Marker & marker = markersFound.back();
-            
-            marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
-            marker.modelViewMatrix.scale(scaleY, scaleX, 1);
-            marker.projectionMatrix = ofMatrix4x4([[ofxQCAR_Utils getInstance] projectionMatrix].data);
-            
-            for(int i=0; i<12; i++) {
-                marker.poseMatrixData[i] = trackableResult->getPose().data[i];
-            }
-            
-            Vec2F markerSize;
-            const Trackable & trackable = trackableResult->getTrackable();
-            if(trackable.isOfType(ImageTarget::getClassType())){
-                ImageTarget* imageTarget = (ImageTarget *)(&trackable);
-                markerSize = imageTarget->getSize();
-            }
-            
-            marker.markerName = trackable.getName();
-            
-            marker.markerRect.width  = markerSize.data[0];
-            marker.markerRect.height = markerSize.data[1];
-            
-            float markerWH = marker.markerRect.width  * 0.5;
-            float markerHH = marker.markerRect.height * 0.5;
-            
-            Vec3F corners[ 4 ];
-            corners[0] = Vec3F(-markerWH,  markerHH, 0);     // top left.
-            corners[1] = Vec3F( markerWH,  markerHH, 0);     // top right.
-            corners[2] = Vec3F( markerWH, -markerHH, 0);     // bottom right.
-            corners[3] = Vec3F(-markerWH, -markerHH, 0);     // bottom left.
-            
-            marker.markerCenter = qcar->point3DToScreen2D(ofVec3f(0, 0, 0), i);
-            
-            for(int j=0; j<4; j++) {
-                ofVec3f markerCorner = ofVec3f(corners[j].data[0], corners[j].data[1], corners[j].data[2]);
-                marker.markerCorners[j] = qcar->point3DToScreen2D(markerCorner, i);
-            }
-            
-            ofMatrix4x4 inverseModelView = marker.modelViewMatrix.getInverse();
-            inverseModelView = inverseModelView.getTransposedOf(inverseModelView);
-            marker.markerRotation.set(inverseModelView.getPtr()[8], inverseModelView.getPtr()[9], inverseModelView.getPtr()[10]);
-            marker.markerRotation.normalize();
-            marker.markerRotation.rotate(90, ofVec3f(0, 0, 1));
-            
-            marker.markerRotationLeftRight = marker.markerRotation.angle(ofVec3f(0, 1, 0)); // this only works in landscape mode.
-            marker.markerRotationUpDown = marker.markerRotation.angle(ofVec3f(1, 0, 0));    // this only works in landscape mode.
-            
-            /**
-             *  angle of marker to camera around the y-axis (pointing up from the center of marker)
-             */
-            ofVec3f cameraPosition(inverseModelView(0, 3), inverseModelView(1, 3), inverseModelView(2, 3));
-            ofVec3f projectedDirectionToTarget(-cameraPosition.x, -cameraPosition.y, 0);
-            projectedDirectionToTarget.normalize();
-            ofVec3f markerForward(0.0f, 1.0f, 0.0f);
-            float dot = projectedDirectionToTarget.dot(markerForward);
-            ofVec3f cross = projectedDirectionToTarget.getCrossed(markerForward);
-            float angle = acos(dot);
-            angle *= 180.0f / PI;
-            if(cross.z > 0) {
-                angle = 360.0f - angle;
-            }
-            marker.markerAngleToCamera = angle;
-        }
+//        ofxQCAR * qcar = ofxQCAR::getInstance();
+//        
+//        if(qcar->bSaveTarget) {
+//            TrackerManager & trackerManager = TrackerManager::getInstance();
+//            ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
+//            ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
+//            TrackableSource * trackableSource = targetBuilder->getTrackableSource();
+//            
+//            if(trackableSource != NULL) {
+//                imageTracker->deactivateDataSet(imageTracker->getActiveDataSet());
+//                
+//                DataSet * userDefDateSet = [[ofxQCAR_Utils getInstance] getUserDefDataSet];
+//                if(userDefDateSet->hasReachedTrackableLimit() && userDefDateSet->getNumTrackables() > 1) {
+//                    userDefDateSet->destroy(userDefDateSet->getTrackable(0));
+//                }
+//                userDefDateSet->createTrackable(trackableSource);
+//                imageTracker->activateDataSet(userDefDateSet);
+//                
+//                qcar->trackCustomTarget();
+//            }
+//        } else if(qcar->bScanTarget) {
+//            TrackerManager & trackerManager = TrackerManager::getInstance();
+//            ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
+//            ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
+//            ImageTargetBuilder::FRAME_QUALITY frameQuality = targetBuilder->getFrameQuality();
+//            
+//            switch(frameQuality) {
+//                case ImageTargetBuilder::FRAME_QUALITY_MEDIUM:
+//                case ImageTargetBuilder::FRAME_QUALITY_HIGH:
+//                    qcar->bFoundGoodQualityTarget = true;
+//                    break;
+//                case ImageTargetBuilder::FRAME_QUALITY_NONE:
+//                case ImageTargetBuilder::FRAME_QUALITY_LOW:
+//                    qcar->bFoundGoodQualityTarget = false;
+//                    break;
+//                default:
+//                    break;
+//            }
+//        }
+//        
+//        markersFound.clear();
+//        
+//        int numOfTrackables = state.getNumTrackableResults();
+//        for(int i=0; i<numOfTrackables; ++i) {
+//
+//            const TrackableResult * trackableResult = state.getTrackableResult(i);
+//            if(trackableResult == NULL) {
+//                continue;
+//            }
+//            
+//            if(trackableResult->getStatus() != TrackableResult::DETECTED &&
+//               trackableResult->getStatus() != TrackableResult::TRACKED &&
+//               trackableResult->getStatus() != TrackableResult::EXTENDED_TRACKED) {
+//                continue;
+//            }
+//            
+//            Matrix44F modelViewMatrix = Tool::convertPose2GLMatrix(trackableResult->getPose());
+//            
+//            VideoBackgroundConfig config = [ofxQCAR_Utils getInstance].config;
+//            float scaleX = 1.0, scaleY = 1.0;
+//            if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
+//                scaleX = config.mSize.data[0] / (float)ofGetWidth();
+//                scaleY = config.mSize.data[1] / (float)ofGetHeight();
+//            } else {
+//                scaleX = config.mSize.data[1] / (float)ofGetHeight();
+//                scaleY = config.mSize.data[0] / (float)ofGetWidth();
+//            }
+//            
+//            markersFound.push_back(ofxQCAR_Marker());
+//            ofxQCAR_Marker & marker = markersFound.back();
+//            
+//            marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
+//            marker.modelViewMatrix.scale(scaleY, scaleX, 1);
+//            marker.projectionMatrix = ofMatrix4x4([[ofxQCAR_Utils getInstance] projectionMatrix].data);
+//            
+//            for(int i=0; i<12; i++) {
+//                marker.poseMatrixData[i] = trackableResult->getPose().data[i];
+//            }
+//            
+//            Vec2F markerSize;
+//            const Trackable & trackable = trackableResult->getTrackable();
+//            if(trackable.isOfType(ImageTarget::getClassType())){
+//                ImageTarget* imageTarget = (ImageTarget *)(&trackable);
+//                markerSize = imageTarget->getSize();
+//            }
+//            
+//            marker.markerName = trackable.getName();
+//            
+//            marker.markerRect.width  = markerSize.data[0];
+//            marker.markerRect.height = markerSize.data[1];
+//            
+//            float markerWH = marker.markerRect.width  * 0.5;
+//            float markerHH = marker.markerRect.height * 0.5;
+//            
+//            Vec3F corners[ 4 ];
+//            corners[0] = Vec3F(-markerWH,  markerHH, 0);     // top left.
+//            corners[1] = Vec3F( markerWH,  markerHH, 0);     // top right.
+//            corners[2] = Vec3F( markerWH, -markerHH, 0);     // bottom right.
+//            corners[3] = Vec3F(-markerWH, -markerHH, 0);     // bottom left.
+//            
+//            marker.markerCenter = qcar->point3DToScreen2D(ofVec3f(0, 0, 0), i);
+//            
+//            for(int j=0; j<4; j++) {
+//                ofVec3f markerCorner = ofVec3f(corners[j].data[0], corners[j].data[1], corners[j].data[2]);
+//                marker.markerCorners[j] = qcar->point3DToScreen2D(markerCorner, i);
+//            }
+//            
+//            ofMatrix4x4 inverseModelView = marker.modelViewMatrix.getInverse();
+//            inverseModelView = inverseModelView.getTransposedOf(inverseModelView);
+//            marker.markerRotation.set(inverseModelView.getPtr()[8], inverseModelView.getPtr()[9], inverseModelView.getPtr()[10]);
+//            marker.markerRotation.normalize();
+//            marker.markerRotation.rotate(90, ofVec3f(0, 0, 1));
+//            
+//            marker.markerRotationLeftRight = marker.markerRotation.angle(ofVec3f(0, 1, 0)); // this only works in landscape mode.
+//            marker.markerRotationUpDown = marker.markerRotation.angle(ofVec3f(1, 0, 0));    // this only works in landscape mode.
+//            
+//            /**
+//             *  angle of marker to camera around the y-axis (pointing up from the center of marker)
+//             */
+//            ofVec3f cameraPosition(inverseModelView(0, 3), inverseModelView(1, 3), inverseModelView(2, 3));
+//            ofVec3f projectedDirectionToTarget(-cameraPosition.x, -cameraPosition.y, 0);
+//            projectedDirectionToTarget.normalize();
+//            ofVec3f markerForward(0.0f, 1.0f, 0.0f);
+//            float dot = projectedDirectionToTarget.dot(markerForward);
+//            ofVec3f cross = projectedDirectionToTarget.getCrossed(markerForward);
+//            float angle = acos(dot);
+//            angle *= 180.0f / PI;
+//            if(cross.z > 0) {
+//                angle = 360.0f - angle;
+//            }
+//            marker.markerAngleToCamera = angle;
+//        }
         
         bUpdateCallbackInProgress = false;
     }
@@ -223,41 +228,69 @@ private:
 /////////////////////////////////////////////////////////
 
 ofxQCAR * ofxQCAR::_instance = NULL;
-bool bBeginDraw = false;
 
 /////////////////////////////////////////////////////////
 //  DELEGATE.
 /////////////////////////////////////////////////////////
 
-@implementation ofxQCAR_Delegate
+@interface ofxVuforiaDelegate : NSObject <ofxVuforiaSessionDelegate>
 
-- (void)dealloc {
-    [super dealloc];
+// ofxVuforiaDelegate passes events and callbacks back to ofxQCAR.
+
+@end
+
+@implementation ofxVuforiaDelegate
+
+- (void)onInitARDone:(NSError *)error {
+    ofxQCARInstance().qcarInitARDone(error);
+    ofxQCARGetApp().qcarInitARDone(error);
 }
 
-- (void)initApplication {
-    //
+- (bool)doInitTrackers {
+    bool bOk = true;
+    bOk = bOk && ofxQCARInstance().qcarInitTrackers();
+    bOk = bOk && ofxQCARGetApp().qcarInitTrackers();
+    return bOk;
 }
 
-- (void)initApplicationAR {
-    //
+- (bool)doLoadTrackersData {
+    bool bOk = true;
+    bOk = bOk && ofxQCARInstance().qcarLoadTrackersData();
+    bOk = bOk && ofxQCARGetApp().qcarLoadTrackersData();
+    return bOk;
 }
 
-- (void)postInitQCAR {
-#if !(TARGET_IPHONE_SIMULATOR)
-    QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, ofxQCAR::getInstance()->getMaxNumOfMarkers());
-    
-    if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
-        QCAR::setRotation(QCAR::ROTATE_IOS_90);
-    } else {
-        QCAR::setRotation(QCAR::ROTATE_IOS_180);
-    }
+- (bool)doStartTrackers {
+    bool bOk = true;
+    bOk = bOk && ofxQCARInstance().qcarStartTrackers();
+    bOk = bOk && ofxQCARGetApp().qcarStartTrackers();
+    return bOk;
+}
 
-    QCAR::registerCallback(&qcarUpdate);
-#endif
-    
-    ofxQCAR_App * app = (ofxQCAR_App *)ofGetAppPtr();
-    app->qcarInitialised();
+- (bool)doStopTrackers {
+    bool bOk = true;
+    bOk = bOk && ofxQCARInstance().qcarStopTrackers();
+    bOk = bOk && ofxQCARGetApp().qcarStopTrackers();
+    return bOk;
+}
+
+- (bool)doUnloadTrackersData {
+    bool bOk = true;
+    bOk = bOk && ofxQCARInstance().qcarUnloadTrackersData();
+    bOk = bOk && ofxQCARGetApp().qcarUnloadTrackersData();
+    return bOk;
+}
+
+- (bool)doDeinitTrackers {
+    bool bOk = true;
+    bOk = bOk && ofxQCARInstance().qcarDeinitTrackers();
+    bOk = bOk && ofxQCARGetApp().qcarDeinitTrackers();
+    return bOk;
+}
+
+- (void)onQCARUpdate:(QCAR::State *)state {
+    ofxQCARInstance().qcarUpdate(state);
+    ofxQCARGetApp().qcarUpdate(state);
 }
 
 @end
@@ -278,6 +311,10 @@ ofxQCAR::~ofxQCAR () {
 //  SETUP.
 /////////////////////////////////////////////////////////
 
+void ofxQCAR::setLicenseKey(string value) {
+    licenseKey = value;
+}
+
 void ofxQCAR::setOrientation(ofxQCAR_Orientation orientation) {
     this->orientation = orientation;
 }
@@ -286,17 +323,13 @@ ofxQCAR_Orientation ofxQCAR::getOrientation() {
     return orientation;
 }
 
-void ofxQCAR::addTarget(string targetName, string targetPath) {
-#if !(TARGET_IPHONE_SIMULATOR)
-
-    NSString * name = [[[NSString alloc] initWithUTF8String:targetName.c_str()] autorelease];
-    NSString * path = [[[NSString alloc] initWithUTF8String:targetPath.c_str()] autorelease];
-    [[ofxQCAR_Utils getInstance] addTargetName:name atPath:path];
-    
-#endif
+void ofxQCAR::addMarkerDataPath(const string & markerDataPath) {
+    markersData.push_back(ofxQCAR_MarkerData());
+    markersData.back().dataPath = markerDataPath;
 }
 
 void ofxQCAR::init() {
+    licenseKey = "";
     bFlipY = false;
     bUpdateCameraPixels = false;
     cameraPixels = NULL;
@@ -314,30 +347,167 @@ void ofxQCAR::init() {
 void ofxQCAR::setup() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
+    int QCARInitFlags = QCAR::GL_11;
     if(ofIsGLProgrammableRenderer()) {
-        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_20;
-    } else {
-        [ofxQCAR_Utils getInstance].QCARFlags = QCAR::GL_11;
+        QCARInitFlags = QCAR::GL_20;
     }
     
-    if(ofxiOSGetOFWindow()->isRetinaEnabled()) {
-        [ofxQCAR_Utils getInstance].contentScalingFactor = 2.0f;
-    }
+    CGSize ARViewBoundsSize = CGSizeZero;
+    UIInterfaceOrientation ARViewOrientation = UIInterfaceOrientationUnknown;
     
-    CGSize arSize = CGSizeZero;
     if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
-        arSize.width = [[UIScreen mainScreen] bounds].size.width;
-        arSize.height = [[UIScreen mainScreen] bounds].size.height;
+        ARViewBoundsSize.width = [[UIScreen mainScreen] bounds].size.width;
+        ARViewBoundsSize.height = [[UIScreen mainScreen] bounds].size.height;
+        ARViewOrientation = UIInterfaceOrientationPortrait;
     } else {
-        arSize.width = [[UIScreen mainScreen] bounds].size.height;
-        arSize.height = [[UIScreen mainScreen] bounds].size.width;
+        ARViewBoundsSize.width = [[UIScreen mainScreen] bounds].size.height;
+        ARViewBoundsSize.height = [[UIScreen mainScreen] bounds].size.width;
+        ARViewOrientation = UIInterfaceOrientationLandscapeLeft;
     }
     
-    [[ofxQCAR_Utils getInstance] createARofSize:arSize
-                                    forDelegate:[[ofxQCAR_Delegate alloc] init]];
-#endif
+    if(ofxiOSGetOFWindow()->isRetinaEnabled() == true) {
+        ARViewBoundsSize.width *= 2;
+        ARViewBoundsSize.height *= 2;
+    }
     
-    bBeginDraw = false;
+    ofxVuforiaDelegate * delegate = [[ofxVuforiaDelegate alloc] init];
+    session = [[ofxVuforiaSession alloc] initWithDelegate:delegate];
+    
+    [session initAR:QCARInitFlags
+         boundsSize:ARViewBoundsSize
+        orientation:ARViewOrientation
+         licenseKey:[NSString stringWithUTF8String:licenseKey.c_str()]];
+    
+#endif
+}
+
+/////////////////////////////////////////////////////////
+//  CALLBACKS.
+/////////////////////////////////////////////////////////
+
+bool ofxQCAR::qcarInitTrackers() {
+    QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
+    QCAR::Tracker * trackerBase = trackerManager.initTracker(QCAR::ObjectTracker::getClassType());
+    if(trackerBase == NULL) {
+        ofLog(OF_LOG_ERROR, "ofxQCAR - Failed to initialize ObjectTracker.");
+        return false;
+    }
+    
+    ofLog(OF_LOG_VERBOSE, "ofxQCAR - Successfully initialized ObjectTracker.");
+    
+    return true;
+}
+
+bool ofxQCAR::qcarLoadTrackersData() {
+    QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
+    QCAR::ObjectTracker * objectTracker = static_cast<QCAR::ObjectTracker*>(trackerManager.getTracker(QCAR::ObjectTracker::getClassType()));
+    
+    if(objectTracker == NULL) {
+        ofLog(OF_LOG_ERROR, "ofxQCAR - failed to get the ObjectTracker from the tracker manager");
+        return false;
+    }
+    
+    for(int i=0; i<markersData.size(); i++) {
+        ofxQCAR_MarkerData & markerData = markersData[i];
+        if(markerData.dataSet != NULL) {
+            continue;
+        }
+        
+        markerData.dataSet = objectTracker->createDataSet();
+        
+        if(markerData.dataSet == NULL) {
+            ofLog(OF_LOG_ERROR, "ofxQCAR - failed to create data set");
+            continue;
+        }
+        
+        bool bLoaded = markerData.dataSet->load(markerData.dataPath.c_str(), QCAR::STORAGE_APPRESOURCE);
+        if(bLoaded == false) {
+            objectTracker->destroyDataSet(markerData.dataSet);
+            markerData.dataSet = NULL;
+            ofLog(OF_LOG_ERROR, "ofxQCAR - failed to load data set");
+        }
+        
+        objectTracker->activateDataSet(markerData.dataSet);
+    }
+    
+    return true;
+}
+
+void ofxQCAR::qcarInitARDone(NSError * error) {
+    if(error != nil) {
+        return;
+    }
+    
+    QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, maxNumOfMarkers);
+    
+    NSError * err = nil;
+    [session startAR:QCAR::CameraDevice::CAMERA_BACK error:&err];
+    
+    QCAR::CameraDevice::getInstance().setFocusMode(QCAR::CameraDevice::FOCUS_MODE_CONTINUOUSAUTO);
+}
+
+bool ofxQCAR::qcarStartTrackers() {
+    QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
+    QCAR::Tracker * tracker = trackerManager.getTracker(QCAR::ObjectTracker::getClassType());
+    if(tracker == NULL) {
+        return false;
+    }
+    
+    tracker->start();
+
+    return true;
+}
+
+bool ofxQCAR::qcarStopTrackers() {
+    QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
+    QCAR::Tracker * tracker = trackerManager.getTracker(QCAR::ObjectTracker::getClassType());
+    
+    if(tracker == NULL) {
+        ofLog(OF_LOG_ERROR, "ofxQCAR - failed to get the tracker from the tracker manager");
+        return false;
+    }
+    
+    tracker->stop();
+    
+    ofLog(OF_LOG_VERBOSE, "ofxQCAR - successfully stopped tracker");
+    
+    return true;
+}
+
+bool ofxQCAR::qcarUnloadTrackersData() {
+    QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
+    QCAR::ObjectTracker * objectTracker = static_cast<QCAR::ObjectTracker*>(trackerManager.getTracker(QCAR::ObjectTracker::getClassType()));
+
+    if(objectTracker == NULL) {
+        ofLog(OF_LOG_ERROR, "ofxQCAR - Failed to unload tracking data set because the ObjectTracker has not been initialized.");
+        return false;
+    }
+    
+    for(int i=0; i<markersData.size(); i++) {
+        ofxQCAR_MarkerData & markerData = markersData[i];
+
+        bool bOk = objectTracker->deactivateDataSet(markerData.dataSet);
+        if(bOk == false) {
+            ofLog(OF_LOG_ERROR, "ofxQCAR - Failed to deactivate data set.");
+        }
+        
+        bOk = objectTracker->destroyDataSet(markerData.dataSet);
+        if(bOk == false) {
+            ofLog(OF_LOG_ERROR, "ofxQCAR - Failed to destroy data set.");
+        }
+    }
+    
+    return true;
+}
+
+bool ofxQCAR::qcarDeinitTrackers() {
+    QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
+    trackerManager.deinitTracker(QCAR::ObjectTracker::getClassType());
+    return true;
+}
+
+void ofxQCAR::qcarUpdate(QCAR::State * state) {
+    //
 }
 
 /////////////////////////////////////////////////////////
@@ -362,10 +532,10 @@ void ofxQCAR::stopCustomTarget() {
     startTracker();
     stopScan();
     
-    TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
-    imageTracker->deactivateDataSet(imageTracker->getActiveDataSet());
-    imageTracker->activateDataSet([[ofxQCAR_Utils getInstance] getDefaultDataSet]);
+//    TrackerManager & trackerManager = TrackerManager::getInstance();
+//    ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
+//    imageTracker->deactivateDataSet(imageTracker->getActiveDataSet());
+//    imageTracker->activateDataSet([[ofxQCAR_Utils getInstance] getDefaultDataSet]);
     
     bScanTarget = false;
     bSaveTarget = false;
@@ -380,21 +550,21 @@ void ofxQCAR::saveCustomTarget() {
     if((bSaveTarget == true) || (bFoundGoodQualityTarget == false)) {
         return;
     }
-    TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
-    if(imageTracker == NULL) {
-        return;
-    }
-    ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
-    if(targetBuilder == NULL) {
-        return;
-    }
-    
-    char name[128];
-    do {
-        snprintf(name, sizeof(name), "UserTarget-%d", targetCount++);
-    }
-    while(!targetBuilder->build(name, 320.0));
+//    TrackerManager & trackerManager = TrackerManager::getInstance();
+//    ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
+//    if(imageTracker == NULL) {
+//        return;
+//    }
+//    ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
+//    if(targetBuilder == NULL) {
+//        return;
+//    }
+//    
+//    char name[128];
+//    do {
+//        snprintf(name, sizeof(name), "UserTarget-%d", targetCount++);
+//    }
+//    while(!targetBuilder->build(name, 320.0));
     
     bSaveTarget = true;
 #endif
@@ -431,127 +601,127 @@ bool ofxQCAR::hasFoundGoodQualityTarget() {
 //------------------------------ private.
 void ofxQCAR::startScan() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-    if(imageTracker == NULL) {
-        return;
-    }
-    ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
-    if(targetBuilder == NULL) {
-        return;
-    }
-    if(targetBuilder->getFrameQuality() != ImageTargetBuilder::FRAME_QUALITY_NONE) {
-        targetBuilder->stopScan();
-    }
-    targetBuilder->startScan();
+//    TrackerManager & trackerManager = TrackerManager::getInstance();
+//    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
+//    if(imageTracker == NULL) {
+//        return;
+//    }
+//    ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
+//    if(targetBuilder == NULL) {
+//        return;
+//    }
+//    if(targetBuilder->getFrameQuality() != ImageTargetBuilder::FRAME_QUALITY_NONE) {
+//        targetBuilder->stopScan();
+//    }
+//    targetBuilder->startScan();
 #endif
 }
 
 void ofxQCAR::stopScan() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-    if(imageTracker == NULL) {
-        return;
-    }
-    ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
-    if((targetBuilder == NULL) || (targetBuilder->getFrameQuality() == ImageTargetBuilder::FRAME_QUALITY_NONE)) {
-        return;
-    }
-    targetBuilder->stopScan();
+//    TrackerManager & trackerManager = TrackerManager::getInstance();
+//    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
+//    if(imageTracker == NULL) {
+//        return;
+//    }
+//    ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
+//    if((targetBuilder == NULL) || (targetBuilder->getFrameQuality() == ImageTargetBuilder::FRAME_QUALITY_NONE)) {
+//        return;
+//    }
+//    targetBuilder->stopScan();
 #endif
 }
 
 void ofxQCAR::startTracker() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-    if(imageTracker == NULL) {
-        return;
-    }
-    imageTracker->start();
+//    TrackerManager & trackerManager = TrackerManager::getInstance();
+//    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
+//    if(imageTracker == NULL) {
+//        return;
+//    }
+//    imageTracker->start();
 #endif
 }
 
 void ofxQCAR::stopTracker() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-    if(imageTracker == NULL) {
-        return;
-    }
-    imageTracker->stop();
+//    TrackerManager & trackerManager = TrackerManager::getInstance();
+//    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
+//    if(imageTracker == NULL) {
+//        return;
+//    }
+//    imageTracker->stop();
 #endif
 }
 
 void ofxQCAR::startExtendedTracking() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-    if(imageTracker == NULL) {
-        return;
-    }
-    DataSet * userDefDateSet = imageTracker->getActiveDataSet();;
-    if(userDefDateSet == NULL) {
-        return;
-    }
-    for(int i=0; i<userDefDateSet->getNumTrackables(); i++) {
-        QCAR::Trackable * trackable = userDefDateSet->getTrackable(i);
-        if(trackable->startExtendedTracking() == false){
-            ofLog(OF_LOG_ERROR, "Failed to start extended tracking");
-        }
-    }
+//    TrackerManager & trackerManager = TrackerManager::getInstance();
+//    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
+//    if(imageTracker == NULL) {
+//        return;
+//    }
+//    DataSet * userDefDateSet = imageTracker->getActiveDataSet();;
+//    if(userDefDateSet == NULL) {
+//        return;
+//    }
+//    for(int i=0; i<userDefDateSet->getNumTrackables(); i++) {
+//        QCAR::Trackable * trackable = userDefDateSet->getTrackable(i);
+//        if(trackable->startExtendedTracking() == false){
+//            ofLog(OF_LOG_ERROR, "Failed to start extended tracking");
+//        }
+//    }
 #endif
 }
 
 void ofxQCAR::addExtraTarget(string targetName) {
 #if !(TARGET_IPHONE_SIMULATOR)
-    TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-    if(imageTracker == NULL) {
-        ofLog(OF_LOG_ERROR, "Failed to load tracking data set because the ImageTracker has not been initialized.");
-        return;
-    }
-    // Create the data sets:
-    DataSet * extraset = imageTracker->createDataSet();
-    if(extraset == NULL) {
-        ofLog(OF_LOG_ERROR, "Failed to create a new tracking data.");
-        return;
-    }
-    // Load the data sets:
-    bool bLoaded = extraset->load(targetName.c_str(), QCAR::DataSet::STORAGE_APPRESOURCE);
-    if(bLoaded == false) {
-        ofLog(OF_LOG_ERROR, "Failed to load data set.");
-        return;
-    }
-    // Activate the data set:
-    bool bActivated = imageTracker->activateDataSet(extraset);
-    if(bActivated == false) {
-        ofLog(OF_LOG_ERROR, "Failed to activate data set.");
-        return;
-    }
-    
-    ofLog(OF_LOG_VERBOSE, "New dataset active. Active datasets: " + ofToString(imageTracker->getActiveDataSetCount()));
+//    TrackerManager & trackerManager = TrackerManager::getInstance();
+//    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
+//    if(imageTracker == NULL) {
+//        ofLog(OF_LOG_ERROR, "Failed to load tracking data set because the ImageTracker has not been initialized.");
+//        return;
+//    }
+//    // Create the data sets:
+//    DataSet * extraset = imageTracker->createDataSet();
+//    if(extraset == NULL) {
+//        ofLog(OF_LOG_ERROR, "Failed to create a new tracking data.");
+//        return;
+//    }
+//    // Load the data sets:
+//    bool bLoaded = extraset->load(targetName.c_str(), QCAR::DataSet::STORAGE_APPRESOURCE);
+//    if(bLoaded == false) {
+//        ofLog(OF_LOG_ERROR, "Failed to load data set.");
+//        return;
+//    }
+//    // Activate the data set:
+//    bool bActivated = imageTracker->activateDataSet(extraset);
+//    if(bActivated == false) {
+//        ofLog(OF_LOG_ERROR, "Failed to activate data set.");
+//        return;
+//    }
+//    
+//    ofLog(OF_LOG_VERBOSE, "New dataset active. Active datasets: " + ofToString(imageTracker->getActiveDataSetCount()));
 #endif
 }
 
 void ofxQCAR::stopExtendedTracking() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    TrackerManager & trackerManager = TrackerManager::getInstance();
-    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-    if(imageTracker == NULL) {
-        return;
-    }
-    DataSet * userDefDateSet = imageTracker->getActiveDataSet();
-    if(userDefDateSet == NULL) {
-        return;
-    }
-    for(int i=0; i<userDefDateSet->getNumTrackables(); i++) {
-        QCAR::Trackable * trackable = userDefDateSet->getTrackable(i);
-        if(trackable->stopExtendedTracking() == false) {
-            ofLog(OF_LOG_VERBOSE, "Failed to start extended tracking");
-        }
-    }
+//    TrackerManager & trackerManager = TrackerManager::getInstance();
+//    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
+//    if(imageTracker == NULL) {
+//        return;
+//    }
+//    DataSet * userDefDateSet = imageTracker->getActiveDataSet();
+//    if(userDefDateSet == NULL) {
+//        return;
+//    }
+//    for(int i=0; i<userDefDateSet->getNumTrackables(); i++) {
+//        QCAR::Trackable * trackable = userDefDateSet->getTrackable(i);
+//        if(trackable->stopExtendedTracking() == false) {
+//            ofLog(OF_LOG_VERBOSE, "Failed to start extended tracking");
+//        }
+//    }
 #endif
 }
 
@@ -561,31 +731,31 @@ void ofxQCAR::stopExtendedTracking() {
 
 void ofxQCAR::torchOn() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[ofxQCAR_Utils getInstance] cameraSetTorchMode:YES];
+//    [[ofxQCAR_Utils getInstance] cameraSetTorchMode:YES];
 #endif
 }
 
 void ofxQCAR::torchOff() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[ofxQCAR_Utils getInstance] cameraSetTorchMode:NO];
+//    [[ofxQCAR_Utils getInstance] cameraSetTorchMode:NO];
 #endif
 }
 
 void ofxQCAR::autoFocusOn() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[ofxQCAR_Utils getInstance] cameraSetContinuousAFMode:YES];
+//    [[ofxQCAR_Utils getInstance] cameraSetContinuousAFMode:YES];
 #endif
 }
 
 void ofxQCAR::autoFocusOff() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[ofxQCAR_Utils getInstance] cameraSetContinuousAFMode:NO];
+//    [[ofxQCAR_Utils getInstance] cameraSetContinuousAFMode:NO];
 #endif
 }
 
 void ofxQCAR::autoFocusOnce() {
 #if !(TARGET_IPHONE_SIMULATOR)
-    [[ofxQCAR_Utils getInstance] cameraPerformAF];
+//    [[ofxQCAR_Utils getInstance] cameraPerformAF];
 #endif
 }
 
@@ -595,13 +765,13 @@ void ofxQCAR::autoFocusOnce() {
 
 void ofxQCAR::pause() {
 #if !(TARGET_IPHONE_SIMULATOR)    
-    [[ofxQCAR_Utils getInstance] pauseAR];
+//    [[ofxQCAR_Utils getInstance] pauseAR];
 #endif
 }
 
 void ofxQCAR::resume() {
 #if !(TARGET_IPHONE_SIMULATOR)    
-    [[ofxQCAR_Utils getInstance] resumeAR];
+//    [[ofxQCAR_Utils getInstance] resumeAR];
 #endif
 }
 
@@ -611,9 +781,6 @@ void ofxQCAR::resume() {
 
 void ofxQCAR::setMaxNumOfMarkers(int maxMarkers) {
     maxNumOfMarkers = maxMarkers;
-#if !(TARGET_IPHONE_SIMULATOR)
-    QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, maxNumOfMarkers);
-#endif
 }
 
 int ofxQCAR::getMaxNumOfMarkers() {
@@ -628,8 +795,8 @@ bool ofxQCAR::hasFoundMarker() {
     return numOfMarkersFound() > 0;
 }
 
-int ofxQCAR::numOfMarkersFound() {
-    return markersFound.size();
+unsigned int ofxQCAR::numOfMarkersFound() {
+    return (unsigned int)markersFound.size();
 }
 
 ofxQCAR_Marker ofxQCAR::getMarker(unsigned int i) {
@@ -725,14 +892,14 @@ ofVec2f ofxQCAR::point3DToScreen2D(ofVec3f point, unsigned int i) {
     if(i < numOfMarkersFound()) {
         
         ofxQCAR_Marker & marker = markersFound[i];
-        Matrix34F pose;
+        QCAR::Matrix34F pose;
         for(int i=0; i<12; i++) {
             pose.data[i] = marker.poseMatrixData[i];
         }
         
-        const CameraCalibration& cameraCalibration = CameraDevice::getInstance().getCameraCalibration();
-        Vec2F cameraPoint = Tool::projectPoint(cameraCalibration, pose, Vec3F(point.x, point.y, point.z));
-        Vec2F xyPoint = cameraPointToScreenPoint(cameraPoint);
+        const QCAR::CameraCalibration& cameraCalibration = QCAR::CameraDevice::getInstance().getCameraCalibration();
+        QCAR::Vec2F cameraPoint = QCAR::Tool::projectPoint(cameraCalibration, pose, QCAR::Vec3F(point.x, point.y, point.z));
+        QCAR::Vec2F xyPoint = cameraPointToScreenPoint(cameraPoint);
         ofVec2f screenPoint(xyPoint.data[ 0 ], xyPoint.data[ 1 ]);
         return screenPoint;
     } else {
@@ -815,25 +982,104 @@ void ofxQCAR::setFlipY(bool b) {
 //  UPDATE.
 /////////////////////////////////////////////////////////
 
-void ofxQCAR::update () {
-    bBeginDraw = false;
-
-#if !(TARGET_IPHONE_SIMULATOR)
+void ofxQCAR::update() {
     
-    // the qcar update callback runs in a different thread.
-    // code below first checks if the update callback is progress,
-    // if not, marker data is copied from the qcarUpdate object.
+    QCAR::State state = QCAR::Renderer::getInstance().begin();
+    QCAR::Renderer::getInstance().end();
+    
+    markersFound.clear();
+    
+    int numOfTrackables = state.getNumTrackableResults();
+    for (int i=0; i<numOfTrackables; i++) {
 
-    if(qcarUpdate.isUpdateCallbackInProgress() == true) {
-        return;
+        const QCAR::TrackableResult & result = *state.getTrackableResult(i);
+        
+        if(result.getStatus() != QCAR::TrackableResult::DETECTED &&
+           result.getStatus() != QCAR::TrackableResult::TRACKED &&
+           result.getStatus() != QCAR::TrackableResult::EXTENDED_TRACKED) {
+            continue;
+        }
+
+        QCAR::Matrix44F modelViewMatrix = QCAR::Tool::convertPose2GLMatrix(result.getPose());
+        
+        const QCAR::VideoBackgroundConfig & config = QCAR::Renderer::getInstance().getVideoBackgroundConfig();
+        float scaleX = 1.0, scaleY = 1.0;
+        if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
+            scaleX = config.mSize.data[0] / (float)ofGetWidth();
+            scaleY = config.mSize.data[1] / (float)ofGetHeight();
+        } else {
+            scaleX = config.mSize.data[1] / (float)ofGetHeight();
+            scaleY = config.mSize.data[0] / (float)ofGetWidth();
+        }
+        
+        markersFound.push_back(ofxQCAR_Marker());
+        ofxQCAR_Marker & marker = markersFound.back();
+        
+        marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
+        marker.modelViewMatrix.scale(scaleY, scaleX, 1);
+        marker.projectionMatrix = ofMatrix4x4([session projectionMatrix].data);
+        
+        for(int i=0; i<12; i++) {
+            marker.poseMatrixData[i] = result.getPose().data[i];
+        }
+        
+        QCAR::Vec3F markerSize;
+        const QCAR::Trackable & trackable = result.getTrackable();
+        if(trackable.isOfType(QCAR::ImageTarget::getClassType())){
+            QCAR::ImageTarget* imageTarget = (QCAR::ImageTarget *)(&trackable);
+            markerSize = imageTarget->getSize();
+        }
+        
+        marker.markerName = trackable.getName();
+        
+        marker.markerRect.width  = markerSize.data[0];
+        marker.markerRect.height = markerSize.data[1];
+        
+        float markerWH = marker.markerRect.width  * 0.5;
+        float markerHH = marker.markerRect.height * 0.5;
+        
+        QCAR::Vec3F corners[ 4 ];
+        corners[0] = QCAR::Vec3F(-markerWH,  markerHH, 0);     // top left.
+        corners[1] = QCAR::Vec3F( markerWH,  markerHH, 0);     // top right.
+        corners[2] = QCAR::Vec3F( markerWH, -markerHH, 0);     // bottom right.
+        corners[3] = QCAR::Vec3F(-markerWH, -markerHH, 0);     // bottom left.
+        
+        marker.markerCenter = point3DToScreen2D(ofVec3f(0, 0, 0), i);
+        
+        for(int j=0; j<4; j++) {
+            ofVec3f markerCorner = ofVec3f(corners[j].data[0], corners[j].data[1], corners[j].data[2]);
+            marker.markerCorners[j] = point3DToScreen2D(markerCorner, i);
+        }
+        
+        ofMatrix4x4 inverseModelView = marker.modelViewMatrix.getInverse();
+        inverseModelView = inverseModelView.getTransposedOf(inverseModelView);
+        marker.markerRotation.set(inverseModelView.getPtr()[8], inverseModelView.getPtr()[9], inverseModelView.getPtr()[10]);
+        marker.markerRotation.normalize();
+        marker.markerRotation.rotate(90, ofVec3f(0, 0, 1));
+        
+        marker.markerRotationLeftRight = marker.markerRotation.angle(ofVec3f(0, 1, 0)); // this only works in landscape mode.
+        marker.markerRotationUpDown = marker.markerRotation.angle(ofVec3f(1, 0, 0));    // this only works in landscape mode.
+        
+        /**
+         *  angle of marker to camera around the y-axis (pointing up from the center of marker)
+         */
+        ofVec3f cameraPosition(inverseModelView(0, 3), inverseModelView(1, 3), inverseModelView(2, 3));
+        ofVec3f projectedDirectionToTarget(-cameraPosition.x, -cameraPosition.y, 0);
+        projectedDirectionToTarget.normalize();
+        ofVec3f markerForward(0.0f, 1.0f, 0.0f);
+        float dot = projectedDirectionToTarget.dot(markerForward);
+        ofVec3f cross = projectedDirectionToTarget.getCrossed(markerForward);
+        float angle = acos(dot);
+        angle *= 180.0f / PI;
+        if(cross.z > 0) {
+            angle = 360.0f - angle;
+        }
+        marker.markerAngleToCamera = angle;
     }
-    markersFound = qcarUpdate.getMarkersFound();
-    
-#endif
 }
 
 /////////////////////////////////////////////////////////
-//  BEGIN / END.
+//  MARKER BEGIN / END.
 /////////////////////////////////////////////////////////
 
 void ofxQCAR::begin(unsigned int i) {
@@ -841,12 +1087,6 @@ void ofxQCAR::begin(unsigned int i) {
     if(!hasFoundMarker()) {
         return;
     }
-    
-    if(bBeginDraw) { // begin() can not be called again before end() being called first.
-        return;
-    }
-    
-    bBeginDraw = true;
     
     ofPushView();
     
@@ -875,19 +1115,48 @@ void ofxQCAR::begin(unsigned int i) {
     }
 }
 
-void ofxQCAR::end () {
-    if(!bBeginDraw) {
-        return;
-    }
-    
+void ofxQCAR::end() {
     ofPopView();
-    
-    bBeginDraw = false;
 }
 
 /////////////////////////////////////////////////////////
 //  DRAW.
 /////////////////////////////////////////////////////////
+
+void ofxQCAR::drawBackground() {
+
+    ofPushView();
+    ofPushStyle();
+    ofDisableBlendMode();
+    
+    QCAR::State state = QCAR::Renderer::getInstance().begin();
+    QCAR::Renderer::getInstance().drawVideoBackground();
+    QCAR::Renderer::getInstance().end();
+    
+    //--- restore openFrameworks render configuration.
+    
+    ofPopView();
+    ofPopStyle();
+    
+    ofDisableDepthTest();
+    glDisable(GL_CULL_FACE);
+    
+    if(ofIsGLProgrammableRenderer() == true) {
+        
+        ofGLProgrammableRenderer * renderer = (ofGLProgrammableRenderer *)ofGetCurrentRenderer().get();
+        const ofShader & currentShader = renderer->getCurrentShader();
+        currentShader.begin();
+        
+    } else {
+        
+        glDisable(GL_TEXTURE_2D);
+        glDisableClientState(GL_VERTEX_ARRAY);
+        glDisableClientState(GL_NORMAL_ARRAY);
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        glDisableClientState(GL_COLOR_ARRAY);
+        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // applies colour to textures.
+    }
+}
 
 void ofxQCAR::draw() {
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -898,23 +1167,23 @@ void ofxQCAR::draw() {
     
     //--- render the video background.
     
-    State state = Renderer::getInstance().begin();
-    Renderer::getInstance().drawVideoBackground();
-    Renderer::getInstance().end();
+    QCAR::State state = QCAR::Renderer::getInstance().begin();
+    QCAR::Renderer::getInstance().drawVideoBackground();
+    QCAR::Renderer::getInstance().end();
     
     cameraWidth = 0;
     cameraHeight = 0;
     cameraPixels = NULL;    // reset values on every frame.
     
-    if(bUpdateCameraPixels && [ofxQCAR_Utils getInstance].appStatus == APPSTATUS_CAMERA_RUNNING) {
-        Frame frame = state.getFrame();
-        const Image * image = frame.getImage(0);
-        if(image) {
-            cameraWidth = image->getBufferWidth();
-            cameraHeight = image->getBufferHeight();
-            cameraPixels = (unsigned char *)image->getPixels();
-        }
-    }
+//    if(bUpdateCameraPixels && [ofxQCAR_Utils getInstance].appStatus == APPSTATUS_CAMERA_RUNNING) {
+//        Frame frame = state.getFrame();
+//        const Image * image = frame.getImage(0);
+//        if(image) {
+//            cameraWidth = image->getBufferWidth();
+//            cameraHeight = image->getBufferHeight();
+//            cameraPixels = (unsigned char *)image->getPixels();
+//        }
+//    }
     
     //--- restore openFrameworks render configuration.
     
@@ -924,19 +1193,20 @@ void ofxQCAR::draw() {
     ofDisableDepthTest();
     glDisable(GL_CULL_FACE);
     
-    if([ofxQCAR_Utils getInstance].QCARFlags & QCAR::GL_11) {
+    if(ofIsGLProgrammableRenderer() == true) {
+        
+        ofGLProgrammableRenderer * renderer = (ofGLProgrammableRenderer *)ofGetCurrentRenderer().get();
+        const ofShader & currentShader = renderer->getCurrentShader();
+        currentShader.begin();
+        
+    } else {
+        
         glDisable(GL_TEXTURE_2D);
         glDisableClientState(GL_VERTEX_ARRAY);
         glDisableClientState(GL_NORMAL_ARRAY);
         glDisableClientState(GL_TEXTURE_COORD_ARRAY);
         glDisableClientState(GL_COLOR_ARRAY);
         glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // applies colour to textures.
-    }
-    
-    if([ofxQCAR_Utils getInstance].QCARFlags & QCAR::GL_20) {
-        ofGLProgrammableRenderer * renderer = (ofGLProgrammableRenderer *)ofGetCurrentRenderer().get();
-        const ofShader & currentShader = renderer->getCurrentShader();
-        currentShader.begin();
     }
     
 #else
@@ -997,8 +1267,20 @@ void ofxQCAR::exit() {
     stopScan();
     markersFound.clear();
 
-    [[ofxQCAR_Utils getInstance] pauseAR];
-    [[ofxQCAR_Utils getInstance] destroyAR];
+//    [[ofxQCAR_Utils getInstance] pauseAR];
+//    [[ofxQCAR_Utils getInstance] destroyAR];
     
 #endif
+}
+
+/////////////////////////////////////////////////////////
+//  GLOBAL.
+/////////////////////////////////////////////////////////
+
+ofxQCAR & ofxQCARInstance() {
+    return *ofxQCAR::getInstance();
+}
+
+ofxQCAR_App & ofxQCARGetApp() {
+    return (ofxQCAR_App &)*ofGetAppPtr();
 }
