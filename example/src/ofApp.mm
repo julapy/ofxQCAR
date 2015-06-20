@@ -50,7 +50,11 @@ void ofApp::draw(){
             bInside = ofInsidePoly(touchPoint, markerPoly);
         }
         
-        ofSetColor(ofColor(255, 0, 255, bInside ? 150 : 50));
+        if(bInside == true) {
+            ofSetColor(ofColor(255, 0, 255, 150));
+        } else {
+            ofSetColor(ofColor(255, 0, 255, 50));
+        }
         QCAR.drawMarkerRect();
         
         ofSetColor(ofColor::yellow);

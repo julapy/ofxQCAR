@@ -38,188 +38,30 @@
 
 QCAR::Vec2F cameraPointToScreenPoint(QCAR::Vec2F cameraPoint) {
     
-//    VideoMode videoMode = CameraDevice::getInstance().getVideoMode(CameraDevice::MODE_DEFAULT);
-//    VideoBackgroundConfig config = [ofxQCAR_Utils getInstance].config;
-//    
-//    int xOffset = ((int)ofGetWidth()  - config.mSize.data[0]) / 2.0f + config.mPosition.data[0];
-//    int yOffset = ((int)ofGetHeight() - config.mSize.data[1]) / 2.0f - config.mPosition.data[1];
-//    
-//    if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
-//        // camera image is rotated 90 degrees
-//        int rotatedX = videoMode.mHeight - cameraPoint.data[1];
-//        int rotatedY = cameraPoint.data[0];
-//        
-//        return Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
-//                     rotatedY * config.mSize.data[1] / (float) videoMode.mWidth + yOffset);
-//    } else {
-//        // camera image is rotated 180 degrees
-//        int rotatedX = videoMode.mWidth - cameraPoint.data[0];
-//        int rotatedY = videoMode.mHeight - cameraPoint.data[1];
-//        
-//        return Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
-//                     rotatedY * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
-//    }
+    QCAR::VideoMode videoMode = QCAR::CameraDevice::getInstance().getVideoMode(QCAR::CameraDevice::MODE_DEFAULT);
+    const QCAR::VideoBackgroundConfig & config = QCAR::Renderer::getInstance().getVideoBackgroundConfig();
+    
+    int xOffset = ((int)ofGetWidth()  - config.mSize.data[0]) / 2.0f + config.mPosition.data[0];
+    int yOffset = ((int)ofGetHeight() - config.mSize.data[1]) / 2.0f - config.mPosition.data[1];
+    
+    if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
+        // camera image is rotated 90 degrees
+        int rotatedX = videoMode.mHeight - cameraPoint.data[1];
+        int rotatedY = cameraPoint.data[0];
+        
+        return QCAR::Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
+                           rotatedY * config.mSize.data[1] / (float) videoMode.mWidth + yOffset);
+    } else {
+        // camera image is rotated 180 degrees
+        int rotatedX = videoMode.mWidth - cameraPoint.data[0];
+        int rotatedY = videoMode.mHeight - cameraPoint.data[1];
+        
+        return QCAR::Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
+                           rotatedY * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
+    }
     
     return QCAR::Vec2F(0, 0);
 }
-
-class ofxQCAR_UpdateCallback : public QCAR::UpdateCallback {
-    
-public:
-    
-    bool bUpdateCallbackInProgress = false;
-    bool isUpdateCallbackInProgress() {
-        return bUpdateCallbackInProgress;
-    }
-    
-    vector<ofxQCAR_Marker> markersFound;
-    vector<ofxQCAR_Marker> & getMarkersFound() {
-        return markersFound;
-    }
-    
-private:
-    
-    virtual void QCAR_onUpdate(QCAR::State& state) {
-        
-        bUpdateCallbackInProgress = true;
-        
-//        ofxQCAR * qcar = ofxQCAR::getInstance();
-//        
-//        if(qcar->bSaveTarget) {
-//            TrackerManager & trackerManager = TrackerManager::getInstance();
-//            ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
-//            ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
-//            TrackableSource * trackableSource = targetBuilder->getTrackableSource();
-//            
-//            if(trackableSource != NULL) {
-//                imageTracker->deactivateDataSet(imageTracker->getActiveDataSet());
-//                
-//                DataSet * userDefDateSet = [[ofxQCAR_Utils getInstance] getUserDefDataSet];
-//                if(userDefDateSet->hasReachedTrackableLimit() && userDefDateSet->getNumTrackables() > 1) {
-//                    userDefDateSet->destroy(userDefDateSet->getTrackable(0));
-//                }
-//                userDefDateSet->createTrackable(trackableSource);
-//                imageTracker->activateDataSet(userDefDateSet);
-//                
-//                qcar->trackCustomTarget();
-//            }
-//        } else if(qcar->bScanTarget) {
-//            TrackerManager & trackerManager = TrackerManager::getInstance();
-//            ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
-//            ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
-//            ImageTargetBuilder::FRAME_QUALITY frameQuality = targetBuilder->getFrameQuality();
-//            
-//            switch(frameQuality) {
-//                case ImageTargetBuilder::FRAME_QUALITY_MEDIUM:
-//                case ImageTargetBuilder::FRAME_QUALITY_HIGH:
-//                    qcar->bFoundGoodQualityTarget = true;
-//                    break;
-//                case ImageTargetBuilder::FRAME_QUALITY_NONE:
-//                case ImageTargetBuilder::FRAME_QUALITY_LOW:
-//                    qcar->bFoundGoodQualityTarget = false;
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//        
-//        markersFound.clear();
-//        
-//        int numOfTrackables = state.getNumTrackableResults();
-//        for(int i=0; i<numOfTrackables; ++i) {
-//
-//            const TrackableResult * trackableResult = state.getTrackableResult(i);
-//            if(trackableResult == NULL) {
-//                continue;
-//            }
-//            
-//            if(trackableResult->getStatus() != TrackableResult::DETECTED &&
-//               trackableResult->getStatus() != TrackableResult::TRACKED &&
-//               trackableResult->getStatus() != TrackableResult::EXTENDED_TRACKED) {
-//                continue;
-//            }
-//            
-//            Matrix44F modelViewMatrix = Tool::convertPose2GLMatrix(trackableResult->getPose());
-//            
-//            VideoBackgroundConfig config = [ofxQCAR_Utils getInstance].config;
-//            float scaleX = 1.0, scaleY = 1.0;
-//            if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
-//                scaleX = config.mSize.data[0] / (float)ofGetWidth();
-//                scaleY = config.mSize.data[1] / (float)ofGetHeight();
-//            } else {
-//                scaleX = config.mSize.data[1] / (float)ofGetHeight();
-//                scaleY = config.mSize.data[0] / (float)ofGetWidth();
-//            }
-//            
-//            markersFound.push_back(ofxQCAR_Marker());
-//            ofxQCAR_Marker & marker = markersFound.back();
-//            
-//            marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
-//            marker.modelViewMatrix.scale(scaleY, scaleX, 1);
-//            marker.projectionMatrix = ofMatrix4x4([[ofxQCAR_Utils getInstance] projectionMatrix].data);
-//            
-//            for(int i=0; i<12; i++) {
-//                marker.poseMatrixData[i] = trackableResult->getPose().data[i];
-//            }
-//            
-//            Vec2F markerSize;
-//            const Trackable & trackable = trackableResult->getTrackable();
-//            if(trackable.isOfType(ImageTarget::getClassType())){
-//                ImageTarget* imageTarget = (ImageTarget *)(&trackable);
-//                markerSize = imageTarget->getSize();
-//            }
-//            
-//            marker.markerName = trackable.getName();
-//            
-//            marker.markerRect.width  = markerSize.data[0];
-//            marker.markerRect.height = markerSize.data[1];
-//            
-//            float markerWH = marker.markerRect.width  * 0.5;
-//            float markerHH = marker.markerRect.height * 0.5;
-//            
-//            Vec3F corners[ 4 ];
-//            corners[0] = Vec3F(-markerWH,  markerHH, 0);     // top left.
-//            corners[1] = Vec3F( markerWH,  markerHH, 0);     // top right.
-//            corners[2] = Vec3F( markerWH, -markerHH, 0);     // bottom right.
-//            corners[3] = Vec3F(-markerWH, -markerHH, 0);     // bottom left.
-//            
-//            marker.markerCenter = qcar->point3DToScreen2D(ofVec3f(0, 0, 0), i);
-//            
-//            for(int j=0; j<4; j++) {
-//                ofVec3f markerCorner = ofVec3f(corners[j].data[0], corners[j].data[1], corners[j].data[2]);
-//                marker.markerCorners[j] = qcar->point3DToScreen2D(markerCorner, i);
-//            }
-//            
-//            ofMatrix4x4 inverseModelView = marker.modelViewMatrix.getInverse();
-//            inverseModelView = inverseModelView.getTransposedOf(inverseModelView);
-//            marker.markerRotation.set(inverseModelView.getPtr()[8], inverseModelView.getPtr()[9], inverseModelView.getPtr()[10]);
-//            marker.markerRotation.normalize();
-//            marker.markerRotation.rotate(90, ofVec3f(0, 0, 1));
-//            
-//            marker.markerRotationLeftRight = marker.markerRotation.angle(ofVec3f(0, 1, 0)); // this only works in landscape mode.
-//            marker.markerRotationUpDown = marker.markerRotation.angle(ofVec3f(1, 0, 0));    // this only works in landscape mode.
-//            
-//            /**
-//             *  angle of marker to camera around the y-axis (pointing up from the center of marker)
-//             */
-//            ofVec3f cameraPosition(inverseModelView(0, 3), inverseModelView(1, 3), inverseModelView(2, 3));
-//            ofVec3f projectedDirectionToTarget(-cameraPosition.x, -cameraPosition.y, 0);
-//            projectedDirectionToTarget.normalize();
-//            ofVec3f markerForward(0.0f, 1.0f, 0.0f);
-//            float dot = projectedDirectionToTarget.dot(markerForward);
-//            ofVec3f cross = projectedDirectionToTarget.getCrossed(markerForward);
-//            float angle = acos(dot);
-//            angle *= 180.0f / PI;
-//            if(cross.z > 0) {
-//                angle = 360.0f - angle;
-//            }
-//            marker.markerAngleToCamera = angle;
-//        }
-        
-        bUpdateCallbackInProgress = false;
-    }
-    
-} qcarUpdate;
 
 #endif
 

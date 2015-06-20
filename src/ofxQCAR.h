@@ -74,11 +74,6 @@ public:
 //--------------------------------------------------------------
 class ofxQCAR
 {
-/**
- *  this allows ofxQCAR_UpdateCallback to make
- *  changes directly to ofxQCAR, even private members.
- */
-friend class ofxQCAR_UpdateCallback;
     
 public:
     
