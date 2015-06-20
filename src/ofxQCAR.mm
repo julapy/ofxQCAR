@@ -171,6 +171,7 @@ void ofxQCAR::addMarkerDataPath(const string & markerDataPath) {
 }
 
 void ofxQCAR::init() {
+    session = nil;
     licenseKey = "";
     bFlipY = false;
     bUpdateCameraPixels = false;
@@ -607,13 +608,27 @@ void ofxQCAR::autoFocusOnce() {
 
 void ofxQCAR::pause() {
 #if !(TARGET_IPHONE_SIMULATOR)    
-//    [[ofxQCAR_Utils getInstance] pauseAR];
+    if(session == nil) {
+        return;
+    }
+    NSError * error = nil;
+    [session pauseAR:&error];
+    if(error != nil) {
+        NSLog(@"%@", error.description);
+    }
 #endif
 }
 
 void ofxQCAR::resume() {
 #if !(TARGET_IPHONE_SIMULATOR)    
-//    [[ofxQCAR_Utils getInstance] resumeAR];
+    if(session == nil) {
+        return;
+    }
+    NSError * error = nil;
+    [session resumeAR:&error];
+    if(error != nil) {
+        NSLog(@"%@", error.description);
+    }
 #endif
 }
 
