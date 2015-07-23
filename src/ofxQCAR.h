@@ -118,6 +118,7 @@ public:
     
     virtual void pause();
     virtual void resume();
+    virtual void stop();
     
     virtual void begin(unsigned int i=0);
     virtual void end();

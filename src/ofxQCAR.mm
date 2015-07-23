@@ -620,12 +620,25 @@ void ofxQCAR::pause() {
 }
 
 void ofxQCAR::resume() {
-#if !(TARGET_IPHONE_SIMULATOR)    
+#if !(TARGET_IPHONE_SIMULATOR)
     if(session == nil) {
         return;
     }
     NSError * error = nil;
     [session resumeAR:&error];
+    if(error != nil) {
+        NSLog(@"%@", error.description);
+    }
+#endif
+}
+
+void ofxQCAR::stop() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    if(session == nil) {
+        return;
+    }
+    NSError * error = nil;
+    [session stopAR:&error];
     if(error != nil) {
         NSLog(@"%@", error.description);
     }
@@ -1117,17 +1130,20 @@ void ofxQCAR::drawMarkerBounds(unsigned int k) {
 /////////////////////////////////////////////////////////
 
 void ofxQCAR::exit() {
-    init();
-    
 #if !(TARGET_IPHONE_SIMULATOR)
 
     stopScan();
     markersFound.clear();
 
-//    [[ofxQCAR_Utils getInstance] pauseAR];
-//    [[ofxQCAR_Utils getInstance] destroyAR];
+    pause();
+    stop();
+    
+    [session release];
+    session = nil;
     
 #endif
+    
+    init();
 }
 
 /////////////////////////////////////////////////////////
