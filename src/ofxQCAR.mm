@@ -1008,7 +1008,16 @@ void ofxQCAR::begin(unsigned int i) {
         return;
     }
     
-    ofPushView();
+    shared_ptr<ofBaseRenderer> & renderer = ofGetCurrentRenderer();
+    
+    renderer->pushView();
+    
+    ofRectangle viewport;
+    viewport.x = session.viewport.posX;
+    viewport.y = session.viewport.posY;
+    viewport.width = session.viewport.sizeX;
+    viewport.height = session.viewport.sizeY;
+    renderer->viewport(viewport);
     
     // TODO!
     // seems to me that when bFlipY is true,
@@ -1017,26 +1026,28 @@ void ofxQCAR::begin(unsigned int i) {
     // todo in the future is remove bFlipY and assume its always true.
     
     if(bFlipY == false) {
-        ofSetOrientation(ofGetOrientation(), false);
+        renderer->setOrientation(ofGetOrientation(), false);
     }
     
-    ofSetMatrixMode(OF_MATRIX_PROJECTION);
     ofMatrix4x4 projectionMatrix = getProjectionMatrix(i);
     if(bFlipY == true) {
         projectionMatrix.postMultScale(ofVec3f(1, -1, 1));
     }
-    ofLoadMatrix(projectionMatrix);
+    renderer->matrixMode(OF_MATRIX_PROJECTION);
+    renderer->loadMatrix(projectionMatrix);
     
-    ofSetMatrixMode(OF_MATRIX_MODELVIEW);
     ofMatrix4x4 modelViewMatrix = getModelViewMatrix(i);
-    ofLoadMatrix(modelViewMatrix);
+    renderer->matrixMode(OF_MATRIX_MODELVIEW);
+    renderer->loadViewMatrix(modelViewMatrix);
+    
     if(bFlipY == true) {
         ofScale(1, -1, 1);
     }
 }
 
 void ofxQCAR::end() {
-    ofPopView();
+    shared_ptr<ofBaseRenderer> & renderer = ofGetCurrentRenderer();
+    renderer->popView();
 }
 
 /////////////////////////////////////////////////////////

@@ -531,7 +531,14 @@ namespace {
     
     // Cache the projection matrix
     const QCAR::CameraCalibration& cameraCalibration = QCAR::CameraDevice::getInstance().getCameraCalibration();
-    _projectionMatrix = QCAR::Tool::getProjectionGL(cameraCalibration, 2.0f, 5000.0f);
+    
+    // NOTE!
+    // the original code from the Vuforia example,
+    // has the GL projection near and far clipping values at >> 2.0f, 5000.0f
+    // but this was causing the model triangles to flicker.
+    // by increasing the near clipping to a larger value, this prevents the flickering behaviour.
+    
+    _projectionMatrix = QCAR::Tool::getProjectionGL(cameraCalibration, 100.0f, 10000.0f);
     return YES;
 }
 
