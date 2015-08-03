@@ -28,11 +28,25 @@
 }
 
 - (void)stopAnimation {
+#if !(TARGET_IPHONE_SIMULATOR)    
+
     ofxQCAR::getInstance()->pause();
+    return;
+    
+#endif
+    
+    [super stopAnimation];
 }
 
 - (void)startAnimation {
+#if !(TARGET_IPHONE_SIMULATOR)    
+    
     ofxQCAR::getInstance()->resume();
+    return;
+    
+#endif
+    
+    [super startAnimation];
 }
 
 @end

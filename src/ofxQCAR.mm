@@ -75,6 +75,8 @@ ofxQCAR * ofxQCAR::_instance = NULL;
 //  DELEGATE.
 /////////////////////////////////////////////////////////
 
+#if !(TARGET_IPHONE_SIMULATOR)
+
 @interface ofxVuforiaDelegate : NSObject <ofxVuforiaSessionDelegate>
 
 // ofxVuforiaDelegate passes events and callbacks back to ofxQCAR.
@@ -136,6 +138,8 @@ ofxQCAR * ofxQCAR::_instance = NULL;
 }
 
 @end
+
+#endif
 
 /////////////////////////////////////////////////////////
 //  QCAR.
@@ -229,6 +233,8 @@ void ofxQCAR::setup() {
 /////////////////////////////////////////////////////////
 
 bool ofxQCAR::qcarInitTrackers() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
     QCAR::Tracker * trackerBase = trackerManager.initTracker(QCAR::ObjectTracker::getClassType());
     if(trackerBase == NULL) {
@@ -238,10 +244,14 @@ bool ofxQCAR::qcarInitTrackers() {
     
     ofLog(OF_LOG_VERBOSE, "ofxQCAR - Successfully initialized ObjectTracker.");
     
+#endif
+    
     return true;
 }
 
 bool ofxQCAR::qcarLoadTrackersData() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
     QCAR::ObjectTracker * objectTracker = static_cast<QCAR::ObjectTracker*>(trackerManager.getTracker(QCAR::ObjectTracker::getClassType()));
     
@@ -273,10 +283,14 @@ bool ofxQCAR::qcarLoadTrackersData() {
         objectTracker->activateDataSet(markerData.dataSet);
     }
     
+#endif
+    
     return true;
 }
 
 void ofxQCAR::qcarInitARDone(NSError * error) {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     if(error != nil) {
         return;
     }
@@ -287,9 +301,13 @@ void ofxQCAR::qcarInitARDone(NSError * error) {
     [session startAR:QCAR::CameraDevice::CAMERA_BACK error:&err];
     
     QCAR::CameraDevice::getInstance().setFocusMode(QCAR::CameraDevice::FOCUS_MODE_CONTINUOUSAUTO);
+    
+#endif
 }
 
 bool ofxQCAR::qcarStartTrackers() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
     QCAR::Tracker * tracker = trackerManager.getTracker(QCAR::ObjectTracker::getClassType());
     if(tracker == NULL) {
@@ -297,11 +315,15 @@ bool ofxQCAR::qcarStartTrackers() {
     }
     
     tracker->start();
+    
+#endif
 
     return true;
 }
 
 bool ofxQCAR::qcarStopTrackers() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
     QCAR::Tracker * tracker = trackerManager.getTracker(QCAR::ObjectTracker::getClassType());
     
@@ -314,10 +336,14 @@ bool ofxQCAR::qcarStopTrackers() {
     
     ofLog(OF_LOG_VERBOSE, "ofxQCAR - successfully stopped tracker");
     
+#endif
+    
     return true;
 }
 
 bool ofxQCAR::qcarUnloadTrackersData() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
     QCAR::ObjectTracker * objectTracker = static_cast<QCAR::ObjectTracker*>(trackerManager.getTracker(QCAR::ObjectTracker::getClassType()));
 
@@ -340,12 +366,19 @@ bool ofxQCAR::qcarUnloadTrackersData() {
         }
     }
     
+#endif
+    
     return true;
 }
 
 bool ofxQCAR::qcarDeinitTrackers() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
     trackerManager.deinitTracker(QCAR::ObjectTracker::getClassType());
+    
+#endif
+    
     return true;
 }
 
@@ -853,6 +886,7 @@ void ofxQCAR::setFlipY(bool b) {
 /////////////////////////////////////////////////////////
 
 void ofxQCAR::update() {
+#if !(TARGET_IPHONE_SIMULATOR)
     
     QCAR::State state = QCAR::Renderer::getInstance().begin();
     QCAR::Renderer::getInstance().end();
@@ -946,6 +980,22 @@ void ofxQCAR::update() {
         }
         marker.markerAngleToCamera = angle;
     }
+    
+    cameraWidth = 0;
+    cameraHeight = 0;
+    cameraPixels = NULL;    // reset values on every frame.
+    
+    if(bUpdateCameraPixels == true) {
+        QCAR::Frame frame = state.getFrame();
+        const QCAR::Image * image = frame.getImage(0);
+        if(image) {
+            cameraWidth = image->getBufferWidth();
+            cameraHeight = image->getBufferHeight();
+            cameraPixels = (unsigned char *)image->getPixels();
+        }
+    }
+    
+#endif
 }
 
 /////////////////////////////////////////////////////////
@@ -993,67 +1043,20 @@ void ofxQCAR::end() {
 //  DRAW.
 /////////////////////////////////////////////////////////
 
-void ofxQCAR::drawBackground() {
-
-    ofPushView();
-    ofPushStyle();
-    ofDisableBlendMode();
-    
-    QCAR::State state = QCAR::Renderer::getInstance().begin();
-    QCAR::Renderer::getInstance().drawVideoBackground();
-    QCAR::Renderer::getInstance().end();
-    
-    //--- restore openFrameworks render configuration.
-    
-    ofPopView();
-    ofPopStyle();
-    
-    ofDisableDepthTest();
-    glDisable(GL_CULL_FACE);
-    
-    if(ofIsGLProgrammableRenderer() == true) {
-        
-        ofGLProgrammableRenderer * renderer = (ofGLProgrammableRenderer *)ofGetCurrentRenderer().get();
-        const ofShader & currentShader = renderer->getCurrentShader();
-        currentShader.begin();
-        
-    } else {
-        
-        glDisable(GL_TEXTURE_2D);
-        glDisableClientState(GL_VERTEX_ARRAY);
-        glDisableClientState(GL_NORMAL_ARRAY);
-        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-        glDisableClientState(GL_COLOR_ARRAY);
-        glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE); // applies colour to textures.
-    }
+void ofxQCAR::draw() {
+    drawBackground();
 }
 
-void ofxQCAR::draw() {
+void ofxQCAR::drawBackground() {
 #if !(TARGET_IPHONE_SIMULATOR)
 
     ofPushView();
     ofPushStyle();
     ofDisableBlendMode();
     
-    //--- render the video background.
-    
     QCAR::State state = QCAR::Renderer::getInstance().begin();
     QCAR::Renderer::getInstance().drawVideoBackground();
     QCAR::Renderer::getInstance().end();
-    
-    cameraWidth = 0;
-    cameraHeight = 0;
-    cameraPixels = NULL;    // reset values on every frame.
-    
-//    if(bUpdateCameraPixels && [ofxQCAR_Utils getInstance].appStatus == APPSTATUS_CAMERA_RUNNING) {
-//        Frame frame = state.getFrame();
-//        const Image * image = frame.getImage(0);
-//        if(image) {
-//            cameraWidth = image->getBufferWidth();
-//            cameraHeight = image->getBufferHeight();
-//            cameraPixels = (unsigned char *)image->getPixels();
-//        }
-//    }
     
     //--- restore openFrameworks render configuration.
     

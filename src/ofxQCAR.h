@@ -113,7 +113,6 @@ public:
     
     virtual void setup();
     virtual void update();
-    virtual void draw();
     virtual void exit();
     
     virtual void pause();
@@ -122,7 +121,8 @@ public:
     
     virtual void begin(unsigned int i=0);
     virtual void end();
-    
+
+    OF_DEPRECATED_MSG("ofxQCAR::draw() is deprecated, use drawBackground() instead.", void draw());
     void drawBackground();
     void drawMarkerRect(unsigned int markerIndex=0);
     void drawMarkerCenter(unsigned int markerIndex=0);

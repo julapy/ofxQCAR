@@ -5,6 +5,8 @@ Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States
 and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
 ===============================================================================*/
 
+#if !(TARGET_IPHONE_SIMULATOR)
+
 #import "ofxVuforiaSession.h"
 #import <QCAR/QCAR.h>
 #import <QCAR/QCAR_iOS.h>
@@ -625,3 +627,5 @@ void VuforiaApplication_UpdateCallback::QCAR_onUpdate(QCAR::State& state)
 }
 
 @end
+
+#endif
