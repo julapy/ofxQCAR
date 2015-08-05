@@ -1003,6 +1003,7 @@ void ofxQCAR::update() {
 /////////////////////////////////////////////////////////
 
 void ofxQCAR::begin(unsigned int i) {
+#if !(TARGET_IPHONE_SIMULATOR)
     
     if(!hasFoundMarker()) {
         return;
@@ -1043,11 +1044,17 @@ void ofxQCAR::begin(unsigned int i) {
     if(bFlipY == true) {
         ofScale(1, -1, 1);
     }
+    
+#endif
 }
 
 void ofxQCAR::end() {
+#if !(TARGET_IPHONE_SIMULATOR)
+    
     shared_ptr<ofBaseRenderer> & renderer = ofGetCurrentRenderer();
     renderer->popView();
+    
+#endif
 }
 
 /////////////////////////////////////////////////////////
