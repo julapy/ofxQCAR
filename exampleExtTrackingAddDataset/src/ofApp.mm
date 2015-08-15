@@ -1,46 +1,50 @@
-#include "testApp.h"
+#include "ofApp.h"
+
+static const string kLicenseKey = "AfJ6d4//////AAAAAck2JyVaKEJarsb9283lT4EiMz7jNMKKEPuFlDhX9shBx1A41N05tPNEMHb4IMvsx3DNpjbyXLrUQJdJcwS2IzV4NdmwY7R8CkxZFeVKEotcSjh296otcRMmZPAYWRQAFL7f4ljQLMSVjvDFZRLf9/X5uIR+wNNTqK47d1NpPhDBv2usiT0Z8SxSej5Dn919ue2p8o8QGk/KThAFPVCwIQxigXauDlECHFB0EHvoNNatMVsjyMC3hKU/btXbCFMa2wL5ZM/nQgVeqveMv5eOygzCCLkDIMC2R8QRQzqAvH4h2I0YBJ0CMxD98AP45wEwxLOOLMRFdIOi2THxpVhWHSHiU/b6XSX96FHY/0eM3aul";
 
 //--------------------------------------------------------------
-// starts extended tracking when touch touchDown
-// use startExtendedTracking() and stopExtendedTracking()
+// This example starts extended tracking when touch the screen
+// For extended tracking use startExtendedTracking() and stopExtendedTracking()
 
-void testApp::setup(){	
+// This example adds additional target datasets at runtime, when double touch the screen.
+// For adding datasets use  QCAR.addExtraTarget(<dataset>).
+// The function checks all common locations.
+
+
+void ofApp::setup(){
 	ofBackground(0);
     ofSetOrientation(OF_ORIENTATION_DEFAULT);
     
-    teapotImage.loadImage("qcar_assets/TextureTeapotBrass.png");
+    teapotImage.load("qcar_assets/TextureTeapotBrass.png");
     teapotImage.mirror(true, false);  //-- flip texture vertically since the texture coords are set that way on the teapot.
     
     touchPoint.x = touchPoint.y = -1;
-    
+
     scaleExtTrack = 3;
 
-    ofxQCAR * qcar = ofxQCAR::getInstance();
-    qcar->addTarget("QualcommExtra1.xml", "QualcommExtra1.xml");
-    
-    
-    qcar->autoFocusOn();
-    qcar->setCameraPixelsFlag(true);
-    qcar->setup();
- 
+    ofxQCAR & QCAR = *ofxQCAR::getInstance();
+    QCAR.setLicenseKey(kLicenseKey); // ADD YOUR APPLICATION LICENSE KEY HERE.
+    QCAR.addMarkerDataPath("qcar_assets/Qualcomm.xml");
+    QCAR.autoFocusOn();
+    QCAR.setCameraPixelsFlag(true);
+    QCAR.setup();
 }
 
 //--------------------------------------------------------------
-void testApp::update(){
-    ofxQCAR::getInstance()->update();
-    
+void ofApp::update(){
+    ofxQCAR & QCAR = *ofxQCAR::getInstance();
+    QCAR.update();
 }
 
 //--------------------------------------------------------------
-void testApp::draw(){
-
-    ofxQCAR * qcar = ofxQCAR::getInstance();
-    qcar->draw();
+void ofApp::draw(){
+    ofxQCAR & QCAR = *ofxQCAR::getInstance();
+    QCAR.drawBackground();
     
     bool bPressed;
     bPressed = touchPoint.x >= 0 && touchPoint.y >= 0;
     
-    if(qcar->hasFoundMarker()) {
+    if(QCAR.hasFoundMarker()) {
 
         ofDisableDepthTest();
         ofEnableBlendMode(OF_BLENDMODE_ALPHA);
@@ -49,21 +53,25 @@ void testApp::draw(){
         bool bInside = false;
         if(bPressed) {
             vector<ofPoint> markerPoly;
-            markerPoly.push_back(qcar->getMarkerCorner((ofxQCAR_MarkerCorner)0));
-            markerPoly.push_back(qcar->getMarkerCorner((ofxQCAR_MarkerCorner)1));
-            markerPoly.push_back(qcar->getMarkerCorner((ofxQCAR_MarkerCorner)2));
-            markerPoly.push_back(qcar->getMarkerCorner((ofxQCAR_MarkerCorner)3));
+            markerPoly.push_back(QCAR.getMarkerCorner((ofxQCAR_MarkerCorner)0));
+            markerPoly.push_back(QCAR.getMarkerCorner((ofxQCAR_MarkerCorner)1));
+            markerPoly.push_back(QCAR.getMarkerCorner((ofxQCAR_MarkerCorner)2));
+            markerPoly.push_back(QCAR.getMarkerCorner((ofxQCAR_MarkerCorner)3));
             bInside = ofInsidePoly(touchPoint, markerPoly);
         }
         
-        ofSetColor(ofColor(255, 0, 255, bInside ? 150 : 50));
-        qcar->drawMarkerRect();
+        if(bInside == true) {
+            ofSetColor(ofColor(255, 0, 255, 150));
+        } else {
+            ofSetColor(ofColor(255, 0, 255, 50));
+        }
+        QCAR.drawMarkerRect();
         
         ofSetColor(ofColor::yellow);
-        qcar->drawMarkerBounds();
+        QCAR.drawMarkerBounds();
         ofSetColor(ofColor::cyan);
-        qcar->drawMarkerCenter();
-        qcar->drawMarkerCorners();
+        QCAR.drawMarkerCenter();
+        QCAR.drawMarkerCorners();
         
         ofSetColor(ofColor::white);
         ofSetLineWidth(1);
@@ -71,12 +79,12 @@ void testApp::draw(){
         ofEnableDepthTest();
         ofEnableNormalizedTexCoords();
         
-        qcar->begin();
-        teapotImage.getTextureReference().bind();
+        QCAR.begin();
+        teapotImage.getTexture().bind();
         ofScale(scaleExtTrack, scaleExtTrack, scaleExtTrack);
         ofDrawTeapot();
-        teapotImage.getTextureReference().unbind();
-        qcar->end();
+        teapotImage.getTexture().unbind();
+        QCAR.end();
         
         ofDisableNormalizedTexCoords();
     }
@@ -86,17 +94,17 @@ void testApp::draw(){
     /**
      *  access to camera pixels.
      */
-    int cameraW = qcar->getCameraWidth();
-    int cameraH = qcar->getCameraHeight();
-    unsigned char * cameraPixels = qcar->getCameraPixels();
+    int cameraW = QCAR.getCameraWidth();
+    int cameraH = QCAR.getCameraHeight();
+    unsigned char * cameraPixels = QCAR.getCameraPixels();
     if(cameraW > 0 && cameraH > 0 && cameraPixels != NULL) {
         if(cameraImage.isAllocated() == false ) {
             cameraImage.allocate(cameraW, cameraH, OF_IMAGE_GRAYSCALE);
         }
         cameraImage.setFromPixels(cameraPixels, cameraW, cameraH, OF_IMAGE_GRAYSCALE);
-        if(qcar->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
+        if(QCAR.getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
             cameraImage.rotate90(1);
-        } else if(qcar->getOrientation() == OFX_QCAR_ORIENTATION_LANDSCAPE) {
+        } else if(QCAR.getOrientation() == OFX_QCAR_ORIENTATION_LANDSCAPE) {
             cameraImage.mirror(true, true);
         }
 
@@ -110,7 +118,7 @@ void testApp::draw(){
         ofSetColor(ofColor::white);
         ofNoFill();
         ofSetLineWidth(3);
-        ofRect(cameraX, cameraY, cameraW, cameraH);
+        ofDrawRectangle(cameraX, cameraY, cameraW, cameraH);
         ofPopStyle();
     }
     
@@ -123,60 +131,59 @@ void testApp::draw(){
 }
 
 //--------------------------------------------------------------
-void testApp::exit(){
+void ofApp::exit(){
     ofxQCAR::getInstance()->exit();
 }
 
 //--------------------------------------------------------------
-void testApp::touchDown(ofTouchEventArgs & touch){
+void ofApp::touchDown(ofTouchEventArgs & touch){
     touchPoint.set(touch.x, touch.y);
-     ofxQCAR * qcar = ofxQCAR::getInstance();
-    scaleExtTrack=20;
-      qcar->startExtendedTracking();
-
+     ofxQCAR & QCAR = *ofxQCAR::getInstance();
+     scaleExtTrack=20;
+     QCAR.startExtendedTracking();
 }
 
 //--------------------------------------------------------------
-void testApp::touchMoved(ofTouchEventArgs & touch){
+void ofApp::touchMoved(ofTouchEventArgs & touch){
     touchPoint.set(touch.x, touch.y);
 }
 
 //--------------------------------------------------------------
-void testApp::touchUp(ofTouchEventArgs & touch){
+void ofApp::touchUp(ofTouchEventArgs & touch){
     touchPoint.set(-1, -1);
-     ofxQCAR * qcar = ofxQCAR::getInstance();
-    scaleExtTrack=3;
-     qcar->stopExtendedTracking();
+    ofxQCAR & QCAR = *ofxQCAR::getInstance();
+     scaleExtTrack=3;
+     QCAR.stopExtendedTracking();
 }
 
 //--------------------------------------------------------------
-void testApp::touchDoubleTap(ofTouchEventArgs & touch){
-     ofxQCAR * qcar = ofxQCAR::getInstance();
-    qcar->addExtraTarget("QualcommExtra2.xml");
+void ofApp::touchDoubleTap(ofTouchEventArgs & touch){
+  ofxQCAR & QCAR = *ofxQCAR::getInstance();
+    QCAR.addExtraTarget("qcar_assets/QualcommExtra2.xml");
 }
 
 //--------------------------------------------------------------
-void testApp::touchCancelled(ofTouchEventArgs & touch){
+void ofApp::touchCancelled(ofTouchEventArgs & touch){
     
 }
 
 //--------------------------------------------------------------
-void testApp::lostFocus(){
+void ofApp::lostFocus(){
 
 }
 
 //--------------------------------------------------------------
-void testApp::gotFocus(){
+void ofApp::gotFocus(){
 
 }
 
 //--------------------------------------------------------------
-void testApp::gotMemoryWarning(){
+void ofApp::gotMemoryWarning(){
 
 }
 
 //--------------------------------------------------------------
-void testApp::deviceOrientationChanged(int newOrientation){
+void ofApp::deviceOrientationChanged(int newOrientation){
 
 }
 

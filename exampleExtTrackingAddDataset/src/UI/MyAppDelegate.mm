@@ -10,7 +10,6 @@
 #import "MyAppViewController.h"
 
 #import "ofxQCAR_ViewController.h"
-#import "testApp.h"
 
 @implementation MyAppDelegate
 
