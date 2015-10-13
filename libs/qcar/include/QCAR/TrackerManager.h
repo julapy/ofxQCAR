@@ -1,5 +1,5 @@
 /*===============================================================================
-Copyright (c) 2010-2014 Qualcomm Connected Experiences, Inc. All Rights Reserved.
+Copyright (c) 2010-2015 Qualcomm Connected Experiences, Inc. All Rights Reserved.
 
 Vuforia is a trademark of QUALCOMM Incorporated, registered in the United States 
 and other countries. Trademarks of QUALCOMM Incorporated are used with permission.
@@ -19,6 +19,9 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 
 namespace QCAR
 {
+
+// Forward declarations:
+class StateUpdater;
 
 /// TrackerManager class.
 /**
@@ -60,6 +63,9 @@ public:
      *  CameraDevice is currently initialized.
      */
     virtual bool deinitTracker(Type type) = 0;
+
+    /// Returns the StateUpdater instance
+    virtual StateUpdater& getStateUpdater() = 0;
 };
 
 } // namespace QCAR

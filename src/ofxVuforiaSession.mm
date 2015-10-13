@@ -373,7 +373,6 @@ namespace {
     // Configure the video background
     QCAR::VideoBackgroundConfig config;
     config.mEnabled = true;
-    config.mSynchronous = true;
     config.mPosition.data[0] = 0.0f;
     config.mPosition.data[1] = 0.0f;
     

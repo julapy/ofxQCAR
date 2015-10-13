@@ -33,7 +33,6 @@ struct VideoBackgroundConfig
     VideoBackgroundConfig()
     {
         mEnabled = true;
-        mSynchronous = true;
         mPosition.data[0] = 0;
         mPosition.data[1] = 0;
         mSize.data[0] = 0;
@@ -43,17 +42,6 @@ struct VideoBackgroundConfig
 
     /// Enables/disables rendering of the video background.
     bool mEnabled;
-
-    /// Enables/disables synchronization of render and camera frame rate.
-    /**
-     *  If synchronization is enabled the SDK will attempt to match the
-     *  rendering frame rate with the camera frame rate. This may result
-     *  in a performance gain as potentially redundant render calls are
-     *  avoided. Enabling this is not recommended if your augmented content
-     *  needs to be animated at a rate higher than the rate at which the
-     *  camera delivers frames.
-     */
-    bool mSynchronous;
 
     /// Relative position of the video background in the render target in
     /// pixels.

@@ -36,6 +36,9 @@ public:
     /// Returns the radial distortion as 4D vector.
     virtual Vec4F getDistortionParameters() const = 0;
 
+    /// Returns the field of view in x- and y-direction as 2D vector.
+    virtual Vec2F getFieldOfViewRads() const = 0;
+
 protected:
 
     virtual ~CameraCalibration() {}

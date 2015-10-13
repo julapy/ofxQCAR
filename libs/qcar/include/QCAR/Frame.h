@@ -60,7 +60,7 @@ public:
     int getIndex() const;
 
     /// Number of images in the images-array
-    int getNumImages() const;
+    unsigned int getNumImages() const;
 
     /// Read-only access to an image
     const Image* getImage(int idx) const;
