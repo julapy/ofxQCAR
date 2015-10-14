@@ -1,0 +1,7 @@
+set solib-search-path /Users/jondor/work/codeoncanvas/openFrameworks/apps/devApps/androidVuforiaExample/obj/local/armeabi-v7a:/Users/jondor/work/codeoncanvas/openFrameworks/apps/devApps/androidVuforiaExample/libs/armeabi-v7a
+set sysroot /Users/jondor/work/android-ndk-r10e/platforms/android-19/arch-arm/
+directory /Users/jondor/work/android-ndk-r10e/platforms/android-19/arch-arm/usr/include
+directory /Users/jondor/work/codeoncanvas/openFrameworks/apps/devApps/androidVuforiaExample/src
+directory /Users/jondor/work/android-ndk-r10e/sources/cxx-stl/system
+directory /Users/jondor/work/codeoncanvas/openFrameworks/apps/devApps/androidVuforiaExample/libs/armeabi-v7a
+

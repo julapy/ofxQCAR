@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_description">Vuforia ImageTargets Sample Application</string>
+    <string name="button_start">Start</string>
+    
+    <string name="INIT_ERROR">Error</string>
+    <string name="INIT_ERROR_DEVICE_NOT_SUPPORTED">Failed to initialize Vuforia. This device is not supported.</string>
+    <string name="INIT_ERROR_NO_CAMERA_ACCESS">Failed to initialize Vuforia. Camera not accessible</string>
+    <string name="INIT_LICENSE_ERROR_MISMATCH_KEY">Vuforia App key is not valid for this product. Please get a valid key, by logging into your account at developer.vuforia.com and choosing the right product type during project creation.</string>
+    <string name="INIT_LICENSE_ERROR_MISSING_KEY">Vuforia App key is missing. Please get a valid key, by logging into your account at developer.vuforia.com and creating a new project.</string>
+    <string name="INIT_LICENSE_ERROR_INVALID_KEY">Invalid Key used. Please make sure you are using a valid Vuforia App Key.</string>
+    <string name="INIT_LICENSE_ERROR_NO_NETWORK_TRANSIENT">Unable to contact server. Please try again later.</string>
+    <string name="INIT_LICENSE_ERROR_NO_NETWORK_PERMANENT">No network available. Please make sure you are connected to the Internet.</string>
+    <string name="INIT_LICENSE_ERROR_CANCELED_KEY">This app license key has been canceled and may no longer be used. Please get a new license key.</string>
+    <string name="INIT_LICENSE_ERROR_PRODUCT_TYPE_MISMATCH">Vuforia App key is not valid for this product. Please get a valid key, by logging into your account at developer.vuforia.com and choosing the right product type during project creation.</string>
+    <string name="INIT_LICENSE_ERROR_UNKNOWN_ERROR">Failed to initialize Vuforia.</string>
+    <string name="menu_back">About</string>
+    <string name="menu_extended_tracking">Extended Tracking</string>
+    <string name="menu_character_mode">Character Mode</string>
+    <string name="menu_flash">Flash</string>
+    <string name="menu_flash_error_on">Unable to turn on flash</string>
+    <string name="menu_flash_error_off">Unable to turn off flash</string>
+    <string name="menu_contAutofocus">Autofocus</string>
+    <string name="menu_contAutofocus_error_on">Unable to activate Continuous Auto-Focus</string>
+    <string name="menu_contAutofocus_error_off">Unable to deactivate Continuous Auto-Focus</string>
+    <string name="menu_datasets">DATASETS</string>
+    <string name="menu_camera">CAMERA</string>
+    <string name="menu_camera_front">Front</string>
+    <string name="menu_camera_back">Rear</string>
+    <string name="menu_button_red">Red</string>
+    <string name="menu_button_blue">Blue</string>
+    <string name="menu_button_yellow">Yellow</string>
+    <string name="menu_button_green">Green</string>
+        
+    <string name="splash_screen_description">Vuforia Splash</string>
+    
+</resources>
