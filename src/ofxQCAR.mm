@@ -1088,7 +1088,7 @@ void ofxQCAR::drawBackground() {
         
         ofGLProgrammableRenderer * renderer = (ofGLProgrammableRenderer *)ofGetCurrentRenderer().get();
         const ofShader & currentShader = renderer->getCurrentShader();
-        currentShader.begin();
+        glUseProgram(currentShader.getProgram());
         
     } else {
         
