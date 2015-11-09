@@ -803,7 +803,7 @@ ofVec2f ofxQCAR::point3DToScreen2D(ofVec3f point, unsigned int i) {
         const QCAR::CameraCalibration& cameraCalibration = QCAR::CameraDevice::getInstance().getCameraCalibration();
         QCAR::Vec2F cameraPoint = QCAR::Tool::projectPoint(cameraCalibration, pose, QCAR::Vec3F(point.x, point.y, point.z));
         QCAR::Vec2F xyPoint = cameraPointToScreenPoint(cameraPoint);
-        ofVec2f screenPoint(xyPoint.data[ 0 ], xyPoint.data[ 1 ]);
+        ofVec2f screenPoint(xyPoint.data[0], xyPoint.data[1]);
         return screenPoint;
     } else {
         return ofVec2f();
@@ -906,21 +906,10 @@ void ofxQCAR::update() {
 
         QCAR::Matrix44F modelViewMatrix = QCAR::Tool::convertPose2GLMatrix(result.getPose());
         
-        const QCAR::VideoBackgroundConfig & config = QCAR::Renderer::getInstance().getVideoBackgroundConfig();
-        float scaleX = 1.0, scaleY = 1.0;
-        if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
-            scaleX = config.mSize.data[0] / (float)ofGetWidth();
-            scaleY = config.mSize.data[1] / (float)ofGetHeight();
-        } else {
-            scaleX = config.mSize.data[1] / (float)ofGetHeight();
-            scaleY = config.mSize.data[0] / (float)ofGetWidth();
-        }
-        
         markersFound.push_back(ofxQCAR_Marker());
         ofxQCAR_Marker & marker = markersFound.back();
         
         marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
-        marker.modelViewMatrix.scale(scaleY, scaleX, 1);
         marker.projectionMatrix = ofMatrix4x4([session projectionMatrix].data);
         
         for(int i=0; i<12; i++) {

@@ -475,6 +475,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0630;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = 5S8Z4RK9BJ;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ofxQCAR" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -571,6 +576,8 @@
 			baseConfigurationReference = E41D3ED613B38FB500A75A5D /* ofxQCAR-Project.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ofxQCAR-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -593,6 +600,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E41D3ED613B38FB500A75A5D /* ofxQCAR-Project.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ofxQCAR-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
