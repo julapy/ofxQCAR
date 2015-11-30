@@ -9,8 +9,6 @@
 #include "ofxQCAR_Marker.h"
 
 ofxQCAR_Marker::ofxQCAR_Marker() {
-    scaleX = 1;
-    scaleY = 1;
     markerRotationLeftRight = 0;
     markerRotationUpDown = 0;
     markerAngleToCamera = 0;

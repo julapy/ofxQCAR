@@ -19,8 +19,6 @@ public:
     ofMatrix4x4 projectionMatrix;
     ofMatrix4x4 modelViewMatrix;
     float poseMatrixData[3*4];
-    float scaleX;
-    float scaleY;
     
     ofRectangle markerRect;
     ofVec2f markerCenter;
