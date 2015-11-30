@@ -27,7 +27,8 @@ enum ofxQCAR_MarkerCorner {
 //--------------------------------------------------------------
 enum ofxQCAR_Orientation {
     OFX_QCAR_ORIENTATION_PORTRAIT,
-    OFX_QCAR_ORIENTATION_LANDSCAPE
+    OFX_QCAR_ORIENTATION_LANDSCAPE_LEFT,
+    OFX_QCAR_ORIENTATION_LANDSCAPE_RIGHT
 };
 
 //--------------------------------------------------------------

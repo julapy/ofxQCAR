@@ -10,7 +10,6 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 
-//#import "ofxQCAR_Utils.h"
 #import "ofxVuforiaSession.h"
 #import "ofxiOSExtras.h"
 
@@ -209,7 +208,11 @@ void ofxQCAR::setup() {
     } else {
         ARViewBoundsSize.width = [[UIScreen mainScreen] bounds].size.height;
         ARViewBoundsSize.height = [[UIScreen mainScreen] bounds].size.width;
-        ARViewOrientation = UIInterfaceOrientationLandscapeLeft;
+        if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE_LEFT) {
+            ARViewOrientation = UIInterfaceOrientationLandscapeLeft;
+        } else if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE_RIGHT) {
+            ARViewOrientation = UIInterfaceOrientationLandscapeRight;
+        }
     }
     
     if(ofxiOSGetOFWindow()->isRetinaEnabled() == true) {
