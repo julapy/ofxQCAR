@@ -10,6 +10,7 @@
 
 #import "ofMain.h"
 #import "ofxQCAR_App.h"
+#import "ofxQCAR_Marker.h"
 #import <QCAR/DataSet.h>
 
 class ofxQCAR_UpdateCallback;
@@ -38,37 +39,6 @@ public:
     }
     string dataPath;
     QCAR::DataSet * dataSet;
-};
-
-//--------------------------------------------------------------
-class ofxQCAR_Marker {
-public:
-    ofxQCAR_Marker() {
-        scaleX = 1;
-        scaleY = 1;
-        markerRotationLeftRight = 0;
-        markerRotationUpDown = 0;
-        markerAngleToCamera = 0;
-        markerName = "";
-        for(int i=0; i<12; i++) {
-            poseMatrixData[i] = 0;
-        }
-    }
-    ofMatrix4x4 projectionMatrix;
-    ofMatrix4x4 modelViewMatrix;
-    float poseMatrixData[3*4];
-    float scaleX;
-    float scaleY;
- 
-    
-    ofRectangle markerRect;
-    ofVec2f markerCenter;
-    ofVec2f markerCorners[4];
-    ofVec3f markerRotation;
-    float markerRotationLeftRight;
-    float markerRotationUpDown;
-    float markerAngleToCamera;
-    string markerName;
 };
 
 //--------------------------------------------------------------
@@ -120,6 +90,7 @@ public:
     virtual void stop();
     
     virtual void begin(unsigned int i=0);
+    virtual void begin(const ofxQCAR_Marker & marker);
     virtual void end();
 
     OF_DEPRECATED_MSG("ofxQCAR::draw() is deprecated, use drawBackground() instead.", void draw());

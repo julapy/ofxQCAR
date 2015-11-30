@@ -994,9 +994,20 @@ void ofxQCAR::update() {
 void ofxQCAR::begin(unsigned int i) {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    if(!hasFoundMarker()) {
+    bool bValid = true;
+    bValid = bValid && (i < numOfMarkersFound());
+    if(bValid == false) {
         return;
     }
+    
+    ofxQCAR_Marker marker = getMarker(i);
+    begin(marker);
+    
+#endif
+}
+
+void ofxQCAR::begin(const ofxQCAR_Marker & marker) {
+#if !(TARGET_IPHONE_SIMULATOR)
     
     shared_ptr<ofBaseRenderer> & renderer = ofGetCurrentRenderer();
     
@@ -1019,14 +1030,14 @@ void ofxQCAR::begin(unsigned int i) {
         renderer->setOrientation(ofGetOrientation(), false);
     }
     
-    ofMatrix4x4 projectionMatrix = getProjectionMatrix(i);
+    ofMatrix4x4 projectionMatrix = marker.projectionMatrix;
     if(bFlipY == true) {
         projectionMatrix.postMultScale(ofVec3f(1, -1, 1));
     }
     renderer->matrixMode(OF_MATRIX_PROJECTION);
     renderer->loadMatrix(projectionMatrix);
     
-    ofMatrix4x4 modelViewMatrix = getModelViewMatrix(i);
+    ofMatrix4x4 modelViewMatrix = marker.modelViewMatrix;
     renderer->matrixMode(OF_MATRIX_MODELVIEW);
     renderer->loadViewMatrix(modelViewMatrix);
     
