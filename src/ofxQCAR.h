@@ -91,7 +91,7 @@ public:
     virtual void stop();
     
     virtual void begin(unsigned int i=0);
-    virtual void begin(const ofxQCAR_Marker & marker);
+    virtual void begin(const ofMatrix4x4 & projectionMatrix, const ofMatrix4x4 & modelViewMatrix);
     virtual void end();
 
     OF_DEPRECATED_MSG("ofxQCAR::draw() is deprecated, use drawBackground() instead.", void draw());
@@ -160,6 +160,7 @@ private:
     ofxVuforiaSession * session;
     string licenseKey;
     
+    ofMatrix4x4 projectionMatrix;
     vector<ofxQCAR_MarkerData> markersData;
     vector<ofxQCAR_Marker> markersFound;
     ofxQCAR_Orientation orientation;

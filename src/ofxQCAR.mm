@@ -305,6 +305,8 @@ void ofxQCAR::qcarInitARDone(NSError * error) {
     
     QCAR::CameraDevice::getInstance().setFocusMode(QCAR::CameraDevice::FOCUS_MODE_CONTINUOUSAUTO);
     
+    projectionMatrix = ofMatrix4x4([session projectionMatrix].data);
+    
 #endif
 }
 
@@ -913,7 +915,7 @@ void ofxQCAR::update() {
         ofxQCAR_Marker & marker = markersFound.back();
         
         marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
-        marker.projectionMatrix = ofMatrix4x4([session projectionMatrix].data);
+        marker.projectionMatrix = projectionMatrix;
         
         for(int i=0; i<12; i++) {
             marker.poseMatrixData[i] = result.getPose().data[i];
@@ -1004,12 +1006,12 @@ void ofxQCAR::begin(unsigned int i) {
     }
     
     ofxQCAR_Marker marker = getMarker(i);
-    begin(marker);
+    begin(marker.projectionMatrix, marker.modelViewMatrix);
     
 #endif
 }
 
-void ofxQCAR::begin(const ofxQCAR_Marker & marker) {
+void ofxQCAR::begin(const ofMatrix4x4 & projectionMatrixNew, const ofMatrix4x4 & modelViewMatrixNew) {
 #if !(TARGET_IPHONE_SIMULATOR)
     
     shared_ptr<ofBaseRenderer> & renderer = ofGetCurrentRenderer();
@@ -1033,14 +1035,14 @@ void ofxQCAR::begin(const ofxQCAR_Marker & marker) {
         renderer->setOrientation(ofGetOrientation(), false);
     }
     
-    ofMatrix4x4 projectionMatrix = marker.projectionMatrix;
+    ofMatrix4x4 projMatrix = projectionMatrixNew;
     if(bFlipY == true) {
-        projectionMatrix.postMultScale(ofVec3f(1, -1, 1));
+        projMatrix.postMultScale(ofVec3f(1, -1, 1));
     }
     renderer->matrixMode(OF_MATRIX_PROJECTION);
-    renderer->loadMatrix(projectionMatrix);
+    renderer->loadMatrix(projMatrix);
     
-    ofMatrix4x4 modelViewMatrix = marker.modelViewMatrix;
+    ofMatrix4x4 modelViewMatrix = modelViewMatrixNew;
     renderer->matrixMode(OF_MATRIX_MODELVIEW);
     renderer->loadViewMatrix(modelViewMatrix);
     
