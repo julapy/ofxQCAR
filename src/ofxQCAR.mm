@@ -715,12 +715,8 @@ ofxQCAR_Marker ofxQCAR::getMarker(unsigned int i) {
     }
 }
 
-ofMatrix4x4 ofxQCAR::getProjectionMatrix(unsigned int i) { 
-    if(i < numOfMarkersFound()) {
-        return markersFound[i].projectionMatrix;
-    } else {
-        return ofMatrix4x4();
-    }
+const ofMatrix4x4 & ofxQCAR::getProjectionMatrix() {
+    return projectionMatrix;
 }
 
 ofMatrix4x4 ofxQCAR::getModelViewMatrix(unsigned int i) {

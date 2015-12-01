@@ -121,7 +121,7 @@ public:
     int getMaxNumOfMarkers();
     
     ofxQCAR_Marker getMarker(unsigned int markerIndex=0);
-    ofMatrix4x4 getProjectionMatrix(unsigned int markerIndex=0);
+    const ofMatrix4x4 & getProjectionMatrix();
     ofMatrix4x4 getModelViewMatrix(unsigned int markerIndex=0);
     ofRectangle getMarkerRect(unsigned int markerIndex=0);
     ofVec2f     getMarkerCenter(unsigned int markerIndex=0);
