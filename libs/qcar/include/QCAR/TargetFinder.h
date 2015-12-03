@@ -56,6 +56,12 @@ public:
         UPDATE_ERROR_REQUEST_TIMEOUT = -8        ///< No response to network request after timeout.
     };
 
+    /// Filter modes to be passed into updateSearchResults() function
+    enum
+    {
+        FILTER_NONE = 0, 	///< No results are filtered, all successful queries are returned
+        FILTER_CURRENTLY_TRACKED = 1  ///< Filter out targets that are currently being tracked (Most Common)
+    };
 
     /// Starts initialization of the cloud-based recognition system.
     /**
@@ -114,11 +120,11 @@ public:
      *  Clears and rebuilds the list of TargetSearchResults with results found
      *  since the last call to updateSearchResults(). Returns the status code
      *  UPDATE_RESULTS_AVAILABLE if new search results have been found.
-     *  Targets that are already enabled for tracking are not included
+     *  By default, targets that are already enabled for tracking are not included
      *  in the list of TargetSearchResults unless the target or its associated
      *  meta data has been updated since they were last enabled for tracking.
      */
-    virtual int updateSearchResults() = 0;
+    virtual int updateSearchResults(int filter = FILTER_CURRENTLY_TRACKED) = 0;
 
     /// Get the number of visual search results
     virtual int getResultCount() const = 0;

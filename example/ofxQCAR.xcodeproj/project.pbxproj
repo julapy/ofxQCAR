@@ -475,6 +475,11 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0630;
+				TargetAttributes = {
+					1D6058900D05DD3D006BFB54 = {
+						DevelopmentTeam = 5S8Z4RK9BJ;
+					};
+				};
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "ofxQCAR" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -571,6 +576,9 @@
 			baseConfigurationReference = E41D3ED613B38FB500A75A5D /* ofxQCAR-Project.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ofxQCAR-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -578,13 +586,14 @@
 					../../../addons/ofxQCAR/libs/qcar/include,
 				);
 				INFOPLIST_FILE = "ofxQCAR-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../../addons/ofxQCAR/libs/qcar/lib/arm,
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Debug;
@@ -593,6 +602,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E41D3ED613B38FB500A75A5D /* ofxQCAR-Project.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ofxQCAR-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -600,13 +612,14 @@
 					../../../addons/ofxQCAR/libs/qcar/include,
 				);
 				INFOPLIST_FILE = "ofxQCAR-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../../addons/ofxQCAR/libs/qcar/lib/arm,
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "${TARGET_NAME}";
+				PROVISIONING_PROFILE = "";
 				VALID_ARCHS = "$(ARCHS_STANDARD)";
 			};
 			name = Release;
