@@ -10,7 +10,6 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 
-//#import "ofxQCAR_Utils.h"
 #import "ofxVuforiaSession.h"
 #import "ofxiOSExtras.h"
 
@@ -209,7 +208,11 @@ void ofxQCAR::setup() {
     } else {
         ARViewBoundsSize.width = [[UIScreen mainScreen] bounds].size.height;
         ARViewBoundsSize.height = [[UIScreen mainScreen] bounds].size.width;
-        ARViewOrientation = UIInterfaceOrientationLandscapeLeft;
+        if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE_LEFT) {
+            ARViewOrientation = UIInterfaceOrientationLandscapeLeft;
+        } else if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE_RIGHT) {
+            ARViewOrientation = UIInterfaceOrientationLandscapeRight;
+        }
     }
     
     if(ofxiOSGetOFWindow()->isRetinaEnabled() == true) {
@@ -301,6 +304,8 @@ void ofxQCAR::qcarInitARDone(NSError * error) {
     [session startAR:QCAR::CameraDevice::CAMERA_BACK error:&err];
     
     QCAR::CameraDevice::getInstance().setFocusMode(QCAR::CameraDevice::FOCUS_MODE_CONTINUOUSAUTO);
+    
+    projectionMatrix = ofMatrix4x4([session projectionMatrix].data);
     
 #endif
 }
@@ -767,12 +772,8 @@ ofxQCAR_Marker ofxQCAR::getMarker(unsigned int i) {
     }
 }
 
-ofMatrix4x4 ofxQCAR::getProjectionMatrix(unsigned int i) { 
-    if(i < numOfMarkersFound()) {
-        return markersFound[i].projectionMatrix;
-    } else {
-        return ofMatrix4x4();
-    }
+const ofMatrix4x4 & ofxQCAR::getProjectionMatrix() {
+    return projectionMatrix;
 }
 
 ofMatrix4x4 ofxQCAR::getModelViewMatrix(unsigned int i) {
@@ -860,7 +861,7 @@ ofVec2f ofxQCAR::point3DToScreen2D(ofVec3f point, unsigned int i) {
         const QCAR::CameraCalibration& cameraCalibration = QCAR::CameraDevice::getInstance().getCameraCalibration();
         QCAR::Vec2F cameraPoint = QCAR::Tool::projectPoint(cameraCalibration, pose, QCAR::Vec3F(point.x, point.y, point.z));
         QCAR::Vec2F xyPoint = cameraPointToScreenPoint(cameraPoint);
-        ofVec2f screenPoint(xyPoint.data[ 0 ], xyPoint.data[ 1 ]);
+        ofVec2f screenPoint(xyPoint.data[0], xyPoint.data[1]);
         return screenPoint;
     } else {
         return ofVec2f();
@@ -963,22 +964,11 @@ void ofxQCAR::update() {
 
         QCAR::Matrix44F modelViewMatrix = QCAR::Tool::convertPose2GLMatrix(result.getPose());
         
-        const QCAR::VideoBackgroundConfig & config = QCAR::Renderer::getInstance().getVideoBackgroundConfig();
-        float scaleX = 1.0, scaleY = 1.0;
-        if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
-            scaleX = config.mSize.data[0] / (float)ofGetWidth();
-            scaleY = config.mSize.data[1] / (float)ofGetHeight();
-        } else {
-            scaleX = config.mSize.data[1] / (float)ofGetHeight();
-            scaleY = config.mSize.data[0] / (float)ofGetWidth();
-        }
-        
         markersFound.push_back(ofxQCAR_Marker());
         ofxQCAR_Marker & marker = markersFound.back();
         
         marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
-        marker.modelViewMatrix.scale(scaleY, scaleX, 1);
-        marker.projectionMatrix = ofMatrix4x4([session projectionMatrix].data);
+        marker.projectionMatrix = projectionMatrix;
         
         for(int i=0; i<12; i++) {
             marker.poseMatrixData[i] = result.getPose().data[i];
@@ -1062,9 +1052,20 @@ void ofxQCAR::update() {
 void ofxQCAR::begin(unsigned int i) {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    if(!hasFoundMarker()) {
+    bool bValid = true;
+    bValid = bValid && (i < numOfMarkersFound());
+    if(bValid == false) {
         return;
     }
+    
+    ofxQCAR_Marker marker = getMarker(i);
+    begin(marker.projectionMatrix, marker.modelViewMatrix);
+    
+#endif
+}
+
+void ofxQCAR::begin(const ofMatrix4x4 & projectionMatrixNew, const ofMatrix4x4 & modelViewMatrixNew) {
+#if !(TARGET_IPHONE_SIMULATOR)
     
     shared_ptr<ofBaseRenderer> & renderer = ofGetCurrentRenderer();
     
@@ -1087,14 +1088,14 @@ void ofxQCAR::begin(unsigned int i) {
         renderer->setOrientation(ofGetOrientation(), false);
     }
     
-    ofMatrix4x4 projectionMatrix = getProjectionMatrix(i);
+    ofMatrix4x4 projMatrix = projectionMatrixNew;
     if(bFlipY == true) {
-        projectionMatrix.postMultScale(ofVec3f(1, -1, 1));
+        projMatrix.postMultScale(ofVec3f(1, -1, 1));
     }
     renderer->matrixMode(OF_MATRIX_PROJECTION);
-    renderer->loadMatrix(projectionMatrix);
+    renderer->loadMatrix(projMatrix);
     
-    ofMatrix4x4 modelViewMatrix = getModelViewMatrix(i);
+    ofMatrix4x4 modelViewMatrix = modelViewMatrixNew;
     renderer->matrixMode(OF_MATRIX_MODELVIEW);
     renderer->loadViewMatrix(modelViewMatrix);
     
@@ -1145,7 +1146,7 @@ void ofxQCAR::drawBackground() {
         
         ofGLProgrammableRenderer * renderer = (ofGLProgrammableRenderer *)ofGetCurrentRenderer().get();
         const ofShader & currentShader = renderer->getCurrentShader();
-        currentShader.begin();
+        glUseProgram(currentShader.getProgram());
         
     } else {
         

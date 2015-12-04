@@ -60,7 +60,7 @@
     ofxQCAR_Orientation orientation = ofxQCAR::getInstance()->getOrientation();
     if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
         return UIInterfaceOrientationIsPortrait(interfaceOrientation);
-    } else if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE) {
+    } else if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE_LEFT || orientation == OFX_QCAR_ORIENTATION_LANDSCAPE_RIGHT) {
         return UIInterfaceOrientationIsLandscape(interfaceOrientation);
     }
     return YES;
@@ -99,7 +99,7 @@
     }
     
     ofxQCAR_Orientation orientation = ofxQCAR::getInstance()->getOrientation();
-    if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE) {
+    if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE_LEFT || orientation == OFX_QCAR_ORIENTATION_LANDSCAPE_RIGHT) {
         rot -= 90;
     }
     
