@@ -3,8 +3,12 @@
 static const string kLicenseKey = "AfJ6d4//////AAAAAck2JyVaKEJarsb9283lT4EiMz7jNMKKEPuFlDhX9shBx1A41N05tPNEMHb4IMvsx3DNpjbyXLrUQJdJcwS2IzV4NdmwY7R8CkxZFeVKEotcSjh296otcRMmZPAYWRQAFL7f4ljQLMSVjvDFZRLf9/X5uIR+wNNTqK47d1NpPhDBv2usiT0Z8SxSej5Dn919ue2p8o8QGk/KThAFPVCwIQxigXauDlECHFB0EHvoNNatMVsjyMC3hKU/btXbCFMa2wL5ZM/nQgVeqveMv5eOygzCCLkDIMC2R8QRQzqAvH4h2I0YBJ0CMxD98AP45wEwxLOOLMRFdIOi2THxpVhWHSHiU/b6XSX96FHY/0eM3aul";
 
 //--------------------------------------------------------------
-// starts extended tracking when touch touchDown
-// use startExtendedTracking() and stopExtendedTracking()
+// This example starts extended tracking when touch the screen
+// For extended tracking use startExtendedTracking() and stopExtendedTracking()
+
+// This example adds additional target datasets at runtime, when double touch the screen.
+// For adding datasets use  QCAR.addExtraTarget(<dataset>).
+// The function checks all common locations.
 
 void ofApp::setup(){	
 	ofBackground(0);
@@ -55,7 +59,12 @@ void ofApp::draw(){
             bInside = ofInsidePoly(touchPoint, markerPoly);
         }
         
-        ofSetColor(ofColor(255, 0, 255, bInside ? 150 : 50));
+        if(bInside == true) {
+            ofSetColor(ofColor(255, 0, 255, 150));
+        } else {
+            ofSetColor(ofColor(255, 0, 255, 50));
+        }
+
         QCAR.drawMarkerRect();
         
         ofSetColor(ofColor::yellow);
@@ -153,7 +162,7 @@ void ofApp::touchUp(ofTouchEventArgs & touch){
 //--------------------------------------------------------------
 void ofApp::touchDoubleTap(ofTouchEventArgs & touch){
     ofxQCAR& QCAR = ofxQCAR::getInstance();
-    QCAR.addExtraTarget("QualcommExtra2.xml");
+    QCAR.addExtraTarget("qcar_assets/QualcommExtra2.xml");
 }
 
 //--------------------------------------------------------------
