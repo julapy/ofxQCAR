@@ -382,7 +382,7 @@ bool ofxQCAR::qcarDeinitTrackers() {
     return true;
 }
 
-void ofxQCAR::qcarUpdate(QCAR::State * state) {
+void ofxQCAR::qcarUpdate(Vuforia::State * state) {
     //
 }
 

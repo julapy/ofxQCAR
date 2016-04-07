@@ -10,7 +10,7 @@
 
 #import "ofMain.h"
 #import "ofxQCAR_App.h"
-#import <QCAR/DataSet.h>
+#import <Vuforia/DataSet.h>
 
 class ofxQCAR_UpdateCallback;
 @class ofxVuforiaSession;
@@ -37,7 +37,7 @@ public:
         dataSet = NULL;
     }
     string dataPath;
-    QCAR::DataSet * dataSet;
+    Vuforia::DataSet * dataSet;
 };
 
 //--------------------------------------------------------------
@@ -101,7 +101,7 @@ public:
     bool qcarStopTrackers();
     bool qcarUnloadTrackersData();
     bool qcarDeinitTrackers();
-    void qcarUpdate(QCAR::State * state);
+    void qcarUpdate(Vuforia::State * state);
     
     void scanCustomTarget();
     void stopCustomTarget();
