@@ -1,0 +1,1 @@
+This example demonstrates extended tracking by placing a 3D model of a Teapot on any of the three markers `markers/chips.jpg`, `markers/stones.jpg` or `markers/tarmac.jpg`.  Extended tracking is enabled by touching the screen.
