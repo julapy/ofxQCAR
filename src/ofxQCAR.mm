@@ -10,57 +10,55 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 
-//#import "ofxQCAR_Utils.h"
 #import "ofxVuforiaSession.h"
 #import "ofxiOSExtras.h"
 
-#import <QCAR/Renderer.h>
-#import <QCAR/Tool.h>
-#import <QCAR/Tracker.h>
-#import <QCAR/Trackable.h>
-#import <QCAR/TrackableResult.h>
-#import <QCAR/ImageTarget.h>
-#import <QCAR/CameraDevice.h>
-#import <QCAR/UpdateCallback.h>
-#import <QCAR/Matrices.h>
-#import <QCAR/Image.h>
-#import <QCAR/QCAR_iOS.h>
-#import <QCAR/TrackerManager.h>
-#import <QCAR/ObjectTracker.h>
-#import <QCAR/ImageTargetBuilder.h>
-#import <QCAR/VideoBackgroundConfig.h>
+#import <Vuforia/Renderer.h>
+#import <Vuforia/Tool.h>
+#import <Vuforia/Tracker.h>
+#import <Vuforia/Trackable.h>
+#import <Vuforia/TrackableResult.h>
+#import <Vuforia/ImageTarget.h>
+#import <Vuforia/CameraDevice.h>
+#import <Vuforia/UpdateCallback.h>
+#import <Vuforia/Matrices.h>
+#import <Vuforia/Image.h>
+#import <Vuforia/Vuforia_iOS.h>
+#import <Vuforia/TrackerManager.h>
+#import <Vuforia/ObjectTracker.h>
+#import <Vuforia/ImageTargetBuilder.h>
+#import <Vuforia/VideoBackgroundConfig.h>
 
-//using namespace QCAR;
 
 /////////////////////////////////////////////////////////
 //
 /////////////////////////////////////////////////////////
 
-QCAR::Vec2F cameraPointToScreenPoint(QCAR::Vec2F cameraPoint) {
+Vuforia::Vec2F cameraPointToScreenPoint(Vuforia::Vec2F cameraPoint) {
     
-    QCAR::VideoMode videoMode = QCAR::CameraDevice::getInstance().getVideoMode(QCAR::CameraDevice::MODE_DEFAULT);
-    const QCAR::VideoBackgroundConfig & config = QCAR::Renderer::getInstance().getVideoBackgroundConfig();
+    Vuforia::VideoMode videoMode = Vuforia::CameraDevice::getInstance().getVideoMode(Vuforia::CameraDevice::MODE_DEFAULT);
+    const Vuforia::VideoBackgroundConfig & config = Vuforia::Renderer::getInstance().getVideoBackgroundConfig();
     
     int xOffset = ((int)ofGetWidth()  - config.mSize.data[0]) / 2.0f + config.mPosition.data[0];
     int yOffset = ((int)ofGetHeight() - config.mSize.data[1]) / 2.0f - config.mPosition.data[1];
     
-    if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
+    if(ofxQCAR::getInstance().getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
         // camera image is rotated 90 degrees
         int rotatedX = videoMode.mHeight - cameraPoint.data[1];
         int rotatedY = cameraPoint.data[0];
         
-        return QCAR::Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
+        return Vuforia::Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mHeight + xOffset,
                            rotatedY * config.mSize.data[1] / (float) videoMode.mWidth + yOffset);
     } else {
         // camera image is rotated 180 degrees
         int rotatedX = videoMode.mWidth - cameraPoint.data[0];
         int rotatedY = videoMode.mHeight - cameraPoint.data[1];
         
-        return QCAR::Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
+        return Vuforia::Vec2F(rotatedX * config.mSize.data[0] / (float) videoMode.mWidth + xOffset,
                            rotatedY * config.mSize.data[1] / (float) videoMode.mHeight + yOffset);
     }
     
-    return QCAR::Vec2F(0, 0);
+    return Vuforia::Vec2F(0, 0);
 }
 
 #endif
@@ -132,7 +130,7 @@ ofxQCAR * ofxQCAR::_instance = NULL;
     return bOk;
 }
 
-- (void)onQCARUpdate:(QCAR::State *)state {
+- (void)onQCARUpdate:(Vuforia::State *)state {
     ofxQCARInstance().qcarUpdate(state);
     ofxQCARGetApp().qcarUpdate(state);
 }
@@ -157,7 +155,7 @@ ofxQCAR::~ofxQCAR () {
 //  SETUP.
 /////////////////////////////////////////////////////////
 
-void ofxQCAR::setLicenseKey(string value) {
+void ofxQCAR::setLicenseKey(const string& value) {
     licenseKey = value;
 }
 
@@ -194,9 +192,9 @@ void ofxQCAR::init() {
 void ofxQCAR::setup() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    int QCARInitFlags = QCAR::GL_11;
+    int QCARInitFlags = Vuforia::GL_11;
     if(ofIsGLProgrammableRenderer()) {
-        QCARInitFlags = QCAR::GL_20;
+        QCARInitFlags = Vuforia::GL_20;
     }
     
     CGSize ARViewBoundsSize = CGSizeZero;
@@ -209,7 +207,11 @@ void ofxQCAR::setup() {
     } else {
         ARViewBoundsSize.width = [[UIScreen mainScreen] bounds].size.height;
         ARViewBoundsSize.height = [[UIScreen mainScreen] bounds].size.width;
-        ARViewOrientation = UIInterfaceOrientationLandscapeLeft;
+        if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE_LEFT) {
+            ARViewOrientation = UIInterfaceOrientationLandscapeLeft;
+        } else if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE_RIGHT) {
+            ARViewOrientation = UIInterfaceOrientationLandscapeRight;
+        }
     }
     
     if(ofxiOSGetOFWindow()->isRetinaEnabled() == true) {
@@ -235,9 +237,9 @@ void ofxQCAR::setup() {
 bool ofxQCAR::qcarInitTrackers() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::Tracker * trackerBase = trackerManager.initTracker(QCAR::ObjectTracker::getClassType());
-    if(trackerBase == NULL) {
+    Vuforia::TrackerManager & trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::Tracker * trackerBase = trackerManager.initTracker(Vuforia::ObjectTracker::getClassType());
+    if(trackerBase == nullptr) {
         ofLog(OF_LOG_ERROR, "ofxQCAR - Failed to initialize ObjectTracker.");
         return false;
     }
@@ -252,8 +254,8 @@ bool ofxQCAR::qcarInitTrackers() {
 bool ofxQCAR::qcarLoadTrackersData() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ObjectTracker * objectTracker = static_cast<QCAR::ObjectTracker*>(trackerManager.getTracker(QCAR::ObjectTracker::getClassType()));
+    Vuforia::TrackerManager & trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::ObjectTracker * objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
     
     if(objectTracker == NULL) {
         ofLog(OF_LOG_ERROR, "ofxQCAR - failed to get the ObjectTracker from the tracker manager");
@@ -273,7 +275,7 @@ bool ofxQCAR::qcarLoadTrackersData() {
             continue;
         }
         
-        bool bLoaded = markerData.dataSet->load(markerData.dataPath.c_str(), QCAR::STORAGE_APPRESOURCE);
+        bool bLoaded = markerData.dataSet->load(markerData.dataPath.c_str(), Vuforia::STORAGE_APPRESOURCE);
         if(bLoaded == false) {
             objectTracker->destroyDataSet(markerData.dataSet);
             markerData.dataSet = NULL;
@@ -295,21 +297,23 @@ void ofxQCAR::qcarInitARDone(NSError * error) {
         return;
     }
     
-    QCAR::setHint(QCAR::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, maxNumOfMarkers);
+    Vuforia::setHint(Vuforia::HINT_MAX_SIMULTANEOUS_IMAGE_TARGETS, maxNumOfMarkers);
     
     NSError * err = nil;
-    [session startAR:QCAR::CameraDevice::CAMERA_BACK error:&err];
+    [session startAR:Vuforia::CameraDevice::CAMERA_DIRECTION_BACK error:&err];
     
-    QCAR::CameraDevice::getInstance().setFocusMode(QCAR::CameraDevice::FOCUS_MODE_CONTINUOUSAUTO);
-    
+    Vuforia::CameraDevice::getInstance().setFocusMode(Vuforia::CameraDevice::FOCUS_MODE_CONTINUOUSAUTO);
+
+    //projectionMatrix = ofMatrix4x4([session projectionMatrix].data);
+
 #endif
 }
 
 bool ofxQCAR::qcarStartTrackers() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::Tracker * tracker = trackerManager.getTracker(QCAR::ObjectTracker::getClassType());
+    Vuforia::TrackerManager & trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::Tracker * tracker = trackerManager.getTracker(Vuforia::ObjectTracker::getClassType());
     if(tracker == NULL) {
         return false;
     }
@@ -324,8 +328,8 @@ bool ofxQCAR::qcarStartTrackers() {
 bool ofxQCAR::qcarStopTrackers() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::Tracker * tracker = trackerManager.getTracker(QCAR::ObjectTracker::getClassType());
+    Vuforia::TrackerManager & trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::Tracker * tracker = trackerManager.getTracker(Vuforia::ObjectTracker::getClassType());
     
     if(tracker == NULL) {
         ofLog(OF_LOG_ERROR, "ofxQCAR - failed to get the tracker from the tracker manager");
@@ -344,8 +348,8 @@ bool ofxQCAR::qcarStopTrackers() {
 bool ofxQCAR::qcarUnloadTrackersData() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ObjectTracker * objectTracker = static_cast<QCAR::ObjectTracker*>(trackerManager.getTracker(QCAR::ObjectTracker::getClassType()));
+    Vuforia::TrackerManager & trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::ObjectTracker * objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
 
     if(objectTracker == NULL) {
         ofLog(OF_LOG_ERROR, "ofxQCAR - Failed to unload tracking data set because the ObjectTracker has not been initialized.");
@@ -374,8 +378,8 @@ bool ofxQCAR::qcarUnloadTrackersData() {
 bool ofxQCAR::qcarDeinitTrackers() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    QCAR::TrackerManager & trackerManager = QCAR::TrackerManager::getInstance();
-    trackerManager.deinitTracker(QCAR::ObjectTracker::getClassType());
+    Vuforia::TrackerManager & trackerManager = Vuforia::TrackerManager::getInstance();
+    trackerManager.deinitTracker(Vuforia::ObjectTracker::getClassType());
     
 #endif
     
@@ -531,26 +535,32 @@ void ofxQCAR::stopTracker() {
 }
 
 void ofxQCAR::startExtendedTracking() {
-#if !(TARGET_IPHONE_SIMULATOR)
-//    TrackerManager & trackerManager = TrackerManager::getInstance();
-//    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-//    if(imageTracker == NULL) {
-//        return;
-//    }
-//    DataSet * userDefDateSet = imageTracker->getActiveDataSet();;
-//    if(userDefDateSet == NULL) {
-//        return;
-//    }
-//    for(int i=0; i<userDefDateSet->getNumTrackables(); i++) {
-//        QCAR::Trackable * trackable = userDefDateSet->getTrackable(i);
-//        if(trackable->startExtendedTracking() == false){
-//            ofLog(OF_LOG_ERROR, "Failed to start extended tracking");
-//        }
-//    }
-#endif
+//#if !(TARGET_IPHONE_SIMULATOR)
+    Vuforia::TrackerManager& trackerManager = Vuforia::TrackerManager::getInstance();
+    Vuforia::ObjectTracker * objectTracker = static_cast< Vuforia::ObjectTracker *>(trackerManager.getTracker( Vuforia::ObjectTracker::getClassType()));
+
+
+    if(objectTracker == nullptr) {
+        return;
+    }
+
+    for(int e=0; e <objectTracker->getActiveDataSetCount(); e++) {
+
+        Vuforia::DataSet * userDefDateSet = objectTracker->getActiveDataSet(e);
+        if(userDefDateSet == nullptr) {
+            return;
+        }
+        for(int i=0; i<userDefDateSet->getNumTrackables(); i++) {
+            Vuforia::Trackable * trackable = userDefDateSet->getTrackable(i);
+            if(!trackable->startExtendedTracking()){
+                ofLog(OF_LOG_ERROR, "Failed to start extended tracking");
+            }
+        }
+    }
+//#endif
 }
 
-void ofxQCAR::addExtraTarget(string targetName) {
+void ofxQCAR::addExtraTarget(const std::string& targetName) {
 #if !(TARGET_IPHONE_SIMULATOR)
 //    TrackerManager & trackerManager = TrackerManager::getInstance();
 //    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
@@ -795,14 +805,14 @@ ofVec2f ofxQCAR::point3DToScreen2D(ofVec3f point, unsigned int i) {
     if(i < numOfMarkersFound()) {
         
         ofxQCAR_Marker & marker = markersFound[i];
-        QCAR::Matrix34F pose;
+        Vuforia::Matrix34F pose;
         for(int i=0; i<12; i++) {
             pose.data[i] = marker.poseMatrixData[i];
         }
         
-        const QCAR::CameraCalibration& cameraCalibration = QCAR::CameraDevice::getInstance().getCameraCalibration();
-        QCAR::Vec2F cameraPoint = QCAR::Tool::projectPoint(cameraCalibration, pose, QCAR::Vec3F(point.x, point.y, point.z));
-        QCAR::Vec2F xyPoint = cameraPointToScreenPoint(cameraPoint);
+        const Vuforia::CameraCalibration& cameraCalibration = Vuforia::CameraDevice::getInstance().getCameraCalibration();
+        Vuforia::Vec2F cameraPoint = Vuforia::Tool::projectPoint(cameraCalibration, pose, Vuforia::Vec3F(point.x, point.y, point.z));
+        Vuforia::Vec2F xyPoint = cameraPointToScreenPoint(cameraPoint);
         ofVec2f screenPoint(xyPoint.data[ 0 ], xyPoint.data[ 1 ]);
         return screenPoint;
     } else {
@@ -888,27 +898,27 @@ void ofxQCAR::setFlipY(bool b) {
 void ofxQCAR::update() {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    QCAR::State state = QCAR::Renderer::getInstance().begin();
-    QCAR::Renderer::getInstance().end();
+    Vuforia::State state = Vuforia::Renderer::getInstance().begin();
+    Vuforia::Renderer::getInstance().end();
     
     markersFound.clear();
     
     int numOfTrackables = state.getNumTrackableResults();
     for (int i=0; i<numOfTrackables; i++) {
 
-        const QCAR::TrackableResult & result = *state.getTrackableResult(i);
+        const Vuforia::TrackableResult & result = *state.getTrackableResult(i);
         
-        if(result.getStatus() != QCAR::TrackableResult::DETECTED &&
-           result.getStatus() != QCAR::TrackableResult::TRACKED &&
-           result.getStatus() != QCAR::TrackableResult::EXTENDED_TRACKED) {
+        if(result.getStatus() != Vuforia::TrackableResult::DETECTED &&
+           result.getStatus() != Vuforia::TrackableResult::TRACKED &&
+           result.getStatus() != Vuforia::TrackableResult::EXTENDED_TRACKED) {
             continue;
         }
 
-        QCAR::Matrix44F modelViewMatrix = QCAR::Tool::convertPose2GLMatrix(result.getPose());
+        Vuforia::Matrix44F modelViewMatrix = Vuforia::Tool::convertPose2GLMatrix(result.getPose());
         
-        const QCAR::VideoBackgroundConfig & config = QCAR::Renderer::getInstance().getVideoBackgroundConfig();
+        const Vuforia::VideoBackgroundConfig & config = Vuforia::Renderer::getInstance().getVideoBackgroundConfig();
         float scaleX = 1.0, scaleY = 1.0;
-        if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
+        if(ofxQCAR::getInstance().getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
             scaleX = config.mSize.data[0] / (float)ofGetWidth();
             scaleY = config.mSize.data[1] / (float)ofGetHeight();
         } else {
@@ -927,10 +937,10 @@ void ofxQCAR::update() {
             marker.poseMatrixData[i] = result.getPose().data[i];
         }
         
-        QCAR::Vec3F markerSize;
-        const QCAR::Trackable & trackable = result.getTrackable();
-        if(trackable.isOfType(QCAR::ImageTarget::getClassType())){
-            QCAR::ImageTarget* imageTarget = (QCAR::ImageTarget *)(&trackable);
+        Vuforia::Vec3F markerSize;
+        const Vuforia::Trackable & trackable = result.getTrackable();
+        if(trackable.isOfType(Vuforia::ImageTarget::getClassType())){
+            Vuforia::ImageTarget* imageTarget = (Vuforia::ImageTarget *)(&trackable);
             markerSize = imageTarget->getSize();
         }
         
@@ -942,11 +952,11 @@ void ofxQCAR::update() {
         float markerWH = marker.markerRect.width  * 0.5;
         float markerHH = marker.markerRect.height * 0.5;
         
-        QCAR::Vec3F corners[ 4 ];
-        corners[0] = QCAR::Vec3F(-markerWH,  markerHH, 0);     // top left.
-        corners[1] = QCAR::Vec3F( markerWH,  markerHH, 0);     // top right.
-        corners[2] = QCAR::Vec3F( markerWH, -markerHH, 0);     // bottom right.
-        corners[3] = QCAR::Vec3F(-markerWH, -markerHH, 0);     // bottom left.
+        Vuforia::Vec3F corners[ 4 ];
+        corners[0] = Vuforia::Vec3F(-markerWH,  markerHH, 0);     // top left.
+        corners[1] = Vuforia::Vec3F( markerWH,  markerHH, 0);     // top right.
+        corners[2] = Vuforia::Vec3F( markerWH, -markerHH, 0);     // bottom right.
+        corners[3] = Vuforia::Vec3F(-markerWH, -markerHH, 0);     // bottom left.
         
         marker.markerCenter = point3DToScreen2D(ofVec3f(0, 0, 0), i);
         
@@ -986,8 +996,8 @@ void ofxQCAR::update() {
     cameraPixels = NULL;    // reset values on every frame.
     
     if(bUpdateCameraPixels == true) {
-        QCAR::Frame frame = state.getFrame();
-        const QCAR::Image * image = frame.getImage(0);
+        Vuforia::Frame frame = state.getFrame();
+        const Vuforia::Image * image = frame.getImage(0);
         if(image) {
             cameraWidth = image->getBufferWidth();
             cameraHeight = image->getBufferHeight();
@@ -1072,10 +1082,10 @@ void ofxQCAR::drawBackground() {
     ofPushStyle();
     ofDisableBlendMode();
     
-    QCAR::State state = QCAR::Renderer::getInstance().begin();
-    QCAR::Renderer::getInstance().drawVideoBackground();
-    QCAR::Renderer::getInstance().end();
-    
+    Vuforia::State state = Vuforia::Renderer::getInstance().begin();
+    Vuforia::Renderer::getInstance().drawVideoBackground();
+    Vuforia::Renderer::getInstance().end();
+
     //--- restore openFrameworks render configuration.
     
     ofPopView();

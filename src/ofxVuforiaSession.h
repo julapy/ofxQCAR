@@ -8,9 +8,9 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 #if !(TARGET_IPHONE_SIMULATOR)
 
 #import <Foundation/Foundation.h>
-#import <QCAR/Matrices.h>
-#import <QCAR/CameraDevice.h>
-#import <QCAR/State.h>
+#import <Vuforia/Matrices.h>
+#import <Vuforia/CameraDevice.h>
+#import <Vuforia/State.h>
 
 #define E_INITIALIZING_QCAR         100
 
@@ -59,7 +59,7 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 
 @optional
 // optional method to handle the QCAR callback - can be used to swap dataset for instance
-- (void) onQCARUpdate: (QCAR::State *) state;
+- (void) onQCARUpdate: (Vuforia::State *) state;
 
 @end
 
@@ -74,7 +74,7 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
      licenseKey:(NSString *) AppLicenseKey;
 
 // start the AR session
-- (bool) startAR:(QCAR::CameraDevice::CAMERA) camera error:(NSError **)error;
+- (bool) startAR:(Vuforia::CameraDevice::CAMERA_DIRECTION) camera error:(NSError **)error;
 
 // pause the AR session
 - (bool) pauseAR:(NSError **)error;
@@ -93,7 +93,7 @@ and other countries. Trademarks of QUALCOMM Incorporated are used with permissio
 
 @property (nonatomic, readwrite) BOOL isRetinaDisplay;
 @property (nonatomic, readwrite) BOOL cameraIsStarted;
-@property (nonatomic, readwrite) QCAR::Matrix44F projectionMatrix;
+@property (nonatomic, readwrite) Vuforia::Matrix44F projectionMatrix;
 
 // Viewport geometry
 @property (nonatomic, readwrite) struct tagViewport {

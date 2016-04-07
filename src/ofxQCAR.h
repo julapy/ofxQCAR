@@ -26,7 +26,9 @@ enum ofxQCAR_MarkerCorner {
 //--------------------------------------------------------------
 enum ofxQCAR_Orientation {
     OFX_QCAR_ORIENTATION_PORTRAIT,
-    OFX_QCAR_ORIENTATION_LANDSCAPE
+    OFX_QCAR_ORIENTATION_LANDSCAPE, 
+    OFX_QCAR_ORIENTATION_LANDSCAPE_LEFT,
+    OFX_QCAR_ORIENTATION_LANDSCAPE_RIGHT
 };
 
 //--------------------------------------------------------------
@@ -85,12 +87,12 @@ public:
         return _instance;
 	};
     
-    void setLicenseKey(string value);
+    void setLicenseKey(const std::string& value);
     
     void setOrientation(ofxQCAR_Orientation orientation);
     ofxQCAR_Orientation getOrientation();
     
-    void addMarkerDataPath(const string & markerDataPath);
+    void addMarkerDataPath(const std::string & markerDataPath);
     
     bool qcarInitTrackers();
     bool qcarLoadTrackersData();
@@ -170,7 +172,7 @@ public:
     
     void startExtendedTracking();
     void stopExtendedTracking();
-    void addExtraTarget(string targetName);
+    void addExtraTarget(const std::string& targetName);
     
 private:
     
