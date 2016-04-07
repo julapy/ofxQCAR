@@ -80,10 +80,8 @@ public:
      ofxQCAR();
     ~ofxQCAR();
     
-	static ofxQCAR * getInstance() {
-		if(!_instance) {
-			_instance = new ofxQCAR();
-        }
+	static ofxQCAR& getInstance() {
+        static ofxQCAR _instance;
         return _instance;
 	};
     

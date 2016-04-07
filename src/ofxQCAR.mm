@@ -1171,8 +1171,8 @@ void ofxQCAR::exit() {
 //  GLOBAL.
 /////////////////////////////////////////////////////////
 
-ofxQCAR & ofxQCARInstance() {
-    return *ofxQCAR::getInstance();
+ofxQCAR& ofxQCARInstance() {
+    return ofxQCAR::getInstance();
 }
 
 ofxQCAR_App & ofxQCARGetApp() {
