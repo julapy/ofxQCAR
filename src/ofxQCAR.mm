@@ -67,8 +67,6 @@ Vuforia::Vec2F cameraPointToScreenPoint(Vuforia::Vec2F cameraPoint) {
 //
 /////////////////////////////////////////////////////////
 
-ofxQCAR * ofxQCAR::_instance = NULL;
-
 /////////////////////////////////////////////////////////
 //  DELEGATE.
 /////////////////////////////////////////////////////////
@@ -177,7 +175,7 @@ void ofxQCAR::init() {
     licenseKey = "";
     bFlipY = false;
     bUpdateCameraPixels = false;
-    cameraPixels = NULL;
+    cameraPixels = nullptr;
     cameraWidth = 0;
     cameraHeight = 0;
     orientation = OFX_QCAR_ORIENTATION_PORTRAIT;
@@ -257,20 +255,20 @@ bool ofxQCAR::qcarLoadTrackersData() {
     Vuforia::TrackerManager & trackerManager = Vuforia::TrackerManager::getInstance();
     Vuforia::ObjectTracker * objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
     
-    if(objectTracker == NULL) {
+    if(objectTracker == nullptr) {
         ofLog(OF_LOG_ERROR, "ofxQCAR - failed to get the ObjectTracker from the tracker manager");
         return false;
     }
     
     for(int i=0; i<markersData.size(); i++) {
         ofxQCAR_MarkerData & markerData = markersData[i];
-        if(markerData.dataSet != NULL) {
+        if(markerData.dataSet != nullptr) {
             continue;
         }
         
         markerData.dataSet = objectTracker->createDataSet();
         
-        if(markerData.dataSet == NULL) {
+        if(markerData.dataSet == nullptr) {
             ofLog(OF_LOG_ERROR, "ofxQCAR - failed to create data set");
             continue;
         }
@@ -278,7 +276,7 @@ bool ofxQCAR::qcarLoadTrackersData() {
         bool bLoaded = markerData.dataSet->load(markerData.dataPath.c_str(), Vuforia::STORAGE_APPRESOURCE);
         if(bLoaded == false) {
             objectTracker->destroyDataSet(markerData.dataSet);
-            markerData.dataSet = NULL;
+            markerData.dataSet = nullptr;
             ofLog(OF_LOG_ERROR, "ofxQCAR - failed to load data set");
         }
         
@@ -314,7 +312,7 @@ bool ofxQCAR::qcarStartTrackers() {
     
     Vuforia::TrackerManager & trackerManager = Vuforia::TrackerManager::getInstance();
     Vuforia::Tracker * tracker = trackerManager.getTracker(Vuforia::ObjectTracker::getClassType());
-    if(tracker == NULL) {
+    if(tracker == nullptr) {
         return false;
     }
     
@@ -331,7 +329,7 @@ bool ofxQCAR::qcarStopTrackers() {
     Vuforia::TrackerManager & trackerManager = Vuforia::TrackerManager::getInstance();
     Vuforia::Tracker * tracker = trackerManager.getTracker(Vuforia::ObjectTracker::getClassType());
     
-    if(tracker == NULL) {
+    if(tracker == nullptr) {
         ofLog(OF_LOG_ERROR, "ofxQCAR - failed to get the tracker from the tracker manager");
         return false;
     }
@@ -351,7 +349,7 @@ bool ofxQCAR::qcarUnloadTrackersData() {
     Vuforia::TrackerManager & trackerManager = Vuforia::TrackerManager::getInstance();
     Vuforia::ObjectTracker * objectTracker = static_cast<Vuforia::ObjectTracker*>(trackerManager.getTracker(Vuforia::ObjectTracker::getClassType()));
 
-    if(objectTracker == NULL) {
+    if(objectTracker == nullptr) {
         ofLog(OF_LOG_ERROR, "ofxQCAR - Failed to unload tracking data set because the ObjectTracker has not been initialized.");
         return false;
     }
@@ -432,11 +430,11 @@ void ofxQCAR::saveCustomTarget() {
     }
 //    TrackerManager & trackerManager = TrackerManager::getInstance();
 //    ImageTracker * imageTracker = static_cast<ImageTracker*>(trackerManager.getTracker(ImageTracker::getClassType()));
-//    if(imageTracker == NULL) {
+//    if(imageTracker == nullptr) {
 //        return;
 //    }
 //    ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
-//    if(targetBuilder == NULL) {
+//    if(targetBuilder == nullptr) {
 //        return;
 //    }
 //    
@@ -483,11 +481,11 @@ void ofxQCAR::startScan() {
 #if !(TARGET_IPHONE_SIMULATOR)
 //    TrackerManager & trackerManager = TrackerManager::getInstance();
 //    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-//    if(imageTracker == NULL) {
+//    if(imageTracker == nullptr) {
 //        return;
 //    }
 //    ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
-//    if(targetBuilder == NULL) {
+//    if(targetBuilder == nullptr) {
 //        return;
 //    }
 //    if(targetBuilder->getFrameQuality() != ImageTargetBuilder::FRAME_QUALITY_NONE) {
@@ -501,11 +499,11 @@ void ofxQCAR::stopScan() {
 #if !(TARGET_IPHONE_SIMULATOR)
 //    TrackerManager & trackerManager = TrackerManager::getInstance();
 //    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-//    if(imageTracker == NULL) {
+//    if(imageTracker == nullptr) {
 //        return;
 //    }
 //    ImageTargetBuilder * targetBuilder = imageTracker->getImageTargetBuilder();
-//    if((targetBuilder == NULL) || (targetBuilder->getFrameQuality() == ImageTargetBuilder::FRAME_QUALITY_NONE)) {
+//    if((targetBuilder == nullptr) || (targetBuilder->getFrameQuality() == ImageTargetBuilder::FRAME_QUALITY_NONE)) {
 //        return;
 //    }
 //    targetBuilder->stopScan();
@@ -516,7 +514,7 @@ void ofxQCAR::startTracker() {
 #if !(TARGET_IPHONE_SIMULATOR)
 //    TrackerManager & trackerManager = TrackerManager::getInstance();
 //    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-//    if(imageTracker == NULL) {
+//    if(imageTracker == nullptr) {
 //        return;
 //    }
 //    imageTracker->start();
@@ -527,7 +525,7 @@ void ofxQCAR::stopTracker() {
 #if !(TARGET_IPHONE_SIMULATOR)
 //    TrackerManager & trackerManager = TrackerManager::getInstance();
 //    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-//    if(imageTracker == NULL) {
+//    if(imageTracker == nullptr) {
 //        return;
 //    }
 //    imageTracker->stop();
@@ -564,13 +562,13 @@ void ofxQCAR::addExtraTarget(const std::string& targetName) {
 #if !(TARGET_IPHONE_SIMULATOR)
 //    TrackerManager & trackerManager = TrackerManager::getInstance();
 //    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-//    if(imageTracker == NULL) {
+//    if(imageTracker == nullptr) {
 //        ofLog(OF_LOG_ERROR, "Failed to load tracking data set because the ImageTracker has not been initialized.");
 //        return;
 //    }
 //    // Create the data sets:
 //    DataSet * extraset = imageTracker->createDataSet();
-//    if(extraset == NULL) {
+//    if(extraset == nullptr) {
 //        ofLog(OF_LOG_ERROR, "Failed to create a new tracking data.");
 //        return;
 //    }
@@ -595,11 +593,11 @@ void ofxQCAR::stopExtendedTracking() {
 #if !(TARGET_IPHONE_SIMULATOR)
 //    TrackerManager & trackerManager = TrackerManager::getInstance();
 //    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-//    if(imageTracker == NULL) {
+//    if(imageTracker == nullptr) {
 //        return;
 //    }
 //    DataSet * userDefDateSet = imageTracker->getActiveDataSet();
-//    if(userDefDateSet == NULL) {
+//    if(userDefDateSet == nullptr) {
 //        return;
 //    }
 //    for(int i=0; i<userDefDateSet->getNumTrackables(); i++) {
@@ -993,7 +991,7 @@ void ofxQCAR::update() {
     
     cameraWidth = 0;
     cameraHeight = 0;
-    cameraPixels = NULL;    // reset values on every frame.
+    cameraPixels = nullptr;    // reset values on every frame.
     
     if(bUpdateCameraPixels == true) {
         Vuforia::Frame frame = state.getFrame();

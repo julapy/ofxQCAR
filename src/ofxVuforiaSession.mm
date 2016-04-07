@@ -92,7 +92,7 @@ namespace {
 }
 
 - (void) NSErrorWithCode:(int) code error:(NSError **) error{
-    if (error != NULL) {
+    if (error != nullptr) {
         *error = [self NSErrorWithCode:code];
     }
 }

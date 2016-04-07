@@ -36,7 +36,7 @@ class ofxQCAR_MarkerData {
 public:
     ofxQCAR_MarkerData() {
         dataPath = "";
-        dataSet = NULL;
+        dataSet = nullptr;
     }
     string dataPath;
     Vuforia::DataSet * dataSet;
