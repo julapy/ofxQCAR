@@ -57,7 +57,7 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    ofxQCAR_Orientation orientation = ofxQCAR::getInstance()->getOrientation();
+    ofxQCAR_Orientation orientation = ofxQCAR::getInstance().getOrientation();
     if(orientation == OFX_QCAR_ORIENTATION_PORTRAIT) {
         return UIInterfaceOrientationIsPortrait(interfaceOrientation);
     } else if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE) {
@@ -98,7 +98,7 @@
         return;
     }
     
-    ofxQCAR_Orientation orientation = ofxQCAR::getInstance()->getOrientation();
+    ofxQCAR_Orientation orientation = ofxQCAR::getInstance().getOrientation();
     if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE) {
         rot -= 90;
     }

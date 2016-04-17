@@ -10,7 +10,7 @@
 
 #import "ofMain.h"
 #import "ofxQCAR_App.h"
-#import <QCAR/DataSet.h>
+#import <Vuforia/DataSet.h>
 
 class ofxQCAR_UpdateCallback;
 @class ofxVuforiaSession;
@@ -26,7 +26,9 @@ enum ofxQCAR_MarkerCorner {
 //--------------------------------------------------------------
 enum ofxQCAR_Orientation {
     OFX_QCAR_ORIENTATION_PORTRAIT,
-    OFX_QCAR_ORIENTATION_LANDSCAPE
+    OFX_QCAR_ORIENTATION_LANDSCAPE, 
+    OFX_QCAR_ORIENTATION_LANDSCAPE_LEFT,
+    OFX_QCAR_ORIENTATION_LANDSCAPE_RIGHT
 };
 
 //--------------------------------------------------------------
@@ -34,10 +36,10 @@ class ofxQCAR_MarkerData {
 public:
     ofxQCAR_MarkerData() {
         dataPath = "";
-        dataSet = NULL;
+        dataSet = nullptr;
     }
     string dataPath;
-    QCAR::DataSet * dataSet;
+    Vuforia::DataSet * dataSet;
 };
 
 //--------------------------------------------------------------
@@ -80,19 +82,17 @@ public:
      ofxQCAR();
     ~ofxQCAR();
     
-	static ofxQCAR * getInstance() {
-		if(!_instance) {
-			_instance = new ofxQCAR();
-        }
+	static ofxQCAR& getInstance() {
+        static ofxQCAR _instance;
         return _instance;
 	};
     
-    void setLicenseKey(string value);
+    void setLicenseKey(const std::string& value);
     
     void setOrientation(ofxQCAR_Orientation orientation);
     ofxQCAR_Orientation getOrientation();
     
-    void addMarkerDataPath(const string & markerDataPath);
+    void addMarkerDataPath(const std::string & markerDataPath);
     
     bool qcarInitTrackers();
     bool qcarLoadTrackersData();
@@ -101,7 +101,7 @@ public:
     bool qcarStopTrackers();
     bool qcarUnloadTrackersData();
     bool qcarDeinitTrackers();
-    void qcarUpdate(QCAR::State * state);
+    void qcarUpdate(Vuforia::State * state);
     
     void scanCustomTarget();
     void stopCustomTarget();
@@ -172,7 +172,7 @@ public:
     
     void startExtendedTracking();
     void stopExtendedTracking();
-    void addExtraTarget(string targetName);
+    void addExtraTarget(const std::string& targetName);
     
 private:
     

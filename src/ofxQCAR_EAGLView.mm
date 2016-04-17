@@ -30,7 +30,7 @@
 - (void)stopAnimation {
 #if !(TARGET_IPHONE_SIMULATOR)    
 
-    ofxQCAR::getInstance()->pause();
+    ofxQCAR::getInstance().pause();
     return;
     
 #endif
@@ -41,7 +41,7 @@
 - (void)startAnimation {
 #if !(TARGET_IPHONE_SIMULATOR)    
     
-    ofxQCAR::getInstance()->resume();
+    ofxQCAR::getInstance().resume();
     return;
     
 #endif

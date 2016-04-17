@@ -12,7 +12,7 @@ void ofApp::setup(){
     
     touchPoint.x = touchPoint.y = -1;
 
-    ofxQCAR & QCAR = *ofxQCAR::getInstance();
+    ofxQCAR& QCAR = ofxQCAR::getInstance();
     QCAR.setLicenseKey(kLicenseKey); // ADD YOUR APPLICATION LICENSE KEY HERE.
     QCAR.addMarkerDataPath("qcar_assets/Qualcomm.xml");
     QCAR.autoFocusOn();
@@ -22,13 +22,13 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-    ofxQCAR & QCAR = *ofxQCAR::getInstance();
+    ofxQCAR & QCAR = ofxQCAR::getInstance();
     QCAR.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofxQCAR & QCAR = *ofxQCAR::getInstance();
+    ofxQCAR& QCAR = ofxQCAR::getInstance();
     QCAR.drawBackground();
     
     bool bPressed;
@@ -140,25 +140,25 @@ void ofApp::draw(){
 
 //--------------------------------------------------------------
 void ofApp::exit(){
-    ofxQCAR::getInstance()->exit();
+    ofxQCAR::getInstance().exit();
 }
 
 //--------------------------------------------------------------
 void ofApp::touchDown(ofTouchEventArgs & touch){
     touchPoint.set(touch.x, touch.y);
-    markerPoint = ofxQCAR::getInstance()->screenPointToMarkerPoint(ofVec2f(touch.x, touch.y));
+    markerPoint = ofxQCAR::getInstance().screenPointToMarkerPoint(ofVec2f(touch.x, touch.y));
 }
 
 //--------------------------------------------------------------
 void ofApp::touchMoved(ofTouchEventArgs & touch){
     touchPoint.set(touch.x, touch.y);
-    markerPoint = ofxQCAR::getInstance()->screenPointToMarkerPoint(ofVec2f(touch.x, touch.y));
+    markerPoint = ofxQCAR::getInstance().screenPointToMarkerPoint(ofVec2f(touch.x, touch.y));
 }
 
 //--------------------------------------------------------------
 void ofApp::touchUp(ofTouchEventArgs & touch){
     touchPoint.set(-1, -1);
-    markerPoint = ofxQCAR::getInstance()->screenPointToMarkerPoint(ofVec2f(touch.x, touch.y));
+    markerPoint = ofxQCAR::getInstance().screenPointToMarkerPoint(ofVec2f(touch.x, touch.y));
 }
 
 //--------------------------------------------------------------

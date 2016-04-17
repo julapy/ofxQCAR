@@ -11,7 +11,7 @@
 #include "ofMain.h"
 #include "ofxiOS.h"
 #include "ofxiOSExtras.h"
-#import <QCAR/State.h>
+#import <Vuforia/State.h>
 
 class ofxQCAR_App : public ofxiOSApp {
 
@@ -45,7 +45,7 @@ public:
         return true; // copy this method to your app to receive this callback.
     }
     
-    virtual void qcarUpdate(QCAR::State * state) {
+    virtual void qcarUpdate(Vuforia::State * state) {
         // copy this method to your app to receive this callback.
     }
 };
