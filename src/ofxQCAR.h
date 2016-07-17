@@ -34,9 +34,11 @@ class ofxQCAR_MarkerData {
 public:
     ofxQCAR_MarkerData() {
         dataPath = "";
+        storageType = QCAR::STORAGE_APPRESOURCE;
         dataSet = NULL;
     }
     string dataPath;
+    QCAR::STORAGE_TYPE storageType;
     QCAR::DataSet * dataSet;
 };
 
@@ -93,6 +95,7 @@ public:
     ofxQCAR_Orientation getOrientation();
     
     void addMarkerDataPath(const string & markerDataPath);
+    void addMarkerDataPath(const ofxQCAR_MarkerData & markerData);
     
     bool qcarInitTrackers();
     bool qcarLoadTrackersData();

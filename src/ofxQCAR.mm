@@ -170,8 +170,13 @@ ofxQCAR_Orientation ofxQCAR::getOrientation() {
 }
 
 void ofxQCAR::addMarkerDataPath(const string & markerDataPath) {
-    markersData.push_back(ofxQCAR_MarkerData());
-    markersData.back().dataPath = markerDataPath;
+    ofxQCAR_MarkerData markerData;
+    markerData.dataPath = markerDataPath;
+    addMarkerDataPath(markerData);
+}
+
+void ofxQCAR::addMarkerDataPath(const ofxQCAR_MarkerData & markerData) {
+    markersData.push_back(markerData);
 }
 
 void ofxQCAR::init() {
@@ -273,7 +278,7 @@ bool ofxQCAR::qcarLoadTrackersData() {
             continue;
         }
         
-        bool bLoaded = markerData.dataSet->load(markerData.dataPath.c_str(), QCAR::STORAGE_APPRESOURCE);
+        bool bLoaded = markerData.dataSet->load(markerData.dataPath.c_str(), markerData.storageType);
         if(bLoaded == false) {
             objectTracker->destroyDataSet(markerData.dataSet);
             markerData.dataSet = NULL;
