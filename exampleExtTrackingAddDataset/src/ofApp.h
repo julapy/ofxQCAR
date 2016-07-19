@@ -7,7 +7,7 @@
 #include "ofxQCAR.h"
 #include "Teapot.h"
 
-class testApp : public ofxQCAR_App {
+class ofApp : public ofxQCAR_App {
 	
 public:
     void setup();
@@ -27,7 +27,7 @@ public:
     void deviceOrientationChanged(int newOrientation);
     
     ofImage teapotImage;
-    ofPoint touchPoint;
+    ofVec2f touchPoint;
 
     ofImage cameraImage;
     int scaleExtTrack;

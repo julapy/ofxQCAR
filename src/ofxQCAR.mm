@@ -10,7 +10,6 @@
 
 #if !(TARGET_IPHONE_SIMULATOR)
 
-//#import "ofxQCAR_Utils.h"
 #import "ofxVuforiaSession.h"
 #import "ofxiOSExtras.h"
 
@@ -214,7 +213,11 @@ void ofxQCAR::setup() {
     } else {
         ARViewBoundsSize.width = [[UIScreen mainScreen] bounds].size.height;
         ARViewBoundsSize.height = [[UIScreen mainScreen] bounds].size.width;
-        ARViewOrientation = UIInterfaceOrientationLandscapeLeft;
+        if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE_LEFT) {
+            ARViewOrientation = UIInterfaceOrientationLandscapeLeft;
+        } else if(orientation == OFX_QCAR_ORIENTATION_LANDSCAPE_RIGHT) {
+            ARViewOrientation = UIInterfaceOrientationLandscapeRight;
+        }
     }
     
     if(ofxiOSGetOFWindow()->isRetinaEnabled() == true) {
@@ -306,6 +309,8 @@ void ofxQCAR::qcarInitARDone(NSError * error) {
     [session startAR:QCAR::CameraDevice::CAMERA_BACK error:&err];
     
     QCAR::CameraDevice::getInstance().setFocusMode(QCAR::CameraDevice::FOCUS_MODE_CONTINUOUSAUTO);
+    
+    projectionMatrix = ofMatrix4x4([session projectionMatrix].data);
     
 #endif
 }
@@ -537,72 +542,129 @@ void ofxQCAR::stopTracker() {
 
 void ofxQCAR::startExtendedTracking() {
 #if !(TARGET_IPHONE_SIMULATOR)
-//    TrackerManager & trackerManager = TrackerManager::getInstance();
-//    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-//    if(imageTracker == NULL) {
-//        return;
-//    }
-//    DataSet * userDefDateSet = imageTracker->getActiveDataSet();;
-//    if(userDefDateSet == NULL) {
-//        return;
-//    }
-//    for(int i=0; i<userDefDateSet->getNumTrackables(); i++) {
-//        QCAR::Trackable * trackable = userDefDateSet->getTrackable(i);
-//        if(trackable->startExtendedTracking() == false){
-//            ofLog(OF_LOG_ERROR, "Failed to start extended tracking");
-//        }
-//    }
-#endif
-}
 
-void ofxQCAR::addExtraTarget(string targetName) {
-#if !(TARGET_IPHONE_SIMULATOR)
-//    TrackerManager & trackerManager = TrackerManager::getInstance();
-//    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-//    if(imageTracker == NULL) {
-//        ofLog(OF_LOG_ERROR, "Failed to load tracking data set because the ImageTracker has not been initialized.");
-//        return;
-//    }
-//    // Create the data sets:
-//    DataSet * extraset = imageTracker->createDataSet();
-//    if(extraset == NULL) {
-//        ofLog(OF_LOG_ERROR, "Failed to create a new tracking data.");
-//        return;
-//    }
-//    // Load the data sets:
-//    bool bLoaded = extraset->load(targetName.c_str(), QCAR::DataSet::STORAGE_APPRESOURCE);
-//    if(bLoaded == false) {
-//        ofLog(OF_LOG_ERROR, "Failed to load data set.");
-//        return;
-//    }
-//    // Activate the data set:
-//    bool bActivated = imageTracker->activateDataSet(extraset);
-//    if(bActivated == false) {
-//        ofLog(OF_LOG_ERROR, "Failed to activate data set.");
-//        return;
-//    }
-//    
-//    ofLog(OF_LOG_VERBOSE, "New dataset active. Active datasets: " + ofToString(imageTracker->getActiveDataSetCount()));
+
+
+
+    QCAR::TrackerManager & trackerManager =  QCAR::TrackerManager::getInstance();
+    QCAR::ObjectTracker * objectTracker = static_cast< QCAR::ObjectTracker *>(trackerManager.getTracker( QCAR::ObjectTracker::getClassType()));
+
+
+    if(objectTracker == NULL) {
+        return;
+    }
+
+     for(int e=0; e<objectTracker->getActiveDataSetCount(); e++) {
+
+    QCAR::DataSet * userDefDateSet = objectTracker->getActiveDataSet(e);
+    if(userDefDateSet == NULL) {
+        return;
+    }
+    for(int i=0; i<userDefDateSet->getNumTrackables(); i++) {
+        QCAR::Trackable * trackable = userDefDateSet->getTrackable(i);
+        if(!trackable->startExtendedTracking()){
+            ofLog(OF_LOG_ERROR, "Failed to start extended tracking");
+        }
+    }
+      }
+
 #endif
 }
 
 void ofxQCAR::stopExtendedTracking() {
 #if !(TARGET_IPHONE_SIMULATOR)
-//    TrackerManager & trackerManager = TrackerManager::getInstance();
-//    ImageTracker * imageTracker = static_cast<ImageTracker *>(trackerManager.getTracker(ImageTracker::getClassType()));
-//    if(imageTracker == NULL) {
-//        return;
-//    }
-//    DataSet * userDefDateSet = imageTracker->getActiveDataSet();
-//    if(userDefDateSet == NULL) {
-//        return;
-//    }
-//    for(int i=0; i<userDefDateSet->getNumTrackables(); i++) {
-//        QCAR::Trackable * trackable = userDefDateSet->getTrackable(i);
-//        if(trackable->stopExtendedTracking() == false) {
-//            ofLog(OF_LOG_VERBOSE, "Failed to start extended tracking");
-//        }
-//    }
+    QCAR::TrackerManager & trackerManager =  QCAR::TrackerManager::getInstance();
+    QCAR::ObjectTracker * objectTracker = static_cast< QCAR::ObjectTracker *>(trackerManager.getTracker( QCAR::ObjectTracker::getClassType()));
+
+    if(objectTracker == NULL) {
+        return;
+    }
+
+
+    for(int e=0; e<objectTracker->getActiveDataSetCount(); e++) {
+
+
+    QCAR::DataSet * userDefDateSet = objectTracker->getActiveDataSet(e);
+    if(userDefDateSet == NULL) {
+        return;
+    }
+    for(int i=0; i<userDefDateSet->getNumTrackables(); i++) {
+        QCAR::Trackable * trackable = userDefDateSet->getTrackable(i);
+        if(trackable->stopExtendedTracking() == false) {
+            ofLog(OF_LOG_VERBOSE, "Failed to start extended tracking");
+        }
+    }
+    }
+#endif
+}
+
+
+void ofxQCAR::addExtraTarget(string targetName) {
+#if !(TARGET_IPHONE_SIMULATOR)
+     QCAR::TrackerManager & trackerManager =  QCAR::TrackerManager::getInstance();
+     QCAR::ObjectTracker * objectTracker = static_cast< QCAR::ObjectTracker *>(trackerManager.getTracker( QCAR::ObjectTracker::getClassType()));
+
+    if (objectTracker == NULL)
+    {
+        NSLog(@"Failed to load tracking data set because the ObjectTracker has"
+              " not been initialized.");
+        return;
+    }
+    // Create the data sets:
+    QCAR::DataSet *  extraset = objectTracker->createDataSet();
+    if (extraset == 0)
+    {
+        NSLog(@"Failed to create a new tracking data.");
+        return;
+
+    }
+
+    // Load the data sets:
+    if (extraset->exists(targetName.c_str(), QCAR::DataSet::STORAGE_APPRESOURCE))
+    {
+        NSLog(@"Dataset exists in app source.");
+        if (!extraset->load(targetName.c_str(), QCAR::DataSet::STORAGE_APPRESOURCE))
+        {
+            NSLog(@"Failed to load absolute data set.");
+            return;
+        }
+    }
+    else if (extraset->exists(targetName.c_str(), QCAR::DataSet::STORAGE_APP))
+    {
+        NSLog(@"Dataset exists at absolute possition.");
+        if (!extraset->load(targetName.c_str(), QCAR::DataSet::STORAGE_APP))
+        {
+            NSLog(@"Failed to load data set.");
+            return;
+        }
+    }
+    else if (extraset->exists(targetName.c_str(), QCAR::DataSet::STORAGE_ABSOLUTE))
+    {
+        NSLog(@"Dataset exists at absolute possition.");
+        if (!extraset->load(targetName.c_str(), QCAR::DataSet::STORAGE_ABSOLUTE))
+        {
+            NSLog(@"Failed to load data set.");
+            return;
+        }
+    }
+    else{
+        NSLog(@"Could not load");
+    }
+
+
+
+    // Activate the data set:
+    if (!objectTracker->activateDataSet(extraset))
+    {
+        NSLog(@"Failed to activate data set.");
+        return;
+    }
+
+
+
+    NSLog(@"New dataset active. Active datasets: %d", objectTracker->getActiveDataSetCount());
+
+
 #endif
 }
 
@@ -715,12 +777,8 @@ ofxQCAR_Marker ofxQCAR::getMarker(unsigned int i) {
     }
 }
 
-ofMatrix4x4 ofxQCAR::getProjectionMatrix(unsigned int i) { 
-    if(i < numOfMarkersFound()) {
-        return markersFound[i].projectionMatrix;
-    } else {
-        return ofMatrix4x4();
-    }
+const ofMatrix4x4 & ofxQCAR::getProjectionMatrix() {
+    return projectionMatrix;
 }
 
 ofMatrix4x4 ofxQCAR::getModelViewMatrix(unsigned int i) {
@@ -808,7 +866,7 @@ ofVec2f ofxQCAR::point3DToScreen2D(ofVec3f point, unsigned int i) {
         const QCAR::CameraCalibration& cameraCalibration = QCAR::CameraDevice::getInstance().getCameraCalibration();
         QCAR::Vec2F cameraPoint = QCAR::Tool::projectPoint(cameraCalibration, pose, QCAR::Vec3F(point.x, point.y, point.z));
         QCAR::Vec2F xyPoint = cameraPointToScreenPoint(cameraPoint);
-        ofVec2f screenPoint(xyPoint.data[ 0 ], xyPoint.data[ 1 ]);
+        ofVec2f screenPoint(xyPoint.data[0], xyPoint.data[1]);
         return screenPoint;
     } else {
         return ofVec2f();
@@ -911,22 +969,11 @@ void ofxQCAR::update() {
 
         QCAR::Matrix44F modelViewMatrix = QCAR::Tool::convertPose2GLMatrix(result.getPose());
         
-        const QCAR::VideoBackgroundConfig & config = QCAR::Renderer::getInstance().getVideoBackgroundConfig();
-        float scaleX = 1.0, scaleY = 1.0;
-        if(ofxQCAR::getInstance()->getOrientation() == OFX_QCAR_ORIENTATION_PORTRAIT) {
-            scaleX = config.mSize.data[0] / (float)ofGetWidth();
-            scaleY = config.mSize.data[1] / (float)ofGetHeight();
-        } else {
-            scaleX = config.mSize.data[1] / (float)ofGetHeight();
-            scaleY = config.mSize.data[0] / (float)ofGetWidth();
-        }
-        
         markersFound.push_back(ofxQCAR_Marker());
         ofxQCAR_Marker & marker = markersFound.back();
         
         marker.modelViewMatrix = ofMatrix4x4(modelViewMatrix.data);
-        marker.modelViewMatrix.scale(scaleY, scaleX, 1);
-        marker.projectionMatrix = ofMatrix4x4([session projectionMatrix].data);
+        marker.projectionMatrix = projectionMatrix;
         
         for(int i=0; i<12; i++) {
             marker.poseMatrixData[i] = result.getPose().data[i];
@@ -1010,9 +1057,20 @@ void ofxQCAR::update() {
 void ofxQCAR::begin(unsigned int i) {
 #if !(TARGET_IPHONE_SIMULATOR)
     
-    if(!hasFoundMarker()) {
+    bool bValid = true;
+    bValid = bValid && (i < numOfMarkersFound());
+    if(bValid == false) {
         return;
     }
+    
+    ofxQCAR_Marker marker = getMarker(i);
+    begin(marker.projectionMatrix, marker.modelViewMatrix);
+    
+#endif
+}
+
+void ofxQCAR::begin(const ofMatrix4x4 & projectionMatrixNew, const ofMatrix4x4 & modelViewMatrixNew) {
+#if !(TARGET_IPHONE_SIMULATOR)
     
     shared_ptr<ofBaseRenderer> & renderer = ofGetCurrentRenderer();
     
@@ -1035,14 +1093,14 @@ void ofxQCAR::begin(unsigned int i) {
         renderer->setOrientation(ofGetOrientation(), false);
     }
     
-    ofMatrix4x4 projectionMatrix = getProjectionMatrix(i);
+    ofMatrix4x4 projMatrix = projectionMatrixNew;
     if(bFlipY == true) {
-        projectionMatrix.postMultScale(ofVec3f(1, -1, 1));
+        projMatrix.postMultScale(ofVec3f(1, -1, 1));
     }
     renderer->matrixMode(OF_MATRIX_PROJECTION);
-    renderer->loadMatrix(projectionMatrix);
+    renderer->loadMatrix(projMatrix);
     
-    ofMatrix4x4 modelViewMatrix = getModelViewMatrix(i);
+    ofMatrix4x4 modelViewMatrix = modelViewMatrixNew;
     renderer->matrixMode(OF_MATRIX_MODELVIEW);
     renderer->loadViewMatrix(modelViewMatrix);
     
@@ -1093,7 +1151,7 @@ void ofxQCAR::drawBackground() {
         
         ofGLProgrammableRenderer * renderer = (ofGLProgrammableRenderer *)ofGetCurrentRenderer().get();
         const ofShader & currentShader = renderer->getCurrentShader();
-        currentShader.begin();
+        glUseProgram(currentShader.getProgram());
         
     } else {
         

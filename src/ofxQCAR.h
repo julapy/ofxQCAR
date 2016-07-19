@@ -10,6 +10,7 @@
 
 #import "ofMain.h"
 #import "ofxQCAR_App.h"
+#import "ofxQCAR_Marker.h"
 #import <QCAR/DataSet.h>
 
 class ofxQCAR_UpdateCallback;
@@ -26,7 +27,8 @@ enum ofxQCAR_MarkerCorner {
 //--------------------------------------------------------------
 enum ofxQCAR_Orientation {
     OFX_QCAR_ORIENTATION_PORTRAIT,
-    OFX_QCAR_ORIENTATION_LANDSCAPE
+    OFX_QCAR_ORIENTATION_LANDSCAPE_LEFT,
+    OFX_QCAR_ORIENTATION_LANDSCAPE_RIGHT
 };
 
 //--------------------------------------------------------------
@@ -40,37 +42,6 @@ public:
     string dataPath;
     QCAR::STORAGE_TYPE storageType;
     QCAR::DataSet * dataSet;
-};
-
-//--------------------------------------------------------------
-class ofxQCAR_Marker {
-public:
-    ofxQCAR_Marker() {
-        scaleX = 1;
-        scaleY = 1;
-        markerRotationLeftRight = 0;
-        markerRotationUpDown = 0;
-        markerAngleToCamera = 0;
-        markerName = "";
-        for(int i=0; i<12; i++) {
-            poseMatrixData[i] = 0;
-        }
-    }
-    ofMatrix4x4 projectionMatrix;
-    ofMatrix4x4 modelViewMatrix;
-    float poseMatrixData[3*4];
-    float scaleX;
-    float scaleY;
- 
-    
-    ofRectangle markerRect;
-    ofVec2f markerCenter;
-    ofVec2f markerCorners[4];
-    ofVec3f markerRotation;
-    float markerRotationLeftRight;
-    float markerRotationUpDown;
-    float markerAngleToCamera;
-    string markerName;
 };
 
 //--------------------------------------------------------------
@@ -123,6 +94,7 @@ public:
     virtual void stop();
     
     virtual void begin(unsigned int i=0);
+    virtual void begin(const ofMatrix4x4 & projectionMatrix, const ofMatrix4x4 & modelViewMatrix);
     virtual void end();
 
     OF_DEPRECATED_MSG("ofxQCAR::draw() is deprecated, use drawBackground() instead.", void draw());
@@ -152,7 +124,7 @@ public:
     int getMaxNumOfMarkers();
     
     ofxQCAR_Marker getMarker(unsigned int markerIndex=0);
-    ofMatrix4x4 getProjectionMatrix(unsigned int markerIndex=0);
+    const ofMatrix4x4 & getProjectionMatrix();
     ofMatrix4x4 getModelViewMatrix(unsigned int markerIndex=0);
     ofRectangle getMarkerRect(unsigned int markerIndex=0);
     ofVec2f     getMarkerCenter(unsigned int markerIndex=0);
@@ -191,6 +163,7 @@ private:
     ofxVuforiaSession * session;
     string licenseKey;
     
+    ofMatrix4x4 projectionMatrix;
     vector<ofxQCAR_MarkerData> markersData;
     vector<ofxQCAR_Marker> markersFound;
     ofxQCAR_Orientation orientation;
