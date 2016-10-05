@@ -31,22 +31,24 @@
 #if !(TARGET_IPHONE_SIMULATOR)    
 
     ofxQCAR::getInstance()->pause();
-    return;
     
-#endif
+#else
     
     [super stopAnimation];
+    
+#endif
 }
 
 - (void)startAnimation {
 #if !(TARGET_IPHONE_SIMULATOR)    
     
     ofxQCAR::getInstance()->resume();
-    return;
     
-#endif
+#else
     
     [super startAnimation];
+
+#endif
 }
 
 @end
