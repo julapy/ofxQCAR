@@ -218,8 +218,8 @@ void ofxQCAR::setup() {
     }
     
     if(ofxiOSGetOFWindow()->isRetinaEnabled() == true) {
-        ARViewBoundsSize.width *= 2;
-        ARViewBoundsSize.height *= 2;
+        ARViewBoundsSize.width *= [UIScreen mainScreen].scale;
+        ARViewBoundsSize.height *= [UIScreen mainScreen].scale;
     }
     
     ofxVuforiaDelegate * delegate = [[ofxVuforiaDelegate alloc] init];
