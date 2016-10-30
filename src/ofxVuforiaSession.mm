@@ -74,6 +74,7 @@ namespace {
 {
     instance = nil;
     [self setDelegate:nil];
+    self.licenseKey = nil;
     [super dealloc];
 }
 
