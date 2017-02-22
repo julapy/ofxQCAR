@@ -1153,6 +1153,8 @@ void ofxQCAR::exit() {
     pause();
     stop();
     
+    markersData.clear();
+    
     [session release];
     session = nil;
     
